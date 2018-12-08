@@ -42,9 +42,13 @@ namespace Finisher.Characters
 			origGroundCheckDistance = groundCheckDistance;
 		}
 
-
-		public void Move(Vector3 move, bool crouch, bool jump)
+        //Run testing, would need to add a sprint animation if the speed gets up to running
+        [SerializeField] float runMoveSpeedMultiplier = 1.5f;
+        [SerializeField] float runAnimSpeedMultiplier = 1.5f;
+        bool isRunning;
+        public void Move(Vector3 move, bool crouch, bool jump, bool running = false)
 		{
+            isRunning = running;
 
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
@@ -143,7 +147,12 @@ namespace Finisher.Characters
 			// which affects the movement speed because of the root motion.
 			if (isGrounded && move.magnitude > 0)
 			{
-				animator.speed = animSpeedMultiplier;
+                if (!isRunning)
+                {
+                    animator.speed = animSpeedMultiplier;
+                }
+                else
+                    animator.speed = runAnimSpeedMultiplier;
 			}
 			else
 			{
@@ -190,7 +199,15 @@ namespace Finisher.Characters
 			// this allows us to modify the positional speed before it's applied.
 			if (isGrounded && Time.deltaTime > 0)
 			{
-				Vector3 v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                Vector3 v;
+                if (!isRunning)
+                {
+                    v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                }
+                else
+                {
+                    v = (animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
+                }
 
 				// we preserve the existing y part of the current velocity.
 				v.y = rigidbody.velocity.y;

@@ -69,6 +69,7 @@ namespace Finisher.Cameras
 
         // TODO figure out where and how to enable autoCam if no mouse input, could be somewhere else
         // basically dont run this method in update unless there is mouse movement, and can also delay when it gets deactivated
+        // Bug reactivating Free look resumes from where it left off, not where autocam rotates it, they must move differently
         private void HandleRotationMovement()
         {
 			if(Time.timeScale < float.Epsilon)

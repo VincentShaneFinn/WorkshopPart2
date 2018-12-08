@@ -45,8 +45,8 @@ namespace Finisher.Characters
         private void FixedUpdate()
         {
             // read inputs
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
             bool crouch = Input.GetKey(KeyCode.C);
 
             // calculate move direction to pass to character
@@ -62,11 +62,13 @@ namespace Finisher.Characters
                 moveDirection = v*Vector3.forward + h*Vector3.right;
             }
 
-			// if shift is not held, walk
-	        if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
+            // TODO add a way to run, and move walking to something else on pc, or make it feel better
+            //if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
+            bool running = false;
+            if (Input.GetKey(KeyCode.LeftShift)) running = true;
 
             // pass all parameters to the character control script
-            character.Move(moveDirection, crouch, jump);
+            character.Move(moveDirection, crouch, jump, running);
             jump = false;
         }
     }
