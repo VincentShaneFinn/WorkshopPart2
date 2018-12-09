@@ -37,7 +37,6 @@ GameObject:
   - component: {fileID: 54031346373556820}
   - component: {fileID: 114590938643267900}
   - component: {fileID: 114724886324918150}
-  - component: {fileID: 114999647150812408}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -195,6 +194,11 @@ MonoBehaviour:
   m_TiltMin: 45
   m_LockCursor: 1
   m_VerticalAutoReturn: 0
+  autoCamTurnSpeed: 1.5
+  timeUntilAutoCam: 1
+  m_TargetVelocityLowerLimit: 4
+  m_RollSpeed: 0.2
+  m_SmoothTurnTime: 1
 --- !u!114 &114724886324918150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,28 +216,6 @@ MonoBehaviour:
   visualiseInEditor: 0
   closestDistance: 0.5
   dontClipTag: Player
---- !u!114 &114999647150812408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1489285622189716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21df5695f783a3b49b4b4902098e65c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_AutoTargetPlayer: 1
-  m_UpdateType: 0
-  m_MoveSpeed: 10
-  m_TurnSpeed: 2
-  m_RollSpeed: 0.2
-  m_FollowVelocity: 1
-  m_FollowTilt: 0
-  m_SpinTurnLimit: 0
-  m_TargetVelocityLowerLimit: 4
-  m_SmoothTurnTime: 1
 --- !u!124 &124700702073662270
 Behaviour:
   m_ObjectHideFlags: 1
