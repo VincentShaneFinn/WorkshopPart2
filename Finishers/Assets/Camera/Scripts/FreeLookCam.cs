@@ -4,7 +4,7 @@ using UnityStandardAssets.CrossPlatformInput;
 
 namespace Finisher.Cameras
 {
-    [ExecuteInEditMode]
+
     public class FreeLookCam : PivotBasedCameraRig
     {
         // This script is designed to be placed on the root object of a camera rig,
@@ -57,8 +57,6 @@ namespace Finisher.Cameras
 
         protected void Update()
         {
-            if (!Application.isPlaying) return;
-
             // TODO don't ever allow auto camera for mouse and keyboard
             if (autoCam != UseAutoCam())
             {
@@ -87,7 +85,6 @@ namespace Finisher.Cameras
 
         protected override void FollowTarget(float deltaTime)
         {
-            if (!Application.isPlaying) return;
             if (!(deltaTime > 0) || m_Target == null) return;
 
             // Move the rig towards target position.
