@@ -14,6 +14,7 @@ namespace Finisher.Cameras
         // 		Pivot
         // 			Camera
 
+        #region Class Variables
         [SerializeField] float m_MoveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
         [Range(0f, 10f)] [SerializeField] private float m_TurnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
@@ -41,15 +42,17 @@ namespace Finisher.Cameras
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
         private bool autoCam = false;
+        #endregion
 
         protected override void Awake()
         {
             base.Awake();
             // Lock or unlock the cursor.
-            Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
+            Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None; // TODO move cursor lock to the pause menu handler, remember to delete m_LockCursor and replace with is paused
             Cursor.visible = !m_LockCursor;
-			m_PivotEulers = m_Pivot.rotation.eulerAngles;
 
+            //Initialize variables
+			m_PivotEulers = m_Pivot.rotation.eulerAngles;
 	        m_PivotTargetRot = m_Pivot.transform.localRotation;
 			m_TransformTargetRot = transform.localRotation;
         }
@@ -82,7 +85,7 @@ namespace Finisher.Cameras
             Cursor.visible = true;
         }
 
-
+        // Moves the camera rig to follow the target over some speed
         protected override void FollowTarget(float deltaTime)
         {
             if (!(deltaTime > 0) || m_Target == null) return;
@@ -96,6 +99,7 @@ namespace Finisher.Cameras
             }
         }
 
+        // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private bool UseAutoCam()
         {
             var x = Input.GetAxis("Mouse X");
@@ -116,7 +120,7 @@ namespace Finisher.Cameras
             return false;
         }
 
-
+        // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
         {
 
@@ -155,9 +159,7 @@ namespace Finisher.Cameras
             transform.rotation = Quaternion.Lerp(transform.rotation, rollRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime);
         }
 
-        // TODO figure out where and how to enable autoCam if no mouse input, could be somewhere else
-        // basically dont run this method in update unless there is mouse movement, and can also delay when it gets deactivated
-        // Bug reactivating Free look resumes from where it left off, not where autocam rotates it, they must move differently
+        // handle player input to look around
         private void HandleRotationMovement()
         {
 			if(Time.timeScale < float.Epsilon)

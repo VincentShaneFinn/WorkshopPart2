@@ -4,13 +4,13 @@ using UnityEngine;
 namespace Finisher.Characters
 {
     [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-    [RequireComponent(typeof (CharacterController))]
-    public class AICharacterController : MonoBehaviour
+    [RequireComponent(typeof (CharacterController))] // TODO segregate enemy CharacterController into its own, since they will behave much differently
+    public class AIMovementController : MonoBehaviour
     {
+
         public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
         public CharacterController character { get; private set; } // the character we are controlling
         public Transform target;                                    // target to aim for
-
 
         private void Start()
         {
@@ -22,7 +22,6 @@ namespace Finisher.Characters
 	        agent.updatePosition = true;
         }
 
-
         private void Update()
         {
             if (target != null)
@@ -33,7 +32,6 @@ namespace Finisher.Characters
             else
                 character.Move(Vector3.zero, false, false);
         }
-
 
         public void SetTarget(Transform target)
         {

@@ -7,7 +7,9 @@ namespace Finisher.Characters
 	[RequireComponent(typeof(Animator))]
 	public class CharacterController : MonoBehaviour
 	{
-		[SerializeField] float movingTurnSpeed = 360;
+
+        #region Class variables, right now mostly deals with movement, jump, and crouch
+        [SerializeField] float movingTurnSpeed = 360;
 		[SerializeField] float stationaryTurnSpeed = 180;
 		[SerializeField] float jumpPower = 12f;
 		[Range(1f, 4f)][SerializeField] float gravityMultiplier = 2f;
@@ -28,9 +30,9 @@ namespace Finisher.Characters
 		Vector3 capsuleCenter;
 		CapsuleCollider capsule;
 		bool crouching;
+        #endregion
 
-
-		void Start()
+        void Start()
 		{
 			animator = GetComponent<Animator>();
 			rigidbody = GetComponent<Rigidbody>();
@@ -46,6 +48,7 @@ namespace Finisher.Characters
         [SerializeField] float runMoveSpeedMultiplier = 1.5f;
         [SerializeField] float runAnimSpeedMultiplier = 1.5f;
         bool isRunning;
+
         public void Move(Vector3 move, bool crouch, bool jump, bool running = false)
 		{
             isRunning = running;

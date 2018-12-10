@@ -11,7 +11,6 @@ namespace Finisher.Characters
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
         private bool jump;                      
-
         
         private void Start()
         {
@@ -44,6 +43,11 @@ namespace Finisher.Characters
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
+            ProcessMovementInput();
+        }
+
+        private void ProcessMovementInput()
+        {
             // read inputs
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
@@ -54,12 +58,12 @@ namespace Finisher.Characters
             {
                 // calculate camera relative direction to move:
                 camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-                moveDirection = v*camForward + h*cam.right;
+                moveDirection = v * camForward + h * cam.right;
             }
             else
             {
                 // we use world-relative directions in the case of no main camera
-                moveDirection = v*Vector3.forward + h*Vector3.right;
+                moveDirection = v * Vector3.forward + h * Vector3.right;
             }
 
             // TODO add a way to run, and move walking to something else on pc, or make it feel better
