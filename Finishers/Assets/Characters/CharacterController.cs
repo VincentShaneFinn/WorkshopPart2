@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -19,7 +20,7 @@ namespace Finisher.Characters
 		[SerializeField] float groundCheckDistance = 0.1f;
 
         Rigidbody rigidbody;
-		Animator animator;
+		protected Animator animator;
 		bool isGrounded;
 		float origGroundCheckDistance;
 		const float half = 0.5f;
@@ -29,7 +30,6 @@ namespace Finisher.Characters
 		float capsuleHeight;
 		Vector3 capsuleCenter;
 		CapsuleCollider capsule;
-		bool crouching;
         #endregion
 
         void Start()
@@ -49,7 +49,7 @@ namespace Finisher.Characters
         [SerializeField] float runAnimSpeedMultiplier = 1.5f;
         bool isRunning;
 
-        public void Move(Vector3 move, bool crouch, bool jump, bool running = false)
+        public void Move(Vector3 move, bool jump, bool running = false)
 		{
             isRunning = running;
 
@@ -63,71 +63,35 @@ namespace Finisher.Characters
 			turnAmount = Mathf.Atan2(move.x, move.z);
 			forwardAmount = move.z;
 
-			ApplyExtraTurnRotation();
+            // prevents turning if not in grounded state, like when attacking rolling or jumping
+            if (IsTurningAllowed())
+			    ApplyExtraTurnRotation();
 
 			// control and velocity handling is different when grounded and airborne:
 			if (isGrounded)
 			{
-				HandleGroundedMovement(crouch, jump);
+				AttemptToJump(jump);
 			}
 			else
 			{
 				HandleAirborneMovement();
 			}
 
-			ScaleCapsuleForCrouching(crouch);
-			PreventStandingInLowHeadroom();
-
 			// send input and other state parameters to the animator
 			UpdateAnimator(move);
 		}
 
+        //simply dissalow turning if not grounded, can be made more robust by more specific types
+        protected virtual bool IsTurningAllowed()
+        {
+            return animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded");
+        }
 
-		void ScaleCapsuleForCrouching(bool crouch)
-		{
-			if (isGrounded && crouch)
-			{
-				if (crouching) return;
-				capsule.height = capsule.height / 2f;
-				capsule.center = capsule.center / 2f;
-				crouching = true;
-			}
-			else
-			{
-				Ray crouchRay = new Ray(rigidbody.position + Vector3.up * capsule.radius * half, Vector3.up);
-				float crouchRayLength = capsuleHeight - capsule.radius * half;
-				if (Physics.SphereCast(crouchRay, capsule.radius * half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-				{
-					crouching = true;
-					return;
-				}
-				capsule.height = capsuleHeight;
-				capsule.center = capsuleCenter;
-				crouching = false;
-			}
-		}
-
-		void PreventStandingInLowHeadroom()
-		{
-			// prevent standing up in crouch-only zones
-			if (!crouching)
-			{
-				Ray crouchRay = new Ray(rigidbody.position + Vector3.up * capsule.radius * half, Vector3.up);
-				float crouchRayLength = capsuleHeight - capsule.radius * half;
-				if (Physics.SphereCast(crouchRay, capsule.radius * half, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-				{
-					crouching = true;
-				}
-			}
-		}
-
-
-		void UpdateAnimator(Vector3 move)
+        void UpdateAnimator(Vector3 move)
 		{
 			// update the animator parameters
 			animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
 			animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
-			animator.SetBool("Crouch", crouching);
 			animator.SetBool("OnGround", isGrounded);
 			if (!isGrounded)
 			{
@@ -175,10 +139,10 @@ namespace Finisher.Characters
 		}
 
 
-		void HandleGroundedMovement(bool crouch, bool jump)
+		void AttemptToJump(bool jump)
 		{
 			// check whether conditions are right to allow a jump:
-			if (jump && !crouch && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+			if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 			{
 				// jump!
 				rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpPower, rigidbody.velocity.z);
@@ -241,5 +205,6 @@ namespace Finisher.Characters
 				animator.applyRootMotion = false;
 			}
 		}
-	}
+
+    }
 }

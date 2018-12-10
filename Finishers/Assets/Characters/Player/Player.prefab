@@ -729,7 +729,7 @@ GameObject:
   - component: {fileID: 54342201213309760}
   - component: {fileID: 136247096198912840}
   - component: {fileID: 114181923452162740}
-  - component: {fileID: 114068878306948818}
+  - component: {fileID: 114773483226167358}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2477,7 +2477,7 @@ Animator:
   m_GameObject: {fileID: 1539307722734792}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b235179bd2a63d1468dd430670338c55, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 58c09ff1f071b594488129dbd70e85fd, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2486,7 +2486,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114068878306948818
+--- !u!114 &114181923452162740
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2494,7 +2494,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1539307722734792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c0789cba5c93e4fb59d929d56ac591, type: 3}
+  m_Script: {fileID: 11500000, guid: 6009fa1d308ae9a44884b0f1f1b46226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114773483226167358
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1539307722734792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a083cfe1b012aa148b16393bcc54d0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   movingTurnSpeed: 720
@@ -2507,17 +2518,6 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   runMoveSpeedMultiplier: 1.4
   runAnimSpeedMultiplier: 1.4
---- !u!114 &114181923452162740
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1539307722734792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6009fa1d308ae9a44884b0f1f1b46226, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136247096198912840
 CapsuleCollider:
   m_ObjectHideFlags: 1
