@@ -19,7 +19,10 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        pursueNearbyPlayer();
+        if (player)
+        {
+            pursueNearbyPlayer();
+        }
     }
 
     private void pursueNearbyPlayer()
