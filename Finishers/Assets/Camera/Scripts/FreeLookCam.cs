@@ -77,6 +77,12 @@ namespace Finisher.Cameras
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
         {
+            if(ForceAutoLook)
+            {
+                ChangeCameraMode(true);
+                return;
+            }
+
             var x = Input.GetAxis("Mouse X");
             var y = Input.GetAxis("Mouse Y");
 
@@ -130,11 +136,13 @@ namespace Finisher.Cameras
             }
         }
 
+        // TODO make an interface to interact with this from somewhere else
+        public Transform optionalLookTarget = null;
+        public bool ForceAutoLook = false;
+
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
         {
-
-
             // initialise some vars, we'll be modifying these in a moment
             var targetForward = m_Target.forward;
             var targetUp = m_Target.up;
@@ -162,11 +170,12 @@ namespace Finisher.Cameras
             {
                 targetForward = transform.forward;
             }
-            var rollRotation = Quaternion.LookRotation(targetForward, m_RollUp);
+            var desiredLookRotation = Quaternion.LookRotation(targetForward, m_RollUp);
 
-            // and aligning with the target object's up direction (i.e. its 'roll')
-            m_RollUp = m_RollSpeed > 0 ? Vector3.Slerp(m_RollUp, targetUp, m_RollSpeed * deltaTime) : Vector3.up;
-            transform.rotation = Quaternion.Lerp(transform.rotation, rollRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime);
+            if(optionalLookTarget && optionalLookTarget.gameObject.activeSelf)
+                desiredLookRotation = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime);
         }
 
         // handle player input to look around
