@@ -39,7 +39,7 @@ namespace Finisher.Cameras
 		private Vector3 m_PivotEulers;
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
-        private bool autoCam = false;
+        private bool usingAutoCam = false;
         #endregion
 
         protected override void Awake()
@@ -59,21 +59,54 @@ namespace Finisher.Cameras
         protected void Update()
         {
             // TODO don't ever allow auto camera for mouse and keyboard
-            if (autoCam != UseAutoCam())
-            {
-                autoCam = UseAutoCam();
-                m_LookAngle = transform.eulerAngles.y;
-            }
 
-            if (!autoCam)
+            SetUsingAutoCam();
+
+            if (!usingAutoCam)
             {
                 HandleRotationMovement();
             }
-            
+
             if (m_LockCursor && Input.GetMouseButtonUp(0))
             {
                 Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
                 Cursor.visible = !m_LockCursor;
+            }
+        }
+
+        // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
+        private void SetUsingAutoCam()
+        {
+            var x = Input.GetAxis("Mouse X");
+            var y = Input.GetAxis("Mouse Y");
+
+            if (x <= Mathf.Epsilon && y <= Mathf.Epsilon) // no user input
+            {
+                if (countUntilAutoCam >= timeUntilAutoCam) // start using autocam
+                {
+                    ChangeCameraMode(true);
+                    return;
+                }
+            }
+            else
+            {
+                countUntilAutoCam = 0f;
+            }
+
+            countUntilAutoCam += Time.deltaTime;
+
+            ChangeCameraMode(false);
+        }
+
+        private void ChangeCameraMode(bool switchToAutoCam)
+        {
+            if (usingAutoCam != switchToAutoCam)
+            {
+                usingAutoCam = switchToAutoCam;
+                if (!usingAutoCam)
+                {
+                    m_LookAngle = transform.eulerAngles.y;
+                }
             }
         }
 
@@ -91,31 +124,10 @@ namespace Finisher.Cameras
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime * m_MoveSpeed);
 
-            if (autoCam)
+            if (usingAutoCam)
             {
                 AutoRotateCamera(deltaTime);
             }
-        }
-
-        // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
-        private bool UseAutoCam()
-        {
-            var x = Input.GetAxis("Mouse X");
-            var y = Input.GetAxis("Mouse Y");
-
-            if (x <= Mathf.Epsilon && y <= Mathf.Epsilon)
-            {
-                if(countUntilAutoCam >= timeUntilAutoCam)
-                    return true;
-            }
-            else
-            {
-                countUntilAutoCam = 0f;
-            }
-
-            countUntilAutoCam += Time.deltaTime;
-
-            return false;
         }
 
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]

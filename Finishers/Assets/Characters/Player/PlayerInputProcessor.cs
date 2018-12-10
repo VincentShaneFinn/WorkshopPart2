@@ -21,8 +21,7 @@ namespace Finisher.Characters
             }
             else
             {
-                Debug.LogWarning(
-                    "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                Debug.LogWarning("Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
                 // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
             }
 
@@ -37,6 +36,7 @@ namespace Finisher.Characters
             {
                 jump = Input.GetButtonDown("Jump");
             }
+
             //testing new animations
             if (Input.GetKeyDown(KeyCode.Mouse0)){
                 character.TryHitAnimation();
@@ -73,13 +73,11 @@ namespace Finisher.Characters
                 moveDirection = v * Vector3.forward + h * Vector3.right;
             }
 
-            // TODO add a way to run, and move walking to something else on pc, or make it feel better
+            //use to be how walking was done, running may need a small rework
             //if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
-            bool running = false;
-            if (Input.GetKey(KeyCode.LeftShift)) running = true;
 
             // pass all parameters to the character control script
-            character.Move(moveDirection, jump, running);
+            character.Move(moveDirection, jump, Input.GetKey(KeyCode.LeftShift));//change to use run button
             jump = false;
         }
     }
