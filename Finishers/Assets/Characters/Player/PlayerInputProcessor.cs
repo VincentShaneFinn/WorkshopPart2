@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    [RequireComponent(typeof (CharacterController))]
+    [RequireComponent(typeof (HumanCharacterController))]
     public class PlayerInputProcessor : MonoBehaviour
     {
         private PlayerCharacterController character; // A reference to the ThirdPersonCharacter on the object
@@ -29,7 +29,7 @@ namespace Finisher.Characters
             character = GetComponent<PlayerCharacterController>();
         }
 
-
+        [SerializeField] Vector3 TestForce; // TODO remove this 
         private void Update()
         {
             if (!jump)
@@ -44,6 +44,11 @@ namespace Finisher.Characters
             else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 character.TryDodgeAnimation();
+            }
+            // TODO remove this
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                GetComponent<Rigidbody>().AddForce(TestForce, ForceMode.Impulse);
             }
         }
 

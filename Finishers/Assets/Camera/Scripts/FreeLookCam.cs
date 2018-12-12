@@ -77,7 +77,7 @@ namespace Finisher.Cameras
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
         {
-            if(ForceAutoLook)
+            if(ForceAutoLook) //use auto cam if forceautolook is true
             {
                 ChangeCameraMode(true);
                 return;
@@ -170,8 +170,19 @@ namespace Finisher.Cameras
             {
                 targetForward = transform.forward;
             }
-            var desiredLookRotation = Quaternion.LookRotation(targetForward, m_RollUp);
 
+            // Get the Desired Rotation
+            Quaternion desiredLookRotation;
+            if (targetForward != Vector3.zero)
+            {
+                desiredLookRotation = Quaternion.LookRotation(targetForward, m_RollUp);
+            }
+            else
+            {
+                desiredLookRotation = transform.rotation;
+            }
+
+            //If there is an active optional look target, look at that instead
             if(optionalLookTarget && optionalLookTarget.gameObject.activeSelf)
                 desiredLookRotation = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
 

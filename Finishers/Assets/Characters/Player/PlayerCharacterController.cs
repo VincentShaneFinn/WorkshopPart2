@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    public class PlayerCharacterController : CharacterController
+    public class PlayerCharacterController : HumanCharacterController
     {
 
         // do some neat stuff if with animation events or something to turn of is turning allowed

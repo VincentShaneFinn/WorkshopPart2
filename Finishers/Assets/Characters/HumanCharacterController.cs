@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -6,7 +7,7 @@ namespace Finisher.Characters
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Animator))]
-	public class CharacterController : MonoBehaviour
+	public class HumanCharacterController : MonoBehaviour
 	{
 
         #region Class variables, right now mostly deals with movement, jump, and crouch
@@ -30,6 +31,8 @@ namespace Finisher.Characters
 		float capsuleHeight;
 		Vector3 capsuleCenter;
 		CapsuleCollider capsule;
+
+        bool RecentlyJumped = false;
         #endregion
 
         void Start()
@@ -71,6 +74,10 @@ namespace Finisher.Characters
 			if (isGrounded)
 			{
 				AttemptToJump(jump);
+                if (!RecentlyJumped)
+                {
+                    SnapToGround(); // TODO that the player can be thrown
+                }
 			}
 			else
 			{
@@ -138,7 +145,6 @@ namespace Finisher.Characters
 			groundCheckDistance = rigidbody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
 		}
 
-
 		void AttemptToJump(bool jump)
 		{
 			// check whether conditions are right to allow a jump:
@@ -149,10 +155,32 @@ namespace Finisher.Characters
 				isGrounded = false;
 				animator.applyRootMotion = false;
 				groundCheckDistance = 0.1f;
-			}
+
+                if (!RecentlyJumped)
+                {
+                    RecentlyJumped = true;
+                    float timeToFreeJump = .3f;
+                    StartCoroutine(FreeJumpOverTime(timeToFreeJump));
+                }
+            }
 		}
 
-		void ApplyExtraTurnRotation()
+        IEnumerator FreeJumpOverTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            RecentlyJumped = false;
+        }
+
+        private void SnapToGround()
+        {
+            float newYVelocity = rigidbody.velocity.y;
+            if (rigidbody.velocity.y > 0)
+                newYVelocity = 0;
+
+            rigidbody.velocity = new Vector3(rigidbody.velocity.x, newYVelocity, rigidbody.velocity.z);
+        }
+
+        void ApplyExtraTurnRotation()
 		{
 			// help the character turn faster (this is in addition to root rotation in the animation)
 			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
@@ -205,6 +233,13 @@ namespace Finisher.Characters
 				animator.applyRootMotion = false;
 			}
 		}
+
+        // Notice: due to how we are locking the player to ground when they are walking normal and not jumping, we may have to deal with that hear to let us set a low Y force
+        // also adding x and y forces are wierd so do more testing
+        void ApplyForce(Vector3 force)
+        {
+            //ApplyForce
+        }
 
     }
 }
