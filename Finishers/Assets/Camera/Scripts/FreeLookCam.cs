@@ -40,6 +40,8 @@ namespace Finisher.Cameras
 		private Quaternion m_PivotTargetRot;
 		private Quaternion m_TransformTargetRot;
         private bool usingAutoCam = false;
+        float InputX;
+        float InputY;
         #endregion
 
         protected override void Awake()
@@ -60,12 +62,12 @@ namespace Finisher.Cameras
         {
             // TODO don't ever allow auto camera for mouse and keyboard
 
-            SetUsingAutoCam();
+            // Read the user input
+            InputX = Input.GetAxis("Mouse X");
+            InputY = Input.GetAxis("Mouse Y");
 
-            if (!usingAutoCam)
-            {
-                HandleRotationMovement();
-            }
+            SetUsingAutoCam();
+            HandleRotationMovement();
 
             if (m_LockCursor && Input.GetMouseButtonUp(0))
             {
@@ -83,20 +85,17 @@ namespace Finisher.Cameras
                 return;
             }
 
-            var x = Input.GetAxis("Mouse X");
-            var y = Input.GetAxis("Mouse Y");
-
-            if (x <= Mathf.Epsilon && y <= Mathf.Epsilon) // no user input
+            if (Mathf.Abs(InputX) > 0 || Mathf.Abs(InputY) > 0) // user input found
+            {
+                countUntilAutoCam = 0f;
+            }
+            else
             {
                 if (countUntilAutoCam >= timeUntilAutoCam) // start using autocam
                 {
                     ChangeCameraMode(true);
                     return;
                 }
-            }
-            else
-            {
-                countUntilAutoCam = 0f;
             }
 
             countUntilAutoCam += Time.deltaTime;
@@ -106,14 +105,15 @@ namespace Finisher.Cameras
 
         private void ChangeCameraMode(bool switchToAutoCam)
         {
-            if (usingAutoCam != switchToAutoCam)
+            if (usingAutoCam == switchToAutoCam)
+                return;
+            
+            usingAutoCam = switchToAutoCam;
+            if (!usingAutoCam)
             {
-                usingAutoCam = switchToAutoCam;
-                if (!usingAutoCam)
-                {
-                    m_LookAngle = transform.eulerAngles.y;
-                }
+                m_LookAngle = transform.eulerAngles.y;
             }
+
         }
 
         private void OnDisable()
@@ -192,15 +192,11 @@ namespace Finisher.Cameras
         // handle player input to look around
         private void HandleRotationMovement()
         {
-			if(Time.timeScale < float.Epsilon)
-			return;
-
-            // Read the user input
-            var x = Input.GetAxis("Mouse X");
-            var y = Input.GetAxis("Mouse Y");
+			if(usingAutoCam || Time.timeScale < float.Epsilon)
+			    return;
 
             // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
-            m_LookAngle += x*m_TurnSpeed;
+            m_LookAngle += InputX*m_TurnSpeed;
 
             // Rotate the rig (the root object) around Y axis only:
             m_TransformTargetRot = Quaternion.Euler(0f, m_LookAngle, 0f);
@@ -210,12 +206,12 @@ namespace Finisher.Cameras
                 // For tilt input, we need to behave differently depending on whether we're using mouse or touch input:
                 // on mobile, vertical input is directly mapped to tilt value, so it springs back automatically when the look input is released
                 // we have to test whether above or below zero because we want to auto-return to zero even if min and max are not symmetrical.
-                m_TiltAngle = y > 0 ? Mathf.Lerp(0, -m_TiltMin, y) : Mathf.Lerp(0, m_TiltMax, -y);
+                m_TiltAngle = InputY > 0 ? Mathf.Lerp(0, -m_TiltMin, InputY) : Mathf.Lerp(0, m_TiltMax, -InputY);
             }
             else
             {
                 // on platforms with a mouse, we adjust the current angle based on Y mouse input and turn speed
-                m_TiltAngle -= y*m_TurnSpeed;
+                m_TiltAngle -= InputY * m_TurnSpeed;
                 // and make sure the new value is within the tilt range
                 m_TiltAngle = Mathf.Clamp(m_TiltAngle, -m_TiltMin, m_TiltMax);
             }
