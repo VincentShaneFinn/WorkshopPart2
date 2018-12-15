@@ -22,8 +22,8 @@ namespace Finisher.Characters
 
         Rigidbody rigidbody;
 		protected Animator animator;
-		bool isGrounded;
-		float origGroundCheckDistance;
+		private bool isGrounded; public bool GetIsGrounded() { return isGrounded; }
+        float origGroundCheckDistance;
 		const float half = 0.5f;
 		float turnAmount;
 		float forwardAmount;
@@ -33,21 +33,28 @@ namespace Finisher.Characters
 		CapsuleCollider capsule;
 
         bool RecentlyJumped = false;
+        float turnSpeedMultiplier = 1f;
         #endregion
 
         void Start()
-		{
-			animator = GetComponent<Animator>();
-			rigidbody = GetComponent<Rigidbody>();
-			capsule = GetComponent<CapsuleCollider>();
-			capsuleHeight = capsule.height;
-			capsuleCenter = capsule.center;
+        {
+            Initialization();
+        }
 
-			rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
-			origGroundCheckDistance = groundCheckDistance;
-		}
+        protected void Initialization()
+        {
+            animator = GetComponent<Animator>();
+            rigidbody = GetComponent<Rigidbody>();
+            capsule = GetComponent<CapsuleCollider>();
+            capsuleHeight = capsule.height;
+            capsuleCenter = capsule.center;
+
+            rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            origGroundCheckDistance = groundCheckDistance;
+        }
 
         //Run testing, would need to add a sprint animation if the speed gets up to running
+        // TODO put this back up top and possibly refactor animator to have a run animation
         [SerializeField] float runMoveSpeedMultiplier = 1.5f;
         [SerializeField] float runAnimSpeedMultiplier = 1.5f;
         bool isRunning;
@@ -66,9 +73,7 @@ namespace Finisher.Characters
 			turnAmount = Mathf.Atan2(move.x, move.z);
 			forwardAmount = move.z;
 
-            // prevents turning if not in grounded state, like when attacking rolling or jumping
-            if (IsTurningAllowed())
-			    ApplyExtraTurnRotation();
+			ApplyExtraTurnRotation();
 
 			// control and velocity handling is different when grounded and airborne:
 			if (isGrounded)
@@ -87,12 +92,6 @@ namespace Finisher.Characters
 			// send input and other state parameters to the animator
 			UpdateAnimator(move);
 		}
-
-        //simply dissalow turning if not grounded, can be made more robust by more specific types
-        protected virtual bool IsTurningAllowed()
-        {
-            return animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded");
-        }
 
         void UpdateAnimator(Vector3 move)
 		{
@@ -134,7 +133,6 @@ namespace Finisher.Characters
 				animator.speed = 1;
 			}
 		}
-
 
 		void HandleAirborneMovement()
 		{
@@ -179,16 +177,41 @@ namespace Finisher.Characters
 
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, newYVelocity, rigidbody.velocity.z);
         }
-
+        
+        // help the character turn faster (this is in addition to root rotation in the animation)
         void ApplyExtraTurnRotation()
 		{
-			// help the character turn faster (this is in addition to root rotation in the animation)
-			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed, movingTurnSpeed, forwardAmount);
-			transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
+            //safety net for turn speed multipliers
+            if (turnSpeedMultiplier > 5)
+            {
+                turnSpeedMultiplier = 5;
+            }
+            else if (turnSpeedMultiplier < 0)
+            {
+                turnSpeedMultiplier = 0;
+            }
+			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed * turnSpeedMultiplier, movingTurnSpeed * turnSpeedMultiplier, forwardAmount);
+            transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
 		}
 
+        //Turn speed modifiers
+        public void SetTurnSpeedMultiplier(float newMultiplier) { turnSpeedMultiplier = newMultiplier; }
 
-		public void OnAnimatorMove()
+        public void SetInstantCharacterRotation()
+        {
+            turnSpeedMultiplier = 5; // lets say max is the 5
+        }
+        public void LockCharacterRotation()
+        {
+            turnSpeedMultiplier = 0;
+        }
+        public void RestoreRotationLerp()
+        {
+            turnSpeedMultiplier = 1;
+        }
+
+
+        public void OnAnimatorMove()
 		{
 			// we implement this function to override the default root motion.
 			// this allows us to modify the positional speed before it's applied.
@@ -240,6 +263,5 @@ namespace Finisher.Characters
         {
             //ApplyForce
         }
-
     }
 }

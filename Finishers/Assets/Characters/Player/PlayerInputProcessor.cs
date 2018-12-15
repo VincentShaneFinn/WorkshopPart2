@@ -1,20 +1,36 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
 {
-    [RequireComponent(typeof (HumanCharacterController))]
+    [RequireComponent(typeof (PlayerCharacterController))]
     public class PlayerInputProcessor : MonoBehaviour
     {
-        private PlayerCharacterController character; // A reference to the ThirdPersonCharacter on the object
-        private Transform cam;                  // A reference to the main camera in the scenes transform
+        [SerializeField] float rememberInputForSeconds = .4f;
+
+        private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
+        private Transform cam = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
-        private bool jump;                      
-        
+        private bool jump = false;
+        private String nextInput = "";
+        private float lastInputTime = 0;
+
+        const string MOUSE0 = "Mouse 0";
+        const string MOUSE1 = "Mouse 1";
+
         private void Start()
         {
             // get the transform of the main camera
+            GetMainCameraTransform();
+
+            // get the third person character ( this should never be null due to require component )
+            character = GetComponent<PlayerCharacterController>();
+        }
+
+        private void GetMainCameraTransform()
+        {
             if (Camera.main != null)
             {
                 cam = Camera.main.transform;
@@ -24,31 +40,64 @@ namespace Finisher.Characters
                 Debug.LogWarning("Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
                 // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
             }
-
-            // get the third person character ( this should never be null due to require component )
-            character = GetComponent<PlayerCharacterController>();
         }
 
-        [SerializeField] Vector3 TestForce; // TODO remove this 
         private void Update()
+        {
+            GetJumpInput();
+            if (character.GetIsGrounded())
+            {
+                SetNextInput();
+            }
+            if (character.canPerformNextAction)
+            {
+                UseNextInput();
+            }
+        }
+
+        private void SetNextInput()
+        {
+            //testing new animations
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                nextInput = MOUSE0;
+                lastInputTime = Time.time;
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                nextInput = MOUSE1;
+                lastInputTime = Time.time;
+            }
+            else
+            {
+                if(Time.time - lastInputTime > rememberInputForSeconds)
+                {
+                    nextInput = "";
+                }
+            }
+        }
+
+        private void UseNextInput()
+        {
+            switch (nextInput)
+            {
+                case MOUSE0:
+                    character.TryHitAnimation();
+                    break;
+                case MOUSE1:
+                    character.TryDodgeAnimation();
+                    break;
+            }
+            nextInput = "";
+        }
+
+
+
+        private void GetJumpInput()
         {
             if (!jump)
             {
                 jump = Input.GetButtonDown("Jump");
-            }
-
-            //testing new animations
-            if (Input.GetKeyDown(KeyCode.Mouse0)){
-                character.TryHitAnimation();
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                character.TryDodgeAnimation();
-            }
-            // TODO remove this
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                GetComponent<Rigidbody>().AddForce(TestForce, ForceMode.Impulse);
             }
         }
 

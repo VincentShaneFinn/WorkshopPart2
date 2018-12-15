@@ -22,10 +22,9 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            if (player)
-            {
-                pursueNearbyPlayer();
-            }
+            if (player == null){ return; }
+
+            pursueNearbyPlayer();
         }
 
         private void pursueNearbyPlayer()
