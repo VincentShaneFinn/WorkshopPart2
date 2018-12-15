@@ -11,7 +11,6 @@ namespace Finisher.Characters
 	{
 
         #region Class variables, right now mostly deals with movement, jump, and crouch
-        public bool CanMove = true;
         public float turnSpeedMultiplier = 1f; // protected force to stay between 0-5
 
         [SerializeField] float movingTurnSpeed = 360;
@@ -61,9 +60,14 @@ namespace Finisher.Characters
         [SerializeField] float runAnimSpeedMultiplier = 1.5f;
         bool isRunning;
 
+        protected virtual bool CanMove()
+        {
+            return true;
+        }
+
         public void Move(Vector3 move, bool jump, bool running = false)
 		{
-            if (!CanMove) { return; }
+            if (!CanMove()) { return; }
 
             isRunning = running;
 

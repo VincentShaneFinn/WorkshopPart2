@@ -6,11 +6,12 @@ namespace Finisher.Characters
 {
     public class PlayerCharacterController : HumanCharacterController
     {
+        public bool PlayerCanMove = true; protected override bool CanMove() { return PlayerCanMove; }
         [HideInInspector] public bool canPerformNextAction = true;
 
         void Start()
         {
-            base.Initialization();
+            Initialization();
             canPerformNextAction = true;
         }
 
@@ -46,14 +47,14 @@ namespace Finisher.Characters
         {
             print("action completed");
             canPerformNextAction = true;
-            CanMove = true;
+            PlayerCanMove = true;
             RestoreRotationLerp();
         }
 
         public void ActionBegun()
         {
             print("action started");
-            CanMove = false;
+            PlayerCanMove = false;
             LockCharacterRotation();
         }
     }

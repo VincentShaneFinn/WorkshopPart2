@@ -110,7 +110,7 @@ namespace Finisher.Characters
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            if (character.CanMove)
+            if (character.PlayerCanMove)
             {
                 ProcessMovementInput();
             }

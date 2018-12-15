@@ -112,7 +112,7 @@ namespace Finisher.Cameras
             if (!usingAutoCam)
             {
                 m_LookAngle = transform.eulerAngles.y;
-                m_TiltAngle = m_Pivot.transform.localRotation.x;
+                m_TiltAngle = m_Pivot.transform.localEulerAngles.x;
             }
 
         }
