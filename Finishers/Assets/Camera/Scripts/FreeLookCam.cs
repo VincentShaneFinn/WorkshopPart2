@@ -112,6 +112,7 @@ namespace Finisher.Cameras
             if (!usingAutoCam)
             {
                 m_LookAngle = transform.eulerAngles.y;
+                m_TiltAngle = m_Pivot.transform.localRotation.x;
             }
 
         }
@@ -171,7 +172,7 @@ namespace Finisher.Cameras
                 targetForward = transform.forward;
             }
 
-            // Get the Desired Rotation
+            // Get the desired rotation
             Quaternion desiredLookRotation;
             if (targetForward != Vector3.zero)
             {
@@ -182,11 +183,18 @@ namespace Finisher.Cameras
                 desiredLookRotation = transform.rotation;
             }
 
-            //If there is an active optional look target, look at that instead
-            if(optionalLookTarget && optionalLookTarget.gameObject.activeSelf)
-                desiredLookRotation = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
+            // Get the desired tilt
+            Quaternion desiredTiltRotation = Quaternion.identity;
 
+            //If there is an active optional look target, look at that instead
+            if (optionalLookTarget && optionalLookTarget.gameObject.activeSelf)
+            {
+                Quaternion rotationToTarget = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
+                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
+                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
+            }
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime);
+            m_Pivot.transform.localRotation = Quaternion.Lerp(m_Pivot.transform.localRotation, desiredTiltRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime); ;
         }
 
         // handle player input to look around

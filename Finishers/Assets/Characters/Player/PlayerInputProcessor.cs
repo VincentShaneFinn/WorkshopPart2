@@ -52,7 +52,7 @@ namespace Finisher.Characters
             {
                 SetNextInput();
             }
-            if (true)
+            if (character.canPerformNextAction)
             {
                 UseNextInput();
             }
@@ -113,6 +113,10 @@ namespace Finisher.Characters
             if (character.CanMove)
             {
                 ProcessMovementInput();
+            }
+            else
+            {
+                character.Move(Vector3.zero, false, false);
             }
         }
 

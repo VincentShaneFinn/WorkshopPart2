@@ -83,10 +83,6 @@ namespace Finisher.Characters
 			if (isGrounded)
 			{
 				AttemptToJump(jump);
-                if (!RecentlyJumped)
-                {
-                    SnapToGround(); // TODO that the player can be thrown
-                }
 			}
 			else
 			{
@@ -180,6 +176,11 @@ namespace Finisher.Characters
                 newYVelocity = 0;
 
             rigidbody.velocity = new Vector3(rigidbody.velocity.x, newYVelocity, rigidbody.velocity.z);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
+            {
+                transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
+            }
         }
         
         // help the character turn faster (this is in addition to root rotation in the animation)
@@ -229,9 +230,20 @@ namespace Finisher.Characters
                     v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
                 }
 
-				// we preserve the existing y part of the current velocity.
-				v.y = rigidbody.velocity.y;
+                // we preserve the existing y part of the current velocity.
+                if (rigidbody.velocity.y > 0) // protect from going to fast up hill
+                {
+                    v.y = 0;
+                }
+                else
+                {
+                    v.y = rigidbody.velocity.y;
+                }
 				rigidbody.velocity = v;
+                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+                {
+                    SnapToGround();
+                }
 			}
 		}
 
