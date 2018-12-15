@@ -30,7 +30,6 @@ namespace Finisher.Characters
         {
             canPerformNextAction = false;
             SetInstantCharacterRotation();
-            Invoke("ActionBegun", .1f);
             animator.SetTrigger("Dodge");
             animator.ResetTrigger("Attack");
         }

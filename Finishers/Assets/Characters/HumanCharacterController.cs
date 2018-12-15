@@ -23,7 +23,7 @@ namespace Finisher.Characters
 		[SerializeField] float animSpeedMultiplier = 1f;
 		[SerializeField] float groundCheckDistance = 0.1f;
 
-        Rigidbody rigidbody;
+        Rigidbody myRigidbody;
 		protected Animator animator;
 		private bool isGrounded; public bool GetIsGrounded() { return isGrounded; }
         float origGroundCheckDistance;
@@ -46,12 +46,12 @@ namespace Finisher.Characters
         protected void Initialization()
         {
             animator = GetComponent<Animator>();
-            rigidbody = GetComponent<Rigidbody>();
+            myRigidbody = GetComponent<Rigidbody>();
             capsule = GetComponent<CapsuleCollider>();
             capsuleHeight = capsule.height;
             capsuleCenter = capsule.center;
 
-            rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            myRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;
         }
 
@@ -101,7 +101,7 @@ namespace Finisher.Characters
 			animator.SetBool("OnGround", isGrounded);
 			if (!isGrounded)
 			{
-				animator.SetFloat("Jump", rigidbody.velocity.y);
+				animator.SetFloat("Jump", myRigidbody.velocity.y);
 			}
 
 			// calculate which leg is behind, so as to leave that leg trailing in the jump animation
@@ -138,9 +138,9 @@ namespace Finisher.Characters
 		{
 			// apply extra gravity from multiplier:
 			Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
-			rigidbody.AddForce(extraGravityForce);
+			myRigidbody.AddForce(extraGravityForce);
 
-			groundCheckDistance = rigidbody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
+			groundCheckDistance = myRigidbody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
 		}
 
 		void AttemptToJump(bool jump)
@@ -149,7 +149,7 @@ namespace Finisher.Characters
 			if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 			{
 				// jump!
-				rigidbody.velocity = new Vector3(rigidbody.velocity.x, jumpPower, rigidbody.velocity.z);
+				myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, jumpPower, myRigidbody.velocity.z);
 				isGrounded = false;
 				animator.applyRootMotion = false;
 				groundCheckDistance = 0.1f;
@@ -171,11 +171,11 @@ namespace Finisher.Characters
 
         private void SnapToGround()
         {
-            float newYVelocity = rigidbody.velocity.y;
-            if (rigidbody.velocity.y > 0)
+            float newYVelocity = myRigidbody.velocity.y;
+            if (myRigidbody.velocity.y > 0)
                 newYVelocity = 0;
 
-            rigidbody.velocity = new Vector3(rigidbody.velocity.x, newYVelocity, rigidbody.velocity.z);
+            myRigidbody.velocity = new Vector3(myRigidbody.velocity.x, newYVelocity, myRigidbody.velocity.z);
             RaycastHit hitInfo;
             if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
             {
@@ -231,15 +231,15 @@ namespace Finisher.Characters
                 }
 
                 // we preserve the existing y part of the current velocity.
-                if (rigidbody.velocity.y > 0) // protect from going to fast up hill
+                if (myRigidbody.velocity.y > 0) // protect from going to fast up hill
                 {
                     v.y = 0;
                 }
                 else
                 {
-                    v.y = rigidbody.velocity.y;
+                    v.y = myRigidbody.velocity.y;
                 }
-				rigidbody.velocity = v;
+				myRigidbody.velocity = v;
                 if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
                 {
                     SnapToGround();
