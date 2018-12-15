@@ -30,8 +30,6 @@ namespace Finisher.Characters
 		float turnAmount;
 		float forwardAmount;
 		Vector3 groundNormal;
-		float capsuleHeight;
-		Vector3 capsuleCenter;
 		CapsuleCollider capsule;
 
         bool RecentlyJumped = false;
@@ -47,8 +45,6 @@ namespace Finisher.Characters
             animator = GetComponent<Animator>();
             myRigidbody = GetComponent<Rigidbody>();
             capsule = GetComponent<CapsuleCollider>();
-            capsuleHeight = capsule.height;
-            capsuleCenter = capsule.center;
 
             myRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             origGroundCheckDistance = groundCheckDistance;

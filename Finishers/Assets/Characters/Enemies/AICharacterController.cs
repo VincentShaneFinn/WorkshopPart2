@@ -114,7 +114,7 @@ namespace Finisher.Characters
         {
             print("action started");
             ToggleAgentMovement(false);
-            //ToggleAgentRotation(false);
+            ToggleAgentRotation(false);
         }
     }
 }
