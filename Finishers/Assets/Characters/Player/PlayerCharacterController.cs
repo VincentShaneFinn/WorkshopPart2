@@ -23,7 +23,9 @@ namespace Finisher.Characters
             animator.ResetTrigger("Dodge");
         }
 
-        // TODO fix a bug where the player looks like he is rolling into the wall
+        // TODO fix a bug where the player looks like he is rolling into the wall, need animation that is centered better
+        // TODO the velocity needs to be under control on slopes so you dont go flying, like you can sore to the moon on an 80% angle
+        // check if OnAnimatorMove velocity is calculating right, otherwise simply deactive root motion?
         public void TryDodgeAnimation()
         {
             canPerformNextAction = false;
@@ -45,11 +47,14 @@ namespace Finisher.Characters
         {
             print("action completed");
             canPerformNextAction = true;
+            CanMove = true;
             RestoreRotationLerp();
         }
 
         public void ActionBegun()
         {
+            print("action started");
+            CanMove = false;
             LockCharacterRotation();
         }
     }

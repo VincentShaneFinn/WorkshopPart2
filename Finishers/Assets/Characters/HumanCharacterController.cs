@@ -11,6 +11,9 @@ namespace Finisher.Characters
 	{
 
         #region Class variables, right now mostly deals with movement, jump, and crouch
+        public bool CanMove = true;
+        public float turnSpeedMultiplier = 1f; // protected force to stay between 0-5
+
         [SerializeField] float movingTurnSpeed = 360;
 		[SerializeField] float stationaryTurnSpeed = 180;
 		[SerializeField] float jumpPower = 12f;
@@ -33,7 +36,6 @@ namespace Finisher.Characters
 		CapsuleCollider capsule;
 
         bool RecentlyJumped = false;
-        float turnSpeedMultiplier = 1f;
         #endregion
 
         void Start()
@@ -61,6 +63,8 @@ namespace Finisher.Characters
 
         public void Move(Vector3 move, bool jump, bool running = false)
 		{
+            if (!CanMove) { return; }
+
             isRunning = running;
 
 			// convert the world relative moveInput vector into a local-relative
@@ -195,8 +199,6 @@ namespace Finisher.Characters
 		}
 
         //Turn speed modifiers
-        public void SetTurnSpeedMultiplier(float newMultiplier) { turnSpeedMultiplier = newMultiplier; }
-
         public void SetInstantCharacterRotation()
         {
             turnSpeedMultiplier = 5; // lets say max is the 5

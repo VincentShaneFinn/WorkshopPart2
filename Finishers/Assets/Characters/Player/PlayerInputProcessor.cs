@@ -52,7 +52,7 @@ namespace Finisher.Characters
             {
                 SetNextInput();
             }
-            if (character.canPerformNextAction)
+            if (true)
             {
                 UseNextInput();
             }
@@ -110,7 +110,10 @@ namespace Finisher.Characters
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            ProcessMovementInput();
+            if (character.CanMove)
+            {
+                ProcessMovementInput();
+            }
         }
 
         private void ProcessMovementInput()
