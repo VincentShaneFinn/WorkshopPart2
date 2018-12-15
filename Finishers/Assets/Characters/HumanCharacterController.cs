@@ -118,7 +118,7 @@ namespace Finisher.Characters
 
 			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 			// which affects the movement speed because of the root motion.
-			if (isGrounded && move.magnitude > 0)
+			if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") && move.magnitude > 0)
 			{
                 if (!isRunning)
                 {
@@ -218,13 +218,13 @@ namespace Finisher.Characters
 			if (isGrounded && Time.deltaTime > 0)
 			{
                 Vector3 v;
-                if (!isRunning)
+                if (isRunning)
                 {
-                    v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                    v = (animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
                 }
                 else
                 {
-                    v = (animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
+                    v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
                 }
 
 				// we preserve the existing y part of the current velocity.

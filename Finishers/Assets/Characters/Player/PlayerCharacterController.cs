@@ -18,11 +18,12 @@ namespace Finisher.Characters
         public void TryHitAnimation()
         {
             canPerformNextAction = false;
-            Invoke("ActionBegun", .1f);
+            // TODO actionbegun is set in the animator. BAD??
             animator.SetTrigger("Attack");
             animator.ResetTrigger("Dodge");
         }
 
+        // TODO fix a bug where the player looks like he is rolling into the wall
         public void TryDodgeAnimation()
         {
             canPerformNextAction = false;

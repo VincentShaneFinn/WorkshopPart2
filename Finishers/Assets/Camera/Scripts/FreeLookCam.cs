@@ -26,7 +26,7 @@ namespace Finisher.Cameras
         [SerializeField] float timeUntilAutoCam = 1f;
         [SerializeField] float m_TargetVelocityLowerLimit = 4f;// the minimum velocity above which the camera turns towards the object's velocity. Below this we use the object's forward direction.
         [SerializeField] float m_RollSpeed = 0.2f;// How fast the rig will roll (around Z axis) to match target's roll.
-        [SerializeField] float m_SmoothTurnTime = 0.2f; // the smoothing for the camera's rotation
+        [SerializeField] float m_SmoothTurnFactor = 0.2f; // the smoothing for the camera's rotation
         private float countUntilAutoCam = 0f;
         private float m_CurrentTurnAmount; // How much to turn the camera
         private float m_TurnSpeedVelocityChange; // The change in the turn speed velocity
@@ -160,7 +160,7 @@ namespace Finisher.Cameras
             {
                 targetUp = Vector3.up;
             }
-            m_CurrentTurnAmount = Mathf.SmoothDamp(m_CurrentTurnAmount, 1, ref m_TurnSpeedVelocityChange, m_SmoothTurnTime);
+            m_CurrentTurnAmount = Mathf.SmoothDamp(m_CurrentTurnAmount, 1, ref m_TurnSpeedVelocityChange, m_SmoothTurnFactor);
 
             // camera's rotation is split into two parts, which can have independend speed settings:
             // rotating towards the target's forward direction (which encompasses its 'yaw' and 'pitch')

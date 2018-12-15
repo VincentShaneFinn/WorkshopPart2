@@ -7,6 +7,7 @@ namespace Finisher.Characters
     [RequireComponent(typeof (PlayerCharacterController))]
     public class PlayerInputProcessor : MonoBehaviour
     {
+        #region member variables
         [SerializeField] float rememberInputForSeconds = .4f;
 
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
@@ -15,10 +16,12 @@ namespace Finisher.Characters
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
         private bool jump = false;
         private String nextInput = "";
+        private String previousInput = "";
         private float lastInputTime = 0;
 
-        const string MOUSE0 = "Mouse 0";
-        const string MOUSE1 = "Mouse 1";
+        const string PRIMARY_ATTACK = "Mouse 0";
+        const string DODGE = "Mouse 1";
+        #endregion
 
         private void Start()
         {
@@ -60,12 +63,13 @@ namespace Finisher.Characters
             //testing new animations
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                nextInput = MOUSE0;
+                nextInput = PRIMARY_ATTACK;
                 lastInputTime = Time.time;
             }
             else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                nextInput = MOUSE1;
+                if(previousInput != DODGE)
+                    nextInput = DODGE;
                 lastInputTime = Time.time;
             }
             else
@@ -81,13 +85,14 @@ namespace Finisher.Characters
         {
             switch (nextInput)
             {
-                case MOUSE0:
+                case PRIMARY_ATTACK:
                     character.TryHitAnimation();
                     break;
-                case MOUSE1:
+                case DODGE:
                     character.TryDodgeAnimation();
                     break;
             }
+            previousInput = nextInput;
             nextInput = "";
         }
 
