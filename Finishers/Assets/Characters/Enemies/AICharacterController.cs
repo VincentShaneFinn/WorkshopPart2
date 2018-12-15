@@ -79,7 +79,7 @@ namespace Finisher.Characters
             }
             else
             {
-                agent.speed = 0.1f; // must be > 0 to allow it to rotate for now
+                agent.speed = Mathf.Epsilon; // must be > 0 to allow it to rotate for now
             }
         }
 
@@ -114,7 +114,7 @@ namespace Finisher.Characters
         {
             print("action started");
             ToggleAgentMovement(false);
-            ToggleAgentRotation(false);
+            //ToggleAgentRotation(false);
         }
     }
 }
