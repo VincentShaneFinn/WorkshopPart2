@@ -61,37 +61,46 @@ namespace Finisher.Characters
             return true;
         }
 
-        public void Move(Vector3 move, bool jump, bool running = false)
-		{
+        public void Move(Vector3 moveDirection, bool jump, bool running = false)
+        {
             if (!CanMove()) { return; }
 
             isRunning = running;
 
-			// convert the world relative moveInput vector into a local-relative
-			// turn amount and forward amount required to head in the desired
-			// direction.
-			if (move.magnitude > 1f) move.Normalize();
-			move = transform.InverseTransformDirection(move);
-			CheckGroundStatus();
-			move = Vector3.ProjectOnPlane(move, groundNormal);
-			turnAmount = Mathf.Atan2(move.x, move.z);
-			forwardAmount = move.z;
+            moveDirection = AdjustMoveDirection(moveDirection);
+            turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);
+            forwardAmount = moveDirection.z;
 
-			ApplyExtraTurnRotation();
+            ApplyExtraTurnRotation();
 
-			// control and velocity handling is different when grounded and airborne:
-			if (isGrounded)
-			{
-				AttemptToJump(jump);
-			}
-			else
-			{
-				HandleAirborneMovement();
-			}
+            // control and velocity handling is different when grounded and airborne:
+            if (isGrounded)
+            {
+                AttemptToJump(jump);
+            }
+            else
+            {
+                HandleAirborneMovement();
+            }
 
-			// send input and other state parameters to the animator
-			UpdateAnimator(move);
-		}
+            // send input and other state parameters to the animator
+            UpdateAnimator(moveDirection);
+        }
+
+        private Vector3 AdjustMoveDirection(Vector3 moveDirection)
+        {
+            // convert the world relative moveInput vector into a local-relative
+            // turn amount and forward amount required to head in the desired
+            // direction.
+            if (moveDirection.magnitude > 1f)
+            {
+                moveDirection.Normalize();
+            }
+            moveDirection = transform.InverseTransformDirection(moveDirection);
+            CheckGroundStatus();
+            moveDirection = Vector3.ProjectOnPlane(moveDirection, groundNormal);
+            return moveDirection;
+        }
 
         void UpdateAnimator(Vector3 move)
 		{
