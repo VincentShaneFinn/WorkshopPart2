@@ -8,6 +8,7 @@ namespace Finisher.Characters
     public class PlayerInputProcessor : MonoBehaviour
     {
         #region member variables
+        [Tooltip("The amount of time that to keep an input in the que")]
         [SerializeField] float rememberInputForSeconds = .4f;
 
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object

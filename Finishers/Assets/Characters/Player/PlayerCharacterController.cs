@@ -4,9 +4,10 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    public class PlayerCharacterController : HumanCharacterController
+    public class PlayerCharacterController : FinisherCharacterController
     {
-        public bool PlayerCanMove = true; protected override bool CanMove() { return PlayerCanMove; }
+        [Header("Player Controller Specific Settings")]
+        [SerializeField] public bool PlayerCanMove = true; protected override bool CanMove() { return PlayerCanMove; }
         [HideInInspector] public bool canPerformNextAction = true;
 
         void Start()

@@ -120,18 +120,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2393b71a15a15bd46818659b60781ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanMove: 1
   turnSpeedMultiplier: 1
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
   jumpPower: 12
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
-  moveSpeedMultiplier: 0.75
-  animSpeedMultiplier: 0.75
-  groundCheckDistance: 0.3
+  moveSpeedMultiplier: 1
+  animSpeedMultiplier: 0.6
   runMoveSpeedMultiplier: 1
-  runAnimSpeedMultiplier: 1
+  runAnimSpeedMultiplier: 1.5
+  groundCheckDistance: 0.3
   target: {fileID: 0}
   canPerformNextAction: 1
 --- !u!114 &114527653871411836
@@ -203,8 +202,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
 --- !u!4 &8739204254723361667 stripped
 Transform:

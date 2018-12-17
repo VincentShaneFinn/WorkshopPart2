@@ -4,11 +4,11 @@ using UnityEngine;
 namespace Finisher.Characters
 {
     [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-    public class AICharacterController : HumanCharacterController
+    public class AICharacterController : FinisherCharacterController
     {
 
         public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
-        public HumanCharacterController character { get; private set; } // the character we are controlling
+        public FinisherCharacterController character { get; private set; } // the character we are controlling
 
 
         [Header("AI specific variables")]
@@ -16,7 +16,7 @@ namespace Finisher.Characters
         [HideInInspector] public bool canPerformNextAction = true;
 
         private bool agentCanMove = true; public bool CanAgentMove() { return agentCanMove; }
-        private bool agentCanRotate = true; public bool CanAgentRotat() { return agentCanRotate; }
+        private bool agentCanRotate = true; public bool CanAgentRotate() { return agentCanRotate; }
 
         private void Start()
         {
@@ -24,10 +24,10 @@ namespace Finisher.Characters
 
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
-            character = GetComponent<HumanCharacterController>();
+            character = GetComponent<FinisherCharacterController>();
 
 	        agent.updateRotation = false;
-	        agent.updatePosition = true;
+            agent.updatePosition = true;
         }
 
         private void Update()
@@ -35,8 +35,9 @@ namespace Finisher.Characters
             // TODO build a system of allowing y movement for animations, like jump attack, or getting knocked into the air, which disables and re-enables the agent
             if (agent.isActiveAndEnabled)
             {
-                if (target != null)
-                    agent.SetDestination(target.position);
+                if(target == null) { return; }
+
+                agent.SetDestination(target.position);
 
                 if (agent.remainingDistance > agent.stoppingDistance)
                     character.Move(agent.desiredVelocity, false);
@@ -116,5 +117,12 @@ namespace Finisher.Characters
             ToggleAgentMovement(false);
             ToggleAgentRotation(false);
         }
+
+        //void OnDrawGizmos()
+        //{
+        //    //draw sphere at target
+        //    Gizmos.color = Color.black;
+        //    Gizmos.DrawWireSphere(agent.destination, .3f);
+        //}
     }
 }

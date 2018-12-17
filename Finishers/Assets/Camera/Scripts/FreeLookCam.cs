@@ -25,12 +25,10 @@ namespace Finisher.Cameras
         [SerializeField] float autoCamTurnSpeed = 1.5f; // TODO allow user to change both turn speed and autoCam Turn speed
         [SerializeField] float timeUntilAutoCam = 1f;
         [SerializeField] float m_TargetVelocityLowerLimit = 4f;// the minimum velocity above which the camera turns towards the object's velocity. Below this we use the object's forward direction.
-        [SerializeField] float m_RollSpeed = 0.2f;// How fast the rig will roll (around Z axis) to match target's roll.
         [SerializeField] float m_SmoothTurnFactor = 0.2f; // the smoothing for the camera's rotation
         private float countUntilAutoCam = 0f;
         private float m_CurrentTurnAmount; // How much to turn the camera
         private float m_TurnSpeedVelocityChange; // The change in the turn speed velocity
-        private Vector3 m_RollUp = Vector3.up;// The roll of the camera around the z axis ( generally this will always just be up )
 
 
         private float m_LookAngle;                    // The rig's y axis rotation.
@@ -176,7 +174,7 @@ namespace Finisher.Cameras
             Quaternion desiredLookRotation;
             if (targetForward != Vector3.zero)
             {
-                desiredLookRotation = Quaternion.LookRotation(targetForward, m_RollUp);
+                desiredLookRotation = Quaternion.LookRotation(targetForward, Vector3.up);
             }
             else
             {

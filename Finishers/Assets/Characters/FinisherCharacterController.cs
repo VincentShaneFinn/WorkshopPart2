@@ -7,20 +7,28 @@ namespace Finisher.Characters
 	[RequireComponent(typeof(Rigidbody))]
 	[RequireComponent(typeof(CapsuleCollider))]
 	[RequireComponent(typeof(Animator))]
-	public class HumanCharacterController : MonoBehaviour
+	public class FinisherCharacterController : MonoBehaviour
 	{
 
         #region Class variables, right now mostly deals with movement, jump, and crouch
-        public float turnSpeedMultiplier = 1f; // protected force to stay between 0-5
 
+        [Header("Character Controller Settings")]
         [SerializeField] float movingTurnSpeed = 360;
 		[SerializeField] float stationaryTurnSpeed = 180;
 		[SerializeField] float jumpPower = 12f;
 		[Range(1f, 4f)][SerializeField] float gravityMultiplier = 2f;
+        [Tooltip("May need to modify to get things like jumping / walking to look right with custom models?")]
 		[SerializeField] float runCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
-		[SerializeField] float moveSpeedMultiplier = 1f;
-		[SerializeField] float animSpeedMultiplier = 1f;
-		[SerializeField] float groundCheckDistance = 0.1f;
+		[Tooltip("Used to move faster, but not modify the speed of the animation")]
+        [SerializeField] float moveSpeedMultiplier = 1f;
+        [Tooltip("Used to move faster, by making the animation play faster")]
+        [SerializeField] float animSpeedMultiplier = 1f;
+        [Tooltip("Used to move faster, but not modify the speed of the animation")]
+        [SerializeField] float runMoveSpeedMultiplier = 1.5f;
+        [Tooltip("Used to move faster, by making the animation play faster")]
+        [SerializeField] float runAnimSpeedMultiplier = 1.5f;
+        [Tooltip("Distance from the ground that we consider ourselves grounded")]
+        [SerializeField] float groundCheckDistance = 0.1f;
 
         Rigidbody rigidBody;
 		protected Animator animator;
@@ -33,6 +41,7 @@ namespace Finisher.Characters
 		CapsuleCollider capsule;
 
         bool RecentlyJumped = false;
+        bool isRunning;
         #endregion
 
         void Start()
@@ -40,6 +49,9 @@ namespace Finisher.Characters
             Initialization();
         }
 
+        // TODO make the initializer start in awake instead, and add the all the components that we need
+        // bonus make an editor script to make this collapsed by default in the inspector so we dont need to see it
+        // or just make put in in another class that this class requires
         protected void Initialization()
         {
             animator = GetComponent<Animator>();
@@ -50,17 +62,20 @@ namespace Finisher.Characters
             origGroundCheckDistance = groundCheckDistance;
         }
 
-        //Run testing, would need to add a sprint animation if the speed gets up to running
-        // TODO put this back up top and possibly refactor animator to have a run animation
-        [SerializeField] float runMoveSpeedMultiplier = 1.5f;
-        [SerializeField] float runAnimSpeedMultiplier = 1.5f;
-        bool isRunning;
-
+        // TODO what is this for, or should we use this to tell if the character can move or not, same with rotation
+        // goal is to get the player and ai character using the same method names to do these 4 things
+            // stop and start moving
+            // stop and start rotating
+            // move slower or faster
+            // rotate slower or faster
         protected virtual bool CanMove()
         {
             return true;
         }
 
+        // TODO this needs to be called everyframe by what is using it to make sure it is being snaped to the ground during an action
+        // see if we can put snap to ground in an update loop that is always run if in a certain state
+        // note, maybe this should be a character movement controller, and we can also have a character action controller, and both use each other?
         public void Move(Vector3 moveDirection, bool jump, bool running = false)
         {
             if (!CanMove()) { return; }
@@ -195,18 +210,22 @@ namespace Finisher.Characters
         // help the character turn faster (this is in addition to root rotation in the animation)
         void ApplyExtraTurnRotation()
 		{
-            //safety net for turn speed multipliers
-            if (turnSpeedMultiplier > 5)
-            {
-                turnSpeedMultiplier = 5;
-            }
-            else if (turnSpeedMultiplier < 0)
-            {
-                turnSpeedMultiplier = 0;
-            }
 			float turnSpeed = Mathf.Lerp(stationaryTurnSpeed * turnSpeedMultiplier, movingTurnSpeed * turnSpeedMultiplier, forwardAmount);
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
 		}
+
+        #region Turn Speed Multiplier Getters and Setters
+        float turnSpeedMultiplier = 1f; // protected to stay between 0-5
+        public float TurnSpeedMultiplier
+        {
+            get { return turnSpeedMultiplier; }
+            set
+            {
+                if (value < 0) { turnSpeedMultiplier = 0; }
+                else if (value > 5) { turnSpeedMultiplier = 5; }
+                else { turnSpeedMultiplier = value; }
+            }
+        }
 
         //Turn speed modifiers
         public void SetInstantCharacterRotation()
@@ -221,7 +240,7 @@ namespace Finisher.Characters
         {
             turnSpeedMultiplier = 1;
         }
-
+        #endregion
 
         public void OnAnimatorMove()
 		{
@@ -260,10 +279,10 @@ namespace Finisher.Characters
 		void CheckGroundStatus()
 		{
 			RaycastHit hitInfo;
-#if UNITY_EDITOR
+
 			// helper to visualise the ground check ray in the scene view
 			Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * groundCheckDistance));
-#endif
+
 			// 0.1f is a small offset to start the ray from inside the character
 			// it is also good to note that the transform position in the sample assets is at the base of the character
 			if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
@@ -279,12 +298,5 @@ namespace Finisher.Characters
 				animator.applyRootMotion = false;
 			}
 		}
-
-        // Notice: due to how we are locking the player to ground when they are walking normal and not jumping, we may have to deal with that hear to let us set a low Y force
-        // also adding x and y forces are wierd so do more testing
-        void ApplyForce(Vector3 force)
-        {
-            //ApplyForce
-        }
     }
 }

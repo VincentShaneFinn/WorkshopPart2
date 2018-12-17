@@ -110,16 +110,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a083cfe1b012aa148b16393bcc54d0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movingTurnSpeed: 720
-  stationaryTurnSpeed: 720
+  turnSpeedMultiplier: 1
+  movingTurnSpeed: 1000
+  stationaryTurnSpeed: 1000
   jumpPower: 7
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
-  moveSpeedMultiplier: 1.1
-  animSpeedMultiplier: 1.1
+  moveSpeedMultiplier: 1
+  animSpeedMultiplier: 1
+  runMoveSpeedMultiplier: 1
+  runAnimSpeedMultiplier: 1.6
   groundCheckDistance: 0.3
-  runMoveSpeedMultiplier: 1.4
-  runAnimSpeedMultiplier: 1.4
+  PlayerCanMove: 1
   canPerformNextAction: 0
 --- !u!1001 &5880651018780982521
 PrefabInstance:
@@ -248,26 +250,6 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -2.0372695e-10
       objectReference: {fileID: 0}
-    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.0000000074505797
-      objectReference: {fileID: 0}
-    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -4.6566123e-10
-      objectReference: {fileID: 0}
-    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.0000000535509
-      objectReference: {fileID: 0}
-    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0000000116124195
-      objectReference: {fileID: 0}
     - target: {fileID: 400078, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.000000029802308
@@ -292,8 +274,27 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -0.000001022392
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 9500000, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.0000000074505797
+      objectReference: {fileID: 0}
+    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -4.6566123e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.0000000535509
+      objectReference: {fileID: 0}
+    - target: {fileID: 400030, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0000000116124195
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6068ba224ed5c364dbe89f2061ced869, type: 3}
 --- !u!4 &5880651018781108201 stripped
 Transform:
