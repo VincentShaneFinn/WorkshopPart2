@@ -77,7 +77,7 @@ namespace Finisher.Cameras
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
         {
-            if(ForceAutoLook) //use auto cam if forceautolook is true
+            if (ForceAutoLook) //use auto cam if forceautolook is true
             {
                 ChangeCameraMode(true);
                 return;
@@ -111,6 +111,9 @@ namespace Finisher.Cameras
             {
                 m_LookAngle = transform.eulerAngles.y;
                 m_TiltAngle = m_Pivot.transform.localEulerAngles.x;
+                if (m_TiltAngle > 180) {
+                    m_TiltAngle -= 360;
+                }
             }
 
         }

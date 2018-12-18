@@ -51,7 +51,7 @@ namespace Finisher.Characters
         protected override void AttemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
+            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE) && !animator.GetAnimatorTransitionInfo(0).anyState)
             {
                 // jump!
                 rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
