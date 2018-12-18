@@ -4,12 +4,10 @@ using UnityEngine;
 namespace Finisher.Characters
 {
     [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-    public class AICharacterController : FinisherCharacterController
+    public class AICharacterController : CharacterAnimator
     {
 
         public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
-        public FinisherCharacterController character { get; private set; } // the character we are controlling
-
 
         [Header("AI specific variables")]
         [SerializeField] public Transform target;                                    // target to aim for
@@ -24,7 +22,6 @@ namespace Finisher.Characters
 
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
-            character = GetComponent<FinisherCharacterController>();
 
 	        agent.updateRotation = false;
             agent.updatePosition = true;
@@ -40,10 +37,10 @@ namespace Finisher.Characters
                 agent.SetDestination(target.position);
 
                 if (agent.remainingDistance > agent.stoppingDistance)
-                    character.Move(agent.desiredVelocity, false);
+                    Move(agent.desiredVelocity, false);
                 else
                 {
-                    character.Move(Vector3.zero, false);
+                    Move(Vector3.zero, false);
                 }
             }
             else

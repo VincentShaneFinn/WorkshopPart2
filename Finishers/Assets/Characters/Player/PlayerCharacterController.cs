@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    public class PlayerCharacterController : FinisherCharacterController
+    public class PlayerCharacterController : CharacterAnimator
     {
         [Header("Player Controller Specific Settings")]
         [SerializeField] public bool PlayerCanMove = true; protected override bool CanMove() { return PlayerCanMove; }

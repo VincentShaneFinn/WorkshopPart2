@@ -30,6 +30,8 @@ namespace Finisher.Characters
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
         [SerializeField] float groundCheckDistance = 0.1f;
 
+        const string LOCOMOTION_STATE = "Basic Locomotion";
+
         Rigidbody rigidBody;
 		protected Animator animator;
 		private bool isGrounded; public bool GetIsGrounded() { return isGrounded; }
@@ -142,7 +144,7 @@ namespace Finisher.Characters
 
 			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 			// which affects the movement speed because of the root motion.
-			if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") && move.magnitude > 0)
+			if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE) && move.magnitude > 0)
 			{
                 if (!isRunning)
                 {
@@ -169,8 +171,8 @@ namespace Finisher.Characters
 
 		void AttemptToJump(bool jump)
 		{
-			// check whether conditions are right to allow a jump:
-			if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+            // check whether conditions are right to allow a jump:
+            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
 			{
 				// jump!
 				rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
@@ -193,18 +195,13 @@ namespace Finisher.Characters
             RecentlyJumped = false;
         }
 
-        private void SnapToGround()
+        private void RestrictYVelocity()
         {
             float newYVelocity = rigidBody.velocity.y;
             if (rigidBody.velocity.y > 0)
                 newYVelocity = 0;
 
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, newYVelocity, rigidBody.velocity.z);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
-            {
-                transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
-            }
         }
         
         // help the character turn faster (this is in addition to root rotation in the animation)
@@ -268,9 +265,9 @@ namespace Finisher.Characters
                     v.y = rigidBody.velocity.y;
                 }
 				rigidBody.velocity = v;
-                if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+                if (isGrounded)
                 {
-                    SnapToGround();
+                    RestrictYVelocity();
                 }
 			}
 		}
