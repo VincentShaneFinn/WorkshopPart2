@@ -49,13 +49,32 @@ namespace Finisher.Characters
         private void Update()
         {
             GetJumpInput();
-            if (character.GetIsGrounded())
+            if (character.IsGrounded)
             {
                 SetNextInput();
             }
-            if (character.canPerformNextAction)
+            UseNextInput();
+
+            // todo remove this testing code
+            // todo also consider allowing can move to be public
+            if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                UseNextInput();
+                character.CanMove = false;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha3)){
+                character.CanMove = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                character.CanRotate = false;
+            }
+            if (Input.GetKeyUp(KeyCode.Alpha4))
+            {
+                character.CanRotate = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                character.Kill();
             }
         }
 
@@ -87,17 +106,16 @@ namespace Finisher.Characters
             switch (nextInput)
             {
                 case PRIMARY_ATTACK:
-                    character.TryHitAnimation();
+                    print("attack");
+                    character.Attack();
                     break;
                 case DODGE:
-                    character.TryDodgeAnimation();
+                    character.Dodge();
                     break;
             }
             previousInput = nextInput;
             nextInput = "";
         }
-
-
 
         private void GetJumpInput()
         {
@@ -111,14 +129,14 @@ namespace Finisher.Characters
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            if (character.PlayerCanMove)
+            if (character.CanMove || character.CanRotate)
             {
                 ProcessMovementInput();
             }
-            else
-            {
-                character.Move(Vector3.zero, false, false);
-            }
+            //else
+            //{
+            //    character.Move(Vector3.zero, false, false);
+            //}
         }
 
         private void ProcessMovementInput()

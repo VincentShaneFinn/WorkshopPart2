@@ -72,6 +72,19 @@ namespace Finisher.Cameras
                 Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
                 Cursor.visible = !m_LockCursor;
             }
+
+            // todo disable player control when animating
+            // this and the animations were for testing, remove
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                GetComponentInChildren<Animator>().SetTrigger("MoveRight");
+                ForceAutoLook = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                GetComponentInChildren<Animator>().SetTrigger("MoveLeft");
+                ForceAutoLook = false;
+            }
         }
 
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]

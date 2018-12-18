@@ -37,13 +37,29 @@ namespace Finisher.Characters
         #endregion
 
         #region General Class variables
-        protected bool isGrounded; public bool GetIsGrounded() { return isGrounded; }
+        protected bool isGrounded;
+        public bool IsGrounded { get { return isGrounded; } }
         protected float origGroundCheckDistance;
         protected float turnAmount;
         protected float forwardAmount;
         protected Vector3 groundNormal;
         protected bool RecentlyJumped = false;
         protected bool isRunning;
+
+        protected bool dying = false; // todo observer delefate when kill is called
+        public bool Dying {
+            get { return dying; } }
+        private bool canMove = true;
+        public virtual bool CanMove {
+            get { return canMove; }
+            set { canMove = value; }
+        }
+        private bool canRotate = true;
+        public virtual bool CanRotate
+        {
+            get { return canRotate; }
+            set { canRotate = value; }
+        }
         #endregion
 
         #region Components 
@@ -102,23 +118,28 @@ namespace Finisher.Characters
         // stop and start rotating
         // move slower or faster
         // rotate slower or faster
-        protected virtual bool CanMove()
-        {
-            return true;
-        }
 
         // TODO this needs to be called everyframe by what is using it to make sure it is being snaped to the ground during an action
         // see if we can put snap to ground in an update loop that is always run if in a certain state
         // note, maybe this should be a character movement controller, and we can also have a character action controller, and both use each other?
         public void Move(Vector3 moveDirection, bool jump, bool running = false)
         {
-            if (!CanMove()) { return; }
-
             isRunning = running;
 
             moveDirection = AdjustMoveDirection(moveDirection);
             turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);
             forwardAmount = moveDirection.z;
+
+            if (!canMove || dying) {
+                print(turnAmount);
+                moveDirection = Vector3.zero;
+                forwardAmount = 0;
+                jump = false;
+            }
+            if (!canRotate || dying)
+            {
+                turnAmount = 0;
+            }
 
             ApplyExtraTurnRotation();
 

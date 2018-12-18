@@ -51,7 +51,9 @@ namespace Finisher.Characters
         protected override void AttemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE) && !animator.GetAnimatorTransitionInfo(0).anyState)
+            if (animator.GetAnimatorTransitionInfo(0).anyState)
+                print("true");
+            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
             {
                 // jump!
                 rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
@@ -106,5 +108,27 @@ namespace Finisher.Characters
                 }
 			}
 		}
+
+        public void Hit()
+        {
+            print("hit something now");
+        }
+
+        public void Kill()
+        {
+            if (dying) { return; }
+            dying = true;
+            animator.SetTrigger("Death");
+        }
+
+        public void Attack()
+        {
+            animator.SetTrigger("Attack");
+        }
+
+        public void Dodge()
+        {
+            animator.SetTrigger("Dodge");
+        }
     }
 }

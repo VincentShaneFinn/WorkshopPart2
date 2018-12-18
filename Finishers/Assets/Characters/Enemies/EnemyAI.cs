@@ -27,6 +27,7 @@ namespace Finisher.Characters
         {
             if (player == null){ return; }
 
+            // todo make a state machine
             pursueNearbyPlayer();
             attackPlayerIfNear();
         }
@@ -47,9 +48,9 @@ namespace Finisher.Characters
         private void attackPlayerIfNear()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            if (distanceToPlayer <= attackRadius && aiCharacter.canPerformNextAction)
+            if (distanceToPlayer <= attackRadius)
             {
-                aiCharacter.TryAttack();
+                print("attack player");
             }
         }
     }
