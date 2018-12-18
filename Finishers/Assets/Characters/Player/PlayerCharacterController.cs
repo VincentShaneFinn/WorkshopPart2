@@ -10,9 +10,9 @@ namespace Finisher.Characters
         [SerializeField] public bool PlayerCanMove = true; protected override bool CanMove() { return PlayerCanMove; }
         [HideInInspector] public bool canPerformNextAction = true;
 
-        void Start()
+        protected override void Start()
         {
-            Initialization();
+            base.Start();
             canPerformNextAction = true;
         }
 

@@ -16,9 +16,9 @@ namespace Finisher.Characters
         private bool agentCanMove = true; public bool CanAgentMove() { return agentCanMove; }
         private bool agentCanRotate = true; public bool CanAgentRotate() { return agentCanRotate; }
 
-        private void Start()
+        protected override void Start()
         {
-            Initialization();
+            base.Start();
 
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();

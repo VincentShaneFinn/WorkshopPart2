@@ -50,31 +50,56 @@ namespace Finisher.Characters
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
 
-        [Header("Animator Fields")]
+        [Header("Animator Component Fields")]
         [SerializeField] RuntimeAnimatorController runtimeAnimatorController;
         [SerializeField] Avatar avatar;
 
+        [Header("Rigidbody Component Fields")]
+        [SerializeField] CollisionDetectionMode collisionDetectionMode;
+        PhysicMaterial frictionlessMaterial;
+
+        [Header("Capsule Collider Component Fields")]
+        [SerializeField] Vector3 capsuleColliderCenter = new Vector3(0,1f,0);
+        [SerializeField] float capsuleColliderHeight = 2f;
+        [SerializeField] float capsuleColliderRadius = 0.5f;
+
         #endregion
 
-        void Start()
+        void Awake()
         {
-            Initialization();
+            ComponentBuilder();
         }
 
-        // TODO make the initializer start in awake instead, and add the all the components that we need
-        // bonus make an editor script to make this collapsed by default in the inspector so we dont need to see it
-        // or just make put in in another class that this class requires
-        protected void Initialization()
+        protected virtual void Start()
         {
-            //Component Init
-            animator = gameObject.GetComponent<Animator>();
-            rigidBody = gameObject.GetComponent<Rigidbody>();
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-            capsule = gameObject.GetComponent<CapsuleCollider>();
-
             //Class Init
             origGroundCheckDistance = groundCheckDistance;
         }
+
+        #region ComponentBuilder
+        protected void ComponentBuilder()
+        {
+            animator = gameObject.AddComponent<Animator>();
+            animator.runtimeAnimatorController = runtimeAnimatorController;
+            animator.avatar = avatar;
+            rigidBody = gameObject.AddComponent<Rigidbody>();
+            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+            rigidBody.useGravity = true;
+            rigidBody.isKinematic = false;
+            rigidBody.collisionDetectionMode = collisionDetectionMode;
+            capsule = gameObject.AddComponent<CapsuleCollider>();
+            frictionlessMaterial = new PhysicMaterial();
+            frictionlessMaterial.dynamicFriction = 0;
+            frictionlessMaterial.staticFriction = 0;
+            frictionlessMaterial.bounciness = 0;
+            frictionlessMaterial.frictionCombine = PhysicMaterialCombine.Multiply;
+            frictionlessMaterial.bounceCombine = PhysicMaterialCombine.Average;
+            capsule.material = frictionlessMaterial;
+            capsule.center = capsuleColliderCenter;
+            capsule.height = capsuleColliderHeight;
+            capsule.radius = capsuleColliderRadius;
+        }
+        #endregion
 
         // TODO what is this for, or should we use this to tell if the character can move or not, same with rotation
         // goal is to get the player and ai character using the same method names to do these 4 things
