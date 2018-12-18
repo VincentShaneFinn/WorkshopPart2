@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    [RequireComponent(typeof(Animator))]
 	public abstract class CharacterMotor : MonoBehaviour
 	{
 
@@ -50,10 +51,6 @@ namespace Finisher.Characters
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
 
-        [Header("Animator Component Fields")]
-        [SerializeField] RuntimeAnimatorController runtimeAnimatorController;
-        [SerializeField] Avatar avatar;
-
         [Header("Rigidbody Component Fields")]
         [SerializeField] CollisionDetectionMode collisionDetectionMode;
         PhysicMaterial frictionlessMaterial;
@@ -67,21 +64,16 @@ namespace Finisher.Characters
 
         void Awake()
         {
-            ComponentBuilder();
-        }
-
-        protected virtual void Start()
-        {
-            //Class Init
-            origGroundCheckDistance = groundCheckDistance;
+            Initialization();
         }
 
         #region ComponentBuilder
-        protected void ComponentBuilder()
+        protected void Initialization()
         {
-            animator = gameObject.AddComponent<Animator>();
-            animator.runtimeAnimatorController = runtimeAnimatorController;
-            animator.avatar = avatar;
+            //Get Components
+            animator = gameObject.GetComponent<Animator>();
+
+            //Add Components
             rigidBody = gameObject.AddComponent<Rigidbody>();
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             rigidBody.useGravity = true;
@@ -98,6 +90,9 @@ namespace Finisher.Characters
             capsule.center = capsuleColliderCenter;
             capsule.height = capsuleColliderHeight;
             capsule.radius = capsuleColliderRadius;
+
+            //Class Init
+            origGroundCheckDistance = groundCheckDistance;
         }
         #endregion
 

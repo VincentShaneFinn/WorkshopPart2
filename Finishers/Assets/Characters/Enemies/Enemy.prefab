@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4766649399272452}
+  - component: {fileID: 4856822250100709866}
   - component: {fileID: 195246496525970688}
   - component: {fileID: 114825973488843026}
   - component: {fileID: 114527653871411836}
@@ -34,6 +35,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!95 &4856822250100709866
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
+  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!195 &195246496525970688
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -78,9 +98,6 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
-  runtimeAnimatorController: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9,
-    type: 2}
-  avatar: {fileID: 9000000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
