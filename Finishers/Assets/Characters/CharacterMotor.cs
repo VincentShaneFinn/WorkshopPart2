@@ -131,15 +131,16 @@ namespace Finisher.Characters
                 moveDirection = Vector3.zero;
                 forwardAmount = 0;
                 jump = false;
-                if (Strafing)
-                {
-                    turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
-                    StrafingRotation();
-                }
             }
             if (!canRotate || dying)
             {
                 turnAmount = 0;
+            }
+
+            if (Strafing)
+            {
+                turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
+                StrafingRotation();
             }
             else
             {

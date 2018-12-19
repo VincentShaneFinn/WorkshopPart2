@@ -13,6 +13,7 @@ namespace Finisher.Cameras
         // 			Camera
 
         #region Class Variables
+        public bool CameraControlLocked = false; 
         [SerializeField] float m_MoveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
         [Range(0f, 10f)] [SerializeField] private float m_TurnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
@@ -56,6 +57,11 @@ namespace Finisher.Cameras
         {
             // TODO don't ever allow auto camera for mouse and keyboard
 
+
+            if (CameraControlLocked)
+            {
+                return;
+            }
             // Read the user input
             InputX = Input.GetAxis("Mouse X");
             InputY = Input.GetAxis("Mouse Y");
@@ -129,7 +135,7 @@ namespace Finisher.Cameras
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime * m_MoveSpeed);
 
-            if (usingAutoCam)
+            if (usingAutoCam && !CameraControlLocked)
             {
                 AutoRotateCamera(deltaTime);
             }

@@ -56,13 +56,13 @@ namespace Finisher.Characters
                 aiCharacter.Kill();
             }
         }
-
         private void pursueNearbyPlayer()
         {
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             if (distanceToPlayer <= chaseRadius)
             {
                 aiCharacter.SetTarget(player.transform);
+                aiCharacter.SetStrafingTarget(player.transform);
             }
             else
             {

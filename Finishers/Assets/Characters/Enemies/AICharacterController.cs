@@ -117,7 +117,7 @@ namespace Finisher.Characters
             moveCharacter(Vector3.zero);
             if (CanRotate)
             {
-                // todo get a turn amount to look at target and use that instead, mimic the auto cam 
+                // todo get a turn amount to look at target and use that instead, mimic the auto cam  also only change the y rotation
                 transform.LookAt(target);
             }
         }
@@ -125,12 +125,20 @@ namespace Finisher.Characters
         public void SetTarget(Transform target)
         {
             this.target = target;
+        }
+
+        public void SetStrafingTarget(Transform target)
+        {
             strafingTargetMatch = target;
         }
 
         protected override void StrafingRotation()
         {
-            transform.LookAt(strafingTargetMatch);
+            // todo ONLY CHANGE Y ROTATION
+            if (strafingTargetMatch != null)
+            {
+                transform.LookAt(strafingTargetMatch);
+            }
         }
 
         //void OnDrawGizmos()

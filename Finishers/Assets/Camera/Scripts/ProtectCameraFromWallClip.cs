@@ -36,7 +36,7 @@ namespace Finisher.Cameras
             m_RayHitComparer = new RayHitComparer();
         }
 
-
+        // todo make the camera dolly ignore enemies
         private void LateUpdate()
         {
             // initially set the target distance
