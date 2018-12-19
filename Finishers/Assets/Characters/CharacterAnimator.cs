@@ -14,6 +14,7 @@ namespace Finisher.Characters
 			animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
 			animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
 			animator.SetBool("OnGround", isGrounded);
+            animator.SetBool("Strafing", Strafing);
 			if (!isGrounded)
 			{
 				animator.SetFloat("Jump", rigidBody.velocity.y);
@@ -114,6 +115,18 @@ namespace Finisher.Characters
             print("hit something now");
         }
 
+        public void FootL()
+        {
+
+        }
+
+        public void FootR()
+        {
+
+        }
+
+        // todo protect triggers from being set twice
+
         public void Kill()
         {
             if (dying) { return; }
@@ -121,11 +134,12 @@ namespace Finisher.Characters
             animator.SetTrigger("Death");
         }
 
+
+        //todo, seperate into player and enemy combat systems
         public void Attack(bool canMove = false, bool canRotate = false)
         {
             if (CanAct)
             {
-
                 animator.SetTrigger("Attack");
                 RestrictMovementDuringAnimation(canMove, canRotate);
             }

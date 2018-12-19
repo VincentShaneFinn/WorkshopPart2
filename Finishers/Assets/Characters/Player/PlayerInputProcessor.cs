@@ -12,7 +12,7 @@ namespace Finisher.Characters
         [SerializeField] float rememberInputForSeconds = .4f;
 
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
-        private Transform cam = null;                  // A reference to the main camera in the scenes transform
+        private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
         private bool jump = false;
@@ -26,24 +26,11 @@ namespace Finisher.Characters
 
         private void Start()
         {
-            // get the transform of the main camera
-            GetMainCameraTransform();
-
             // get the third person character ( this should never be null due to require component )
             character = GetComponent<PlayerCharacterController>();
-        }
 
-        private void GetMainCameraTransform()
-        {
-            if (Camera.main != null)
-            {
-                cam = Camera.main.transform;
-            }
-            else
-            {
-                Debug.LogWarning("Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
-                // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
-            }
+            // get the transform of the main camera
+            camRig = character.GetMainCameraTransform();
         }
 
         private void Update()
@@ -149,11 +136,11 @@ namespace Finisher.Characters
             float v = Input.GetAxisRaw("Vertical");
 
             // calculate move direction to pass to character
-            if (cam != null)
+            if (camRig != null)
             {
                 // calculate camera relative direction to move:
-                camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-                moveDirection = v * camForward + h * cam.right;
+                camForward = Vector3.Scale(camRig.forward, new Vector3(1, 0, 1)).normalized;
+                moveDirection = v * camForward + h * camRig.right;
             }
             else
             {

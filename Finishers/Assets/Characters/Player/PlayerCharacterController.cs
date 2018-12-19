@@ -6,15 +6,20 @@ namespace Finisher.Characters
 {
     public class PlayerCharacterController : CharacterAnimator
     {
-        //[Header("Player Controller Specific Settings")]
+        [Header("Player Controller Specific Settings")]
         private Vector3 movementInputDirection;
         private bool jumpInput;
         private bool runInput;
-        //What are some things the player does and the enemies do differently, put here
-        
+
+        void Start()
+        {
+            GetMainCameraTransform();
+        }
+
         void FixedUpdate()
         {
-            if (dying) { return;}
+            if (dying) { return; }
+
             if (CanMove || CanRotate)
             {
                 moveCharacter(movementInputDirection, jumpInput, runInput);
@@ -31,5 +36,25 @@ namespace Finisher.Characters
             this.jumpInput = jumpInput;
             this.runInput = runInput;
         }
+
+        #region CameraGetter
+        public Transform GetMainCameraTransform()
+        {
+            if (GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>())
+            {
+                strafingTargetMatch = GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>().gameObject.transform;
+            }
+            else if (Camera.main != null)
+            {
+                strafingTargetMatch = Camera.main.transform;
+            }
+            else
+            {
+                Debug.LogWarning("Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
+            }
+            return strafingTargetMatch;
+        }
+        #endregion
     }
 }

@@ -22,6 +22,11 @@ namespace Finisher.Characters
         [SerializeField] protected float runMoveSpeedMultiplier = 1f;
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
         [SerializeField] protected float groundCheckDistance = 0.3f;
+
+        // more variables needed?
+        public bool Strafing; // todo strafing takes doesn't let you do anything that basic locomotion does, and is a work in progress
+        // also it is currently getting interupted by attack anims that play since they always pause and resume movement
+        protected Transform strafingTargetMatch;
         #endregion
 
         #region Character Animator Variables
@@ -114,14 +119,6 @@ namespace Finisher.Characters
         }
         #endregion
 
-        // TODO what is this for, or should we use this to tell if the character can move or not, same with rotation
-        // goal is to get the player and ai character using the same method names to do these 4 things
-        // stop and start moving
-        // stop and start rotating
-        // move slower or faster
-        // rotate slower or faster
-
-        // 
         protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
         {
             isRunning = running;
@@ -134,13 +131,20 @@ namespace Finisher.Characters
                 moveDirection = Vector3.zero;
                 forwardAmount = 0;
                 jump = false;
+                if (Strafing)
+                {
+                    turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
+                    StrafingRotation();
+                }
             }
             if (!canRotate || dying)
             {
                 turnAmount = 0;
             }
-
-            ApplyExtraTurnRotation();
+            else
+            {
+                ApplyExtraTurnRotation();
+            }
 
             // control and velocity handling is different when grounded and airborne:
             if (isGrounded)
@@ -157,6 +161,7 @@ namespace Finisher.Characters
         }
 
         protected abstract void UpdateAnimator(Vector3 moveDirection);
+
 
         private Vector3 AdjustMoveDirection(Vector3 moveDirection)
         {
@@ -201,12 +206,18 @@ namespace Finisher.Characters
         }
         #endregion
 
+        #region Other Helper Methods
         // help the character turn faster (this is in addition to root rotation in the animation)
         // modified by the turnSpeedMultiplier
         void ApplyExtraTurnRotation()
         {
             float turnSpeed = Mathf.Lerp(stationaryTurnSpeed * turnSpeedMultiplier, movingTurnSpeed * turnSpeedMultiplier, forwardAmount);
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
+        }
+
+        protected virtual void StrafingRotation()
+        {
+            transform.rotation = strafingTargetMatch.rotation;
         }
 
         protected abstract void AttemptToJump(bool jump);
@@ -251,5 +262,6 @@ namespace Finisher.Characters
 				animator.applyRootMotion = false;
 			}
 		}
+        #endregion
     }
 }

@@ -18,7 +18,6 @@ namespace Finisher.Cameras
         [SerializeField] float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float m_TiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
         [SerializeField] float m_TiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
-        [SerializeField] bool m_LockCursor = false;                   // Whether the cursor should be hidden and locked.
         [SerializeField] bool m_VerticalAutoReturn = false;           // set wether or not the vertical axis should auto return
 
         //AutoCam variables
@@ -45,9 +44,6 @@ namespace Finisher.Cameras
         protected override void Awake()
         {
             base.Awake();
-            // Lock or unlock the cursor.
-            Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None; // TODO move cursor lock to the pause menu handler, remember to delete m_LockCursor and replace with is paused
-            Cursor.visible = !m_LockCursor;
 
             //Initialize variables
 			m_PivotEulers = m_Pivot.rotation.eulerAngles;
@@ -66,12 +62,6 @@ namespace Finisher.Cameras
 
             SetUsingAutoCam();
             HandleRotationMovement();
-
-            if (m_LockCursor && Input.GetMouseButtonUp(0))
-            {
-                Cursor.lockState = m_LockCursor ? CursorLockMode.Locked : CursorLockMode.None;
-                Cursor.visible = !m_LockCursor;
-            }
 
             // todo disable player control when animating
             // this and the animations were for testing, remove
@@ -129,12 +119,6 @@ namespace Finisher.Cameras
                 }
             }
 
-        }
-
-        private void OnDisable()
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
         }
 
         // Moves the camera rig to follow the target over some speed

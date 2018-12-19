@@ -2838,8 +2838,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3079736054589592080}
-  m_LocalRotation: {x: -0.8265199, y: 0.5348605, z: 0.099020205, w: 0.14485884}
-  m_LocalPosition: {x: 0.55564916, y: 0.32085994, z: 0.21743973}
+  m_LocalRotation: {x: -0.8350115, y: 0.50481486, z: -0.031028586, w: 0.21669132}
+  m_LocalPosition: {x: 0.449, y: 0.311, z: 0.38}
   m_LocalScale: {x: 0.20446812, y: 0.20446812, z: 0.20446809}
   m_Children:
   - {fileID: 3079736053775607230}
@@ -2850,7 +2850,7 @@ Transform:
   - {fileID: 3079736053775606872}
   m_Father: {fileID: 3079736053775607216}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -160.698, y: -16.66101, z: 65.163994}
 --- !u!1 &3079736054644492808
 GameObject:
   m_ObjectHideFlags: 0
@@ -2984,14 +2984,14 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
+  Strafing: 0
+  CanAct: 1
   animSpeedMultiplier: 1
   runAnimSpeedMultiplier: 1.6
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
-  PlayerCanMove: 1
-  canPerformNextAction: 1
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0

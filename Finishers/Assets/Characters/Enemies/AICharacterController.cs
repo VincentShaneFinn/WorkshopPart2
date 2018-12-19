@@ -9,9 +9,9 @@ namespace Finisher.Characters
         private UnityEngine.AI.NavMeshAgent agent; // the navmesh agent required for the path finding
         private Transform target; // target to aim for
 
-        //[Header("AI Specific Attributes")]
-        //[SerializeField] float baseOffset = -0.04f;
-        //[SerializeField] float stopingDistance = 1.3f;
+        [Header("AI Specific Attributes")]
+        [SerializeField] float baseOffset = -0.04f;
+        [SerializeField] float stoppingDistance = 1.3f;
 
         #region CanMove and CanRotate Overrides
         public override bool CanMove
@@ -58,10 +58,15 @@ namespace Finisher.Characters
         void Start()
         {
             // get the components on the object we need ( should not be null due to require component so no need to check )
-            //agent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
-            agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+            agent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
+            //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+            agent.baseOffset = baseOffset;
+            agent.stoppingDistance = stoppingDistance;
+            agent.speed = 1;
 	        agent.updateRotation = false;
             agent.updatePosition = true;
+
+            strafingTargetMatch = transform;
         }
 
         private void Update()
@@ -120,6 +125,12 @@ namespace Finisher.Characters
         public void SetTarget(Transform target)
         {
             this.target = target;
+            strafingTargetMatch = target;
+        }
+
+        protected override void StrafingRotation()
+        {
+            transform.LookAt(strafingTargetMatch);
         }
 
         //void OnDrawGizmos()
