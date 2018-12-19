@@ -5,15 +5,51 @@ using UnityEngine;
 namespace Finisher.Characters
 {
     [RequireComponent(typeof(Animator))]
-	public abstract class CharacterMotor : MonoBehaviour
-	{
+    public abstract class CharacterMotor : MonoBehaviour
+    {
+
+        #region Class Variables
+
+        [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
+                                                        // also it is currently getting interupted by attack anims that play since they always pause and resume movement
+        [HideInInspector] public Transform CurrentLookTarget = null; // this can be used to set what you are looking at during strafing
+        [HideInInspector] public bool CanAct = true;
+        [HideInInspector] public bool Running = false;
+
+        public bool isGrounded { get; private set; }
+        public float turnAmount { get; private set; }
+        public float forwardAmount { get; private set; }
+        public bool Dying { // todo observer delegate when kill is called
+            get { return dying; }
+            protected set { if (!dying) dying = value; }
+        }
+        public virtual bool CanMove
+        {
+            get { return canMove; }
+            set { canMove = value; }
+        }
+        public virtual bool CanRotate
+        {
+            get { return canRotate; }
+            set { canRotate = value; }
+        }
+
+        private bool dying = false;
+        private bool canMove = true;
+        private bool canRotate = true;
+        private float origGroundCheckDistance;
+        private Vector3 groundNormal;
+        private bool RecentlyJumped = false;
+
+        #endregion
 
         #region Character Motor Variables
+
         [Header("Character Controller Settings")]
-        [SerializeField] protected float movingTurnSpeed = 1000;
-        [SerializeField] protected float stationaryTurnSpeed = 1000;
-        [SerializeField] protected float jumpPower = 7f;
-        [Range(1f, 4f)] [SerializeField] protected float gravityMultiplier = 2f;
+        [SerializeField] private float movingTurnSpeed = 1000;
+        [SerializeField] private float stationaryTurnSpeed = 1000;
+        [SerializeField] private float jumpPower = 7f;
+        [Range(1f, 4f)] [SerializeField] private float gravityMultiplier = 2f;
         [Tooltip("May need to modify to get things like jumping / walking to look right with custom models?")]
         [SerializeField] protected float runCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
         [Tooltip("Used to move faster, using rigibody velocity")]
@@ -21,16 +57,11 @@ namespace Finisher.Characters
         [Tooltip("Used to move faster, using rigibody velocity")]
         [SerializeField] protected float runMoveSpeedMultiplier = 1f;
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
-        [SerializeField] protected float groundCheckDistance = 0.3f;
-
-        // more variables needed?
-        public bool Strafing; // todo strafing takes doesn't let you do anything that basic locomotion does, and is a work in progress
-        // also it is currently getting interupted by attack anims that play since they always pause and resume movement
-        protected Transform strafingTargetMatch;
+        [SerializeField] private float groundCheckDistance = 0.3f;
         #endregion
 
         #region Character Animator Variables
-        [HideInInspector] public bool CanAct = true;
+
         [Header("Animation Settings")]
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float animSpeedMultiplier = 1f;
@@ -39,37 +70,14 @@ namespace Finisher.Characters
         #endregion
 
         #region Constants
+
         protected const string LOCOMOTION_STATE = "Basic Locomotion";
-        protected const float half = 0.5f;
-        #endregion
+        protected const float HALF = 0.5f;
 
-        #region General Class variables
-        protected bool isGrounded;
-        public bool IsGrounded { get { return isGrounded; } }
-        protected float origGroundCheckDistance;
-        protected float turnAmount;
-        protected float forwardAmount;
-        protected Vector3 groundNormal;
-        protected bool RecentlyJumped = false;
-        protected bool isRunning;
-
-        protected bool dying = false; // todo observer delefate when kill is called
-        public bool Dying {
-            get { return dying; } }
-        private bool canMove = true;
-        public virtual bool CanMove {
-            get { return canMove; }
-            set { canMove = value; }
-        }
-        private bool canRotate = true;
-        public virtual bool CanRotate
-        {
-            get { return canRotate; }
-            set { canRotate = value; }
-        }
         #endregion
 
         #region Components 
+
         protected Animator animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
@@ -88,10 +96,19 @@ namespace Finisher.Characters
         void Awake()
         {
             Initialization();
+            ComponentBuilder();
         }
 
-        #region ComponentBuilder
-        protected void Initialization()
+        #region Initialization and ComponentBuilder
+
+        void Initialization()
+        {
+            isGrounded = true;
+            turnAmount = 0;
+            forwardAmount = 0;
+        }
+
+        protected void ComponentBuilder()
         {
             //Get Components
             animator = gameObject.GetComponent<Animator>();
@@ -123,18 +140,18 @@ namespace Finisher.Characters
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
         {
-            isRunning = running;
+            Running = running;
 
             moveDirection = AdjustMoveDirection(moveDirection);
             turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);
             forwardAmount = moveDirection.z;
 
-            if (!canMove || dying) {
+            if (!CanMove || Dying) {
                 moveDirection = Vector3.zero;
                 forwardAmount = 0;
                 jump = false;
             }
-            if (!canRotate || dying)
+            if (!CanRotate || Dying)
             {
                 turnAmount = 0;
             }
@@ -142,7 +159,7 @@ namespace Finisher.Characters
             if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
-                StrafingRotation();
+                SetStrafingRotation();
             }
             else
             {
@@ -218,9 +235,13 @@ namespace Finisher.Characters
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-        protected virtual void StrafingRotation()
+        protected virtual void SetStrafingRotation()
         {
-            transform.rotation = strafingTargetMatch.rotation;
+            if (CurrentLookTarget)
+            {
+                transform.LookAt(new Vector3(CurrentLookTarget.position.x, transform.position.y, CurrentLookTarget.position.z));
+            }
+
         }
 
         protected void AttemptToJump(bool jump)

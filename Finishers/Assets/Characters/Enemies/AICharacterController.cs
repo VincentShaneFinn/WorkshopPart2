@@ -66,14 +66,14 @@ namespace Finisher.Characters
 	        agent.updateRotation = false;
             agent.updatePosition = true;
 
-            strafingTargetMatch = transform;
+            CurrentLookTarget = transform;
         }
 
         private void Update()
         {
             if (agent.isActiveAndEnabled)
             {
-                if(dying) {
+                if(Dying) {
                     agent.SetDestination(transform.position);
                     return;
                 }
@@ -125,20 +125,6 @@ namespace Finisher.Characters
         public void SetTarget(Transform target)
         {
             this.target = target;
-        }
-
-        public void SetStrafingTarget(Transform target)
-        {
-            strafingTargetMatch = target;
-        }
-
-        protected override void StrafingRotation()
-        {
-            // todo ONLY CHANGE Y ROTATION
-            if (strafingTargetMatch != null)
-            {
-                transform.LookAt(strafingTargetMatch);
-            }
         }
 
         //void OnDrawGizmos()

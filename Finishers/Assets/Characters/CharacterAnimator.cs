@@ -36,7 +36,7 @@ namespace Finisher.Characters
             float runCycle =
                 Mathf.Repeat(
                     animator.GetCurrentAnimatorStateInfo(0).normalizedTime + runCycleLegOffset, 1);
-            float jumpLeg = (runCycle < half ? 1 : -1) * forwardAmount;
+            float jumpLeg = (runCycle < HALF ? 1 : -1) * forwardAmount;
             if (isGrounded)
             {
                 animator.SetFloat("JumpLeg", jumpLeg);
@@ -49,7 +49,7 @@ namespace Finisher.Characters
             // which affects the movement speed because of the root motion.
             if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE) && move.magnitude > 0)
             {
-                if (!isRunning)
+                if (!Running)
                 {
                     animator.speed = animSpeedMultiplier;
                 }
@@ -70,7 +70,7 @@ namespace Finisher.Characters
 			if (isGrounded && Time.deltaTime > 0)
 			{
                 Vector3 v;
-                if (isRunning)
+                if (Running)
                 {
                     v = (animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
                 }
@@ -116,8 +116,8 @@ namespace Finisher.Characters
 
         public void Kill()
         {
-            if (dying) { return; }
-            dying = true;
+            if (Dying) { return; }
+            Dying = true;
             animator.SetBool("Dying",true);
         }
 

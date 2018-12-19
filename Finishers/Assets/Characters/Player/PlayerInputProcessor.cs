@@ -36,7 +36,7 @@ namespace Finisher.Characters
         private void Update()
         {
             GetJumpInput();
-            if (character.IsGrounded)
+            if (character.isGrounded)
             {
                 SetNextInput();
             }

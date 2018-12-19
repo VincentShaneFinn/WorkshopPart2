@@ -66,7 +66,6 @@ namespace Finisher.Characters
             if (distanceToPlayer <= chaseRadius)
             {
                 aiCharacter.SetTarget(player.transform);
-                aiCharacter.SetStrafingTarget(player.transform);
             }
             else
             {
