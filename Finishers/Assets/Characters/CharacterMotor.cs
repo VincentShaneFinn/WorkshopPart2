@@ -119,6 +119,8 @@ namespace Finisher.Characters
         }
         #endregion
 
+        #region Character Mover
+        // make sure you at least call movecharacter every update or fixed update to update animator parameters
         protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
         {
             isRunning = running;
@@ -137,7 +139,7 @@ namespace Finisher.Characters
                 turnAmount = 0;
             }
 
-            if (Strafing)
+            if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
                 StrafingRotation();
@@ -160,9 +162,9 @@ namespace Finisher.Characters
             // send input and other state parameters to the animator
             UpdateAnimator(moveDirection);
         }
+        #endregion
 
         protected abstract void UpdateAnimator(Vector3 moveDirection);
-
 
         private Vector3 AdjustMoveDirection(Vector3 moveDirection)
         {
@@ -221,7 +223,31 @@ namespace Finisher.Characters
             transform.rotation = strafingTargetMatch.rotation;
         }
 
-        protected abstract void AttemptToJump(bool jump);
+        protected void AttemptToJump(bool jump)
+        {
+            // check whether conditions are right to allow a jump:
+            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
+            {
+                // jump!
+                rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
+                isGrounded = false;
+                animator.applyRootMotion = false;
+                groundCheckDistance = 0.1f;
+
+                if (!RecentlyJumped)
+                {
+                    RecentlyJumped = true;
+                    float timeToFreeJump = .3f;
+                    StartCoroutine(FreeJumpOverTime(timeToFreeJump));
+                }
+            }
+        }
+
+        IEnumerator FreeJumpOverTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            RecentlyJumped = false;
+        }
 
         void HandleAirborneMovement()
 		{

@@ -20,7 +20,7 @@ namespace Finisher.Characters
         {
             if (dying) { return; }
 
-            if (CanMove || CanRotate)
+            if (CanMove || CanRotate) 
             {
                 moveCharacter(movementInputDirection, jumpInput, runInput);
             }

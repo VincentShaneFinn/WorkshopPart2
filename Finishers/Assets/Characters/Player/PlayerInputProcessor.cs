@@ -65,6 +65,10 @@ namespace Finisher.Characters
             {
                 character.CanRotate = true;
             }
+            if (Input.GetKeyUp(KeyCode.K))
+            {
+                character.Knockback();
+            }
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 character.Kill();
