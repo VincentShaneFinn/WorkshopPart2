@@ -55,13 +55,19 @@ namespace Finisher.Characters
             }
             UseNextInput();
 
+            TestingInputZone();
+        }
+
+        private void TestingInputZone()
+        {
             // todo remove this testing code
             // todo also consider allowing can move to be public
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 character.CanMove = false;
             }
-            if (Input.GetKeyUp(KeyCode.Alpha3)){
+            if (Input.GetKeyUp(KeyCode.Alpha3))
+            {
                 character.CanMove = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -99,6 +105,7 @@ namespace Finisher.Characters
                     nextInput = "";
                 }
             }
+
         }
 
         private void UseNextInput()
@@ -125,18 +132,14 @@ namespace Finisher.Characters
             }
         }
 
-
-        // Fixed update is called in sync with physics
-        private void FixedUpdate()
+        void FixedUpdate()
         {
             if (character.CanMove || character.CanRotate)
             {
                 ProcessMovementInput();
             }
-            //else
-            //{
-            //    character.Move(Vector3.zero, false, false);
-            //}
+
+            jump = false;
         }
 
         private void ProcessMovementInput()
@@ -162,8 +165,7 @@ namespace Finisher.Characters
             //if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
 
             // pass all parameters to the character control script
-            character.Move(moveDirection, jump, Input.GetKey(KeyCode.LeftShift));//change to use run button
-            jump = false;
+            character.MoveCharacter(moveDirection, jump, Input.GetKey(KeyCode.LeftShift));//change to use run button
         }
     }
 }

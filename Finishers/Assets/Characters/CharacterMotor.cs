@@ -25,6 +25,8 @@ namespace Finisher.Characters
         #endregion
 
         #region Character Animator Variables
+        [HideInInspector] public bool CanAct = true;
+        [Header("Animation Settings")]
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
@@ -119,10 +121,8 @@ namespace Finisher.Characters
         // move slower or faster
         // rotate slower or faster
 
-        // TODO this needs to be called everyframe by what is using it to make sure it is being snaped to the ground during an action
-        // see if we can put snap to ground in an update loop that is always run if in a certain state
-        // note, maybe this should be a character movement controller, and we can also have a character action controller, and both use each other?
-        public void Move(Vector3 moveDirection, bool jump, bool running = false)
+        // 
+        protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
         {
             isRunning = running;
 
@@ -131,7 +131,6 @@ namespace Finisher.Characters
             forwardAmount = moveDirection.z;
 
             if (!canMove || dying) {
-                print(turnAmount);
                 moveDirection = Vector3.zero;
                 forwardAmount = 0;
                 jump = false;

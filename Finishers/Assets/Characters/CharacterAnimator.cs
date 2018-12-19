@@ -7,6 +7,7 @@ namespace Finisher.Characters
 	public class CharacterAnimator : CharacterMotor
 	{
 
+        #region Movement Animation Control
         protected override void UpdateAnimator(Vector3 move)
 		{
 			// update the animator parameters
@@ -51,8 +52,6 @@ namespace Finisher.Characters
         protected override void AttemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (animator.GetAnimatorTransitionInfo(0).anyState)
-                print("true");
             if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
             {
                 // jump!
@@ -108,6 +107,7 @@ namespace Finisher.Characters
                 }
 			}
 		}
+        #endregion
 
         public void Hit()
         {
@@ -121,14 +121,41 @@ namespace Finisher.Characters
             animator.SetTrigger("Death");
         }
 
-        public void Attack()
+        public void Attack(bool canMove = false, bool canRotate = false)
         {
-            animator.SetTrigger("Attack");
+            if (CanAct)
+            {
+
+                animator.SetTrigger("Attack");
+                RestrictMovementDuringAnimation(canMove, canRotate);
+            }
         }
 
-        public void Dodge()
+        public void Dodge(bool canMove = true, bool canRotate = false)
         {
-            animator.SetTrigger("Dodge");
+            if (CanAct)
+            {
+                animator.SetTrigger("Dodge");
+                RestrictMovementDuringAnimation(canMove, canRotate);
+            }
+        }
+
+        private void RestrictMovementDuringAnimation(bool canMove, bool canRotate)
+        {
+            CanAct = false;
+            CanMove = canMove;
+            CanRotate = canRotate;
+            //free it after the animation is complete
+            StartCoroutine(RestoreAllMovement());
+        }
+
+        private IEnumerator RestoreAllMovement()
+        {
+            float currentAnimationTime = .5f;
+            yield return new WaitForSeconds(currentAnimationTime);
+            CanMove = true;
+            CanRotate = true;
+            CanAct = true;
         }
     }
 }

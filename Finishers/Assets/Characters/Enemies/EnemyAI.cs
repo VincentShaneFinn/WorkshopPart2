@@ -25,11 +25,36 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            if (player == null){ return; }
+            if (player == null) { return; }
 
+            TestInput();
             // todo make a state machine
             pursueNearbyPlayer();
             attackPlayerIfNear();
+        }
+
+        private void TestInput()
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                aiCharacter.CanMove = false;
+            }
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                aiCharacter.CanMove = true;
+            }
+            if (Input.GetKeyDown(KeyCode.G))
+            {
+                aiCharacter.CanRotate = false;
+            }
+            if (Input.GetKeyUp(KeyCode.G))
+            {
+                aiCharacter.CanRotate = true;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                aiCharacter.Kill();
+            }
         }
 
         private void pursueNearbyPlayer()
@@ -50,7 +75,7 @@ namespace Finisher.Characters
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                print("attack player");
+                aiCharacter.Attack();
             }
         }
     }
