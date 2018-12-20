@@ -39,7 +39,7 @@ namespace Finisher.Characters
         private bool canRotate = true;
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
-        //private bool RecentlyJumped = false;
+        private bool recentlyJumped = false;
 
         #endregion
 
@@ -172,7 +172,7 @@ namespace Finisher.Characters
 
         #region Character Mover
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
-        protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
+        public void MoveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
         {
             if (Dying)
             {
@@ -210,6 +210,10 @@ namespace Finisher.Characters
             if (isGrounded)
             {
                 attemptToJump(jump);
+                if (!recentlyJumped)
+                {
+                    snapToGround();
+                }
             }
             else
             {
@@ -275,6 +279,27 @@ namespace Finisher.Characters
                 isGrounded = false;
                 animator.applyRootMotion = false;
                 groundCheckDistance = 0.1f;
+                if (!recentlyJumped)
+                {
+                    recentlyJumped = true;
+                    float timeToFreeJump = .3f;
+                    StartCoroutine(FreeJumpOverTime(timeToFreeJump));
+                }
+            }
+        }
+
+        IEnumerator FreeJumpOverTime(float time)
+        {
+            yield return new WaitForSeconds(time);
+            recentlyJumped = false;
+        }
+
+        void snapToGround()
+        {
+            RaycastHit hitInfo;
+            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
+            {
+                transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
             }
         }
 

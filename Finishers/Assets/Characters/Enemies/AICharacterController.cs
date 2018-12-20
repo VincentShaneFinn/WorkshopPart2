@@ -81,7 +81,7 @@ namespace Finisher.Characters
             }
             else
             {
-                moveCharacter(Vector3.zero); // todo allow movement when the agent is inactive via another control method
+                MoveCharacter(Vector3.zero); // todo allow movement when the agent is inactive via another control method
             }
         }
 
@@ -96,7 +96,7 @@ namespace Finisher.Characters
 
                     if (agent.remainingDistance > agent.stoppingDistance && CanMove)
                     {
-                        moveCharacter(agent.desiredVelocity, false);
+                        MoveCharacter(agent.desiredVelocity, false);
                     }
                     else
                     {
@@ -107,14 +107,14 @@ namespace Finisher.Characters
             else
             {
                 agent.SetDestination(transform.position);
-                moveCharacter(Vector3.zero);
+                MoveCharacter(Vector3.zero);
             }
             
         }
 
         private void StationaryLookAt()
         {
-            moveCharacter(Vector3.zero);
+            MoveCharacter(Vector3.zero);
             if (CanRotate)
             {
                 // todo get a turn amount to look at target and use that instead, mimic the auto cam  also only change the y rotation

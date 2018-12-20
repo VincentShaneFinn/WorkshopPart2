@@ -11,32 +11,10 @@ namespace Finisher.Characters
         [HideInInspector] public bool UseStraffingTarget = false; // tries to look at the set staffing target if true, matches camera rotation if false
 
         private Transform cameraTransform;
-        private Vector3 movementInputDirection;
-        private bool jumpInput;
-        private bool runInput;
 
         void Start()
         {
             GetMainCameraTransform();
-        }
-
-        void FixedUpdate()
-        {
-            if (CanMove || CanRotate) 
-            {
-                moveCharacter(movementInputDirection, jumpInput, runInput); 
-            }
-            else
-            {
-                moveCharacter(Vector3.zero);
-            }
-        }
-
-        public void MoveCharacter(Vector3 movementInputDirection, bool jumpInput = false, bool runInput = false)
-        {
-            this.movementInputDirection = movementInputDirection;
-            this.jumpInput = jumpInput;
-            this.runInput = runInput;
         }
 
         #region CameraGetter and Strafing Match Camera
