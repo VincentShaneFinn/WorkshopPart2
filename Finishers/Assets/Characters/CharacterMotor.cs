@@ -95,20 +95,20 @@ namespace Finisher.Characters
 
         void Awake()
         {
-            Initialization();
-            ComponentBuilder();
+            initialization();
+            componentBuilder();
         }
 
         #region Initialization and ComponentBuilder
 
-        void Initialization()
+        void initialization()
         {
             isGrounded = true;
             turnAmount = 0;
             forwardAmount = 0;
         }
 
-        protected void ComponentBuilder()
+        protected void componentBuilder()
         {
             //Get Components
             animator = gameObject.GetComponent<Animator>();
@@ -176,7 +176,7 @@ namespace Finisher.Characters
         {
             if (Dying)
             {
-                DisableAllControl();
+                disableAllControl();
                 return;
             }
 
@@ -199,33 +199,33 @@ namespace Finisher.Characters
             if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
-                SetStrafingRotation();
+                setStrafingRotation();
             }
             else
             {
-                ApplyExtraTurnRotation();
+                applyExtraTurnRotation();
             }
 
             // control and velocity handling is different when grounded and airborne:
             if (isGrounded)
             {
-                AttemptToJump(jump);
+                attemptToJump(jump);
             }
             else
             {
-                AdjustVariablesWhileAirborne();
+                adjustVariablesWhileAirborne();
             }
 
             // send input and other state parameters to the animator
-            UpdateAnimator(moveDirection);
+            updateAnimator(moveDirection);
         }
 
-        private void DisableAllControl()
+        private void disableAllControl()
         {
             forwardAmount = 0;
             turnAmount = 0;
             rigidBody.velocity = new Vector3(0,rigidBody.velocity.y, 0);
-            UpdateAnimator(Vector3.zero);
+            updateAnimator(Vector3.zero);
         }
 
         private Vector3 AdjustMoveDirection(Vector3 moveDirection)
@@ -238,25 +238,25 @@ namespace Finisher.Characters
                 moveDirection.Normalize();
             }
             moveDirection = transform.InverseTransformDirection(moveDirection);
-            CheckGroundStatus();
+            checkGroundStatus();
             moveDirection = Vector3.ProjectOnPlane(moveDirection, groundNormal);
             return moveDirection;
         }
 
         #endregion
 
-        protected abstract void UpdateAnimator(Vector3 moveDirection);
+        protected abstract void updateAnimator(Vector3 moveDirection);
 
-        #region Other Helper Methods
+        #region Other Helper Methods [Virtual SetStrafeRotation]
         // help the character turn faster (this is in addition to root rotation in the animation)
         // modified by the turnSpeedMultiplier
-        void ApplyExtraTurnRotation()
+        void applyExtraTurnRotation()
         {
             float turnSpeed = Mathf.Lerp(stationaryTurnSpeed * turnSpeedMultiplier, movingTurnSpeed * turnSpeedMultiplier, forwardAmount);
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-        protected virtual void SetStrafingRotation()
+        protected virtual void setStrafingRotation()
         {
             if (CurrentLookTarget)
             {
@@ -265,7 +265,7 @@ namespace Finisher.Characters
 
         }
 
-        protected void AttemptToJump(bool jump)
+        protected void attemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
             if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
@@ -278,7 +278,7 @@ namespace Finisher.Characters
             }
         }
 
-        void AdjustVariablesWhileAirborne()
+        void adjustVariablesWhileAirborne()
 		{
 			// apply extra gravity from multiplier:
 			Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
@@ -287,7 +287,7 @@ namespace Finisher.Characters
 			groundCheckDistance = rigidBody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
 		}
 
-		void CheckGroundStatus()
+		void checkGroundStatus()
 		{
 			RaycastHit hitInfo;
 

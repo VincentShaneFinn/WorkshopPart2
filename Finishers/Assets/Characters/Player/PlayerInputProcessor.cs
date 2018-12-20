@@ -1,3 +1,4 @@
+using Finisher.Core;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -35,6 +36,8 @@ namespace Finisher.Characters
 
         private void Update()
         {
+            if (GameManager.instance.GamePaused) { return; }
+
             GetJumpInput();
             if (character.isGrounded)
             {

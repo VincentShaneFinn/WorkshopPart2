@@ -8,14 +8,14 @@ namespace Finisher.Characters
 	{
 
         #region Movement Animation Control
-        protected override void UpdateAnimator(Vector3 move)
+        protected override void updateAnimator(Vector3 move)
         {
-            UpdateAnimatorParams();
-            SetJumpLeg();
-            SetAnimatorSpeed(move);
+            updateAnimatorParams();
+            setJumpLeg();
+            setAnimatorSpeed(move);
         }
 
-        private void UpdateAnimatorParams()
+        private void updateAnimatorParams()
         {
             // update the animator parameters
             animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
@@ -28,7 +28,7 @@ namespace Finisher.Characters
             }
         }
 
-        private void SetJumpLeg()
+        private void setJumpLeg()
         {
             // calculate which leg is behind, so as to leave that leg trailing in the jump animation
             // (This code is reliant on the specific run cycle offset in our animations,
@@ -43,7 +43,7 @@ namespace Finisher.Characters
             }
         }
 
-        private void SetAnimatorSpeed(Vector3 move)
+        private void setAnimatorSpeed(Vector3 move)
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
@@ -65,10 +65,10 @@ namespace Finisher.Characters
 
         void OnAnimatorMove()
         {
-            ModifyPositionalVelocity();
+            modifyPositionalVelocity();
         }
 
-        void ModifyPositionalVelocity()
+        private void modifyPositionalVelocity()
         {
             // we implement this function to override the default root motion.
             // this allows us to modify the positional speed before it's applied.
@@ -96,13 +96,13 @@ namespace Finisher.Characters
                 rigidBody.velocity = v;
                 if (isGrounded)
                 {
-                    RestrictYVelocity();
+                    restrictYVelocity();
                 }
 
             }
         }
 
-        void RestrictYVelocity()
+        void restrictYVelocity()
         {
             float newYVelocity = rigidBody.velocity.y;
             if (rigidBody.velocity.y > 0)
@@ -112,6 +112,8 @@ namespace Finisher.Characters
         }
 
         #endregion
+
+        // todo move all of this stuff somewhere else since this really is used to animate the character during movement
 
         public void Hit()
         {

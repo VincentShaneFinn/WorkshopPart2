@@ -3,23 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using Finisher.Core;
+
 namespace Finisher.UI
 {
     public class PauseMenu : MonoBehaviour
     {
         [SerializeField] GameObject PauseMenuObject;
 
-        bool gamePaused = false; // Whether the cursor should be hidden and locked.
-
         // Start is called before the first frame update
         void Start()
         {
             PauseMenuObject.SetActive(false);
 
-            gamePaused = false;
             // Lock or unlock the cursor.
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            GameManager.instance.GamePaused = false;
+            Time.timeScale = 1;
         }
 
         // Update is called once per frame
@@ -34,10 +36,12 @@ namespace Finisher.UI
         // todo create a core gamestate where the game is paused
         public void TogglePauseMenu()
         {
-            gamePaused = !gamePaused;
+            GameManager.instance.GamePaused = !GameManager.instance.GamePaused;
 
-            if (gamePaused)
+            if (GameManager.instance.GamePaused)
             {
+                GameManager.instance.GamePaused = true;
+
                 Time.timeScale = 0;
                 PauseMenuObject.SetActive(true);
 
@@ -46,6 +50,8 @@ namespace Finisher.UI
             }
             else
             {
+                GameManager.instance.GamePaused = false;
+
                 Time.timeScale = 1;
                 PauseMenuObject.SetActive(false);
 

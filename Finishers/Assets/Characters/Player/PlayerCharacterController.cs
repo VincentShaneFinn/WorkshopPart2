@@ -7,7 +7,9 @@ namespace Finisher.Characters
     public class PlayerCharacterController : CharacterAnimator
     {
         //[Header("Player Controller Specific Settings")]
-        [HideInInspector] public bool UseStraffingTarget = false;
+
+        [HideInInspector] public bool UseStraffingTarget = false; // tries to look at the set staffing target if true, matches camera rotation if false
+
         private Transform cameraTransform;
         private Vector3 movementInputDirection;
         private bool jumpInput;
@@ -20,10 +22,6 @@ namespace Finisher.Characters
 
         void FixedUpdate()
         {
-            // todo
-            //if(GamePaused){
-            //  freeze movement and return early
-            //}
             if (CanMove || CanRotate) 
             {
                 moveCharacter(movementInputDirection, jumpInput, runInput); 
@@ -61,11 +59,11 @@ namespace Finisher.Characters
             return cameraTransform;
         }
 
-        protected override void SetStrafingRotation()
+        protected override void setStrafingRotation()
         {
             if (UseStraffingTarget)
             {
-                base.SetStrafingRotation();
+                base.setStrafingRotation();
             }
             else
             {

@@ -25,7 +25,7 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            if (player == null) { return; }
+            //if (player == null) { return; }
 
             TestInput();
             // todo make a state machine
