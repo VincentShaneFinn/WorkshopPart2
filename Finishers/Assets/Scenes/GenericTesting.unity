@@ -628,6 +628,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114825973488843026, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
+        type: 3}
+      propertyPath: animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
 --- !u!1 &906947409
@@ -1003,6 +1009,44 @@ Transform:
   m_Father: {fileID: 546940246}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 11.432, y: 0, z: 0}
+--- !u!1 &1962851762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3079736054807551833, guid: f83221d9e6756614f869c751e8d09e4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3079736054691843912}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1962851767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962851762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: fef240be565c6e34d982022f97a240c4, type: 2}
+--- !u!1 &2080629202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1297612759035436, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
+    type: 3}
+  m_PrefabInstance: {fileID: 902750155}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2080629207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080629202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
 --- !u!1 &2132592918
 GameObject:
   m_ObjectHideFlags: 0
@@ -1188,6 +1232,12 @@ PrefabInstance:
       propertyPath: test.Array.data[0].array.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 3079736054807551836, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: animatorOverrideController
+      value: 
+      objectReference: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
 --- !u!114 &3570073716651220104

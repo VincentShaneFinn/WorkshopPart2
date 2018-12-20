@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    // todo consider making the player and enemy animation controllers one thing
 	public class CharacterAnimator : CharacterMotor
 	{
+        [Header("Animations")]
+        [SerializeField] AnimatorOverrideController animatorOverrideController;
+
+        const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
 
         #region Movement Animation Control
         protected override void updateAnimator(Vector3 move)
@@ -146,7 +151,7 @@ namespace Finisher.Characters
             if (CanAct)
             {
                 animator.SetTrigger("Attack");
-                RestrictMovementDuringAnimation(canMove, canRotate);
+                //RestrictMovementDuringAnimation(canMove, canRotate);
             }
         }
 
@@ -155,14 +160,19 @@ namespace Finisher.Characters
             if (CanAct)
             {
                 animator.SetTrigger("Dodge");
-                RestrictMovementDuringAnimation(canMove, canRotate);
+                //RestrictMovementDuringAnimation(canMove, canRotate);
             }
         }
 
-        public void Knockback(bool canMove = false, bool canRotate = false)
+        public void Knockback(AnimationClip animClip)
         {
+            animator.runtimeAnimatorController = animatorOverrideController;
+            animatorOverrideController[KNOCKBACK_INDEX] = animClip;
             animator.SetTrigger("Knockback");
-            RestrictMovementDuringAnimation(canMove, canRotate);
+            //bool canMove = false;
+            //bool canRotate = false;
+
+            //RestrictMovementDuringAnimation(canMove, canRotate);
             // todo add a knocback factor
             // todo add a knockback move direction
         }
@@ -173,13 +183,12 @@ namespace Finisher.Characters
             CanMove = canMove;
             CanRotate = canRotate;
             //free it after the animation is complete
-            StartCoroutine(RestoreAllMovement());
+            StartCoroutine(RestoreMovementAfterAnimation());
         }
 
-        private IEnumerator RestoreAllMovement()
+        private IEnumerator RestoreMovementAfterAnimation()
         {
-            float currentAnimationTime = .5f;
-            yield return new WaitForSeconds(currentAnimationTime);
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorClipInfo(0).Length);
             CanMove = true;
             CanRotate = true;
             CanAct = true;

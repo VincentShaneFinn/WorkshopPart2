@@ -73,6 +73,7 @@ namespace Finisher.Characters
 
         protected const string LOCOMOTION_STATE = "Basic Locomotion";
         protected const float HALF = 0.5f;
+        protected const string KNOCKBACK_STATE = "Knockback";
 
         #endregion
 

@@ -51,10 +51,6 @@ namespace Finisher.Characters
             {
                 aiCharacter.CanRotate = true;
             }
-            if (Input.GetKeyUp(KeyCode.J))
-            {
-                aiCharacter.Knockback();
-            }
             if (Input.GetKeyDown(KeyCode.Alpha9))
             {
                 aiCharacter.Kill();
