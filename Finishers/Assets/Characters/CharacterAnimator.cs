@@ -64,11 +64,16 @@ namespace Finisher.Characters
         }
 
         void OnAnimatorMove()
-		{
-			// we implement this function to override the default root motion.
-			// this allows us to modify the positional speed before it's applied.
-			if (isGrounded && Time.deltaTime > 0)
-			{
+        {
+            ModifyPositionalVelocity();
+        }
+
+        void ModifyPositionalVelocity()
+        {
+            // we implement this function to override the default root motion.
+            // this allows us to modify the positional speed before it's applied.
+            if (isGrounded && Time.deltaTime > 0)
+            {
                 Vector3 v;
                 if (Running)
                 {
@@ -88,13 +93,24 @@ namespace Finisher.Characters
                 {
                     v.y = rigidBody.velocity.y;
                 }
-				rigidBody.velocity = v;
+                rigidBody.velocity = v;
                 if (isGrounded)
                 {
                     RestrictYVelocity();
                 }
-			}
-		}
+
+            }
+        }
+
+        void RestrictYVelocity()
+        {
+            float newYVelocity = rigidBody.velocity.y;
+            if (rigidBody.velocity.y > 0)
+                newYVelocity = 0;
+
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, newYVelocity, rigidBody.velocity.z);
+        }
+
         #endregion
 
         public void Hit()

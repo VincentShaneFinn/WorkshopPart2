@@ -125,11 +125,7 @@ namespace Finisher.Characters
 
         void FixedUpdate()
         {
-            if (character.CanMove || character.CanRotate)
-            {
-                ProcessMovementInput();
-            }
-
+            ProcessMovementInput();
             jump = false;
         }
 

@@ -39,7 +39,7 @@ namespace Finisher.Characters
         private bool canRotate = true;
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
-        private bool RecentlyJumped = false;
+        //private bool RecentlyJumped = false;
 
         #endregion
 
@@ -136,69 +136,7 @@ namespace Finisher.Characters
         }
         #endregion
 
-        #region Character Mover
-        // make sure you at least call movecharacter every update or fixed update to update animator parameters
-        protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
-        {
-            Running = running;
-
-            moveDirection = AdjustMoveDirection(moveDirection);
-            turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);
-            forwardAmount = moveDirection.z;
-
-            if (!CanMove || Dying) {
-                moveDirection = Vector3.zero;
-                forwardAmount = 0;
-                jump = false;
-            }
-            if (!CanRotate || Dying)
-            {
-                turnAmount = 0;
-            }
-
-            if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
-            {
-                turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
-                SetStrafingRotation();
-            }
-            else
-            {
-                ApplyExtraTurnRotation();
-            }
-
-            // control and velocity handling is different when grounded and airborne:
-            if (isGrounded)
-            {
-                AttemptToJump(jump);
-            }
-            else
-            {
-                HandleAirborneMovement();
-            }
-
-            // send input and other state parameters to the animator
-            UpdateAnimator(moveDirection);
-        }
-        #endregion
-
-        protected abstract void UpdateAnimator(Vector3 moveDirection);
-
-        private Vector3 AdjustMoveDirection(Vector3 moveDirection)
-        {
-            // convert the world relative moveInput vector into a local-relative
-            // turn amount and forward amount required to head in the desired
-            // direction.
-            if (moveDirection.magnitude > 1f)
-            {
-                moveDirection.Normalize();
-            }
-            moveDirection = transform.InverseTransformDirection(moveDirection);
-            CheckGroundStatus();
-            moveDirection = Vector3.ProjectOnPlane(moveDirection, groundNormal);
-            return moveDirection;
-        }
-
-        #region Turn Speed Multiplier Getters and Setters
+        #region Public Turn Speed Multiplier Getters and Setters
         float turnSpeedMultiplier = 1f; // protected to stay between 0-5
         public float TurnSpeedMultiplier
         {
@@ -225,6 +163,89 @@ namespace Finisher.Characters
             turnSpeedMultiplier = 1;
         }
         #endregion
+
+        #region Public Move Speed Multiplier Getters and Setters
+
+        // todo build and test functionality for this
+
+        #endregion
+
+        #region Character Mover
+        // make sure you at least call movecharacter every update or fixed update to update animator parameters
+        protected void moveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
+        {
+            if (Dying)
+            {
+                DisableAllControl();
+                return;
+            }
+
+            Running = running;
+
+            moveDirection = AdjustMoveDirection(moveDirection);
+            turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);
+            forwardAmount = moveDirection.z;
+
+            if (!CanMove) {
+                moveDirection = Vector3.zero;
+                forwardAmount = 0;
+                jump = false;
+            }
+            if (!CanRotate)
+            {
+                turnAmount = 0;
+            }
+
+            if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
+            {
+                turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
+                SetStrafingRotation();
+            }
+            else
+            {
+                ApplyExtraTurnRotation();
+            }
+
+            // control and velocity handling is different when grounded and airborne:
+            if (isGrounded)
+            {
+                AttemptToJump(jump);
+            }
+            else
+            {
+                AdjustVariablesWhileAirborne();
+            }
+
+            // send input and other state parameters to the animator
+            UpdateAnimator(moveDirection);
+        }
+
+        private void DisableAllControl()
+        {
+            forwardAmount = 0;
+            turnAmount = 0;
+            rigidBody.velocity = new Vector3(0,rigidBody.velocity.y, 0);
+            UpdateAnimator(Vector3.zero);
+        }
+
+        private Vector3 AdjustMoveDirection(Vector3 moveDirection)
+        {
+            // convert the world relative moveInput vector into a local-relative
+            // turn amount and forward amount required to head in the desired
+            // direction.
+            if (moveDirection.magnitude > 1f)
+            {
+                moveDirection.Normalize();
+            }
+            moveDirection = transform.InverseTransformDirection(moveDirection);
+            CheckGroundStatus();
+            moveDirection = Vector3.ProjectOnPlane(moveDirection, groundNormal);
+            return moveDirection;
+        }
+
+        #endregion
+
+        protected abstract void UpdateAnimator(Vector3 moveDirection);
 
         #region Other Helper Methods
         // help the character turn faster (this is in addition to root rotation in the animation)
@@ -254,23 +275,10 @@ namespace Finisher.Characters
                 isGrounded = false;
                 animator.applyRootMotion = false;
                 groundCheckDistance = 0.1f;
-
-                if (!RecentlyJumped)
-                {
-                    RecentlyJumped = true;
-                    float timeToFreeJump = .3f;
-                    StartCoroutine(FreeJumpOverTime(timeToFreeJump));
-                }
             }
         }
 
-        IEnumerator FreeJumpOverTime(float time)
-        {
-            yield return new WaitForSeconds(time);
-            RecentlyJumped = false;
-        }
-
-        void HandleAirborneMovement()
+        void AdjustVariablesWhileAirborne()
 		{
 			// apply extra gravity from multiplier:
 			Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
@@ -278,15 +286,6 @@ namespace Finisher.Characters
 
 			groundCheckDistance = rigidBody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
 		}
-
-        protected void RestrictYVelocity()
-        {
-            float newYVelocity = rigidBody.velocity.y;
-            if (rigidBody.velocity.y > 0)
-                newYVelocity = 0;
-
-            rigidBody.velocity = new Vector3(rigidBody.velocity.x, newYVelocity, rigidBody.velocity.z);
-        }
 
 		void CheckGroundStatus()
 		{

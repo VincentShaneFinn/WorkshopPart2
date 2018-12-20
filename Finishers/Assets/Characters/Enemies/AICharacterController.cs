@@ -81,7 +81,7 @@ namespace Finisher.Characters
             }
             else
             {
-                moveCharacter(Vector3.zero);
+                moveCharacter(Vector3.zero); // todo allow movement when the agent is inactive via another control method
             }
         }
 

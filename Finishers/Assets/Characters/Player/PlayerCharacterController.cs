@@ -6,8 +6,8 @@ namespace Finisher.Characters
 {
     public class PlayerCharacterController : CharacterAnimator
     {
-        [Header("Player Controller Specific Settings")]
-        public bool UseStraffingTarget = false;
+        //[Header("Player Controller Specific Settings")]
+        [HideInInspector] public bool UseStraffingTarget = false;
         private Transform cameraTransform;
         private Vector3 movementInputDirection;
         private bool jumpInput;
@@ -20,11 +20,13 @@ namespace Finisher.Characters
 
         void FixedUpdate()
         {
-            if (Dying) { return; }
-
+            // todo
+            //if(GamePaused){
+            //  freeze movement and return early
+            //}
             if (CanMove || CanRotate) 
             {
-                moveCharacter(movementInputDirection, jumpInput, runInput);
+                moveCharacter(movementInputDirection, jumpInput, runInput); 
             }
             else
             {
