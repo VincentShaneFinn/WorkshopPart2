@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600b88276140446489c0cff2c136c784, type: 3}
+  m_Name: PlayerCombatSystem
+  m_EditorClassIdentifier: 
+  dodgeAnimation: {fileID: 7400000, guid: 6f9d9b5dde069034282820e10db8b748, type: 3}
+  lightAttackDamage: 10
+  lightAttackAnimations:
+  - {fileID: 7400000, guid: dce280ced5e006c4cb0eb0fab2f51b75, type: 3}
+  - {fileID: 7400000, guid: 7b5b17e2d42e0424f9c36012595dc9b6, type: 3}
+  - {fileID: 7400000, guid: 018ce46eeecfeae4abb8016f2c6841ca, type: 3}

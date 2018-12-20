@@ -2922,7 +2922,9 @@ GameObject:
   - component: {fileID: 3079736054807551834}
   - component: {fileID: 3706741003250733307}
   - component: {fileID: 3079736054807551836}
+  - component: {fileID: 6519682247040110481}
   - component: {fileID: 3079736054807551835}
+  - component: {fileID: 1962851767}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2976,6 +2978,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a083cfe1b012aa148b16393bcc54d0a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Strafing: 0
+  CurrentLookTarget: {fileID: 0}
+  CanAct: 1
+  Running: 0
   movingTurnSpeed: 1000
   stationaryTurnSpeed: 1000
   jumpPower: 7
@@ -2984,14 +2990,27 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
-  Strafing: 0
-  CanAct: 1
   animSpeedMultiplier: 1
   runAnimSpeedMultiplier: 1.6
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
+  animOverrideController: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
+    type: 2}
+  UseStraffingTarget: 0
+--- !u!114 &6519682247040110481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6579b3a0b14d81c4094439fe3db4907c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3005,3 +3024,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rememberInputForSeconds: 0.6
+--- !u!114 &1962851767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: fef240be565c6e34d982022f97a240c4, type: 2}

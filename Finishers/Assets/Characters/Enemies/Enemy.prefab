@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 4766649399272452}
   - component: {fileID: 4856822250100709866}
   - component: {fileID: 114825973488843026}
+  - component: {fileID: 8782931632602318780}
   - component: {fileID: 114527653871411836}
+  - component: {fileID: 2080629207}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -44,7 +46,7 @@ Animator:
   m_GameObject: {fileID: 1297612759035436}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
-  m_Controller: {fileID: 9100000, guid: e2cf68ff4b1ffda45a77f7307dd789b9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 58c09ff1f071b594488129dbd70e85fd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -65,6 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2393b71a15a15bd46818659b60781ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Strafing: 0
+  CurrentLookTarget: {fileID: 0}
+  CanAct: 1
+  Running: 0
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
   jumpPower: 12
@@ -73,16 +79,28 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
-  Strafing: 0
-  CanAct: 1
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
   capsuleColliderRadius: 0.5
+  animOverrideController: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
+    type: 2}
   baseOffset: -0.04
   stoppingDistance: 1.3
+--- !u!114 &8782931632602318780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6579b3a0b14d81c4094439fe3db4907c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114527653871411836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,6 +115,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseRadius: 7
   attackRadius: 1.3
+--- !u!114 &2080629207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0

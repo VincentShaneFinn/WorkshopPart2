@@ -10,25 +10,29 @@ namespace Finisher.Characters
     {
         #region member variables
         [Tooltip("The amount of time that to keep an input in the que")]
-        [SerializeField] float rememberInputForSeconds = .4f;
+        [SerializeField] float rememberInputForSeconds = .6f;
 
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
+        private CombatSystem combatSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
         private bool jump = false;
+
+        const string PRIMARY_ATTACK = "Mouse 0";
+        const string DODGE = "Mouse 1";
+
         private String nextInput = "";
         private String previousInput = "";
         private float lastInputTime = 0;
 
-        const string PRIMARY_ATTACK = "Mouse 0";
-        const string DODGE = "Mouse 1";
         #endregion
 
         private void Start()
         {
             // get the third person character ( this should never be null due to require component )
             character = GetComponent<PlayerCharacterController>();
+            combatSystem = GetComponent<CombatSystem>();
 
             // get the transform of the main camera
             camRig = character.GetMainCameraTransform();
@@ -38,12 +42,22 @@ namespace Finisher.Characters
         {
             if (GameManager.instance.GamePaused) { return; }
 
-            GetJumpInput();
+
             if (character.isGrounded)
             {
-                SetNextInput();
+                GetJumpInput();
+                if (character.CanAct)
+                {
+                    if (Input.GetKeyDown(KeyCode.Mouse0))
+                    {
+                        combatSystem.LightAttack();
+                    }
+                    if (Input.GetKeyDown(KeyCode.Mouse1))
+                    {
+                        combatSystem.Dodge();
+                    }
+                }
             }
-            UseNextInput();
 
             TestingInputZone();
         }
@@ -76,7 +90,6 @@ namespace Finisher.Characters
 
         private void SetNextInput()
         {
-            //testing new animations
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 nextInput = PRIMARY_ATTACK;
@@ -84,18 +97,16 @@ namespace Finisher.Characters
             }
             else if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                if(previousInput != DODGE)
-                    nextInput = DODGE;
+                nextInput = DODGE;
                 lastInputTime = Time.time;
             }
             else
             {
-                if(Time.time - lastInputTime > rememberInputForSeconds)
+                if (Time.time - lastInputTime > rememberInputForSeconds)
                 {
                     nextInput = "";
                 }
             }
-
         }
 
         private void UseNextInput()
@@ -103,14 +114,12 @@ namespace Finisher.Characters
             switch (nextInput)
             {
                 case PRIMARY_ATTACK:
-                    print("attack");
-                    character.Attack();
+                    //character.Attack();
                     break;
                 case DODGE:
-                    character.Dodge();
+                    //character.Dodge();
                     break;
             }
-            previousInput = nextInput;
             nextInput = "";
         }
 

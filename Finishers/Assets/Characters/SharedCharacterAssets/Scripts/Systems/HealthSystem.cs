@@ -10,11 +10,11 @@ namespace Finisher.Characters
     {
 
         [SerializeField] HealthSystemConfig config;
-        private CharacterAnimator character;
+        private CharacterAnimator characterAnim;
 
         void Start()
         {
-            character = GetComponent<CharacterAnimator>();
+            characterAnim = GetComponent<CharacterAnimator>();
             Assert.IsNotNull(config);
         }
 
@@ -22,7 +22,7 @@ namespace Finisher.Characters
         {
             if (Input.GetKeyUp(KeyCode.K))
             {
-                character.Knockback(config.KnockbackAnimations[0]);
+                characterAnim.Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
             }
         }
     }

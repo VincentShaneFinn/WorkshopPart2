@@ -4,13 +4,34 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    // todo consider making the player and enemy animation controllers one thing
-	public class CharacterAnimator : CharacterMotor
-	{
-        [Header("Animations")]
-        [SerializeField] AnimatorOverrideController animatorOverrideController;
+    #region public Animation Consts
 
-        const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
+    public static class CharAnimStates
+    {
+        public const string LOCOMOTION_STATE = "Basic Locomotion";
+        public const string AIRBORNE_STATE = "Airborne";
+        public const string STRAFING_STATE = "Strafing Locomotion";
+        public const string KNOCKBACK_STATE = "Knockback";
+        public const string ATTACK1_STATE = "Attack1";
+        public const string ATTACK2_STATE = "Attack2";
+        public const string ATTACK3_STATE = "Attack3";
+        public const string ATTACK4_STATE = "Attack4";
+        public const string DODGE_STATE = "Dodge";
+        public const string DYING_STATE = "Dying";
+    }
+
+    public static class OverrideIndexes
+    {
+        public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
+        public const string DODGE_INDEX = "DEFAULT_DODGE";
+        public const string ATTACK1_INDEX = "DEFAULT_ATTACK1";
+        public const string ATTACK2_INDEX = "DEFAULT_ATTACK2";
+    }
+
+    #endregion
+
+    public class CharacterAnimator : CharacterMotor
+	{
 
         #region Movement Animation Control
         protected override void updateAnimator(Vector3 move)
@@ -52,14 +73,14 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE) && move.magnitude > 0)
+            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE) && move.magnitude > 0)
             {
-                if (!Running)
+                if (Running)
                 {
-                    animator.speed = animSpeedMultiplier;
+                    animator.speed = runAnimSpeedMultiplier;
                 }
                 else
-                    animator.speed = runAnimSpeedMultiplier;
+                    animator.speed = animSpeedMultiplier;
             }
             else
             {
@@ -146,52 +167,22 @@ namespace Finisher.Characters
 
 
         //todo, seperate into player and enemy combat systems
-        public void Attack(bool canMove = false, bool canRotate = false)
+        public void Attack(AnimationClip animClip)
         {
-            if (CanAct)
-            {
-                animator.SetTrigger("Attack");
-                //RestrictMovementDuringAnimation(canMove, canRotate);
-            }
+            animOverrideController[OverrideIndexes.ATTACK1_INDEX] = animClip;
+            animator.SetTrigger("Attack");
         }
 
-        public void Dodge(bool canMove = true, bool canRotate = false)
+        public void Dodge(AnimationClip animClip)
         {
-            if (CanAct)
-            {
-                animator.SetTrigger("Dodge");
-                //RestrictMovementDuringAnimation(canMove, canRotate);
-            }
+            animOverrideController[OverrideIndexes.DODGE_INDEX] = animClip;
+            animator.SetTrigger("Dodge");
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            animator.runtimeAnimatorController = animatorOverrideController;
-            animatorOverrideController[KNOCKBACK_INDEX] = animClip;
+            animOverrideController[OverrideIndexes.KNOCKBACK_INDEX] = animClip;
             animator.SetTrigger("Knockback");
-            //bool canMove = false;
-            //bool canRotate = false;
-
-            //RestrictMovementDuringAnimation(canMove, canRotate);
-            // todo add a knocback factor
-            // todo add a knockback move direction
-        }
-
-        private void RestrictMovementDuringAnimation(bool canMove, bool canRotate)
-        {
-            CanAct = false;
-            CanMove = canMove;
-            CanRotate = canRotate;
-            //free it after the animation is complete
-            StartCoroutine(RestoreMovementAfterAnimation());
-        }
-
-        private IEnumerator RestoreMovementAfterAnimation()
-        {
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorClipInfo(0).Length);
-            CanMove = true;
-            CanRotate = true;
-            CanAct = true;
         }
     }
 }

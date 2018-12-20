@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    [RequireComponent(typeof(AnimatorStateHandler))]
     [RequireComponent(typeof(Animator))]
     public abstract class CharacterMotor : MonoBehaviour
     {
@@ -16,9 +17,12 @@ namespace Finisher.Characters
         [HideInInspector] public bool CanAct = true;
         [HideInInspector] public bool Running = false;
 
+        public bool CanJump = true;
+
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
+ 
         public bool Dying { // todo observer delegate when kill is called
             get { return dying; }
             protected set { if (!dying) dying = value; }
@@ -67,13 +71,12 @@ namespace Finisher.Characters
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
+        [SerializeField] protected AnimatorOverrideController animOverrideController;
         #endregion
 
         #region Constants
 
-        protected const string LOCOMOTION_STATE = "Basic Locomotion";
         protected const float HALF = 0.5f;
-        protected const string KNOCKBACK_STATE = "Knockback";
 
         #endregion
 
@@ -82,6 +85,7 @@ namespace Finisher.Characters
         protected Animator animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
+        protected AnimatorStateHandler animStateHandler;
 
         [Header("Rigidbody Component Fields")]
         [SerializeField] CollisionDetectionMode collisionDetectionMode;
@@ -113,6 +117,7 @@ namespace Finisher.Characters
         {
             //Get Components
             animator = gameObject.GetComponent<Animator>();
+            animator.runtimeAnimatorController = animOverrideController;
 
             //Add Components
             rigidBody = gameObject.AddComponent<Rigidbody>();
@@ -120,6 +125,7 @@ namespace Finisher.Characters
             rigidBody.useGravity = true;
             rigidBody.isKinematic = false;
             rigidBody.collisionDetectionMode = collisionDetectionMode;
+
             capsule = gameObject.AddComponent<CapsuleCollider>();
             frictionlessMaterial = new PhysicMaterial();
             frictionlessMaterial.dynamicFriction = 0;
@@ -131,6 +137,8 @@ namespace Finisher.Characters
             capsule.center = capsuleColliderCenter;
             capsule.height = capsuleColliderHeight;
             capsule.radius = capsuleColliderRadius;
+
+            animStateHandler = gameObject.GetComponent<AnimatorStateHandler>();
 
             //Class Init
             origGroundCheckDistance = groundCheckDistance;
@@ -273,7 +281,7 @@ namespace Finisher.Characters
         protected void attemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (jump && animator.GetCurrentAnimatorStateInfo(0).IsName(LOCOMOTION_STATE))
+            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE))
             {
                 // jump!
                 rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
