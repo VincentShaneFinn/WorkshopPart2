@@ -185,7 +185,7 @@ namespace Finisher.Characters
 
         public void Dodge(AnimationClip animClip)
         {
-            //animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
+            animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
             animator.SetTrigger(CharAnimParams.DODGE_TRIGGER);
         }
 

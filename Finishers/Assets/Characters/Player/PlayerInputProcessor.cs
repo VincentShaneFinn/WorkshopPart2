@@ -54,13 +54,13 @@ namespace Finisher.Characters
 
                 if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    var moveDirection = GetMoveDirection();
-                    combatSystem.Dodge(moveDirection);
+                    combatSystem.HeavyAttack();
                 }
 
                 if (Input.GetKeyDown(KeyCode.Mouse2))
                 {
-                    combatSystem.HeavyAttack();
+                    var moveDirection = GetMoveDirection();
+                    combatSystem.Dodge(moveDirection);
                 }
 
             }
