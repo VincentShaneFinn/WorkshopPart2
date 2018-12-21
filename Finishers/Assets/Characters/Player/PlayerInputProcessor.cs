@@ -58,6 +58,11 @@ namespace Finisher.Characters
                     combatSystem.Dodge(moveDirection);
                 }
 
+                if (Input.GetKeyDown(KeyCode.Mouse2))
+                {
+                    combatSystem.HeavyAttack();
+                }
+
             }
 
             TestingInputZone();

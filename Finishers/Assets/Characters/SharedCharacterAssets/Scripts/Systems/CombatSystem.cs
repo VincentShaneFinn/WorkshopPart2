@@ -56,13 +56,16 @@ namespace Finisher.Characters
         public void LightAttack()
         {
             StopAllCoroutines();
-            characterAnim.Attack(config.LightAttackAnimations[nextAttackIndex]);
+            characterAnim.LightAttack();
             //StartCoroutine(preventActionUntilJustBefore(config.LightAttackAnimations[nextAttackIndex].length - config.LightAttackOffsets[nextAttackIndex]));
-            nextAttackIndex++;
-            nextAttackIndex %= config.LightAttackAnimations.Length;
         }
 
-        IEnumerator preventActionUntilJustBefore(float time)
+        public void HeavyAttack()
+        {
+            characterAnim.HeavyAttack();
+        }
+
+            IEnumerator preventActionUntilJustBefore(float time)
         {
             float count = 0;
             while(count < time && characterAnim.CanDodge)

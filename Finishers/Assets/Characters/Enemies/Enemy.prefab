@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 114825973488843026}
   - component: {fileID: 114527653871411836}
   - component: {fileID: 2080629207}
+  - component: {fileID: 1084891823}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4766649399272452
 Transform:
   m_ObjectHideFlags: 0
@@ -84,7 +85,6 @@ MonoBehaviour:
   runAnimSpeedMultiplier: 1.5
   animOverrideController: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
     type: 2}
-  animStateHandler: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
@@ -118,6 +118,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
+--- !u!114 &1084891823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7059047519f571448b9bc379b53f89c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0
