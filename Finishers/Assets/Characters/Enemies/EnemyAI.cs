@@ -16,6 +16,7 @@ namespace Finisher.Characters
 
         AICharacterController aiCharacter;
         private CombatSystem combatSystem;
+
         private EnemyState currentState;
         GameObject player = null;
 
@@ -35,7 +36,7 @@ namespace Finisher.Characters
             TestInput();
             // todo make a state machine
             pursueNearbyPlayer();
-            if (aiCharacter.CanAct && currentState != EnemyState.Attacking) // should be in range, then start attacking if we arent already
+            if (currentState != EnemyState.Attacking) // should be in range, then start attacking if we arent already
             {
                 attackPlayerIfNear();
             }
@@ -59,10 +60,6 @@ namespace Finisher.Characters
             {
                 aiCharacter.CanRotate = true;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha9))
-            {
-                aiCharacter.Kill();
-            }
         }
         private void pursueNearbyPlayer()
         {
@@ -85,7 +82,7 @@ namespace Finisher.Characters
                 print(Time.time);
                 combatSystem.LightAttack();
                 currentState = EnemyState.Attacking;
-                StartCoroutine(TempStopAttackingInSeconds());
+                StartCoroutine(TempStopAttackingInSeconds()); 
             }
         }
         IEnumerator TempStopAttackingInSeconds()

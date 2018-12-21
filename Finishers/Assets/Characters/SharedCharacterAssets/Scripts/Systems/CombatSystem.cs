@@ -12,17 +12,28 @@ namespace Finisher.Characters
     {
         [SerializeField] CombatSystemConfig config;
 
-        //[HideInInspector] public bool PerformingAction = false;
-
+        private Animator animator;
         private CharacterAnimator characterAnim;
 
         private int nextAttackIndex = 0;
 
-        // Start is called before the first frame update
         void Start()
         {
             characterAnim = GetComponent<CharacterAnimator>();
-            //Assert.IsNotNull(config); // todo utilize the config appropriately
+            Assert.IsNotNull(config);
+            animator = GetComponent<Animator>();
+        }
+
+        public void LightAttack()
+        {
+            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, false);
+            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
+        }
+
+        public void HeavyAttack()
+        {
+            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, true);
+            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
         }
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
@@ -45,36 +56,35 @@ namespace Finisher.Characters
             }
             if (characterAnim.CanRotate)
             {
-                characterAnim.Dodge(config.DodgeForwardAnimation);
+                SetDodgeTrigger(config.DodgeForwardAnimation);
             }
             else
             {
-                characterAnim.Dodge(animToUse);
+                SetDodgeTrigger(animToUse);
             }
         }
 
-        public void LightAttack()
+        public void SetDodgeTrigger(AnimationClip animClip)
         {
-            StopAllCoroutines();
-            characterAnim.LightAttack();
-            //StartCoroutine(preventActionUntilJustBefore(config.LightAttackAnimations[nextAttackIndex].length - config.LightAttackOffsets[nextAttackIndex]));
-        }
-
-        public void HeavyAttack()
-        {
-            characterAnim.HeavyAttack();
-        }
-
-            IEnumerator preventActionUntilJustBefore(float time)
-        {
-            float count = 0;
-            while(count < time && characterAnim.CanDodge)
+            characterAnim.animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
+            if (animator.IsInTransition(0) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.KNOCKBACK_STATE) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.DODGE_STATE))
             {
-                count += Time.deltaTime;
-                characterAnim.CanAct = false;
-                yield return null;
+                animator.ResetTrigger(CharAnimParams.DODGE_TRIGGER);
+                animator.ResetTrigger(CharAnimParams.ATTACK_TRIGGER);
             }
-            characterAnim.CanAct = true;
+            else
+            {
+                animator.SetTrigger(CharAnimParams.DODGE_TRIGGER);
+            }
+        }
+
+        // animation events
+
+        public void Hit()
+        {
+            print("hit something now");
         }
 
     }

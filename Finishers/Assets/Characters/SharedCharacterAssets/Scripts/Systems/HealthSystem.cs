@@ -11,19 +11,41 @@ namespace Finisher.Characters
 
         [SerializeField] HealthSystemConfig config;
         private CharacterAnimator characterAnim;
+        private Animator animator;
+        private AnimatorOverrideController animOverrideController;
 
         void Start()
         {
             characterAnim = GetComponent<CharacterAnimator>();
+            animOverrideController = characterAnim.animOverrideController;
+            animator = GetComponent<Animator>();
+
             Assert.IsNotNull(config);
         }
 
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.K))
+            if (Input.GetKeyUp(KeyCode.K)) // todo remove testing buttons
             {
-                characterAnim.Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
+                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                Kill();
+            }
+        }
+
+        public void Kill()
+        {
+            if (characterAnim.Dying) { return; }
+            characterAnim.Dying = true;
+            animator.SetBool(CharAnimParams.DYING_BOOL, true);
+        }
+
+        public void Knockback(AnimationClip animClip)
+        {
+            animOverrideController[AnimOverrideIndexes.KNOCKBACK_INDEX] = animClip;
+            animator.SetTrigger(CharAnimParams.KNOCKBACK_TRIGGER);
         }
     }
 }

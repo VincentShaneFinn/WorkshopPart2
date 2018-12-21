@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4766649399272452
 Transform:
   m_ObjectHideFlags: 0
@@ -69,9 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Strafing: 0
   CurrentLookTarget: {fileID: 0}
-  CanAct: 1
   Running: 0
-  CanDodge: 1
   CanJump: 1
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720

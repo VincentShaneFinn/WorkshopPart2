@@ -118,10 +118,6 @@ namespace Finisher.Characters
             {
                 character.CanRotate = true;
             }
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                character.Kill();
-            }
         }
 
         private void SetNextInput()

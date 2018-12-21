@@ -23,7 +23,8 @@ namespace Finisher.Characters
         public const string DODGE_TRIGGER = "Dodge";
         public const string KNOCKBACK_TRIGGER = "Knockback";
 
-        public const string ISHEAVY_BOOL = "IsHeavy"; // 0 is light attack, 1 is Heavy Attack
+        public const string ISHEAVY_BOOL = "IsHeavy";
+        public const string DYING_BOOL = "Dying";
     }
 
     public static class AnimOverrideIndexes
@@ -143,56 +144,19 @@ namespace Finisher.Characters
 
         #endregion
 
-        // todo move all of this stuff somewhere else since this really is used to animate the character during movement
-
-        public void Hit()
-        {
-            print("hit something now");
-        }
+        #region Movement Animation Events
 
         public void FootL()
         {
-
+            //play left foot sound
         }
 
         public void FootR()
         {
-
+            //play right foot sound
         }
 
-        // todo protect triggers from being set twice
+        #endregion
 
-        public void Kill()
-        {
-            if (Dying) { return; }
-            Dying = true;
-            animator.SetBool("Dying",true);
-        }
-
-
-        //todo, seperate into player and enemy combat systems
-        public void LightAttack()
-        {
-            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, false);
-            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
-        }
-
-        public void HeavyAttack()
-        {
-            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, true);
-            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
-        }
-
-        public void Dodge(AnimationClip animClip)
-        {
-            animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
-            animator.SetTrigger(CharAnimParams.DODGE_TRIGGER);
-        }
-
-        public void Knockback(AnimationClip animClip)
-        {
-            animOverrideController[AnimOverrideIndexes.KNOCKBACK_INDEX] = animClip;
-            animator.SetTrigger(CharAnimParams.KNOCKBACK_TRIGGER);
-        }
     }
 }

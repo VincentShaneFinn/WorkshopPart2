@@ -15,11 +15,6 @@ namespace Finisher.Characters
         void Start()
         {
             GetMainCameraTransform();
-            var animStateHandlers = animator.GetBehaviours<AnimatorStateHandler>();
-            foreach (var animStateHandler in animStateHandlers)
-            {
-                animStateHandler.characterAnim = this;
-            }
         }
 
         #region CameraGetter and Strafing Match Camera

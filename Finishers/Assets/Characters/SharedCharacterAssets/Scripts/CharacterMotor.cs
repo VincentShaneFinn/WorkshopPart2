@@ -13,9 +13,7 @@ namespace Finisher.Characters
         [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
         [HideInInspector] public Transform CurrentLookTarget = null; // this can be used to set what you are looking at during strafing
-        [HideInInspector] public bool CanAct = true;
         [HideInInspector] public bool Running = false;
-        [HideInInspector] public bool CanDodge = true;
 
         public bool CanJump = true;
 
@@ -25,7 +23,7 @@ namespace Finisher.Characters
  
         public bool Dying { // todo observer delegate when kill is called
             get { return dying; }
-            protected set { if (!dying) dying = value; }
+            set { if (!dying) dying = value; }
         }
         public virtual bool CanMove
         {
@@ -71,7 +69,8 @@ namespace Finisher.Characters
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
-        [SerializeField] protected AnimatorOverrideController animOverrideController;
+        [SerializeField] public AnimatorOverrideController animOverrideController;
+
         #endregion
 
         #region Constants
@@ -85,7 +84,6 @@ namespace Finisher.Characters
         protected Animator animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
-        //[HideInInspector] public AnimatorStateHandler animStateHandler;
 
         [Header("Rigidbody Component Fields")]
         [SerializeField] CollisionDetectionMode collisionDetectionMode;
