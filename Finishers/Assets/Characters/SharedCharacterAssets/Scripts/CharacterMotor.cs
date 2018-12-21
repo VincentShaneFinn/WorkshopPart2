@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    [RequireComponent(typeof(AnimatorStateHandler))]
     [RequireComponent(typeof(Animator))]
     public abstract class CharacterMotor : MonoBehaviour
     {
@@ -86,7 +85,7 @@ namespace Finisher.Characters
         protected Animator animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
-        protected AnimatorStateHandler animStateHandler;
+        //[HideInInspector] public AnimatorStateHandler animStateHandler;
 
         [Header("Rigidbody Component Fields")]
         [SerializeField] CollisionDetectionMode collisionDetectionMode;
@@ -139,11 +138,10 @@ namespace Finisher.Characters
             capsule.height = capsuleColliderHeight;
             capsule.radius = capsuleColliderRadius;
 
-            animStateHandler = gameObject.GetComponent<AnimatorStateHandler>();
-
             //Class Init
             origGroundCheckDistance = groundCheckDistance;
         }
+
         #endregion
 
         #region Public Turn Speed Multiplier Getters and Setters
@@ -281,7 +279,7 @@ namespace Finisher.Characters
         protected void attemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE))
+            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE) && !animator.IsInTransition(0))
             {
                 // jump!
                 rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);

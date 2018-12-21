@@ -586,7 +586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1297612759035436, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4766649399272452, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -632,7 +632,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8782931632602318780, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
 --- !u!1 &906947409
 GameObject:
@@ -1201,7 +1202,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6519682247040110481, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
 --- !u!114 &3570073716651220104
 MonoBehaviour:

@@ -6,53 +6,62 @@ namespace Finisher.Characters
 {
     // todo this class really controls all of the state variables in Character Motor, consider reverse the dependencies so this class is where you check?
     // or find a better way to handle this
-    public class AnimatorStateHandler : MonoBehaviour
+    public class AnimatorStateHandler : StateMachineBehaviour
     {
-        CharacterAnimator characterAnim;
-        Animator animator;
+        [HideInInspector] public CharacterAnimator characterAnim;
 
-        void Start()
+        private bool StateExited = true;
+        private bool StateEntered = false;
+
+        void OnStateEnter()
         {
-            characterAnim = GetComponent<CharacterAnimator>();
-
-            animator = GetComponent<Animator>();
+            Debug.Log("Enter");
+            characterAnim.CanMove = false;
+            characterAnim.CanRotate = false;
         }
 
-        void Update()
+        void OnStateExit()
         {
-            // myAnimator.GetAnimatorTransitionInfo(0).IsName("flight -> shot") // get current transition
-            var animState = animator.GetCurrentAnimatorStateInfo(0);
-
-            if (animState.IsName(CharAnimStates.DYING_STATE))
-            {
-                PreventMovement();
-                return;
-            }
-
-            if (animState.IsName(CharAnimStates.KNOCKBACK_STATE))
-            {
-                ClearActionTriggers();
-                PreventMovement();
-                return;
-            }
-            else if (animState.IsName(CharAnimStates.ATTACK_STATE)){
-                //ClearActionTriggers();
-                PreventMovement(overrideCanAct: true, canDodge: true);
-            }
-            else if (animState.IsName(CharAnimStates.DODGE_STATE)){
-                ClearActionTriggers();
-                PreventMovement();
-            }
-            else if (animState.IsName(CharAnimStates.LOCOMOTION_STATE) || 
-                     animState.IsName(CharAnimStates.STRAFING_STATE))
-            {
-                FreeAllMovement();
-            }
-            if (animator.IsInTransition(0) && animator.GetAnimatorTransitionInfo(0).anyState)
-            {
-                PreventMovement();
-            }
+            Debug.Log("Exit");
+            characterAnim.CanMove = true;
+            characterAnim.CanRotate = true;
         }
+
+        //void Update()
+        //{
+        //    // myAnimator.GetAnimatorTransitionInfo(0).IsName("flight -> shot") // get current transition
+        //    var animState = animator.GetCurrentAnimatorStateInfo(0);
+
+        //    if (animState.IsName(CharAnimStates.DYING_STATE))
+        //    {
+        //        //PreventMovement();
+        //        return;
+        //    }
+
+        //    if (animState.IsName(CharAnimStates.KNOCKBACK_STATE))
+        //    {
+        //        //ClearActionTriggers();
+        //        //PreventMovement();
+        //        return;
+        //    }
+        //    else if (animState.IsName(CharAnimStates.ATTACK_STATE)){
+        //        //ClearActionTriggers();
+        //        //PreventMovement(overrideCanAct: true, canDodge: true);
+        //    }
+        //    else if (animState.IsName(CharAnimStates.DODGE_STATE)){
+        //        //ClearActionTriggers();
+        //        //PreventMovement();
+        //    }
+        //    else if (animState.IsName(CharAnimStates.LOCOMOTION_STATE) || 
+        //             animState.IsName(CharAnimStates.STRAFING_STATE))
+        //    {
+        //        //FreeAllMovement();
+        //    }
+        //    if (animator.IsInTransition(0) && animator.GetAnimatorTransitionInfo(0).anyState)
+        //    {
+        //        //PreventMovement();
+        //    }
+        //}
 
         private void FreeAllMovement()
         {
@@ -77,7 +86,7 @@ namespace Finisher.Characters
 
         private void ClearActionTriggers()
         {
-            animator.ResetTrigger("Attack");
+            //animator.ResetTrigger("Attack");
         }
 
     }

@@ -17,7 +17,7 @@ namespace Finisher.Characters
         public const string DYING_STATE = "Dying";
     }
 
-    public static class OverrideIndexes
+    public static class AnimOverrideIndexes
     {
         public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
         public const string DODGE_INDEX = "DEFAULT_DODGE";
@@ -165,20 +165,20 @@ namespace Finisher.Characters
         //todo, seperate into player and enemy combat systems
         public void Attack(AnimationClip animClip)
         {
-            animOverrideController[OverrideIndexes.ATTACK_INDEX] = animClip;
-            animator.Rebind();
+            //animOverrideController[OverrideIndexes.ATTACK_INDEX] = animClip;
+            //animator.Rebind();
             animator.SetTrigger("Attack");
         }
 
         public void Dodge(AnimationClip animClip)
         {
-            animOverrideController[OverrideIndexes.DODGE_INDEX] = animClip;
+            //animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
             animator.SetTrigger("Dodge");
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            animOverrideController[OverrideIndexes.KNOCKBACK_INDEX] = animClip;
+            animOverrideController[AnimOverrideIndexes.KNOCKBACK_INDEX] = animClip;
             animator.SetTrigger("Knockback");
         }
     }

@@ -46,21 +46,18 @@ namespace Finisher.Characters
             if (character.isGrounded)
             {
                 GetJumpInput();
-                if (character.CanAct)
+
+                if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
-                    if (Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        combatSystem.LightAttack();
-                    }
+                    combatSystem.LightAttack();
                 }
-                if (character.CanDodge)
+
+                if (Input.GetKeyDown(KeyCode.Mouse1))
                 {
-                    if (Input.GetKeyDown(KeyCode.Mouse1))
-                    {
-                        var moveDirection = GetMoveDirection();
-                        combatSystem.Dodge(moveDirection);
-                    }
+                    var moveDirection = GetMoveDirection();
+                    combatSystem.Dodge(moveDirection);
                 }
+
             }
 
             TestingInputZone();

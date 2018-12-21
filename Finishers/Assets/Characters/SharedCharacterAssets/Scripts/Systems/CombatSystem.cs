@@ -57,7 +57,7 @@ namespace Finisher.Characters
         {
             StopAllCoroutines();
             characterAnim.Attack(config.LightAttackAnimations[nextAttackIndex]);
-            StartCoroutine(preventActionUntilJustBefore(config.LightAttackAnimations[nextAttackIndex].length - config.LightAttackOffsets[nextAttackIndex]));
+            //StartCoroutine(preventActionUntilJustBefore(config.LightAttackAnimations[nextAttackIndex].length - config.LightAttackOffsets[nextAttackIndex]));
             nextAttackIndex++;
             nextAttackIndex %= config.LightAttackAnimations.Length;
         }
