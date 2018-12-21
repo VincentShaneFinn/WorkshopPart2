@@ -16,6 +16,7 @@ namespace Finisher.Characters
         [HideInInspector] public Transform CurrentLookTarget = null; // this can be used to set what you are looking at during strafing
         [HideInInspector] public bool CanAct = true;
         [HideInInspector] public bool Running = false;
+        [HideInInspector] public bool CanDodge = true;
 
         public bool CanJump = true;
 
@@ -275,7 +276,6 @@ namespace Finisher.Characters
             {
                 transform.LookAt(new Vector3(CurrentLookTarget.position.x, transform.position.y, CurrentLookTarget.position.z));
             }
-
         }
 
         protected void attemptToJump(bool jump)

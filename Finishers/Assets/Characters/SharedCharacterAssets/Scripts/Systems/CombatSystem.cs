@@ -5,6 +5,9 @@ using UnityEngine.Assertions;
 
 namespace Finisher.Characters
 {
+    public enum MoveDirection { Forward,Right,Backward,Left };
+
+    // todo this and the AnimatorStatehandler need to talk to each other better, if this is going to override it, as simple as being a suggestor at certain times 
     public class CombatSystem : MonoBehaviour
     {
         [SerializeField] CombatSystemConfig config;
@@ -22,17 +25,53 @@ namespace Finisher.Characters
             //Assert.IsNotNull(config); // todo utilize the config appropriately
         }
 
-        public void Dodge()
+        public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
-            characterAnim.Dodge(config.DodgeAnimation);
+            AnimationClip animToUse;
+            switch (moveDirection)
+            {
+                case MoveDirection.Right:
+                    animToUse = config.DodgeRightAnimation;
+                    break;
+                case MoveDirection.Backward:
+                    animToUse = config.DodgeBackwardAnimation;
+                    break;
+                case MoveDirection.Left:
+                    animToUse = config.DodgeLeftAnimation;
+                    break;
+                default:
+                    animToUse = config.DodgeForwardAnimation;
+                    break;
+            }
+            if (characterAnim.CanRotate)
+            {
+                characterAnim.Dodge(config.DodgeForwardAnimation);
+            }
+            else
+            {
+                characterAnim.Dodge(animToUse);
+            }
         }
 
         public void LightAttack()
         {
+            StopAllCoroutines();
             characterAnim.Attack(config.LightAttackAnimations[nextAttackIndex]);
-            print(nextAttackIndex);
+            StartCoroutine(preventActionUntilJustBefore(config.LightAttackAnimations[nextAttackIndex].length - config.LightAttackOffsets[nextAttackIndex]));
             nextAttackIndex++;
             nextAttackIndex %= config.LightAttackAnimations.Length;
+        }
+
+        IEnumerator preventActionUntilJustBefore(float time)
+        {
+            float count = 0;
+            while(count < time && characterAnim.CanDodge)
+            {
+                count += Time.deltaTime;
+                characterAnim.CanAct = false;
+                yield return null;
+            }
+            characterAnim.CanAct = true;
         }
 
     }

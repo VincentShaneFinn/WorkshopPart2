@@ -5,6 +5,8 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    public enum EnemyState { idle, Patrolling, Chasing, Attacking }
+
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
@@ -13,6 +15,8 @@ namespace Finisher.Characters
         [SerializeField] float attackRadius = 1.5f;
 
         AICharacterController aiCharacter;
+        private CombatSystem combatSystem;
+        private EnemyState currentState;
         GameObject player = null;
 
         // Use this for initialization
@@ -20,6 +24,7 @@ namespace Finisher.Characters
         {
             player = GameObject.FindGameObjectWithTag("Player");
             aiCharacter = GetComponent<AICharacterController>();
+            combatSystem = GetComponent<CombatSystem>();
         }
 
         // Update is called once per frame
@@ -30,7 +35,10 @@ namespace Finisher.Characters
             TestInput();
             // todo make a state machine
             pursueNearbyPlayer();
-            attackPlayerIfNear();
+            if (aiCharacter.CanAct && currentState != EnemyState.Attacking) // should be in range, then start attacking if we arent already
+            {
+                attackPlayerIfNear();
+            }
         }
 
         private void TestInput()
@@ -74,8 +82,16 @@ namespace Finisher.Characters
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                //aiCharacter.Attack();
+                print(Time.time);
+                combatSystem.LightAttack();
+                currentState = EnemyState.Attacking;
+                StartCoroutine(TempStopAttackingInSeconds());
             }
+        }
+        IEnumerator TempStopAttackingInSeconds()
+        {
+            yield return new WaitForSeconds(.3f);
+            currentState = EnemyState.idle;
         }
     }
 }

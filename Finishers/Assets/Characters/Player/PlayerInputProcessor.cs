@@ -52,14 +52,48 @@ namespace Finisher.Characters
                     {
                         combatSystem.LightAttack();
                     }
+                }
+                if (character.CanDodge)
+                {
                     if (Input.GetKeyDown(KeyCode.Mouse1))
                     {
-                        combatSystem.Dodge();
+                        var moveDirection = GetMoveDirection();
+                        combatSystem.Dodge(moveDirection);
                     }
                 }
             }
 
             TestingInputZone();
+        }
+
+        // todo, make sure it gets the direction with respect to the camera rig rotation
+        MoveDirection GetMoveDirection()
+        {
+            float horizonatal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
+
+            if(Mathf.Abs(vertical) >= Mathf.Abs(horizonatal)) // forward backward carries more weight
+            {
+                if(vertical >= 0)
+                {
+                    return MoveDirection.Forward;
+                }
+                else
+                {
+                    return MoveDirection.Backward;
+                }
+            }
+            else
+            {
+                if (horizonatal >= 0)
+                {
+                    return MoveDirection.Right;
+                }
+                else
+                {
+                    return MoveDirection.Left;
+                }
+            }
         }
 
         private void TestingInputZone()
@@ -148,20 +182,20 @@ namespace Finisher.Characters
         private void ProcessMovementInput()
         {
             // read inputs
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            float horizonatal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
 
             // calculate move direction to pass to character
             if (camRig != null)
             {
                 // calculate camera relative direction to move:
                 camForward = Vector3.Scale(camRig.forward, new Vector3(1, 0, 1)).normalized;
-                moveDirection = v * camForward + h * camRig.right;
+                moveDirection = vertical * camForward + horizonatal * camRig.right;
             }
             else
             {
                 // we use world-relative directions in the case of no main camera
-                moveDirection = v * Vector3.forward + h * Vector3.right;
+                moveDirection = vertical * Vector3.forward + horizonatal * Vector3.right;
             }
 
             //use to be how walking was done, running may need a small rework

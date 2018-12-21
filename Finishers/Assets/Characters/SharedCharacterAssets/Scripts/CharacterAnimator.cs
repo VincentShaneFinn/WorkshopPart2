@@ -12,10 +12,7 @@ namespace Finisher.Characters
         public const string AIRBORNE_STATE = "Airborne";
         public const string STRAFING_STATE = "Strafing Locomotion";
         public const string KNOCKBACK_STATE = "Knockback";
-        public const string ATTACK1_STATE = "Attack1";
-        public const string ATTACK2_STATE = "Attack2";
-        public const string ATTACK3_STATE = "Attack3";
-        public const string ATTACK4_STATE = "Attack4";
+        public const string ATTACK_STATE = "Attack";
         public const string DODGE_STATE = "Dodge";
         public const string DYING_STATE = "Dying";
     }
@@ -24,8 +21,7 @@ namespace Finisher.Characters
     {
         public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
         public const string DODGE_INDEX = "DEFAULT_DODGE";
-        public const string ATTACK1_INDEX = "DEFAULT_ATTACK1";
-        public const string ATTACK2_INDEX = "DEFAULT_ATTACK2";
+        public const string ATTACK_INDEX = "DEFAULT_ATTACK";
     }
 
     #endregion
@@ -169,7 +165,8 @@ namespace Finisher.Characters
         //todo, seperate into player and enemy combat systems
         public void Attack(AnimationClip animClip)
         {
-            animOverrideController[OverrideIndexes.ATTACK1_INDEX] = animClip;
+            animOverrideController[OverrideIndexes.ATTACK_INDEX] = animClip;
+            animator.Rebind();
             animator.SetTrigger("Attack");
         }
 

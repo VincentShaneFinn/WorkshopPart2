@@ -117,8 +117,10 @@ namespace Finisher.Characters
             MoveCharacter(Vector3.zero);
             if (CanRotate)
             {
-                // todo get a turn amount to look at target and use that instead, mimic the auto cam  also only change the y rotation
-                transform.LookAt(target);
+                if (target)
+                {
+                    transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+                }
             }
         }
 

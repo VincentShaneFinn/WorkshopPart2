@@ -4,17 +4,16 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    // todo this class really controls all of the state variables in Character Motor, consider reverse the dependencies so this class is where you check?
+    // or find a better way to handle this
     public class AnimatorStateHandler : MonoBehaviour
     {
         CharacterAnimator characterAnim;
         Animator animator;
 
-        private bool canJumpInitial;
-
         void Start()
         {
             characterAnim = GetComponent<CharacterAnimator>();
-            canJumpInitial = characterAnim.CanJump;
 
             animator = GetComponent<Animator>();
         }
@@ -26,51 +25,59 @@ namespace Finisher.Characters
 
             if (animState.IsName(CharAnimStates.DYING_STATE))
             {
-                characterAnim.CanMove = false;
-                characterAnim.CanRotate = false;
-                characterAnim.CanAct = false;
-                characterAnim.CanJump = false;
+                PreventMovement();
                 return;
             }
+
             if (animState.IsName(CharAnimStates.KNOCKBACK_STATE))
             {
-                ClearAllTriggers();
+                ClearActionTriggers();
                 PreventMovement();
+                return;
             }
-            else if (animState.IsName(CharAnimStates.ATTACK1_STATE)){
-                ClearAllTriggers();
-                PreventMovement();
+            else if (animState.IsName(CharAnimStates.ATTACK_STATE)){
+                //ClearActionTriggers();
+                PreventMovement(overrideCanAct: true, canDodge: true);
             }
             else if (animState.IsName(CharAnimStates.DODGE_STATE)){
-                ClearAllTriggers();
+                ClearActionTriggers();
                 PreventMovement();
             }
             else if (animState.IsName(CharAnimStates.LOCOMOTION_STATE) || 
-                animState.IsName(CharAnimStates.STRAFING_STATE))
+                     animState.IsName(CharAnimStates.STRAFING_STATE))
             {
-                characterAnim.CanMove = true;
-                characterAnim.CanRotate = true;
-                characterAnim.CanJump = true;
-                characterAnim.CanAct = true;
+                FreeAllMovement();
             }
-            //if (animator.IsInTransition(0))
-            //{
-
-            //}
+            if (animator.IsInTransition(0) && animator.GetAnimatorTransitionInfo(0).anyState)
+            {
+                PreventMovement();
+            }
         }
 
-        private void PreventMovement(bool canMove = false, bool canRotate = false, bool canJump = false, bool canAct = false)
+        private void FreeAllMovement()
+        {
+            characterAnim.CanMove = true;
+            characterAnim.CanRotate = true;
+            characterAnim.CanJump = true;
+            characterAnim.CanAct = true;
+            characterAnim.CanDodge = true;
+        }
+
+        private void PreventMovement(bool canMove = false, bool canRotate = false, bool canJump = false, bool canAct = false, bool canDodge = false, bool overrideCanAct = false)
         {
             characterAnim.CanMove = canMove;
             characterAnim.CanRotate = canRotate;
             characterAnim.CanJump = canJump;
-            characterAnim.CanAct = canAct;
+            if (!overrideCanAct) // the combat system controlls the can Act during this time
+            {
+                characterAnim.CanAct = canAct;
+            }
+            characterAnim.CanDodge = canDodge;
         }
 
-        private void ClearAllTriggers()
+        private void ClearActionTriggers()
         {
             animator.ResetTrigger("Attack");
-            animator.ResetTrigger("Dodge");
         }
 
     }

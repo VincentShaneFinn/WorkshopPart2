@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600b88276140446489c0cff2c136c784, type: 3}
+  m_Name: PlayerCombatSystemConfig
+  m_EditorClassIdentifier: 
+  dodgeForwardAnimation: {fileID: 7400000, guid: 6f9d9b5dde069034282820e10db8b748,
+    type: 3}
+  dodgeRightAnimation: {fileID: 7400000, guid: a34ca3f7a1f5a6d468d6a9dc3f8db3f7, type: 3}
+  dodgeBackwardAnimation: {fileID: 7400000, guid: 8d21a4032c375344093254ff3493a82f,
+    type: 3}
+  dodgeLeftAnimation: {fileID: 7400000, guid: 7a4cfa3380fcb524c9233ff11170833e, type: 3}
+  lightAttackDamage: 10
+  lightAttackAnimations:
+  - {fileID: 7400000, guid: dce280ced5e006c4cb0eb0fab2f51b75, type: 3}
+  - {fileID: 7400000, guid: 7b5b17e2d42e0424f9c36012595dc9b6, type: 3}
+  - {fileID: 7400000, guid: 018ce46eeecfeae4abb8016f2c6841ca, type: 3}
+  lightAttackOffsets:
+  - 0.55
+  - 0.55
+  - 0.55
