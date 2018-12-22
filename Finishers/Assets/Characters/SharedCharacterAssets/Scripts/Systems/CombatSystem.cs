@@ -15,32 +15,51 @@ namespace Finisher.Characters
         [SerializeField] CombatSystemConfig config;
 
         public float currentWeaponDamage { get; private set; }
+        public bool IsDamageFrame { get; private set; }
+        public delegate void DamageFrameChanged(bool isDamageFrame);
+        public event DamageFrameChanged OnDamageFrameChanged;
+
+        [SerializeField] private float attackAnimSpeed = 1f;
+        private int nextAttackIndex = 0;
 
         private Animator animator;
         private CharacterAnimator characterAnim;
-        private WeaponColliderManager weaponColliderManager;
-
-        private int nextAttackIndex = 0;
 
         void Start()
         {
             characterAnim = GetComponent<CharacterAnimator>();
             animator = GetComponent<Animator>();
+            animator.SetFloat(AnimationParams.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
 
             currentWeaponDamage = config.LightAttackDamage;
-            weaponColliderManager = GetComponentInChildren<WeaponColliderManager>();
+            IsDamageFrame = false;
+        }
+
+        void Update()
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimationTags.ATTACK_TAG) &&
+                !animator.IsInTransition(0))
+            {
+                characterAnim.CanRotate = false;
+                characterAnim.CanMove = false;
+            }
+            else
+            {
+                characterAnim.CanMove = true;
+                characterAnim.CanRotate = true;
+            }
         }
 
         public void LightAttack()
         {
-            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, false);
-            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
+            animator.SetBool(AnimationParams.ISHEAVY_BOOL, false);
+            animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
         }
 
         public void HeavyAttack()
         {
-            animator.SetBool(CharAnimParams.ISHEAVY_BOOL, true);
-            animator.SetTrigger(CharAnimParams.ATTACK_TRIGGER);
+            animator.SetBool(AnimationParams.ISHEAVY_BOOL, true);
+            animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
         }
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
@@ -61,29 +80,29 @@ namespace Finisher.Characters
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            if (characterAnim.CanRotate)
-            {
+            //if (characterAnim.CanRotate)
+            //{
                 SetDodgeTrigger(config.DodgeForwardAnimation);
-            }
-            else
-            {
-                SetDodgeTrigger(animToUse);
-            }
+            //}
+            //else
+            //{
+            //    SetDodgeTrigger(animToUse);
+            //}
         }
 
         public void SetDodgeTrigger(AnimationClip animClip)
         {
-            characterAnim.animOverrideController[AnimOverrideIndexes.DODGE_INDEX] = animClip;
+            characterAnim.animOverrideController[AnimationOverrideIndexes.DODGE_INDEX] = animClip;
             if (animator.IsInTransition(0) ||
-                animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.KNOCKBACK_STATE) ||
-                animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.DODGE_STATE))
+                animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.KNOCKBACK_STATE) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE))
             {
-                animator.ResetTrigger(CharAnimParams.DODGE_TRIGGER);
-                animator.ResetTrigger(CharAnimParams.ATTACK_TRIGGER);
+                animator.ResetTrigger(AnimationParams.DODGE_TRIGGER);
+                animator.ResetTrigger(AnimationParams.ATTACK_TRIGGER);
             }
             else
             {
-                animator.SetTrigger(CharAnimParams.DODGE_TRIGGER);
+                animator.SetTrigger(AnimationParams.DODGE_TRIGGER);
             }
         }
 
@@ -98,12 +117,12 @@ namespace Finisher.Characters
 
         void DamageStart()
         {
-            weaponColliderManager.boxCollider.enabled = true;
+            OnDamageFrameChanged(true);
         }
 
         void DamageEnd()
         {
-            weaponColliderManager.boxCollider.enabled = false;
+            OnDamageFrameChanged(false);
         }
 
     }

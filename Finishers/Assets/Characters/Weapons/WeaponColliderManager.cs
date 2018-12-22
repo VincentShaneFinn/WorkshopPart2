@@ -9,7 +9,7 @@ namespace Finisher.Characters.Weapons
         bool isEnemy;
         bool dontHit = false;
 
-        const float RESTORE_HIT_TIME = .2f; // used to protect from In Out and back In issues
+        const float RESTORE_HIT_TIME = .01f; // used to protect from In Out and back In issues
         // todo find a better way to protect a recently hit target
 
         CombatSystem combatSystem;
@@ -28,12 +28,13 @@ namespace Finisher.Characters.Weapons
             {
                 isEnemy = false;
             }
+            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
         }
 
         void OnTriggerEnter(Collider collision)
         {
-            if(collision.gameObject.layer == combatSystem.gameObject.layer) { return; }
-            if (dontHit) { return; }
+            if(collision.gameObject.layer == combatSystem.gameObject.layer || dontHit)
+                return; 
 
             HealthSystem healthSystem;
             if (healthSystem = collision.gameObject.GetComponent<HealthSystem>()){
@@ -47,6 +48,18 @@ namespace Finisher.Characters.Weapons
         {
             yield return new WaitForSeconds(RESTORE_HIT_TIME);
             dontHit = false;
+        }
+
+        void ToggleTriggerCollider(bool isDamageFrame)
+        {
+            if (isDamageFrame)
+            {
+                boxCollider.enabled = true;
+            }
+            else
+            {
+                boxCollider.enabled = false;
+            }
         }
     }
 }

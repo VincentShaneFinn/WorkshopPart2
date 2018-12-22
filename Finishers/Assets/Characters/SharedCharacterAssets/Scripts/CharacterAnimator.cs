@@ -6,18 +6,28 @@ namespace Finisher.Characters
 {
     #region public Animation Consts
 
-    public static class CharAnimStates
+    public static class AnimationStates
     {
         public const string LOCOMOTION_STATE = "Basic Locomotion";
         public const string AIRBORNE_STATE = "Airborne";
         public const string STRAFING_STATE = "Strafing Locomotion";
         public const string KNOCKBACK_STATE = "Knockback";
-        public const string LIGHT_ATTACK1_STATE = "LightAttack";
+        public const string LIGHT_ATTACK1_STATE = "Light1";
+        public const string LIGHT_ATTACK2_STATE = "Light2";
+        public const string LIGHT_ATTACK3_STATE = "Light3";
+        public const string LIGHT_ATTACK4_STATE = "Light4";
+        public const string HEAVY_ATTACK1_STATE = "Heavy1";
+        public const string HEAVY_ATTACK2_STATE = "Heavy2";
         public const string DODGE_STATE = "Dodge";
         public const string DYING_STATE = "Dying";
     }
 
-    public static class CharAnimParams
+    public static class AnimationTags
+    {
+        public const string ATTACK_TAG = "Attack";
+    }
+
+    public static class AnimationParams
     {
         public const string ATTACK_TRIGGER = "Attack";
         public const string DODGE_TRIGGER = "Dodge";
@@ -25,9 +35,11 @@ namespace Finisher.Characters
 
         public const string ISHEAVY_BOOL = "IsHeavy";
         public const string DYING_BOOL = "Dying";
+
+        public const string ATTACK_SPEED_MULTIPLIER = "AttackSpeedMultiplier";
     }
 
-    public static class AnimOverrideIndexes
+    public static class AnimationOverrideIndexes
     {
         public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
         public const string DODGE_INDEX = "DEFAULT_DODGE";
@@ -78,7 +90,7 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE) && move.magnitude > 0)
+            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.LOCOMOTION_STATE) && move.magnitude > 0)
             {
                 if (Running)
                 {

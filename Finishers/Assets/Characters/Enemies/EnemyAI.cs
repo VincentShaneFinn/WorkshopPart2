@@ -36,7 +36,7 @@ namespace Finisher.Characters
             TestInput();
             // todo make a state machine
             pursueNearbyPlayer();
-            if (currentState != EnemyState.Attacking) // should be in range, then start attacking if we arent already
+            if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
             {
                 attackPlayerIfNear();
             }
@@ -79,9 +79,9 @@ namespace Finisher.Characters
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                combatSystem.LightAttack();
+                combatSystem.LightAttack(); // todo seperate into enemy combat system?
                 currentState = EnemyState.Attacking;
-                StartCoroutine(TempStopAttackingInSeconds()); 
+                StartCoroutine(TempStopAttackingInSeconds());
             }
         }
         IEnumerator TempStopAttackingInSeconds()

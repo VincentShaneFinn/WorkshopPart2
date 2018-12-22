@@ -45,6 +45,7 @@ namespace Finisher.Characters
 
         public void Damage(float damage)
         {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE)) { return; }
             currentHealth -= damage;
             healthSlider.value = getCurrentHealthAsPercent();
             Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
@@ -58,13 +59,13 @@ namespace Finisher.Characters
         {
             if (characterAnim.Dying) { return; }
             characterAnim.Dying = true;
-            animator.SetBool(CharAnimParams.DYING_BOOL, true);
+            animator.SetBool(AnimationParams.DYING_BOOL, true);
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            animOverrideController[AnimOverrideIndexes.KNOCKBACK_INDEX] = animClip;
-            animator.SetTrigger(CharAnimParams.KNOCKBACK_TRIGGER);
+            animOverrideController[AnimationOverrideIndexes.KNOCKBACK_INDEX] = animClip;
+            animator.SetTrigger(AnimationParams.KNOCKBACK_TRIGGER);
         }
 
         private float getCurrentHealthAsPercent()

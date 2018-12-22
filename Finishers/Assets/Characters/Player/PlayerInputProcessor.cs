@@ -9,8 +9,6 @@ namespace Finisher.Characters
     public class PlayerInputProcessor : MonoBehaviour
     {
         #region member variables
-        [Tooltip("The amount of time that to keep an input in the que")]
-        [SerializeField] float rememberInputForSeconds = .6f;
 
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
@@ -21,10 +19,6 @@ namespace Finisher.Characters
 
         const string PRIMARY_ATTACK = "Mouse 0";
         const string DODGE = "Mouse 1";
-
-        private String nextInput = "";
-        private String previousInput = "";
-        private float lastInputTime = 0;
 
         #endregion
 
@@ -118,41 +112,6 @@ namespace Finisher.Characters
             {
                 character.CanRotate = true;
             }
-        }
-
-        private void SetNextInput()
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                nextInput = PRIMARY_ATTACK;
-                lastInputTime = Time.time;
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse1))
-            {
-                nextInput = DODGE;
-                lastInputTime = Time.time;
-            }
-            else
-            {
-                if (Time.time - lastInputTime > rememberInputForSeconds)
-                {
-                    nextInput = "";
-                }
-            }
-        }
-
-        private void UseNextInput()
-        {
-            switch (nextInput)
-            {
-                case PRIMARY_ATTACK:
-                    //character.Attack();
-                    break;
-                case DODGE:
-                    //character.Dodge();
-                    break;
-            }
-            nextInput = "";
         }
 
         private void GetJumpInput()

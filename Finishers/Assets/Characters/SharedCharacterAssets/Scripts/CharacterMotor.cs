@@ -277,7 +277,7 @@ namespace Finisher.Characters
         protected void attemptToJump(bool jump)
         {
             // check whether conditions are right to allow a jump:
-            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(CharAnimStates.LOCOMOTION_STATE) && !animator.IsInTransition(0))
+            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.LOCOMOTION_STATE) && !animator.IsInTransition(0))
             {
                 // jump!
                 rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
