@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions;
-
-using Finisher.Characters.Weapons;
+﻿using UnityEngine;
 
 namespace Finisher.Characters
 {
@@ -32,7 +27,7 @@ namespace Finisher.Characters
         {
             CharacterAnim = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
-            Animator.SetFloat(AnimationParams.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            Animator.SetFloat(AnimContstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
 
             lightAttackDamage = config.LightAttackDamage;
             heavyAttackDamage = config.HeavyAttackDamage;
@@ -41,13 +36,14 @@ namespace Finisher.Characters
 
         void Update()
         {
-            if (Animator.GetAnimatorTransitionInfo(0).anyState)
+            // todo find a better way to catch when an attack is interupped, and rename Animation States
+            if (Animator.GetAnimatorTransitionInfo(0).anyState || Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE))
             {
                 OnDamageFrameChanged(false);
             }
 
             // todo move to a central animatorStateHandler
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimationTags.ATTACK_TAG) &&
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACK_TAG) &&
                 !Animator.IsInTransition(0))
             {
                 CharacterAnim.CanRotate = false;
@@ -62,15 +58,15 @@ namespace Finisher.Characters
 
         public void LightAttack()
         {
-            Animator.SetBool(AnimationParams.ISHEAVY_BOOL, false);
-            Animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, false);
+            Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = lightAttackDamage;
         }
 
         public void HeavyAttack()
         {
-            Animator.SetBool(AnimationParams.ISHEAVY_BOOL, true);
-            Animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, true);
+            Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = heavyAttackDamage;
         }
 
@@ -104,23 +100,21 @@ namespace Finisher.Characters
 
         public void SetDodgeTrigger(AnimationClip animClip)
         {
-            CharacterAnim.animOverrideController[AnimationOverrideIndexes.DODGE_INDEX] = animClip;
+            CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DODGE_INDEX] = animClip;
             if (Animator.IsInTransition(0) ||
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.KNOCKBACK_STATE) ||
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE))
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE) ||
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE))
             {
-                Animator.ResetTrigger(AnimationParams.DODGE_TRIGGER);
+                Animator.ResetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
             else
             {
-                Animator.SetTrigger(AnimationParams.DODGE_TRIGGER);
+                Animator.SetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
-            Animator.ResetTrigger(AnimationParams.ATTACK_TRIGGER);
+            Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
         }
 
-        // animation events
-
-        // todo replace this with damageStart and end frames
+        #region Combat Animation Events
 
         void Hit()
         {
@@ -136,6 +130,8 @@ namespace Finisher.Characters
         {
             OnDamageFrameChanged(false);
         }
+
+        #endregion
 
     }
 }

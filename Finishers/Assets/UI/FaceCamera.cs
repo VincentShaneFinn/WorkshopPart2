@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RPG.Characters
+namespace Finisher.Cameras
 {
     public class FaceCamera : MonoBehaviour
     {

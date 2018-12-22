@@ -1,48 +1,56 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
 {
-    #region public Animation Consts
+    #region public Animation Constants
 
-    public static class AnimationStates
+    public static class AnimContstants
     {
-        public const string LOCOMOTION_STATE = "Basic Locomotion";
-        public const string AIRBORNE_STATE = "Airborne";
-        public const string STRAFING_STATE = "Strafing Locomotion";
-        public const string KNOCKBACK_STATE = "Knockback";
-        public const string LIGHT_ATTACK1_STATE = "Light1";
-        public const string LIGHT_ATTACK2_STATE = "Light2";
-        public const string LIGHT_ATTACK3_STATE = "Light3";
-        public const string LIGHT_ATTACK4_STATE = "Light4";
-        public const string HEAVY_ATTACK1_STATE = "Heavy1";
-        public const string HEAVY_ATTACK2_STATE = "Heavy2";
-        public const string DODGE_STATE = "Dodge";
-        public const string DYING_STATE = "Dying";
-    }
+        public class States
+        {
+            public const string LOCOMOTION_STATE = "Basic Locomotion";
+            public const string AIRBORNE_STATE = "Airborne";
+            public const string STRAFING_STATE = "Strafing Locomotion";
+            public const string KNOCKBACK_STATE = "Knockback";
+            public const string LIGHT_ATTACK1_STATE = "Light1";
+            public const string LIGHT_ATTACK2_STATE = "Light2";
+            public const string LIGHT_ATTACK3_STATE = "Light3";
+            public const string LIGHT_ATTACK4_STATE = "Light4";
+            public const string HEAVY_ATTACK1_STATE = "Heavy1";
+            public const string HEAVY_ATTACK2_STATE = "Heavy2";
+            public const string DODGE_STATE = "Dodge";
+            public const string DYING_STATE = "Dying";
+        }
 
-    public static class AnimationTags
-    {
-        public const string ATTACK_TAG = "Attack";
-    }
+        public class Tags
+        {
+            public const string ATTACK_TAG = "Attack";
+        }
 
-    public static class AnimationParams
-    {
-        public const string ATTACK_TRIGGER = "Attack";
-        public const string DODGE_TRIGGER = "Dodge";
-        public const string KNOCKBACK_TRIGGER = "Knockback";
+        public class Parameters
+        {
+            public const string FORWARD_FLOAT = "Forward";
+            public const string TURN_FLOAT = "Turn";
+            public const string JUMP_FLOAT = "Jump";
+            public const string JUMPLEG_FLOAT = "JumpLeg";
 
-        public const string ISHEAVY_BOOL = "IsHeavy";
-        public const string DYING_BOOL = "Dying";
+            public const string ONGROUND_BOOL = "OnGround";
+            public const string STRAFING_BOOL = "Strafing";
+            public const string ISHEAVY_BOOL = "IsHeavy";
+            public const string DYING_BOOL = "Dying";
 
-        public const string ATTACK_SPEED_MULTIPLIER = "AttackSpeedMultiplier";
-    }
+            public const string ATTACK_TRIGGER = "Attack";
+            public const string DODGE_TRIGGER = "Dodge";
+            public const string KNOCKBACK_TRIGGER = "Knockback";
 
-    public static class AnimationOverrideIndexes
-    {
-        public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
-        public const string DODGE_INDEX = "DEFAULT_DODGE";
+            public const string ATTACK_SPEED_MULTIPLIER = "AttackSpeedMultiplier";
+        }
+
+        public static class OverrideIndexes
+        {
+            public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
+            public const string DODGE_INDEX = "DEFAULT_DODGE";
+        }
     }
 
     #endregion
@@ -51,6 +59,7 @@ namespace Finisher.Characters
 	{
 
         #region Movement Animation Control
+
         protected override void updateAnimator(Vector3 move)
         {
             updateAnimatorParams();
@@ -61,13 +70,13 @@ namespace Finisher.Characters
         private void updateAnimatorParams()
         {
             // update the animator parameters
-            animator.SetFloat("Forward", forwardAmount, 0.1f, Time.deltaTime);
-            animator.SetFloat("Turn", turnAmount, 0.1f, Time.deltaTime);
-            animator.SetBool("OnGround", isGrounded);
-            animator.SetBool("Strafing", Strafing);
+            animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
+            animator.SetFloat(AnimContstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
+            animator.SetBool(AnimContstants.Parameters.ONGROUND_BOOL, isGrounded);
+            animator.SetBool(AnimContstants.Parameters.STRAFING_BOOL, Strafing);
             if (!isGrounded)
             {
-                animator.SetFloat("Jump", rigidBody.velocity.y);
+                animator.SetFloat(AnimContstants.Parameters.JUMP_FLOAT, rigidBody.velocity.y);
             }
         }
 
@@ -82,7 +91,7 @@ namespace Finisher.Characters
             float jumpLeg = (runCycle < HALF ? 1 : -1) * forwardAmount;
             if (isGrounded)
             {
-                animator.SetFloat("JumpLeg", jumpLeg);
+                animator.SetFloat(AnimContstants.Parameters.JUMPLEG_FLOAT, jumpLeg);
             }
         }
 
@@ -92,7 +101,7 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.LOCOMOTION_STATE) && move.magnitude > 0)
+            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.LOCOMOTION_STATE) && move.magnitude > 0)
             {
                 if (GlobalAnimSpeedMultiplier == 1)
                 {

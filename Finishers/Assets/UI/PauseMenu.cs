@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using Finisher.Core;
@@ -33,29 +31,21 @@ namespace Finisher.UI
             }
         }
 
-        // todo create a core gamestate where the game is paused
         public void TogglePauseMenu()
         {
-            GameManager.instance.GamePaused = !GameManager.instance.GamePaused;
+            var paused = !GameManager.instance.GamePaused;
+            GameManager.instance.GamePaused = paused;
+            PauseMenuObject.SetActive(paused);
+            Cursor.visible = paused;
 
             if (GameManager.instance.GamePaused)
             {
-                GameManager.instance.GamePaused = true;
-
                 Time.timeScale = 0;
-                PauseMenuObject.SetActive(true);
-
-                Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
             }
             else
             {
-                GameManager.instance.GamePaused = false;
-
                 Time.timeScale = 1;
-                PauseMenuObject.SetActive(false);
-
-                Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }
         }
@@ -67,6 +57,7 @@ namespace Finisher.UI
 
         public void Quit()
         {
+            Debug.Log("Quit Game");
             Application.Quit();
         }
     }

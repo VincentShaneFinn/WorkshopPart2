@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Finisher.Core
 {
@@ -14,7 +12,6 @@ namespace Finisher.Core
         void Awake()
         {
             SingletonSetup();
-
             InitGame();
         }
 
@@ -34,12 +31,6 @@ namespace Finisher.Core
         private void InitGame()
         {
             print("Initialize Game");
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
     }
 }

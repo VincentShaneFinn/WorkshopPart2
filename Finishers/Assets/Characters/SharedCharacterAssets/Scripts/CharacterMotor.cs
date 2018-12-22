@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Animator))]
     public abstract class CharacterMotor : MonoBehaviour
     {
@@ -14,8 +14,6 @@ namespace Finisher.Characters
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
         [HideInInspector] public Transform CurrentLookTarget = null; // this can be used to set what you are looking at during strafing
         [HideInInspector] public bool Running = false;
-
-        public bool CanJump = true;
 
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
@@ -41,7 +39,6 @@ namespace Finisher.Characters
         private bool canRotate = true;
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
-        private bool recentlyJumped = false;
 
         #endregion
 
@@ -50,9 +47,8 @@ namespace Finisher.Characters
         [Header("Character Controller Settings")]
         [SerializeField] private float movingTurnSpeed = 1000;
         [SerializeField] private float stationaryTurnSpeed = 1000;
-        [SerializeField] private float jumpPower = 7f;
         [Range(1f, 4f)] [SerializeField] private float gravityMultiplier = 2f;
-        [Tooltip("May need to modify to get things like jumping / walking to look right with custom models?")]
+        [Tooltip("May need to modify to get things like  walking to look right with custom models?")]
         [SerializeField] protected float runCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
         [Tooltip("Used to move faster, using rigibody velocity")]
         [SerializeField] protected float moveSpeedMultiplier = 1f;
@@ -179,7 +175,7 @@ namespace Finisher.Characters
 
         #region Character Mover
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
-        public void MoveCharacter(Vector3 moveDirection, bool jump = false, bool running = false)
+        public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
             if (Dying)
             {
@@ -196,7 +192,6 @@ namespace Finisher.Characters
             if (!CanMove) {
                 moveDirection = Vector3.zero;
                 forwardAmount = 0;
-                jump = false;
             }
             if (!CanRotate)
             {
@@ -216,11 +211,7 @@ namespace Finisher.Characters
             // control and velocity handling is different when grounded and airborne:
             if (isGrounded)
             {
-                attemptToJump(jump);
-                if (!recentlyJumped)
-                {
-                    snapToGround();
-                }
+                snapToGround();
             }
             else
             {
@@ -273,31 +264,6 @@ namespace Finisher.Characters
             {
                 transform.LookAt(new Vector3(CurrentLookTarget.position.x, transform.position.y, CurrentLookTarget.position.z));
             }
-        }
-
-        protected void attemptToJump(bool jump)
-        {
-            // check whether conditions are right to allow a jump:
-            if (CanJump && jump && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.LOCOMOTION_STATE) && !animator.IsInTransition(0))
-            {
-                // jump!
-                rigidBody.velocity = new Vector3(rigidBody.velocity.x, jumpPower, rigidBody.velocity.z);
-                isGrounded = false;
-                animator.applyRootMotion = false;
-                groundCheckDistance = 0.1f;
-                if (!recentlyJumped)
-                {
-                    recentlyJumped = true;
-                    float timeToFreeJump = .3f;
-                    StartCoroutine(FreeJumpOverTime(timeToFreeJump));
-                }
-            }
-        }
-
-        IEnumerator FreeJumpOverTime(float time)
-        {
-            yield return new WaitForSeconds(time);
-            recentlyJumped = false;
         }
 
         void snapToGround()

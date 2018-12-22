@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -14,12 +13,10 @@ namespace Finisher.Characters
         [SerializeField] float stoppingDistance = 1.3f;
 
         #region CanMove and CanRotate Overrides
+
         public override bool CanMove
         {
-            get
-            {
-                return base.CanMove;
-            }
+            get { return base.CanMove; }
             set
             {
                 base.CanMove = value;
@@ -36,10 +33,7 @@ namespace Finisher.Characters
 
         public override bool CanRotate
         {
-            get
-            {
-                return base.CanRotate;
-            }
+            get { return base.CanRotate; }
             set
             {
                 base.CanRotate = value;
@@ -53,6 +47,7 @@ namespace Finisher.Characters
                 }
             }
         }
+
         #endregion
 
         void Start()
@@ -89,14 +84,13 @@ namespace Finisher.Characters
         {
             if (CanMove || CanRotate)
             {
-                // TODO build a system of allowing y movement for animations, like jump attack, or getting knocked into the air, which disables and re-enables the agent
                 if (target)
                 {
                     agent.SetDestination(target.position);
 
                     if (agent.remainingDistance > agent.stoppingDistance && CanMove)
                     {
-                        MoveCharacter(agent.desiredVelocity, false);
+                        MoveCharacter(agent.desiredVelocity);
                     }
                     else
                     {

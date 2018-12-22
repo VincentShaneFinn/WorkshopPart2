@@ -14,32 +14,32 @@ namespace Finisher.Cameras
 
         #region Class Variables
         public bool CameraControlLocked = false; 
-        [SerializeField] float m_MoveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
-        [Range(0f, 10f)] [SerializeField] private float m_TurnSpeed = 1.5f;   // How fast the rig will rotate from user input.
-        [SerializeField] float m_TurnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
-        [SerializeField] float m_TiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
-        [SerializeField] float m_TiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
-        [SerializeField] bool m_VerticalAutoReturn = false;           // set wether or not the vertical axis should auto return
+        [SerializeField] float moveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
+        [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
+        [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
+        [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
+        [SerializeField] float tiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
+        [SerializeField] bool verticalAutoReturn = false;           // set wether or not the vertical axis should auto return
 
         //AutoCam variables
         [SerializeField] float autoCamTurnSpeed = 1.5f; // TODO allow user to change both turn speed and autoCam Turn speed
         [SerializeField] float timeUntilAutoCam = 1f;
-        [SerializeField] float m_TargetVelocityLowerLimit = 4f;// the minimum velocity above which the camera turns towards the object's velocity. Below this we use the object's forward direction.
-        [SerializeField] float m_SmoothTurnFactor = 0.2f; // the smoothing for the camera's rotation
+        [SerializeField] float targetVelocityLowerLimit = 4f;// the minimum velocity above which the camera turns towards the object's velocity. Below this we use the object's forward direction.
+        [SerializeField] float smoothTurnFactor = 0.2f; // the smoothing for the camera's rotation
         private float countUntilAutoCam = 0f;
-        private float m_CurrentTurnAmount; // How much to turn the camera
-        private float m_TurnSpeedVelocityChange; // The change in the turn speed velocity
+        private float currentTurnAmount; // How much to turn the camera
+        private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
 
-        private float m_LookAngle;                    // The rig's y axis rotation.
-        private float m_TiltAngle;                    // The pivot's x axis rotation.
-        private const float k_LookDistance = 100f;    // How far in front of the pivot the character's look target is.
-		private Vector3 m_PivotEulers;
-		private Quaternion m_PivotTargetRot;
-		private Quaternion m_TransformTargetRot;
+        private float lookAngle;                    // The rig's y axis rotation.
+        private float tiltAngle;                    // The pivot's x axis rotation.
+        private const float lookDistance = 100f;    // How far in front of the pivot the character's look target is.
+		private Vector3 pivotEulers;
+		private Quaternion pivotTargetRot;
+		private Quaternion transformTargetRot;
         private bool usingAutoCam = false;
-        float InputX;
-        float InputY;
+        float inputX;
+        float inputY;
         #endregion
 
         protected override void Awake()
@@ -47,9 +47,9 @@ namespace Finisher.Cameras
             base.Awake();
 
             //Initialize variables
-			m_PivotEulers = m_Pivot.rotation.eulerAngles;
-	        m_PivotTargetRot = m_Pivot.transform.localRotation;
-			m_TransformTargetRot = transform.localRotation;
+			pivotEulers = pivot.rotation.eulerAngles;
+	        pivotTargetRot = pivot.transform.localRotation;
+			transformTargetRot = transform.localRotation;
         }
 
 
@@ -63,8 +63,8 @@ namespace Finisher.Cameras
                 return;
             }
             // Read the user input
-            InputX = Input.GetAxis("Mouse X");
-            InputY = Input.GetAxis("Mouse Y");
+            inputX = Input.GetAxis("Mouse X");
+            inputY = Input.GetAxis("Mouse Y");
 
             SetUsingAutoCam();
             HandleRotationMovement();
@@ -92,7 +92,12 @@ namespace Finisher.Cameras
                 return;
             }
 
-            if (Mathf.Abs(InputX) > 0 || Mathf.Abs(InputY) > 0) // user input found
+            SetCameraMode();
+        }
+
+        private void SetCameraMode()
+        {
+            if (Mathf.Abs(inputX) > 0 || Mathf.Abs(inputY) > 0) // user input found
             {
                 countUntilAutoCam = 0f;
             }
@@ -118,10 +123,10 @@ namespace Finisher.Cameras
             usingAutoCam = switchToAutoCam;
             if (!usingAutoCam)
             {
-                m_LookAngle = transform.eulerAngles.y;
-                m_TiltAngle = m_Pivot.transform.localEulerAngles.x;
-                if (m_TiltAngle > 180) {
-                    m_TiltAngle -= 360;
+                lookAngle = transform.eulerAngles.y;
+                tiltAngle = pivot.transform.localEulerAngles.x;
+                if (tiltAngle > 180) {
+                    tiltAngle -= 360;
                 }
             }
 
@@ -130,10 +135,10 @@ namespace Finisher.Cameras
         // Moves the camera rig to follow the target over some speed
         protected override void FollowTarget(float deltaTime)
         {
-            if (!(deltaTime > 0) || m_Target == null) return;
+            if (!(deltaTime > 0) || followTarget == null) return;
 
             // Move the rig towards target position.
-            transform.position = Vector3.Lerp(transform.position, m_Target.position, deltaTime * m_MoveSpeed);
+            transform.position = Vector3.Lerp(transform.position, followTarget.position, deltaTime * moveSpeed);
 
             if (usingAutoCam && !CameraControlLocked)
             {
@@ -141,7 +146,6 @@ namespace Finisher.Cameras
             }
         }
 
-        // TODO make an interface to interact with this from somewhere else
         public Transform optionalLookTarget = null;
         public bool ForceAutoLook = false;
 
@@ -149,13 +153,13 @@ namespace Finisher.Cameras
         private void AutoRotateCamera(float deltaTime)
         {
             // initialise some vars, we'll be modifying these in a moment
-            var targetForward = m_Target.forward;
-            var targetUp = m_Target.up;
+            var targetForward = followTarget.forward;
+            var targetUp = followTarget.up;
 
             // in follow velocity mode, the camera's rotation is aligned towards the object's velocity direction
             // but only if the object is traveling faster than a given threshold.
 
-            if (targetRigidbody.velocity.magnitude > m_TargetVelocityLowerLimit)
+            if (targetRigidbody.velocity.magnitude > targetVelocityLowerLimit)
             {
                 // velocity is high enough, so we'll use the target's velocty
                 targetForward = targetRigidbody.velocity.normalized;
@@ -165,7 +169,8 @@ namespace Finisher.Cameras
             {
                 targetUp = Vector3.up;
             }
-            m_CurrentTurnAmount = Mathf.SmoothDamp(m_CurrentTurnAmount, 1, ref m_TurnSpeedVelocityChange, m_SmoothTurnFactor);
+
+            currentTurnAmount = Mathf.SmoothDamp(currentTurnAmount, 1, ref turnSpeedVelocityChange, smoothTurnFactor);
 
             // camera's rotation is split into two parts, which can have independend speed settings:
             // rotating towards the target's forward direction (which encompasses its 'yaw' and 'pitch')
@@ -176,9 +181,17 @@ namespace Finisher.Cameras
                 targetForward = transform.forward;
             }
 
-            // Get the desired rotation
-            Quaternion desiredLookRotation;
-            if (targetForward != Vector3.zero)
+            Quaternion desiredLookRotation; 
+            Quaternion desiredTiltRotation = Quaternion.identity;
+
+            //If there is an active optional look target, look at that
+            if (optionalLookTarget != null && optionalLookTarget.gameObject.activeSelf)
+            {
+                Quaternion rotationToTarget = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
+                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
+                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
+            }
+            else if (targetForward != Vector3.zero)
             {
                 desiredLookRotation = Quaternion.LookRotation(targetForward, Vector3.up);
             }
@@ -186,19 +199,9 @@ namespace Finisher.Cameras
             {
                 desiredLookRotation = transform.rotation;
             }
-
-            // Get the desired tilt
-            Quaternion desiredTiltRotation = Quaternion.identity;
-
-            //If there is an active optional look target, look at that instead
-            if (optionalLookTarget && optionalLookTarget.gameObject.activeSelf)
-            {
-                Quaternion rotationToTarget = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
-                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
-                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
-            }
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime);
-            m_Pivot.transform.localRotation = Quaternion.Lerp(m_Pivot.transform.localRotation, desiredTiltRotation, autoCamTurnSpeed * m_CurrentTurnAmount * deltaTime); ;
+           
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime);
+            pivot.transform.localRotation = Quaternion.Lerp(pivot.transform.localRotation, desiredTiltRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime); ;
         }
 
         // handle player input to look around
@@ -208,38 +211,38 @@ namespace Finisher.Cameras
 			    return;
 
             // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
-            m_LookAngle += InputX*m_TurnSpeed;
+            lookAngle += inputX*turnSpeed;
 
             // Rotate the rig (the root object) around Y axis only:
-            m_TransformTargetRot = Quaternion.Euler(0f, m_LookAngle, 0f);
+            transformTargetRot = Quaternion.Euler(0f, lookAngle, 0f);
 
-            if (m_VerticalAutoReturn)
+            if (verticalAutoReturn)
             {
                 // For tilt input, we need to behave differently depending on whether we're using mouse or touch input:
                 // on mobile, vertical input is directly mapped to tilt value, so it springs back automatically when the look input is released
                 // we have to test whether above or below zero because we want to auto-return to zero even if min and max are not symmetrical.
-                m_TiltAngle = InputY > 0 ? Mathf.Lerp(0, -m_TiltMin, InputY) : Mathf.Lerp(0, m_TiltMax, -InputY);
+                tiltAngle = inputY > 0 ? Mathf.Lerp(0, -tiltMin, inputY) : Mathf.Lerp(0, tiltMax, -inputY);
             }
             else
             {
                 // on platforms with a mouse, we adjust the current angle based on Y mouse input and turn speed
-                m_TiltAngle -= InputY * m_TurnSpeed;
+                tiltAngle -= inputY * turnSpeed;
                 // and make sure the new value is within the tilt range
-                m_TiltAngle = Mathf.Clamp(m_TiltAngle, -m_TiltMin, m_TiltMax);
+                tiltAngle = Mathf.Clamp(tiltAngle, -tiltMin, tiltMax);
             }
 
             // Tilt input around X is applied to the pivot (the child of this object)
-			m_PivotTargetRot = Quaternion.Euler(m_TiltAngle, m_PivotEulers.y , m_PivotEulers.z);
+			pivotTargetRot = Quaternion.Euler(tiltAngle, pivotEulers.y , pivotEulers.z);
 
-			if (m_TurnSmoothing > 0)
+			if (turnSmoothing > 0)
 			{
-				m_Pivot.localRotation = Quaternion.Slerp(m_Pivot.localRotation, m_PivotTargetRot, m_TurnSmoothing * Time.deltaTime);
-				transform.localRotation = Quaternion.Slerp(transform.localRotation, m_TransformTargetRot, m_TurnSmoothing * Time.deltaTime);
+				pivot.localRotation = Quaternion.Slerp(pivot.localRotation, pivotTargetRot, turnSmoothing * Time.deltaTime);
+				transform.localRotation = Quaternion.Slerp(transform.localRotation, transformTargetRot, turnSmoothing * Time.deltaTime);
 			}
 			else
 			{
-				m_Pivot.localRotation = m_PivotTargetRot;
-				transform.localRotation = m_TransformTargetRot;
+				pivot.localRotation = pivotTargetRot;
+				transform.localRotation = transformTargetRot;
 			}
         }
     }

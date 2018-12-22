@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -13,17 +11,22 @@ namespace Finisher.Characters
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] float attackRadius = 1.5f;
+        [Tooltip("Will use player as the default Combat Target")]
+        [SerializeField] GameObject combatTarget = null;
 
         AICharacterController aiCharacter;
         private CombatSystem combatSystem;
 
         private EnemyState currentState;
-        GameObject player = null;
+
 
         // Use this for initialization
         void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            if (combatTarget == null)
+            {
+                combatTarget = GameObject.FindGameObjectWithTag("Player");
+            }
             aiCharacter = GetComponent<AICharacterController>();
             combatSystem = GetComponent<CombatSystem>();
         }
@@ -31,9 +34,7 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            //if (player == null) { return; }
-
-            TestInput();
+            testInput();
             // todo make a state machine
             pursueNearbyPlayer();
             if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
@@ -42,7 +43,7 @@ namespace Finisher.Characters
             }
         }
 
-        private void TestInput()
+        private void testInput()
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -61,12 +62,13 @@ namespace Finisher.Characters
                 aiCharacter.CanRotate = true;
             }
         }
+
         private void pursueNearbyPlayer()
         {
-            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= chaseRadius)
             {
-                aiCharacter.SetTarget(player.transform);
+                aiCharacter.SetTarget(combatTarget.transform);
             }
             else
             {
@@ -76,10 +78,17 @@ namespace Finisher.Characters
 
         private void attackPlayerIfNear()
         {
-            float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
+            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                combatSystem.LightAttack(); // todo seperate into enemy combat system?
+                if (UnityEngine.Random.Range(0, 2) == 0)
+                {
+                    combatSystem.HeavyAttack();
+                }
+                else
+                {
+                    combatSystem.LightAttack();
+                }
                 currentState = EnemyState.Attacking;
                 StartCoroutine(TempStopAttackingInSeconds());
             }

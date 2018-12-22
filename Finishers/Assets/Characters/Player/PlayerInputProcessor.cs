@@ -1,6 +1,4 @@
 using Finisher.Core;
-using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -15,10 +13,6 @@ namespace Finisher.Characters
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
-        private bool jump = false;
-
-        const string PRIMARY_ATTACK = "Mouse 0";
-        const string DODGE = "Mouse 1";
 
         #endregion
 
@@ -39,27 +33,33 @@ namespace Finisher.Characters
 
             if (character.isGrounded)
             {
-                if (Input.GetKeyDown(KeyCode.Mouse0))
-                {
-                    combatSystem.LightAttack();
-                }
-
-                if (Input.GetKeyDown(KeyCode.Mouse1))
-                {
-                    combatSystem.HeavyAttack();
-                }
-
-                if (Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.LeftControl))
-                {
-                    var moveDirection = GetMoveDirection();
-                    combatSystem.Dodge(moveDirection);
-                }
+                processCombatInput();
             }
 
-            TestingInputZone();
+            testingInputZone();
+        }
+
+        private void processCombatInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                combatSystem.LightAttack();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse1))
+            {
+                combatSystem.HeavyAttack();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                var moveDirection = GetMoveDirection();
+                combatSystem.Dodge(moveDirection);
+            }
         }
 
         // todo, make sure it gets the direction with respect to the camera rig rotation
+        // and that it makes you dodge the way you expect
         MoveDirection GetMoveDirection()
         {
             float horizonatal = Input.GetAxisRaw("Horizontal");
@@ -89,7 +89,7 @@ namespace Finisher.Characters
             }
         }
 
-        private void TestingInputZone()
+        private void testingInputZone()
         {
             // todo remove this testing code
             // todo also consider allowing can move to be public
@@ -109,13 +109,17 @@ namespace Finisher.Characters
             {
                 character.CanRotate = true;
             }
-        }
-
-        private void GetJumpInput()
-        {
-            if (!jump)
+            if (Input.GetKeyDown(KeyCode.Z))
             {
-                jump = Input.GetButtonDown("Jump");
+                Time.timeScale = .3f;
+            }
+            if (Input.GetKeyUp(KeyCode.Z))
+            {
+                Time.timeScale = 1;
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                character.Strafing = !character.Strafing;
             }
         }
 
@@ -123,17 +127,15 @@ namespace Finisher.Characters
         {
             if (character.CanMove || character.CanRotate)
             {
-                ProcessMovementInput();
+                processMovementInput();
             }
             else
             {
                 character.MoveCharacter(Vector3.zero);
             }
-
-            jump = false;
         }
 
-        private void ProcessMovementInput()
+        private void processMovementInput()
         {
             // read inputs
             float horizonatal = Input.GetAxisRaw("Horizontal");
@@ -156,7 +158,7 @@ namespace Finisher.Characters
             //if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
 
             // pass all parameters to the character control script
-            character.MoveCharacter(moveDirection, jump, Input.GetKey(KeyCode.LeftShift));//change to use run button
+            character.MoveCharacter(moveDirection, Input.GetKey(KeyCode.LeftShift));//change to use run button
         }
     }
 }

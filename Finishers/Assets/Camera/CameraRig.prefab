@@ -63,6 +63,7 @@ GameObject:
   - component: {fileID: 54031346373556820}
   - component: {fileID: 114590938643267900}
   - component: {fileID: 114724886324918150}
+  - component: {fileID: 9205562777949044545}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -113,20 +114,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aef7701305757040aa449b8dd99a562, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 0}
-  m_AutoTargetPlayer: 1
-  m_UpdateType: 0
+  followTarget: {fileID: 0}
+  autoTargetPlayer: 1
+  updateType: 0
   CameraControlLocked: 0
-  m_MoveSpeed: 10
-  m_TurnSpeed: 1.5
-  m_TurnSmoothing: 0
-  m_TiltMax: 60
-  m_TiltMin: 45
-  m_VerticalAutoReturn: 0
+  moveSpeed: 10
+  turnSpeed: 1.5
+  turnSmoothing: 0
+  tiltMax: 75
+  tiltMin: 45
+  verticalAutoReturn: 0
   autoCamTurnSpeed: 1.5
   timeUntilAutoCam: 1
-  m_TargetVelocityLowerLimit: 4
-  m_SmoothTurnFactor: 0.2
+  targetVelocityLowerLimit: 10
+  smoothTurnFactor: 0.2
   optionalLookTarget: {fileID: 0}
   ForceAutoLook: 0
 --- !u!114 &114724886324918150
@@ -146,7 +147,20 @@ MonoBehaviour:
   sphereCastRadius: 0.1
   visualiseInEditor: 0
   closestDistance: 0.5
-  dontClipTag: Player
+--- !u!114 &9205562777949044545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1489285622189716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a10072e0a4f9b794e89b6b696d1cfc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManager: {fileID: 755630127305961269, guid: 4c2cec9c7076433448ee5002c76aba44,
+    type: 3}
 --- !u!1 &3298248469058211840
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +172,6 @@ GameObject:
   - component: {fileID: 7650847299250805513}
   - component: {fileID: 3314777869079347704}
   - component: {fileID: 6001314207506181002}
-  - component: {fileID: 2231642790134361421}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -230,17 +243,3 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3298248469058211840}
   m_Enabled: 1
---- !u!114 &2231642790134361421
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3298248469058211840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a10072e0a4f9b794e89b6b696d1cfc6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 755630127305961269, guid: 4c2cec9c7076433448ee5002c76aba44,
-    type: 3}

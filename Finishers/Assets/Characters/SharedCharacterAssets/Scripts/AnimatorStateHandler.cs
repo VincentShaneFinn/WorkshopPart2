@@ -8,24 +8,15 @@ namespace Finisher.Characters
     // or find a better way to handle this
     public class AnimatorStateHandler : StateMachineBehaviour
     {
-        [HideInInspector] public CharacterAnimator characterAnim;
 
-        private bool StateExited = true;
-        private bool StateEntered = false;
-
-        void OnStateEnter()
+        void OnStateMachineEnter()
         {
-            Debug.Log("Enter");
-            characterAnim.CanMove = false;
-            characterAnim.CanRotate = false;
+            Debug.Log("Enter State");
         }
 
-        void OnStateExit()
+        void OnStateMachineExit()
         {
-            Debug.Log("Exit");
-            characterAnim.CanMove = true;
-            characterAnim.CanRotate = true;
+            Debug.Log("Exit State");
         }
-
     }
 }

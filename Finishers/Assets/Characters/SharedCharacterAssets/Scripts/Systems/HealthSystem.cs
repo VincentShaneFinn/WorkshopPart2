@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 namespace Finisher.Characters
@@ -40,7 +37,8 @@ namespace Finisher.Characters
         {
             if (Input.GetKeyUp(KeyCode.K)) // todo remove testing buttons
             {
-                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
+                var animIndex = UnityEngine.Random.Range(0, config.KnockbackAnimations.Length);
+                Knockback(config.KnockbackAnimations[animIndex]);
             }
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
@@ -50,7 +48,7 @@ namespace Finisher.Characters
 
         public void Damage(float damage)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE)) { return; }
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE)) { return; }
             currentHealth -= damage;
             healthSlider.value = getCurrentHealthAsPercent();
 
@@ -78,13 +76,13 @@ namespace Finisher.Characters
         {
             if (CharacterAnim.Dying) { return; }
             CharacterAnim.Dying = true;
-            animator.SetBool(AnimationParams.DYING_BOOL, true);
+            animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            animOverrideController[AnimationOverrideIndexes.KNOCKBACK_INDEX] = animClip;
-            animator.SetTrigger(AnimationParams.KNOCKBACK_TRIGGER);
+            animOverrideController[AnimContstants.OverrideIndexes.KNOCKBACK_INDEX] = animClip;
+            animator.SetTrigger(AnimContstants.Parameters.KNOCKBACK_TRIGGER);
         }
 
         private float getCurrentHealthAsPercent()
