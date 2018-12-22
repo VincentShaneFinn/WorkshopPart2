@@ -82,6 +82,7 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
+  GlobalAnimSpeedMultiplier: 1
   animOverrideController: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
     type: 2}
   collisionDetectionMode: 2
@@ -119,6 +120,9 @@ MonoBehaviour:
   healthSlider: {fileID: 8623202209548946600}
   config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
   maxHealth: 100
+  KnockbackLimit: 2
+  FreeKnockbackTime: 1.5
+  CharacterAnim: {fileID: 0}
 --- !u!114 &1084891823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +137,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
   attackAnimSpeed: 0.5
+  Animator: {fileID: 0}
+  CharacterAnim: {fileID: 0}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0

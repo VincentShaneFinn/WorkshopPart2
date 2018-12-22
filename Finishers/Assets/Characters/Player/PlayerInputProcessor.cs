@@ -39,8 +39,6 @@ namespace Finisher.Characters
 
             if (character.isGrounded)
             {
-                GetJumpInput();
-
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     combatSystem.LightAttack();
@@ -51,12 +49,11 @@ namespace Finisher.Characters
                     combatSystem.HeavyAttack();
                 }
 
-                if (Input.GetKeyDown(KeyCode.Mouse2))
+                if (Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.LeftControl))
                 {
                     var moveDirection = GetMoveDirection();
                     combatSystem.Dodge(moveDirection);
                 }
-
             }
 
             TestingInputZone();

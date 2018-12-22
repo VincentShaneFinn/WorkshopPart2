@@ -86,23 +86,32 @@ namespace Finisher.Characters
             }
         }
 
+        // todo can we have a way to override this
+        // todo this isnt great
         private void setAnimatorSpeed(Vector3 move)
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
             if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.LOCOMOTION_STATE) && move.magnitude > 0)
             {
-                if (Running)
+                if (GlobalAnimSpeedMultiplier == 1)
                 {
-                    animator.speed = runAnimSpeedMultiplier;
+                    if (Running)
+                    {
+                        animator.speed = runAnimSpeedMultiplier;
+                    }
+                    else
+                        animator.speed = animSpeedMultiplier;
                 }
                 else
-                    animator.speed = animSpeedMultiplier;
+                {
+                    animator.speed = GlobalAnimSpeedMultiplier;
+                }
             }
             else
             {
                 // don't use that while airborne
-                animator.speed = 1;
+                animator.speed = GlobalAnimSpeedMultiplier;
             }
         }
 

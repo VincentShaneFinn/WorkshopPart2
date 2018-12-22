@@ -189,8 +189,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3472756
-        functionName: Hit
+      - time: 0.26595744
+        functionName: DamageStart
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.36595747
+        functionName: DamageEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -318,6 +325,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
@@ -342,6 +350,9 @@ ModelImporter:
     normalImportMode: 2
     tangentImportMode: 2
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 2
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
@@ -1039,7 +1050,6 @@ ModelImporter:
     legStretch: 0
     feetSpacing: 0
     rootMotionBoneName: PositionLocator
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0

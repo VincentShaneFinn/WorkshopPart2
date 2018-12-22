@@ -6,29 +6,28 @@ namespace Finisher.Characters.Weapons
 {
     public class WeaponColliderManager : MonoBehaviour
     {
-        bool isEnemy;
-        bool dontHit = false;
+
+        [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
+        [SerializeField] float ImpactFrameTime = .01f;
 
         const float RESTORE_HIT_TIME = .01f; // used to protect from In Out and back In issues
         // todo find a better way to protect a recently hit target
 
-        CombatSystem combatSystem;
-        [HideInInspector] public BoxCollider boxCollider; // todo, add this and the rigidbody
+        private float savedSpeedMultiplier;
+        private bool dontHit = false;
+
+        private CombatSystem combatSystem;
+        private BoxCollider boxCollider; // todo, add this and the rigidbody
 
         void Start()
         {
             combatSystem = GetComponentInParent<CombatSystem>();
+            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+            savedSpeedMultiplier = combatSystem.GetComponent<CharacterMotor>().GlobalAnimSpeedMultiplier;
+
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
-            if (combatSystem.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                isEnemy = true;
-            }
-            else
-            {
-                isEnemy = false;
-            }
-            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+
         }
 
         void OnTriggerEnter(Collider collision)
@@ -36,18 +35,14 @@ namespace Finisher.Characters.Weapons
             if(collision.gameObject.layer == combatSystem.gameObject.layer || dontHit)
                 return; 
 
-            HealthSystem healthSystem;
-            if (healthSystem = collision.gameObject.GetComponent<HealthSystem>()){
-                healthSystem.Damage(combatSystem.currentWeaponDamage);
+            HealthSystem targetHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
+            if (targetHealthSystem && !targetHealthSystem.CharacterAnim.Dying) {
+                targetHealthSystem.Damage(combatSystem.currentWeaponDamage);
+
                 dontHit = true;
+                StartCoroutine(ImpactFrames(targetHealthSystem));
                 StartCoroutine(restoreAbilityToHit());
             }
-        }
-
-        IEnumerator restoreAbilityToHit()
-        {
-            yield return new WaitForSeconds(RESTORE_HIT_TIME);
-            dontHit = false;
         }
 
         void ToggleTriggerCollider(bool isDamageFrame)
@@ -60,6 +55,23 @@ namespace Finisher.Characters.Weapons
             {
                 boxCollider.enabled = false;
             }
+        }
+
+        IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
+        {
+            combatSystem.CharacterAnim.GlobalAnimSpeedMultiplier = 0;
+            targetHealthSystem.CharacterAnim.GlobalAnimSpeedMultiplier = 0;
+            yield return new WaitForSeconds(ImpactFrameTime);
+            combatSystem.CharacterAnim.GlobalAnimSpeedMultiplier = savedSpeedMultiplier;
+            targetHealthSystem.CharacterAnim.GlobalAnimSpeedMultiplier = savedSpeedMultiplier;
+
+            StartCoroutine(restoreAbilityToHit());
+        }
+
+        IEnumerator restoreAbilityToHit()
+        {
+            yield return new WaitForSeconds(RESTORE_HIT_TIME);
+            dontHit = false;
         }
     }
 }

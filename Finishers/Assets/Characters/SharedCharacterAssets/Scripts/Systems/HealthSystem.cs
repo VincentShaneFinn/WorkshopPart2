@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 namespace Finisher.Characters
 {
+
     [RequireComponent(typeof(CharacterAnimator))]
     public class HealthSystem : MonoBehaviour
     {
@@ -14,17 +15,21 @@ namespace Finisher.Characters
         [SerializeField] Slider healthSlider;
         [SerializeField] HealthSystemConfig config;
         [SerializeField] float maxHealth = 100;
+        [SerializeField] int KnockbackLimit = 2;
+        [SerializeField] float FreeKnockbackTime = 1f;
 
         private float currentHealth;
+        private int knockbackCount;
 
-        private CharacterAnimator characterAnim;
+        [HideInInspector] public CharacterAnimator CharacterAnim;
         private Animator animator;
         private AnimatorOverrideController animOverrideController;
 
         void Start()
         {
-            characterAnim = GetComponent<CharacterAnimator>();
-            animOverrideController = characterAnim.animOverrideController;
+            CharacterAnim = GetComponent<CharacterAnimator>();
+
+            animOverrideController = CharacterAnim.animOverrideController;
             animator = GetComponent<Animator>();
 
             currentHealth = maxHealth;
@@ -48,17 +53,31 @@ namespace Finisher.Characters
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE)) { return; }
             currentHealth -= damage;
             healthSlider.value = getCurrentHealthAsPercent();
-            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
+
+            if (knockbackCount < KnockbackLimit)
+            {
+                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
+                knockbackCount++;
+                StartCoroutine(ReleaseCountAfterDelay());
+            }
+
             if(currentHealth <= 0)
             {
                 Kill();
             }
         }
 
+        // todo, make this care about consective hits or building up a resistance?
+        IEnumerator ReleaseCountAfterDelay()
+        {
+            yield return new WaitForSeconds(FreeKnockbackTime);
+            knockbackCount--;
+        }
+
         public void Kill()
         {
-            if (characterAnim.Dying) { return; }
-            characterAnim.Dying = true;
+            if (CharacterAnim.Dying) { return; }
+            CharacterAnim.Dying = true;
             animator.SetBool(AnimationParams.DYING_BOOL, true);
         }
 

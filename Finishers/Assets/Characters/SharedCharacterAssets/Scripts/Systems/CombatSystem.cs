@@ -19,47 +19,59 @@ namespace Finisher.Characters
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
-        [SerializeField] private float attackAnimSpeed = 1f;
-        private int nextAttackIndex = 0;
+        private float lightAttackDamage;
+        private float heavyAttackDamage;
 
-        private Animator animator;
-        private CharacterAnimator characterAnim;
+
+        [SerializeField] private float attackAnimSpeed = 1f;
+
+        [HideInInspector] public Animator Animator;
+        [HideInInspector] public CharacterAnimator CharacterAnim;
 
         void Start()
         {
-            characterAnim = GetComponent<CharacterAnimator>();
-            animator = GetComponent<Animator>();
-            animator.SetFloat(AnimationParams.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            CharacterAnim = GetComponent<CharacterAnimator>();
+            Animator = GetComponent<Animator>();
+            Animator.SetFloat(AnimationParams.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
 
-            currentWeaponDamage = config.LightAttackDamage;
+            lightAttackDamage = config.LightAttackDamage;
+            heavyAttackDamage = config.HeavyAttackDamage;
             IsDamageFrame = false;
         }
 
         void Update()
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimationTags.ATTACK_TAG) &&
-                !animator.IsInTransition(0))
+            if (Animator.GetAnimatorTransitionInfo(0).anyState)
             {
-                characterAnim.CanRotate = false;
-                characterAnim.CanMove = false;
+                OnDamageFrameChanged(false);
+            }
+
+            // todo move to a central animatorStateHandler
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimationTags.ATTACK_TAG) &&
+                !Animator.IsInTransition(0))
+            {
+                CharacterAnim.CanRotate = false;
+                CharacterAnim.CanMove = false;
             }
             else
             {
-                characterAnim.CanMove = true;
-                characterAnim.CanRotate = true;
+                CharacterAnim.CanMove = true;
+                CharacterAnim.CanRotate = true;
             }
         }
 
         public void LightAttack()
         {
-            animator.SetBool(AnimationParams.ISHEAVY_BOOL, false);
-            animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            Animator.SetBool(AnimationParams.ISHEAVY_BOOL, false);
+            Animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            currentWeaponDamage = lightAttackDamage;
         }
 
         public void HeavyAttack()
         {
-            animator.SetBool(AnimationParams.ISHEAVY_BOOL, true);
-            animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            Animator.SetBool(AnimationParams.ISHEAVY_BOOL, true);
+            Animator.SetTrigger(AnimationParams.ATTACK_TRIGGER);
+            currentWeaponDamage = heavyAttackDamage;
         }
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
@@ -92,18 +104,18 @@ namespace Finisher.Characters
 
         public void SetDodgeTrigger(AnimationClip animClip)
         {
-            characterAnim.animOverrideController[AnimationOverrideIndexes.DODGE_INDEX] = animClip;
-            if (animator.IsInTransition(0) ||
-                animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.KNOCKBACK_STATE) ||
-                animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE))
+            CharacterAnim.animOverrideController[AnimationOverrideIndexes.DODGE_INDEX] = animClip;
+            if (Animator.IsInTransition(0) ||
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.KNOCKBACK_STATE) ||
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimationStates.DODGE_STATE))
             {
-                animator.ResetTrigger(AnimationParams.DODGE_TRIGGER);
-                animator.ResetTrigger(AnimationParams.ATTACK_TRIGGER);
+                Animator.ResetTrigger(AnimationParams.DODGE_TRIGGER);
             }
             else
             {
-                animator.SetTrigger(AnimationParams.DODGE_TRIGGER);
+                Animator.SetTrigger(AnimationParams.DODGE_TRIGGER);
             }
+            Animator.ResetTrigger(AnimationParams.ATTACK_TRIGGER);
         }
 
         // animation events
