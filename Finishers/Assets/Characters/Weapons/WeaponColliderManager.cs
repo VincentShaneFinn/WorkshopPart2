@@ -13,13 +13,14 @@ namespace Finisher.Characters.Weapons
         // todo find a better way to protect a recently hit target
 
         CombatSystem combatSystem;
-        CapsuleCollider capsuleCollider;
+        [HideInInspector] public BoxCollider boxCollider; // todo, add this and the rigidbody
 
         void Start()
         {
             combatSystem = GetComponentInParent<CombatSystem>();
-            capsuleCollider = GetComponent<CapsuleCollider>();
-            if(combatSystem.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            boxCollider = GetComponent<BoxCollider>();
+            boxCollider.enabled = false;
+            if (combatSystem.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 isEnemy = true;
             }

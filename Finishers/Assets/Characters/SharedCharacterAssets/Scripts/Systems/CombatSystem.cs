@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+using Finisher.Characters.Weapons;
+
 namespace Finisher.Characters
 {
     public enum MoveDirection { Forward,Right,Backward,Left };
@@ -16,6 +18,7 @@ namespace Finisher.Characters
 
         private Animator animator;
         private CharacterAnimator characterAnim;
+        private WeaponColliderManager weaponColliderManager;
 
         private int nextAttackIndex = 0;
 
@@ -25,7 +28,7 @@ namespace Finisher.Characters
             animator = GetComponent<Animator>();
 
             currentWeaponDamage = config.LightAttackDamage;
- 
+            weaponColliderManager = GetComponentInChildren<WeaponColliderManager>();
         }
 
         public void LightAttack()
@@ -86,9 +89,21 @@ namespace Finisher.Characters
 
         // animation events
 
-        public void Hit()
+        // todo replace this with damageStart and end frames
+
+        void Hit()
         {
             print("hit something now");
+        }
+
+        void DamageStart()
+        {
+            weaponColliderManager.boxCollider.enabled = true;
+        }
+
+        void DamageEnd()
+        {
+            weaponColliderManager.boxCollider.enabled = false;
         }
 
     }
