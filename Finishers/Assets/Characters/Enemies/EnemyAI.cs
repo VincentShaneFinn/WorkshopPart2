@@ -79,7 +79,6 @@ namespace Finisher.Characters
             float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                print(Time.time);
                 combatSystem.LightAttack();
                 currentState = EnemyState.Attacking;
                 StartCoroutine(TempStopAttackingInSeconds()); 

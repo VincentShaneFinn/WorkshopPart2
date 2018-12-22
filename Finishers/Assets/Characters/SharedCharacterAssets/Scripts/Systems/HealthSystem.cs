@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace Finisher.Characters
 {
@@ -9,7 +11,12 @@ namespace Finisher.Characters
     public class HealthSystem : MonoBehaviour
     {
 
+        [SerializeField] Slider healthSlider;
         [SerializeField] HealthSystemConfig config;
+        [SerializeField] float maxHealth = 100;
+
+        private float currentHealth;
+
         private CharacterAnimator characterAnim;
         private Animator animator;
         private AnimatorOverrideController animOverrideController;
@@ -20,7 +27,8 @@ namespace Finisher.Characters
             animOverrideController = characterAnim.animOverrideController;
             animator = GetComponent<Animator>();
 
-            Assert.IsNotNull(config);
+            currentHealth = maxHealth;
+            healthSlider.value = getCurrentHealthAsPercent();
         }
 
         void Update()
@@ -30,6 +38,17 @@ namespace Finisher.Characters
                 Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
             }
             if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                Damage(10);
+            }
+        }
+
+        public void Damage(float damage)
+        {
+            currentHealth -= damage;
+            healthSlider.value = getCurrentHealthAsPercent();
+            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0,config.KnockbackAnimations.Length)]);
+            if(currentHealth <= 0)
             {
                 Kill();
             }
@@ -46,6 +65,11 @@ namespace Finisher.Characters
         {
             animOverrideController[AnimOverrideIndexes.KNOCKBACK_INDEX] = animClip;
             animator.SetTrigger(CharAnimParams.KNOCKBACK_TRIGGER);
+        }
+
+        private float getCurrentHealthAsPercent()
+        {
+            return currentHealth / maxHealth;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Finisher.Characters
     {
         [SerializeField] CombatSystemConfig config;
 
+        public float currentWeaponDamage { get; private set; }
+
         private Animator animator;
         private CharacterAnimator characterAnim;
 
@@ -20,8 +22,10 @@ namespace Finisher.Characters
         void Start()
         {
             characterAnim = GetComponent<CharacterAnimator>();
-            Assert.IsNotNull(config);
             animator = GetComponent<Animator>();
+
+            currentWeaponDamage = config.LightAttackDamage;
+ 
         }
 
         public void LightAttack()
