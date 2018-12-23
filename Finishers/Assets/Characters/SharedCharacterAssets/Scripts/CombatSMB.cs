@@ -8,23 +8,23 @@ namespace Finisher.Characters
     // or find a better way to handle this
     public class CombatSMB : StateMachineBehaviour
     {
-        public delegate void DamageFrameChanged(bool isDamageFrame);
-        public event DamageFrameChanged OnDamageFrameChanged;
-
+        public delegate void AttackExited();
+        public event AttackExited AttackExitListeners;
 
         void OnStateExit()
         {
-            Debug.Log("State left");
+            AttackExitListeners();
         }
 
-        void OnStateMachineEnter()
-        {
-            Debug.Log("Enter State");
-        }
+        //void OnStateMachineEnter()
+        //{
+        //    Debug.Log("Enter State");
+        //}
 
-        void OnStateMachineExit()
-        {
-            Debug.Log("Exit State");
-        }
+        //// is not called when any state is used
+        //void OnStateMachineExit()
+        //{
+        //    Debug.Log("Exit State");
+        //}
     }
 }

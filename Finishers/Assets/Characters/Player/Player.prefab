@@ -2014,10 +2014,8 @@ MonoBehaviour:
   Strafing: 0
   CurrentLookTarget: {fileID: 0}
   Running: 0
-  CanJump: 1
   movingTurnSpeed: 1000
   stationaryTurnSpeed: 1000
-  jumpPower: 7
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
   moveSpeedMultiplier: 1
@@ -2025,7 +2023,6 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   animSpeedMultiplier: 1
   runAnimSpeedMultiplier: 1.6
-  GlobalAnimSpeedMultiplier: 1
   animOverrideController: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
     type: 2}
   collisionDetectionMode: 2
@@ -2063,6 +2060,7 @@ MonoBehaviour:
   KnockbackLimit: 2
   FreeKnockbackTime: 2
   CharacterAnim: {fileID: 0}
+  Animator: {fileID: 0}
 --- !u!114 &1962851768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2076,6 +2074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
+  timeToClearAttackInputQue: 0.5
   attackAnimSpeed: 0.9
   Animator: {fileID: 0}
   CharacterAnim: {fileID: 0}

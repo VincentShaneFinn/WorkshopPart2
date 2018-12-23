@@ -2,13 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+using Finisher.UI;
+
 namespace Finisher.Characters
 {
 
     [RequireComponent(typeof(CharacterAnimator))]
     public class HealthSystem : MonoBehaviour
     {
-
+        [Tooltip("Player's is set automatically")]
         [SerializeField] Slider healthSlider;
         [SerializeField] HealthSystemConfig config;
         [SerializeField] float maxHealth = 100;
@@ -30,7 +32,17 @@ namespace Finisher.Characters
             Animator = GetComponent<Animator>();
 
             currentHealth = maxHealth;
+
+            GetHealthSlider();
             healthSlider.value = getCurrentHealthAsPercent();
+        }
+
+        void GetHealthSlider()
+        {
+            if(gameObject.tag == "Player")
+            {
+                healthSlider = FindObjectOfType<PlayerUIObjects>().HealthSlider;
+            }
         }
 
         void Update()

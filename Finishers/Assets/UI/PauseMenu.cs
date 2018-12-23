@@ -7,11 +7,13 @@ namespace Finisher.UI
 {
     public class PauseMenu : MonoBehaviour
     {
-        [SerializeField] GameObject PauseMenuObject;
+
+        private GameObject PauseMenuObject;
 
         // Start is called before the first frame update
         void Start()
         {
+            PauseMenuObject = GetComponent<PlayerUIObjects>().PauseMenuObject;
             PauseMenuObject.SetActive(false);
 
             // Lock or unlock the cursor.

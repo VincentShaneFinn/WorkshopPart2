@@ -30,7 +30,6 @@ namespace Finisher.Characters
         {
             if (GameManager.instance.GamePaused) { return; }
 
-
             if (character.isGrounded)
             {
                 processCombatInput();
@@ -62,10 +61,10 @@ namespace Finisher.Characters
         // and that it makes you dodge the way you expect
         MoveDirection GetMoveDirection()
         {
-            float horizonatal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
+            float horizontal = Input.GetAxisRaw("Horizontal");
 
-            if(Mathf.Abs(vertical) >= Mathf.Abs(horizonatal)) // forward backward carries more weight
+            if (Mathf.Abs(vertical) >= Mathf.Abs(horizontal)) // forward backward carries more weight
             {
                 if(vertical >= 0)
                 {
@@ -78,7 +77,7 @@ namespace Finisher.Characters
             }
             else
             {
-                if (horizonatal >= 0)
+                if (horizontal >= 0)
                 {
                     return MoveDirection.Right;
                 }
@@ -111,7 +110,7 @@ namespace Finisher.Characters
             }
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                Time.timeScale = .3f;
+                Time.timeScale = .1f;
             }
             if (Input.GetKeyUp(KeyCode.Z))
             {
@@ -138,7 +137,7 @@ namespace Finisher.Characters
         private void processMovementInput()
         {
             // read inputs
-            float horizonatal = Input.GetAxisRaw("Horizontal");
+            float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
 
             // calculate move direction to pass to character
@@ -146,12 +145,12 @@ namespace Finisher.Characters
             {
                 // calculate camera relative direction to move:
                 camForward = Vector3.Scale(camRig.forward, new Vector3(1, 0, 1)).normalized;
-                moveDirection = vertical * camForward + horizonatal * camRig.right;
+                moveDirection = vertical * camForward + horizontal * camRig.right;
             }
             else
             {
                 // we use world-relative directions in the case of no main camera
-                moveDirection = vertical * Vector3.forward + horizonatal * Vector3.right;
+                moveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
             }
 
             //use to be how walking was done, running may need a small rework

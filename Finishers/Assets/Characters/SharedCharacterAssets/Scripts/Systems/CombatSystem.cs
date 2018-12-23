@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Finisher.Characters
 {
@@ -16,18 +17,26 @@ namespace Finisher.Characters
 
         private float lightAttackDamage;
         private float heavyAttackDamage;
+        private float resetAttackTriggerTime = 0;
+        private bool runningResetCR = false;
 
-
+        [SerializeField] private float timeToClearAttackInputQue = 0;
         [SerializeField] private float attackAnimSpeed = 1f;
 
         [HideInInspector] public Animator Animator;
         [HideInInspector] public CharacterAnimator CharacterAnim;
+        private CombatSMB[] combatSMBs;
 
         void Start()
         {
             CharacterAnim = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
             Animator.SetFloat(AnimContstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            combatSMBs = Animator.GetBehaviours<CombatSMB>();
+            foreach(CombatSMB smb in combatSMBs)
+            {
+                smb.AttackExitListeners += DamageEnd;
+            }
 
             lightAttackDamage = config.LightAttackDamage;
             heavyAttackDamage = config.HeavyAttackDamage;
@@ -36,22 +45,20 @@ namespace Finisher.Characters
 
         void Update()
         {
-            // todo find a better way to catch when an attack is interupped, and rename Animation States
-            if (Animator.GetAnimatorTransitionInfo(0).anyState || 
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE))
-            {
-                OnDamageFrameChanged(false);
-            }
+            LockMovementInCombatAction();
+        }
 
-            if (!Animator.IsInTransition(0)) {
-                if(Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
+        private void LockMovementInCombatAction()
+        {
+            if (!Animator.IsInTransition(0))
+            {
+                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
                     Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG) ||
                     Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
                 {
                     CharacterAnim.CanRotate = false;
                     CharacterAnim.CanMove = false;
                 }
-                
             }
             else
             {
@@ -65,6 +72,8 @@ namespace Finisher.Characters
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, false);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = lightAttackDamage;
+            resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
+            if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
         public void HeavyAttack()
@@ -72,6 +81,16 @@ namespace Finisher.Characters
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, true);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = heavyAttackDamage;
+            resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+        }
+
+        IEnumerator DelayedResetAttackTrigger()
+        {
+            runningResetCR = true;
+            yield return new WaitWhile(() => Time.time < resetAttackTriggerTime);
+            Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
+            runningResetCR = false;
         }
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
@@ -126,12 +145,20 @@ namespace Finisher.Characters
 
         void DamageStart()
         {
-            OnDamageFrameChanged(true);
+            if (!IsDamageFrame)
+            {
+                OnDamageFrameChanged(true);
+                IsDamageFrame = true;
+            }
         }
 
         void DamageEnd()
         {
-            OnDamageFrameChanged(false);
+            if (IsDamageFrame)
+            {
+                OnDamageFrameChanged(false);
+                IsDamageFrame = false;
+            }
         }
 
         #endregion
