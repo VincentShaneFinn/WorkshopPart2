@@ -24,7 +24,9 @@ namespace Finisher.Characters
 
         public class Tags
         {
-            public const string ATTACK_TAG = "Attack";
+            public const string ATTACKRIGHT_TAG = "AttackRight";
+            public const string ATTACKLEFT_TAG = "AttackLeft";
+            public const string UNINTERUPTABLE_TAG = "Uninteruptable";
         }
 
         public class Parameters
@@ -32,7 +34,7 @@ namespace Finisher.Characters
             public const string FORWARD_FLOAT = "Forward";
             public const string TURN_FLOAT = "Turn";
             public const string JUMP_FLOAT = "Jump";
-            public const string JUMPLEG_FLOAT = "JumpLeg";
+            public const string FORWARDLEG_FLOAT = "ForwardLeg";
 
             public const string ONGROUND_BOOL = "OnGround";
             public const string STRAFING_BOOL = "Strafing";
@@ -44,6 +46,7 @@ namespace Finisher.Characters
             public const string KNOCKBACK_TRIGGER = "Knockback";
 
             public const string ATTACK_SPEED_MULTIPLIER = "AttackSpeedMultiplier";
+            public const string MOVEMENT_SPEED_MULTIPLIER = "MovementSpeedMultiplier";
         }
 
         public static class OverrideIndexes
@@ -91,7 +94,7 @@ namespace Finisher.Characters
             float jumpLeg = (runCycle < HALF ? 1 : -1) * forwardAmount;
             if (isGrounded)
             {
-                animator.SetFloat(AnimContstants.Parameters.JUMPLEG_FLOAT, jumpLeg);
+                animator.SetFloat(AnimContstants.Parameters.FORWARDLEG_FLOAT, jumpLeg);
             }
         }
 
@@ -103,24 +106,13 @@ namespace Finisher.Characters
             // which affects the movement speed because of the root motion.
             if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.LOCOMOTION_STATE) && move.magnitude > 0)
             {
-                if (GlobalAnimSpeedMultiplier == 1)
+                if (Running)
                 {
-                    if (Running)
-                    {
-                        animator.speed = runAnimSpeedMultiplier;
-                    }
-                    else
-                        animator.speed = animSpeedMultiplier;
+                    animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
                 }
-                else
-                {
-                    animator.speed = GlobalAnimSpeedMultiplier;
+                else {
+                    animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                 }
-            }
-            else
-            {
-                // don't use that while airborne
-                animator.speed = GlobalAnimSpeedMultiplier;
             }
         }
 

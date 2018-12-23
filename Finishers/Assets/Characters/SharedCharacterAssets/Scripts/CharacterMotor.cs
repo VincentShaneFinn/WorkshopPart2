@@ -65,7 +65,6 @@ namespace Finisher.Characters
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
-        [HideInInspector] public float GlobalAnimSpeedMultiplier = 1f;
         [SerializeField] public AnimatorOverrideController animOverrideController;
 
         #endregion

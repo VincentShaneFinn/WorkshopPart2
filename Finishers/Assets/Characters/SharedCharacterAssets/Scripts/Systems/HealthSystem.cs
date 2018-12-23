@@ -19,7 +19,7 @@ namespace Finisher.Characters
         private int knockbackCount;
 
         [HideInInspector] public CharacterAnimator CharacterAnim;
-        private Animator animator;
+        [HideInInspector] public Animator Animator;
         private AnimatorOverrideController animOverrideController;
 
         void Start()
@@ -27,7 +27,7 @@ namespace Finisher.Characters
             CharacterAnim = GetComponent<CharacterAnimator>();
 
             animOverrideController = CharacterAnim.animOverrideController;
-            animator = GetComponent<Animator>();
+            Animator = GetComponent<Animator>();
 
             currentHealth = maxHealth;
             healthSlider.value = getCurrentHealthAsPercent();
@@ -35,11 +35,6 @@ namespace Finisher.Characters
 
         void Update()
         {
-            if (Input.GetKeyUp(KeyCode.K)) // todo remove testing buttons
-            {
-                var animIndex = UnityEngine.Random.Range(0, config.KnockbackAnimations.Length);
-                Knockback(config.KnockbackAnimations[animIndex]);
-            }
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 Damage(10);
@@ -48,7 +43,7 @@ namespace Finisher.Characters
 
         public void Damage(float damage)
         {
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE)) { return; }
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE)) { return; }
             currentHealth -= damage;
             healthSlider.value = getCurrentHealthAsPercent();
 
@@ -76,13 +71,13 @@ namespace Finisher.Characters
         {
             if (CharacterAnim.Dying) { return; }
             CharacterAnim.Dying = true;
-            animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
+            Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
         }
 
         public void Knockback(AnimationClip animClip)
         {
             animOverrideController[AnimContstants.OverrideIndexes.KNOCKBACK_INDEX] = animClip;
-            animator.SetTrigger(AnimContstants.Parameters.KNOCKBACK_TRIGGER);
+            Animator.SetTrigger(AnimContstants.Parameters.KNOCKBACK_TRIGGER);
         }
 
         private float getCurrentHealthAsPercent()

@@ -37,17 +37,21 @@ namespace Finisher.Characters
         void Update()
         {
             // todo find a better way to catch when an attack is interupped, and rename Animation States
-            if (Animator.GetAnimatorTransitionInfo(0).anyState || Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE))
+            if (Animator.GetAnimatorTransitionInfo(0).anyState || 
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE))
             {
                 OnDamageFrameChanged(false);
             }
 
-            // todo move to a central animatorStateHandler
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACK_TAG) &&
-                !Animator.IsInTransition(0))
-            {
-                CharacterAnim.CanRotate = false;
-                CharacterAnim.CanMove = false;
+            if (!Animator.IsInTransition(0)) {
+                if(Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
+                {
+                    CharacterAnim.CanRotate = false;
+                    CharacterAnim.CanMove = false;
+                }
+                
             }
             else
             {
@@ -88,27 +92,26 @@ namespace Finisher.Characters
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            //if (characterAnim.CanRotate)
-            //{
+            if (CharacterAnim.CanRotate) // todo, decide use different animations or allow rolling forward in the move direction given
+            {
                 SetDodgeTrigger(config.DodgeForwardAnimation);
-            //}
-            //else
-            //{
-            //    SetDodgeTrigger(animToUse);
-            //}
+            }
+            else
+            {
+                SetDodgeTrigger(animToUse);
+            }
         }
 
         public void SetDodgeTrigger(AnimationClip animClip)
         {
-            CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DODGE_INDEX] = animClip;
-            if (Animator.IsInTransition(0) ||
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.KNOCKBACK_STATE) ||
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE))
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG) || 
+                Animator.GetAnimatorTransitionInfo(0).anyState)
             {
                 Animator.ResetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
             else
             {
+                CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DODGE_INDEX] = animClip;
                 Animator.SetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
             Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);

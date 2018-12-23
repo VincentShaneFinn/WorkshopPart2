@@ -11,7 +11,6 @@ namespace Finisher.Characters.Weapons
 
         const float RESTORE_HIT_TIME = .01f;
 
-        private float savedSpeedMultiplier;
         private bool isPlayer = false;
 
         private CombatSystem combatSystem;
@@ -26,7 +25,6 @@ namespace Finisher.Characters.Weapons
         {
             combatSystem = GetComponentInParent<CombatSystem>();
             combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
-            savedSpeedMultiplier = combatSystem.GetComponent<CharacterMotor>().GlobalAnimSpeedMultiplier;
 
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
@@ -68,13 +66,13 @@ namespace Finisher.Characters.Weapons
 
         IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
         {
-            combatSystem.CharacterAnim.GlobalAnimSpeedMultiplier = 0;
-            targetHealthSystem.CharacterAnim.GlobalAnimSpeedMultiplier = 0;
+            combatSystem.Animator.speed = 0;
+            targetHealthSystem.Animator.speed = 0;
 
             yield return new WaitForSeconds(ImpactFrameTime);
 
-            combatSystem.CharacterAnim.GlobalAnimSpeedMultiplier = savedSpeedMultiplier;
-            targetHealthSystem.CharacterAnim.GlobalAnimSpeedMultiplier = savedSpeedMultiplier;
+            combatSystem.Animator.speed = 1;
+            targetHealthSystem.Animator.speed = 1;
         }
     }
 }
