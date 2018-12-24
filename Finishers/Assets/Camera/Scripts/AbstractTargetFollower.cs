@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Finisher.Cameras
 {
+    [DisallowMultipleComponent]
     public abstract class AbstractTargetFollower : MonoBehaviour
     {
         public enum UpdateType // The available methods of updating are:
@@ -84,11 +85,11 @@ namespace Finisher.Cameras
             var targetObj = GameObject.FindGameObjectWithTag("Player");
             if (targetObj)
             {
-                SetTarget(targetObj.transform);
+                SetFollowTarget(targetObj.transform);
             }
         }
 
-        public virtual void SetTarget(Transform newTransform)
+        public virtual void SetFollowTarget(Transform newTransform)
         {
             followTarget = newTransform;
         }

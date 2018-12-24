@@ -1,8 +1,13 @@
-using Finisher.Core;
+using System.Linq;
 using UnityEngine;
+
+using Finisher.Cameras;
+using Finisher.Core;
 
 namespace Finisher.Characters
 {
+
+    [DisallowMultipleComponent]
     [RequireComponent(typeof (PlayerCharacterController))]
     public class PlayerInputProcessor : MonoBehaviour
     {
@@ -11,8 +16,11 @@ namespace Finisher.Characters
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
+        private FreeLookCam camController;
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
+
+        private Transform combatTarget;
 
         #endregion
 
@@ -24,11 +32,20 @@ namespace Finisher.Characters
 
             // get the transform of the main camera
             camRig = character.GetMainCameraTransform();
+            camController = camRig.GetComponent<FreeLookCam>();
         }
 
         private void Update()
         {
             if (GameManager.instance.GamePaused) { return; }
+
+            combatTarget = GetCombatTarget();
+            if (camController)
+            {
+                camController.LookAtTarget = combatTarget;
+            }
+
+            if(combatTarget)
 
             if (character.isGrounded)
             {
@@ -90,8 +107,8 @@ namespace Finisher.Characters
 
         private void testingInputZone()
         {
+
             // todo remove this testing code
-            // todo also consider allowing can move to be public
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 character.CanMove = false;
@@ -121,6 +138,55 @@ namespace Finisher.Characters
                 character.Strafing = !character.Strafing;
             }
         }
+
+        private Transform GetCombatTarget()
+        {
+            float mainRange = 3f;
+            float extraRange = 1.5f;
+
+            //Get nearby enemy colliders
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            var enemyColliders = Physics.OverlapSphere(transform.position, mainRange, layerMask).ToList();
+            if (enemyColliders.Count <= 0) { return null; }
+
+            enemyColliders = enemyColliders.OrderBy(
+                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
+                ).ToList();
+
+            Transform alternateTarget = null;
+            foreach (Collider enemyCollider in enemyColliders)
+            {
+                Transform target = enemyCollider.transform;
+                var targetMotor = target.gameObject.GetComponent<CharacterMotor>();
+                if (targetMotor == null) { continue; }
+                else if (targetMotor.Dying) { continue; }
+
+                // get the current angle of that enemy to the left or right of you
+                Vector3 targetDir = target.position - transform.position;
+                float angle = Vector3.Angle(targetDir, transform.forward);
+
+                // check if the enemy is in your field of vision
+                float mainFOV = 90f;
+                float extraFOV = 190f;
+                if (angle < mainFOV / 2)
+                {
+                    //Debug.DrawLine(transform.position + Vector3.up, target.position + Vector3.up, Color.red);
+                    return target;
+                }
+                else if (Vector3.Distance(transform.position, target.position) <= extraRange && angle < extraFOV / 2)
+                {
+                    if (alternateTarget == null)
+                    {
+                        alternateTarget = target;
+                    }
+                }
+            }
+            //if(alternateTarget)
+                //Debug.DrawLine(transform.position + Vector3.up, alternateTarget.transform.position + Vector3.up, Color.white);
+            return alternateTarget;
+        }
+
+        #region Fixed Update and movement Processing
 
         void FixedUpdate()
         {
@@ -159,5 +225,7 @@ namespace Finisher.Characters
             // pass all parameters to the character control script
             character.MoveCharacter(moveDirection, Input.GetKey(KeyCode.LeftShift));//change to use run button
         }
+
+        #endregion
     }
 }

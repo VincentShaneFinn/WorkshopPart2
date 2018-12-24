@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Finisher.Characters.Weapons
 {
+    [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
 

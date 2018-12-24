@@ -3,6 +3,7 @@
 namespace Finisher.Core.Loader
 {
     // THIS IS ATTACHED TO THE MAIN CAMERA IN CAMERA RIG, AND IS THE FIRST THING TO DRAG INTO EACH SCENE
+    [DisallowMultipleComponent]
     public class Loader : MonoBehaviour
     {
         [SerializeField] GameObject gameManager;

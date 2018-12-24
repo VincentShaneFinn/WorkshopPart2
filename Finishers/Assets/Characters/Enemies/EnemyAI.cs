@@ -5,6 +5,7 @@ namespace Finisher.Characters
 {
     public enum EnemyState { idle, Patrolling, Chasing, Attacking }
 
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {

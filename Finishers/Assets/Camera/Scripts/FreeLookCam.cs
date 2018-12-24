@@ -146,7 +146,7 @@ namespace Finisher.Cameras
             }
         }
 
-        public Transform optionalLookTarget = null;
+        public Transform LookAtTarget = null;
         public bool ForceAutoLook = false;
 
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
@@ -185,9 +185,9 @@ namespace Finisher.Cameras
             Quaternion desiredTiltRotation = Quaternion.identity;
 
             //If there is an active optional look target, look at that
-            if (optionalLookTarget != null && optionalLookTarget.gameObject.activeSelf)
+            if (LookAtTarget != null && LookAtTarget.gameObject.activeSelf)
             {
-                Quaternion rotationToTarget = Quaternion.LookRotation(optionalLookTarget.transform.position - transform.position);
+                Quaternion rotationToTarget = Quaternion.LookRotation(LookAtTarget.transform.position - transform.position);
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }

@@ -129,6 +129,5 @@ namespace Finisher.Characters
         //    Gizmos.color = Color.black;
         //    Gizmos.DrawWireSphere(agent.destination, .3f);
         //}
-
     }
 }
