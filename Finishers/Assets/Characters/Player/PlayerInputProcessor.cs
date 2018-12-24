@@ -55,17 +55,27 @@ namespace Finisher.Characters
 
         private void processCombatInput()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetButtonDown(InputNames.LightAttack))
             {
                 combatSystem.LightAttack();
             }
-
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            if(ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
-                combatSystem.HeavyAttack();
+                if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
+                {
+                    combatSystem.HeavyAttack();
+                }
+            }
+            else
+            {
+                if (Input.GetButtonDown(InputNames.HeavyAttack))
+                {
+                    combatSystem.HeavyAttack();
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse3) || Input.GetKeyDown(KeyCode.LeftControl))
+
+            if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
                 var moveDirection = GetMoveDirection();
                 combatSystem.Dodge(moveDirection);

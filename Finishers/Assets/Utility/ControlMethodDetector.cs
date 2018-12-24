@@ -1,14 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEditor.Presets;
 using UnityEngine;
 
 public enum ControlType { Xbox, PS4, PC }
 
 public class ControlMethodDetector : MonoBehaviour {
 
+    public static ControlMethodDetector instance = null;
+
     private static ControlType currentControlType; public static ControlType GetCurrentControlType() { return currentControlType; }
     private int Xbox_One_Controller = 0;
     private int PS4_Controller = 0;
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        SingletonSetup();
+    }
+
+    private void SingletonSetup()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Update()
     {
         string[] names = Input.GetJoystickNames();

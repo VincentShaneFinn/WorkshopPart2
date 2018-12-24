@@ -6,13 +6,13 @@ public class ThrowingWeapon : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 20f;
 
-    private BoxCollider boxCollider; // todo, add this and the rigidbody
+    private BoxCollider boxCollider;
     private Rigidbody rigidBody;
 
     void Awake()
     {
         boxCollider = GetComponent<BoxCollider>();
-        //boxCollider.enabled = false;
+        boxCollider.enabled = true; // todo what to do with the collider
 
         rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.useGravity = false;
