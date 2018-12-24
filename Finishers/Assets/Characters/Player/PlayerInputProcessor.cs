@@ -45,8 +45,6 @@ namespace Finisher.Characters
                 camController.LookAtTarget = combatTarget;
             }
 
-            if(combatTarget)
-
             if (character.isGrounded)
             {
                 processCombatInput();

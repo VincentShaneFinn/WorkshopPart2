@@ -10,8 +10,6 @@ namespace Finisher.Characters.Weapons
         [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
         [SerializeField] float ImpactFrameTime = .01f;
 
-        const float RESTORE_HIT_TIME = .01f;
-
         private bool isPlayer = false;
 
         private CombatSystem combatSystem;
@@ -37,12 +35,12 @@ namespace Finisher.Characters.Weapons
         }
 
 
-        void OnTriggerEnter(Collider collision)
+        void OnTriggerEnter(Collider collider)
         {
-            if(collision.gameObject.layer == combatSystem.gameObject.layer)
+            if(collider.gameObject.layer == combatSystem.gameObject.layer)
                 return; 
 
-            HealthSystem targetHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
+            HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
             if (targetHealthSystem && !targetHealthSystem.CharacterAnim.Dying) {
                 targetHealthSystem.Damage(combatSystem.currentWeaponDamage);
 

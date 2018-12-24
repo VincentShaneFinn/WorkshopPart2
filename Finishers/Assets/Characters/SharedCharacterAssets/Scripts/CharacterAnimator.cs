@@ -8,7 +8,8 @@ namespace Finisher.Characters
     {
         public class States
         {
-            public const string LOCOMOTION_STATE = "Basic Locomotion";
+            public const string STRAFING_LOCOMOTION_STATE = "Strafing Locomotion";
+            public const string BASIC_LOCOMOTION_STATE = "Basic Locomotion";
             public const string AIRBORNE_STATE = "Airborne";
             public const string STRAFING_STATE = "Strafing Locomotion";
             public const string KNOCKBACK_STATE = "Knockback";
@@ -24,6 +25,7 @@ namespace Finisher.Characters
 
         public class Tags
         {
+            public const string LOCOMOTION_TAG = "Locomotion";
             public const string ATTACKRIGHT_TAG = "AttackRight";
             public const string ATTACKLEFT_TAG = "AttackLeft";
             public const string UNINTERUPTABLE_TAG = "Uninteruptable";
@@ -104,7 +106,7 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.LOCOMOTION_STATE) && move.magnitude > 0)
+            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LOCOMOTION_TAG) && move.magnitude > 0)
             {
                 if (Running)
                 {
