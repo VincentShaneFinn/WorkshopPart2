@@ -3,16 +3,6 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    // todo find a home for things like layernames, input names, etc
-
-    #region Global String References
-
-    public static class LayerNames
-    {
-        public const int EnemyLayer = 13;
-    }
-
-            #endregion
 
     [RequireComponent(typeof(Animator))]
     public abstract class CharacterMotor : MonoBehaviour

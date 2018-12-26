@@ -980,8 +980,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.25, z: 1.5}
-  m_Center: {x: 0, y: 0, z: 0.9}
+  m_Size: {x: 0.25, y: 0.25, z: 0.84}
+  m_Center: {x: 0, y: 0, z: 0.7}
 --- !u!114 &6683639795073119639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,4 +994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9b70357730e2f4d865af4e961dffbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 75
+  moveSpeed: 35
+  StandingDeathAnimClip: {fileID: 7400000, guid: 344c5786a7ff34b4fa61c63522e22cca,
+    type: 3}
+  xClamp: 0.2

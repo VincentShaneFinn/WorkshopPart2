@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: EnemyHealthSystemConfig
   m_EditorClassIdentifier: 
   maxHealth: 100
+  normalDeathAnimations:
+  - {fileID: 7400000, guid: a16cbf1e833a9a245959413aaed82913, type: 3}
+  - {fileID: 7400000, guid: fc2751fb0a43c35458f29c8359b65583, type: 3}
+  - {fileID: 7400000, guid: 589a11892e95f834dbf23f9e1cc1f090, type: 3}
   knockbackAnimations:
   - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}
   - {fileID: 7400000, guid: 64f13fda454b3084d8047d3cfefef410, type: 3}

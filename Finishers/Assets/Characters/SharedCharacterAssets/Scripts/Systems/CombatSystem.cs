@@ -5,7 +5,6 @@ namespace Finisher.Characters
 {
     public enum MoveDirection { Forward,Right,Backward,Left };
 
-    // todo this and the AnimatorStatehandler need to talk to each other better, if this is going to override it, as simple as being a suggestor at certain times 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
     public class CombatSystem : MonoBehaviour

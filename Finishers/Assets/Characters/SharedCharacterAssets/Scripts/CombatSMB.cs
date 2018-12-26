@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    // todo this class really controls all of the state variables in Character Motor, consider reverse the dependencies so this class is where you check?
-    // or find a better way to handle this
     public class CombatSMB : StateMachineBehaviour
     {
         public delegate void AttackExited();

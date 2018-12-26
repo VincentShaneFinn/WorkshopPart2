@@ -13,7 +13,7 @@ namespace Finisher.Characters.Weapons
         private bool isPlayer = false;
 
         private CombatSystem combatSystem;
-        private BoxCollider boxCollider; // todo, add this and the rigidbody
+        private BoxCollider boxCollider;
 
         void Start()
         {

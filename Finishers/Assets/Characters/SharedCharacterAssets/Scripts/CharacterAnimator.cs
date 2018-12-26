@@ -55,6 +55,7 @@ namespace Finisher.Characters
         {
             public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
             public const string DODGE_INDEX = "DEFAULT_DODGE";
+            public const string DEATH_INDEX = "DEFAULT_DEATH";
         }
     }
 
@@ -100,8 +101,6 @@ namespace Finisher.Characters
             }
         }
 
-        // todo can we have a way to override this
-        // todo this isnt great
         private void setAnimatorSpeed(Vector3 move)
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,

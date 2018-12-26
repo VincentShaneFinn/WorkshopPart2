@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerHealthSystemConfig
   m_EditorClassIdentifier: 
   maxHealth: 100
-  hitAnimations: []
+  normalDeathAnimations:
+  - {fileID: 7400000, guid: 9a26352c93a81e947b73b8e47cc931bb, type: 3}
   knockbackAnimations:
   - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}

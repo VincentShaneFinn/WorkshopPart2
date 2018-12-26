@@ -61,14 +61,15 @@ namespace Finisher.Characters
 
             if (knockbackCount < KnockbackLimit)
             {
-                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
+                // todo make a unique random number generator so they dont all die the same way each frame?
+                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]); 
                 knockbackCount++;
                 StartCoroutine(ReleaseCountAfterDelay());
             }
 
             if(currentHealth <= 0)
             {
-                Kill();
+                Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0,config.NormalDeathAnimations.Length)]);
             }
         }
 
@@ -79,9 +80,12 @@ namespace Finisher.Characters
             knockbackCount--;
         }
 
-        public void Kill()
+        public void Kill(AnimationClip animClip)
         {
             if (CharacterAnim.Dying) { return; }
+            CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DEATH_INDEX] = animClip;
+            currentHealth = 0;
+            healthSlider.value = getCurrentHealthAsPercent();
             CharacterAnim.Dying = true;
             Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
         }
