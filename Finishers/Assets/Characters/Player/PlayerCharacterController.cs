@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Finisher.Cameras;
+
 namespace Finisher.Characters
 {
     public class PlayerCharacterController : CharacterAnimator
@@ -9,10 +11,13 @@ namespace Finisher.Characters
         [HideInInspector] public bool UseStraffingTarget = false; // tries to look at the set staffing target if true, matches camera rotation if false
 
         private Transform cameraTransform;
+        private FreeLookCam freeLookCam;
 
         void Start()
         {
             GetMainCameraTransform();
+            freeLookCam = cameraTransform.GetComponent<FreeLookCam>();
+            freeLookCam.playerCharacter = this;
         }
 
         #region CameraGetter and Strafing Match Camera
@@ -25,6 +30,7 @@ namespace Finisher.Characters
             }
             else if (Camera.main != null)
             {
+                Debug.Log("Non Game Camera In Use");
                 cameraTransform = Camera.main.transform;
             }
             else
@@ -39,11 +45,13 @@ namespace Finisher.Characters
         {
             if (UseStraffingTarget)
             {
-                base.setStrafingRotation();
+                freeLookCam.LookAtTarget = CurrentLookTarget;
+                transform.rotation = cameraTransform.rotation;
             }
             else
             {
-                transform.rotation = cameraTransform.rotation;
+                freeLookCam.LookAtTarget = null;
+                transform.rotation = cameraTransform.localRotation;
             }
         }
         #endregion

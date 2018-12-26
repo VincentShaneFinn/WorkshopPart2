@@ -1,5 +1,4 @@
-﻿using UnityEditor.Presets;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum ControlType { Xbox, PS4, PC }
 
@@ -50,7 +49,6 @@ public class ControlMethodDetector : MonoBehaviour {
 
             }
         }
-
 
         if (Xbox_One_Controller == 1)
         {

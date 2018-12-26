@@ -112,7 +112,7 @@ namespace Finisher.Characters
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            if (CharacterAnim.CanRotate) // todo, decide use different animations or allow rolling forward in the move direction given
+            if (CharacterAnim.CanRotate && !CharacterAnim.Strafing) // todo, decide use different animations or allow rolling forward in the move direction given
             {
                 SetDodgeTrigger(config.DodgeForwardAnimation);
             }
@@ -134,7 +134,6 @@ namespace Finisher.Characters
                 CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DODGE_INDEX] = animClip;
                 Animator.SetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
-            Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
         }
 
         #region Combat Animation Events

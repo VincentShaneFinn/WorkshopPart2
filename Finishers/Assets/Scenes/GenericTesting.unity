@@ -780,6 +780,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114590938643267900, guid: 14d91adb48ddce44aa00bdcc76a209ea,
+        type: 3}
+      propertyPath: timeUntilAutoCam
+      value: 0.3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14d91adb48ddce44aa00bdcc76a209ea, type: 3}
 --- !u!1 &793245822
@@ -1631,6 +1636,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3079736054807551835, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: mainRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3079736054807551835, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: extraRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962851767, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1962851767, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
+      propertyPath: KnockbackLimit
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
 --- !u!114 &3570073716651220104
@@ -1651,15 +1674,15 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1536
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.07
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 582b989fef385f54fb6a9bdd1bfeaa33, type: 2}
 --- !u!1001 &3816523489062601649

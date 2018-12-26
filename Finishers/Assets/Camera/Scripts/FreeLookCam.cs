@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
+
+using Finisher.Characters;
+
 namespace Finisher.Cameras
 {
-
     public class FreeLookCam : PivotBasedCameraRig
     {
         // This script is designed to be placed on the root object of a camera rig,
@@ -14,7 +16,6 @@ namespace Finisher.Cameras
 
         #region Class Variables
         public bool CameraControlLocked = false; 
-        [SerializeField] float moveSpeed = 1f;                      // How fast the rig will move to keep up with the target's position.
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
@@ -30,6 +31,7 @@ namespace Finisher.Cameras
         private float currentTurnAmount; // How much to turn the camera
         private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
+        public PlayerCharacterController playerCharacter;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -66,6 +68,7 @@ namespace Finisher.Cameras
             inputX = Input.GetAxis("Mouse X");
             inputY = Input.GetAxis("Mouse Y");
 
+            
             SetUsingAutoCam();
             HandleRotationMovement();
 
@@ -138,7 +141,7 @@ namespace Finisher.Cameras
             if (!(deltaTime > 0) || followTarget == null) return;
 
             // Move the rig towards target position.
-            transform.position = Vector3.Lerp(transform.position, followTarget.position, deltaTime * moveSpeed);
+            transform.position = followTarget.position;
 
             if (usingAutoCam && !CameraControlLocked)
             {
@@ -207,8 +210,14 @@ namespace Finisher.Cameras
         // handle player input to look around
         private void HandleRotationMovement()
         {
-			if(usingAutoCam || Time.timeScale < float.Epsilon)
-			    return;
+            if (usingAutoCam || Time.timeScale < float.Epsilon)
+            {
+                return;
+            }
+            if(Mathf.Abs(inputX) < Mathf.Epsilon && Mathf.Abs(inputY) < Mathf.Epsilon && playerCharacter.UseStraffingTarget)
+            {
+                return;
+            }
 
             // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
             lookAngle += inputX*turnSpeed;

@@ -200,6 +200,7 @@ namespace Finisher.Characters
             if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
+                turnAmount = Mathf.Clamp(turnAmount, -1, 1);
                 setStrafingRotation();
             }
             else

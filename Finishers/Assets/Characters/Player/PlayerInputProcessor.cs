@@ -13,10 +13,12 @@ namespace Finisher.Characters
     {
         #region member variables
 
+        [SerializeField] float mainRange = 3f;
+        [SerializeField] float extraRange = 1.5f;
+
         private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
-        private FreeLookCam camController;
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
 
@@ -32,7 +34,6 @@ namespace Finisher.Characters
 
             // get the transform of the main camera
             camRig = character.GetMainCameraTransform();
-            camController = camRig.GetComponent<FreeLookCam>();
         }
 
         private void Update()
@@ -40,9 +41,14 @@ namespace Finisher.Characters
             if (GameManager.instance.GamePaused) { return; }
 
             combatTarget = GetCombatTarget();
-            if (camController)
+            if (combatTarget)
             {
-                camController.LookAtTarget = combatTarget;
+                character.UseStraffingTarget = true;
+                character.CurrentLookTarget = combatTarget;
+            }
+            else
+            {
+                character.UseStraffingTarget = false;
             }
 
             if (character.isGrounded)
@@ -149,9 +155,6 @@ namespace Finisher.Characters
 
         private Transform GetCombatTarget()
         {
-            float mainRange = 3f;
-            float extraRange = 1.5f;
-
             //Get nearby enemy colliders
             int layerMask = 1 << LayerNames.EnemyLayer;
             var enemyColliders = Physics.OverlapSphere(transform.position, mainRange, layerMask).ToList();
@@ -235,5 +238,6 @@ namespace Finisher.Characters
         }
 
         #endregion
+
     }
 }
