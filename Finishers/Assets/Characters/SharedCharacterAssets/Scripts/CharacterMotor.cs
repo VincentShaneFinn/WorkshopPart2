@@ -12,7 +12,7 @@ namespace Finisher.Characters
 
         [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
-        [HideInInspector] public Transform CurrentLookTarget = null; // this can be used to set what you are looking at during strafing
+        [HideInInspector] public Transform CurrentLookTarget { private get; set; }
         [HideInInspector] public bool Running = false;
 
         public bool isGrounded { get; private set; }
@@ -197,7 +197,7 @@ namespace Finisher.Characters
                 turnAmount = 0;
             }
 
-            if (Strafing) // todo consider making a strafeCharacter to be called instead of moveCharacter
+            if (Strafing)
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
                 turnAmount = Mathf.Clamp(turnAmount, -1, 1);

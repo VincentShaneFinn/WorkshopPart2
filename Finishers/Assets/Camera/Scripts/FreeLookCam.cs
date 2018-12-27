@@ -15,7 +15,6 @@ namespace Finisher.Cameras
         // 			Camera
 
         #region Class Variables
-        public bool CameraControlLocked = false; 
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
@@ -52,39 +51,28 @@ namespace Finisher.Cameras
 			pivotEulers = pivot.rotation.eulerAngles;
 	        pivotTargetRot = pivot.transform.localRotation;
 			transformTargetRot = transform.localRotation;
+            playerCharacter = FindObjectOfType<PlayerCharacterController>();
         }
 
 
         protected void Update()
         {
-            // TODO don't ever allow auto camera for mouse and keyboard
-
-
-            if (CameraControlLocked)
-            {
-                return;
-            }
             // Read the user input
             inputX = Input.GetAxis("Mouse X");
             inputY = Input.GetAxis("Mouse Y");
-
             
             SetUsingAutoCam();
-            HandleRotationMovement();
+            AttemptToHandleRotationMovement();
 
-            // todo disable player control when animating
-            // this and the animations were for testing, remove
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            CurrentLookTarget = playerCharacter.CombatTarget;
+
+            if (playerCharacter.Strafing) // todo switch with another player variable that can allow for direct input in certain situations
             {
-                GetComponentInChildren<Animator>().SetTrigger("MoveRight");
-                ForceAutoLook = true;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                GetComponentInChildren<Animator>().SetTrigger("MoveLeft");
-                ForceAutoLook = false;
+                playerCharacter.transform.rotation = transform.localRotation;
             }
         }
+
+
 
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
@@ -135,90 +123,23 @@ namespace Finisher.Cameras
 
         }
 
-        // Moves the camera rig to follow the target over some speed
-        protected override void FollowTarget(float deltaTime)
-        {
-            if (!(deltaTime > 0) || followTarget == null) return;
-
-            // Move the rig towards target position.
-            transform.position = followTarget.position;
-
-            if (usingAutoCam && !CameraControlLocked)
-            {
-                AutoRotateCamera(deltaTime);
-            }
-        }
-
-        public Transform LookAtTarget = null;
-        public bool ForceAutoLook = false;
-
-        // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
-        private void AutoRotateCamera(float deltaTime)
-        {
-            // initialise some vars, we'll be modifying these in a moment
-            var targetForward = followTarget.forward;
-            var targetUp = followTarget.up;
-
-            // in follow velocity mode, the camera's rotation is aligned towards the object's velocity direction
-            // but only if the object is traveling faster than a given threshold.
-
-            if (targetRigidbody.velocity.magnitude > targetVelocityLowerLimit)
-            {
-                // velocity is high enough, so we'll use the target's velocty
-                targetForward = targetRigidbody.velocity.normalized;
-                targetUp = Vector3.up;
-            }
-            else
-            {
-                targetUp = Vector3.up;
-            }
-
-            currentTurnAmount = Mathf.SmoothDamp(currentTurnAmount, 1, ref turnSpeedVelocityChange, smoothTurnFactor);
-
-            // camera's rotation is split into two parts, which can have independend speed settings:
-            // rotating towards the target's forward direction (which encompasses its 'yaw' and 'pitch')
-
-            targetForward.y = 0;
-            if (targetForward.sqrMagnitude < float.Epsilon)
-            {
-                targetForward = transform.forward;
-            }
-
-            Quaternion desiredLookRotation; 
-            Quaternion desiredTiltRotation = Quaternion.identity;
-
-            //If there is an active optional look target, look at that
-            if (LookAtTarget != null && LookAtTarget.gameObject.activeSelf)
-            {
-                Quaternion rotationToTarget = Quaternion.LookRotation(LookAtTarget.transform.position - transform.position);
-                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
-                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
-            }
-            else if (targetForward != Vector3.zero)
-            {
-                desiredLookRotation = Quaternion.LookRotation(targetForward, Vector3.up);
-            }
-            else
-            {
-                desiredLookRotation = transform.rotation;
-            }
-           
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime);
-            pivot.transform.localRotation = Quaternion.Lerp(pivot.transform.localRotation, desiredTiltRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime); ;
-        }
-
-        // handle player input to look around
-        private void HandleRotationMovement()
+        private void AttemptToHandleRotationMovement()
         {
             if (usingAutoCam || Time.timeScale < float.Epsilon)
             {
                 return;
             }
-            if(Mathf.Abs(inputX) < Mathf.Epsilon && Mathf.Abs(inputY) < Mathf.Epsilon && playerCharacter.UseStraffingTarget)
+            if ((!playerCharacter.CanRotate) && playerCharacter.CombatTargetInRange)
             {
+                ChangeCameraMode(true);
                 return;
             }
+            HandleRotationMovement();
+        }
 
+        // handle player input to look around
+        private void HandleRotationMovement()
+        {
             // Adjust the look angle by an amount proportional to the turn speed and horizontal input.
             lookAngle += inputX*turnSpeed;
 
@@ -254,5 +175,81 @@ namespace Finisher.Cameras
 				transform.localRotation = transformTargetRot;
 			}
         }
+
+        #region Follow Target and AutoRotate
+
+        // Moves the camera rig to follow the target over some speed
+        protected override void FollowTarget(float deltaTime)
+        {
+            if (!(deltaTime > 0) || followTarget == null) return;
+
+            // Move the rig towards target position.
+            transform.position = followTarget.position;
+
+            if (usingAutoCam)
+            {
+                AutoRotateCamera(deltaTime);
+            }
+        }
+
+        public Transform CurrentLookTarget = null;
+        public bool ForceAutoLook = false;
+
+        // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
+        private void AutoRotateCamera(float deltaTime)
+        {
+            // initialise some vars, we'll be modifying these in a moment
+            var targetForward = followTarget.forward;
+            var targetUp = followTarget.up;
+
+            // in follow velocity mode, the camera's rotation is aligned towards the object's velocity direction
+            // but only if the object is traveling faster than a given threshold.
+
+            if (targetRigidbody.velocity.magnitude > targetVelocityLowerLimit)
+            {
+                // velocity is high enough, so we'll use the target's velocty
+                targetForward = targetRigidbody.velocity.normalized;
+                targetUp = Vector3.up;
+            }
+            else
+            {
+                targetUp = Vector3.up;
+            }
+
+            currentTurnAmount = Mathf.SmoothDamp(currentTurnAmount, 1, ref turnSpeedVelocityChange, smoothTurnFactor);
+
+            // camera's rotation is split into two parts, which can have independend speed settings:
+            // rotating towards the target's forward direction (which encompasses its 'yaw' and 'pitch')
+
+            targetForward.y = 0;
+            if (targetForward.sqrMagnitude < float.Epsilon)
+            {
+                targetForward = transform.forward;
+            }
+
+            Quaternion desiredLookRotation;
+            Quaternion desiredTiltRotation = Quaternion.identity;
+
+            //If there is an active optional look target, look at that
+            if (CurrentLookTarget != null && CurrentLookTarget.gameObject.activeSelf)
+            {
+                Quaternion rotationToTarget = Quaternion.LookRotation(CurrentLookTarget.transform.position - transform.position);
+                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
+                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
+            }
+            else if (targetForward != Vector3.zero)
+            {
+                desiredLookRotation = Quaternion.LookRotation(targetForward, Vector3.up);
+            }
+            else
+            {
+                desiredLookRotation = transform.rotation;
+            }
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredLookRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime);
+            pivot.transform.localRotation = Quaternion.Lerp(pivot.transform.localRotation, desiredTiltRotation, autoCamTurnSpeed * currentTurnAmount * deltaTime); ;
+        }
+
+        #endregion
     }
 }

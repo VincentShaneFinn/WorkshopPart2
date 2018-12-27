@@ -1,23 +1,19 @@
 ﻿using UnityEngine;
-
-using Finisher.Cameras;
-
 namespace Finisher.Characters
 {
     public class PlayerCharacterController : CharacterAnimator
     {
         //[Header("Player Controller Specific Settings")]
 
-        [HideInInspector] public bool UseStraffingTarget = false; // tries to look at the set staffing target if true, matches camera rotation if false
+        [HideInInspector] public bool CombatTargetInRange = false; // tries to look at the set staffing target if true, matches camera rotation if false
+        [HideInInspector] public Transform CombatTarget;
 
         private Transform cameraTransform;
-        private FreeLookCam freeLookCam;
 
         void Start()
         {
             GetMainCameraTransform();
-            freeLookCam = cameraTransform.GetComponent<FreeLookCam>();
-            freeLookCam.playerCharacter = this;
+            Strafing = true;
         }
 
         #region CameraGetter and Strafing Match Camera
@@ -43,17 +39,18 @@ namespace Finisher.Characters
 
         protected override void setStrafingRotation()
         {
-            if (UseStraffingTarget)
-            {
-                freeLookCam.LookAtTarget = CurrentLookTarget;
-                transform.rotation = cameraTransform.rotation;
-            }
-            else
-            {
-                freeLookCam.LookAtTarget = null;
-                transform.rotation = cameraTransform.localRotation;
-            }
+            //if (UseStraffingTarget)
+            //{
+            //    freeLookCam.LookAtTarget = CurrentLookTarget;
+            //    transform.rotation = cameraTransform.rotation;
+            //}
+            //else
+            //{
+            //    freeLookCam.LookAtTarget = null;
+            //    transform.rotation = cameraTransform.localRotation;
+            //}
         }
+
         #endregion
     }
 }

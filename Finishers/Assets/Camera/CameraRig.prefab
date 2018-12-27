@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4900345407462588}
-  - component: {fileID: 2030823591}
   m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
@@ -32,25 +31,6 @@ Transform:
   m_Father: {fileID: 4299258274184632}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &2030823591
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263573014730678}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c0cc7508488f0da48be60aee652aa876, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1489285622189716
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,17 +98,16 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   autoTargetPlayer: 1
   updateType: 0
-  CameraControlLocked: 0
-  moveSpeed: 10
   turnSpeed: 1.5
   turnSmoothing: 0
   tiltMax: 75
   tiltMin: 45
   verticalAutoReturn: 0
   autoCamTurnSpeed: 2.5
-  timeUntilAutoCam: 1
+  timeUntilAutoCam: 0.3
   targetVelocityLowerLimit: 10
   smoothTurnFactor: 0.2
+  playerCharacter: {fileID: 0}
   LookAtTarget: {fileID: 0}
   ForceAutoLook: 0
 --- !u!114 &114724886324918150
@@ -190,7 +169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3298248469058211840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4900345407462588}

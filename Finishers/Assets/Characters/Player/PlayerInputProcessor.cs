@@ -1,7 +1,5 @@
 using System.Linq;
 using UnityEngine;
-
-using Finisher.Cameras;
 using Finisher.Core;
 
 namespace Finisher.Characters
@@ -40,15 +38,16 @@ namespace Finisher.Characters
         {
             if (GameManager.instance.GamePaused) { return; }
 
+
             combatTarget = GetCombatTarget();
             if (combatTarget)
             {
-                character.UseStraffingTarget = true;
-                character.CurrentLookTarget = combatTarget;
+                character.CombatTargetInRange = true;
+                character.CombatTarget = combatTarget; // todo forget the current target if out of range
             }
             else
             {
-                character.UseStraffingTarget = false;
+                character.CombatTargetInRange = false;
             }
 
             if (character.isGrounded)
