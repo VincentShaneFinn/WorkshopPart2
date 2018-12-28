@@ -13,7 +13,6 @@ namespace Finisher.Characters
 
         [SerializeField] float mainRange = 3f;
         [SerializeField] float extraRange = 1.5f;
-        [SerializeField] float runAngle = 45f;
 
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
@@ -24,6 +23,7 @@ namespace Finisher.Characters
         public Transform CombatTarget { get; private set; }
         public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
         public bool Moving { get; private set; }
+        public bool Attacking { get { return combatSystem.IsAttacking; } }
 
         #endregion
 
@@ -41,12 +41,11 @@ namespace Finisher.Characters
         {
             if (GameManager.instance.GamePaused) { return; }
 
-
-            CombatTarget = GetCombatTarget();
-            if (CombatTarget)
+            var tempCombatTarget = GetCombatTarget();
+            if (tempCombatTarget)
             {
                 CombatTargetInRange = true;
-                CombatTarget = CombatTarget; // todo forget the current target if out of range
+                CombatTarget = tempCombatTarget; // todo forget the current target if out of range
             }
             else
             {

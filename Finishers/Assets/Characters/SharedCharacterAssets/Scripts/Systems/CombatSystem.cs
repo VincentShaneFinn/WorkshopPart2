@@ -13,6 +13,7 @@ namespace Finisher.Characters
 
         public float currentWeaponDamage { get; private set; }
         public bool IsDamageFrame { get; private set; }
+        public bool IsAttacking { get; private set; }
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
@@ -46,15 +47,17 @@ namespace Finisher.Characters
 
         void Update()
         {
+            IsAttacking = Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
+                Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
             LockMovementInCombatAction();
+
         }
 
         private void LockMovementInCombatAction()
         {
             if (!Animator.IsInTransition(0))
             {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG) ||
+                if (IsAttacking ||
                     Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
                 {
                     CharacterAnim.CanRotate = false;

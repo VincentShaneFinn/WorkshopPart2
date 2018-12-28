@@ -66,13 +66,11 @@ namespace Finisher.Cameras
 
             CurrentLookTarget = player.CombatTarget;
 
-            if (player.character.Strafing && player.Moving || !player.character.CanRotate) // todo switch with another player variable that can allow for direct input in certain situations
+            if (player.character.Strafing && player.Moving || player.Attacking) // todo switch with another player variable that can allow for direct input in certain situations
             {
                 player.transform.rotation = transform.localRotation;
             }
         }
-
-
 
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
@@ -129,7 +127,15 @@ namespace Finisher.Cameras
             {
                 return;
             }
-            if ((!player.character.CanRotate) && player.CombatTargetInRange)
+            if(player.Attacking) 
+            {
+                if (player.CombatTargetInRange) // if your attacking, you can turn, but not if your target is in range so you can't reinhart hammer cheese
+                {
+                    ChangeCameraMode(true);
+                    return;
+                }
+            }
+            else if (!player.character.CanRotate) // otherwise you are in a special state and cannot rotate the camera
             {
                 ChangeCameraMode(true);
                 return;

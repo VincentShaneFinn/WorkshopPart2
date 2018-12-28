@@ -69,7 +69,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
-  CurrentLookTarget: {fileID: 0}
   Running: 0
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
@@ -86,7 +85,7 @@ MonoBehaviour:
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
   capsuleColliderRadius: 0.5
-  baseOffset: -0.04
+  baseOffset: -0.1
   stoppingDistance: 1.3
 --- !u!114 &114527653871411836
 MonoBehaviour:
