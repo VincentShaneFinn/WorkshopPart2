@@ -182,7 +182,10 @@ namespace Finisher.Characters
                 return;
             }
 
-            Running = running;
+            if (running)
+            {
+                Running = running;
+            }
 
             moveDirection = AdjustMoveDirection(moveDirection);
             turnAmount = Mathf.Atan2(moveDirection.x, moveDirection.z);

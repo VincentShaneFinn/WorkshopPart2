@@ -9,6 +9,7 @@ public static class InputNames
     public const string HeavyAttack = "Heavy Attack";
     public const string Dodge = "Dodge";
     public const string SpecialAttack = "Special Attack";
+    public const string Sprint = "Sprint";
 }
 
 #endregion

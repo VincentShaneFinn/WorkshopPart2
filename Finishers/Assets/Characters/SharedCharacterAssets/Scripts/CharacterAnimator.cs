@@ -10,6 +10,7 @@ namespace Finisher.Characters
         {
             public const string STRAFING_LOCOMOTION_STATE = "Strafing Locomotion";
             public const string BASIC_LOCOMOTION_STATE = "Basic Locomotion";
+            public const string RUNNING_STATE = "Running";
             public const string AIRBORNE_STATE = "Airborne";
             public const string STRAFING_STATE = "Strafing Locomotion";
             public const string KNOCKBACK_STATE = "Knockback";
@@ -109,9 +110,16 @@ namespace Finisher.Characters
             {
                 if (Running)
                 {
-                    if (Strafing && forwardAmount >= .9f)
+                    if (Strafing)
                     {
-                        animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, 2);
+                        if (forwardAmount >= .3f)
+                        {
+                            animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, 2);
+                        }
+                        else
+                        {
+                            Running = false;
+                        }
                         animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                     }
                     else
@@ -122,6 +130,10 @@ namespace Finisher.Characters
                 else {
                     animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                 }
+            }
+            else
+            {
+                Running = false;
             }
         }
 

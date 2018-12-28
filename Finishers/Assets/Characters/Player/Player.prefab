@@ -2012,7 +2012,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
-  CurrentLookTarget: {fileID: 0}
   Running: 0
   movingTurnSpeed: 1000
   stationaryTurnSpeed: 1000
@@ -2029,7 +2028,6 @@ MonoBehaviour:
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
-  UseStraffingTarget: 0
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2042,7 +2040,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6009fa1d308ae9a44884b0f1f1b46226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatTarget: {fileID: 0}
+  mainRange: 3
+  extraRange: 1.5
+  runAngle: 50
 --- !u!114 &1962851767
 MonoBehaviour:
   m_ObjectHideFlags: 0

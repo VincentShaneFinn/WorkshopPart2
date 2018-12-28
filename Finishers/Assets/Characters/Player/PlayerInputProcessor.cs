@@ -13,6 +13,7 @@ namespace Finisher.Characters
 
         [SerializeField] float mainRange = 3f;
         [SerializeField] float extraRange = 1.5f;
+        [SerializeField] float runAngle = 45f;
 
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
@@ -220,8 +221,10 @@ namespace Finisher.Characters
 
             SetMoveDirection(horizontal, vertical);
 
+            bool running = Input.GetButton(InputNames.Sprint);
+
             // pass all parameters to the character control script
-            character.MoveCharacter(moveDirection, Input.GetKey(KeyCode.LeftShift));//change to use run button
+            character.MoveCharacter(moveDirection, running);//change to use run button
 
             SetMoveing();
         }
