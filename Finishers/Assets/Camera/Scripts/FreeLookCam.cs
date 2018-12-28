@@ -30,7 +30,7 @@ namespace Finisher.Cameras
         private float currentTurnAmount; // How much to turn the camera
         private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
-        public PlayerCharacterController playerCharacter;
+        public PlayerInputProcessor player;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -51,7 +51,7 @@ namespace Finisher.Cameras
 			pivotEulers = pivot.rotation.eulerAngles;
 	        pivotTargetRot = pivot.transform.localRotation;
 			transformTargetRot = transform.localRotation;
-            playerCharacter = FindObjectOfType<PlayerCharacterController>();
+            player = FindObjectOfType<PlayerInputProcessor>();
         }
 
 
@@ -64,11 +64,11 @@ namespace Finisher.Cameras
             SetUsingAutoCam();
             AttemptToHandleRotationMovement();
 
-            CurrentLookTarget = playerCharacter.CombatTarget;
+            CurrentLookTarget = player.CombatTarget;
 
-            if (playerCharacter.Strafing) // todo switch with another player variable that can allow for direct input in certain situations
+            if (player.character.Strafing && player.Moving || !player.character.CanRotate) // todo switch with another player variable that can allow for direct input in certain situations
             {
-                playerCharacter.transform.rotation = transform.localRotation;
+                player.transform.rotation = transform.localRotation;
             }
         }
 
@@ -129,7 +129,7 @@ namespace Finisher.Cameras
             {
                 return;
             }
-            if ((!playerCharacter.CanRotate) && playerCharacter.CombatTargetInRange)
+            if ((!player.character.CanRotate) && player.CombatTargetInRange)
             {
                 ChangeCameraMode(true);
                 return;

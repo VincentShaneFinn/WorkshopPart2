@@ -104,11 +104,11 @@ MonoBehaviour:
   tiltMin: 45
   verticalAutoReturn: 0
   autoCamTurnSpeed: 2.5
-  timeUntilAutoCam: 0.3
+  timeUntilAutoCam: 2
   targetVelocityLowerLimit: 10
   smoothTurnFactor: 0.2
-  playerCharacter: {fileID: 0}
-  LookAtTarget: {fileID: 0}
+  player: {fileID: 0}
+  CurrentLookTarget: {fileID: 0}
   ForceAutoLook: 0
 --- !u!114 &114724886324918150
 MonoBehaviour:

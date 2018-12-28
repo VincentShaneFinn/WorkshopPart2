@@ -696,11 +696,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114590938643267900, guid: 14d91adb48ddce44aa00bdcc76a209ea,
-        type: 3}
-      propertyPath: timeUntilAutoCam
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14d91adb48ddce44aa00bdcc76a209ea, type: 3}
 --- !u!1 &793245822
@@ -1550,24 +1545,6 @@ PrefabInstance:
     - target: {fileID: 3079736054807551834, guid: f83221d9e6756614f869c751e8d09e4f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079736054807551835, guid: f83221d9e6756614f869c751e8d09e4f,
-        type: 3}
-      propertyPath: mainRange
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3079736054807551835, guid: f83221d9e6756614f869c751e8d09e4f,
-        type: 3}
-      propertyPath: extraRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1962851767, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
-      propertyPath: maxHealth
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1962851767, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
-      propertyPath: KnockbackLimit
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

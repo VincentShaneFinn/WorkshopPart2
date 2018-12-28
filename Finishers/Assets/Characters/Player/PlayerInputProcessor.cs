@@ -14,13 +14,15 @@ namespace Finisher.Characters
         [SerializeField] float mainRange = 3f;
         [SerializeField] float extraRange = 1.5f;
 
-        private PlayerCharacterController character = null; // A reference to the ThirdPersonCharacter on the object
+        public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
 
-        private Transform combatTarget;
+        public Transform CombatTarget { get; private set; }
+        public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
+        public bool Moving { get; private set; }
 
         #endregion
 
@@ -39,15 +41,15 @@ namespace Finisher.Characters
             if (GameManager.instance.GamePaused) { return; }
 
 
-            combatTarget = GetCombatTarget();
-            if (combatTarget)
+            CombatTarget = GetCombatTarget();
+            if (CombatTarget)
             {
-                character.CombatTargetInRange = true;
-                character.CombatTarget = combatTarget; // todo forget the current target if out of range
+                CombatTargetInRange = true;
+                CombatTarget = CombatTarget; // todo forget the current target if out of range
             }
             else
             {
-                character.CombatTargetInRange = false;
+                CombatTargetInRange = false;
             }
 
             if (character.isGrounded)
@@ -216,6 +218,16 @@ namespace Finisher.Characters
             float horizontal = Input.GetAxisRaw("Horizontal");
             float vertical = Input.GetAxisRaw("Vertical");
 
+            SetMoveDirection(horizontal, vertical);
+
+            // pass all parameters to the character control script
+            character.MoveCharacter(moveDirection, Input.GetKey(KeyCode.LeftShift));//change to use run button
+
+            SetMoveing();
+        }
+
+        private void SetMoveDirection(float horizontal, float vertical)
+        {
             // calculate move direction to pass to character
             if (camRig != null)
             {
@@ -228,12 +240,18 @@ namespace Finisher.Characters
                 // we use world-relative directions in the case of no main camera
                 moveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
             }
+        }
 
-            //use to be how walking was done, running may need a small rework
-            //if (Input.GetKey(KeyCode.LeftShift)) moveDirection *= 0.5f;
-
-            // pass all parameters to the character control script
-            character.MoveCharacter(moveDirection, Input.GetKey(KeyCode.LeftShift));//change to use run button
+        private void SetMoveing()
+        {
+            if (moveDirection != Vector3.zero)
+            {
+                Moving = true;
+            }
+            else
+            {
+                Moving = false;
+            }
         }
 
         #endregion

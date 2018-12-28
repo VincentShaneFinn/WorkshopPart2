@@ -109,7 +109,15 @@ namespace Finisher.Characters
             {
                 if (Running)
                 {
-                    animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
+                    if (Strafing && forwardAmount >= .9f)
+                    {
+                        animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, 2);
+                        animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
+                    }
+                    else
+                    {
+                        animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
+                    }
                 }
                 else {
                     animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);

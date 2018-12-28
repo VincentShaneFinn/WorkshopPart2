@@ -5,9 +5,6 @@ namespace Finisher.Characters
     {
         //[Header("Player Controller Specific Settings")]
 
-        [HideInInspector] public bool CombatTargetInRange = false; // tries to look at the set staffing target if true, matches camera rotation if false
-        [HideInInspector] public Transform CombatTarget;
-
         private Transform cameraTransform;
 
         void Start()
@@ -39,16 +36,7 @@ namespace Finisher.Characters
 
         protected override void setStrafingRotation()
         {
-            //if (UseStraffingTarget)
-            //{
-            //    freeLookCam.LookAtTarget = CurrentLookTarget;
-            //    transform.rotation = cameraTransform.rotation;
-            //}
-            //else
-            //{
-            //    freeLookCam.LookAtTarget = null;
-            //    transform.rotation = cameraTransform.localRotation;
-            //}
+            return;
         }
 
         #endregion
