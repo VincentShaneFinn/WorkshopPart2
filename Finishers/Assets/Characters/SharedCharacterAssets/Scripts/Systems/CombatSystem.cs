@@ -112,14 +112,7 @@ namespace Finisher.Characters
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            if (CharacterAnim.CanRotate && !CharacterAnim.Strafing) // todo, decide use different animations or allow rolling forward in the move direction given
-            {
-                SetDodgeTrigger(config.DodgeForwardAnimation);
-            }
-            else
-            {
-                SetDodgeTrigger(animToUse);
-            }
+            SetDodgeTrigger(animToUse);
         }
 
         public void SetDodgeTrigger(AnimationClip animClip)
