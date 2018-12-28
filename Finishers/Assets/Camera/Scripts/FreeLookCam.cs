@@ -15,6 +15,10 @@ namespace Finisher.Cameras
         // 			Camera
 
         #region Class Variables
+
+        public Transform CurrentLookTarget = null;
+        public bool LookTargetSetFromOutside = false;
+
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
@@ -64,7 +68,10 @@ namespace Finisher.Cameras
             SetUsingAutoCam();
             AttemptToHandleRotationMovement();
 
-            CurrentLookTarget = player.CombatTarget;
+            if (!LookTargetSetFromOutside)
+            {
+                CurrentLookTarget = player.CombatTarget;
+            }
 
             if (player.character.Strafing && player.Moving || player.Attacking) // todo switch with another player variable that can allow for direct input in certain situations
             {
@@ -75,7 +82,7 @@ namespace Finisher.Cameras
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
         {
-            if (ForceAutoLook) //use auto cam if forceautolook is true
+            if (LookTargetSetFromOutside) //use auto cam if forceautolook is true
             {
                 ChangeCameraMode(true);
                 return;
@@ -197,9 +204,6 @@ namespace Finisher.Cameras
                 AutoRotateCamera(deltaTime);
             }
         }
-
-        public Transform CurrentLookTarget = null;
-        public bool ForceAutoLook = false;
 
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
