@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -16,10 +17,12 @@ namespace Finisher.Characters
         [SerializeField] private float AutoLockTurnSpeed = 5f;
         [SerializeField] private float MAINRANGE = 3f;
         [SerializeField] private float EXTRARANGE = 1.5f;
-        [SerializeField] private float MAINFOV = 90f;
-        [SerializeField] private float EXTRAFOV = 190f;
+        [SerializeField] private float MAINFOV = 50f;
+        [SerializeField] private float EXTRAFOV = 100f;
+        [SerializeField] private float DIRECTIONALINPUTFOV = 35f;
 
-        private bool useDirectInput = false;
+        private bool usingDirectionalInput = false;
+        private List<Collider> enemyColliders = null;
 
         private PlayerInputProcessor playerI;
         private CombatSystem combatSystem;
@@ -63,9 +66,11 @@ namespace Finisher.Characters
             SetCharacterRotation();
         }
 
+        #region SetCombatTarget
+
         private void SetCurrentCombatTarget()
         {
-            useDirectInput = playerI.InputMoveDirection != Vector3.zero;
+            usingDirectionalInput = playerI.InputMoveDirection != Vector3.zero;
             if (CombatTarget)
             {
                 if (CombatTarget.gameObject.GetComponent<CharacterMotor>().Dying)
@@ -77,19 +82,23 @@ namespace Finisher.Characters
                 {
                     CombatTargetInRange = false;
                 }
-                if (useDirectInput && Attacking && Animator.IsInTransition(0))
+                if (usingDirectionalInput && Attacking && Animator.IsInTransition(0))
                 {
-                    GetNewCombatTarget();
+                    SetNewCombatTarget();
                 }
+                //if (CombatTargetOutOfCameraView())
+                //{
+
+                //}
             }
-            if(!CombatTargetInRange)
+            if (!CombatTargetInRange)
             {
-                GetNewCombatTarget();
+                SetNewCombatTarget();
             }
 
         }
 
-        private void GetNewCombatTarget()
+        private void SetNewCombatTarget()
         {
             var tempCombatTarget = GetPlayerCombatTarget();
             if (tempCombatTarget)
@@ -105,34 +114,47 @@ namespace Finisher.Characters
 
         private Transform GetPlayerCombatTarget()
         {
-            //Get nearby enemy colliders
-            int layerMask = 1 << LayerNames.EnemyLayer;
-            var enemyColliders = Physics.OverlapSphere(transform.position, MAINRANGE, layerMask).ToList();
+            SetClosestEnemyColliders();
+
             if (enemyColliders.Count <= 0) { return null; }
+
+            Transform target = null;
+            target = FindPreferredEnemyTarget();
+
+            return target;
+        }
+
+        private void SetClosestEnemyColliders()
+        {
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            enemyColliders = Physics.OverlapSphere(transform.position, MAINRANGE, layerMask).ToList();
 
             enemyColliders = enemyColliders.OrderBy(
                 enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
                 ).ToList();
+        }
 
-            Transform alternateTarget = null;
+        private Transform FindPreferredEnemyTarget()
+        {
+            Transform target = null;
             foreach (Collider enemyCollider in enemyColliders)
             {
-                Transform target = enemyCollider.transform;
-                var targetMotor = target.gameObject.GetComponent<CharacterMotor>();
-                if (targetMotor == null) { continue; }
+
+                var targetMotor = enemyCollider.gameObject.GetComponent<CharacterMotor>();
+                if (enemyCollider.gameObject.GetComponent<CharacterMotor>() == null) { continue; }
                 else if (targetMotor.Dying) { continue; }
 
                 // get the current angle of that enemy to the left or right of you
-                Vector3 targetDir = target.position - transform.position;
+                Vector3 targetDir = enemyCollider.transform.position - transform.position;
 
-                if (useDirectInput)
+                if (usingDirectionalInput)
                 {
                     float overrideAngle = Vector3.Angle(targetDir, playerI.InputMoveDirection);
 
                     //first check for user directional Input
-                    if (overrideAngle < 30f)
+                    if (overrideAngle < DIRECTIONALINPUTFOV)
                     {
-                        alternateTarget = target;
+                        target = enemyCollider.transform;
                         break;
                     }
                 }
@@ -142,22 +164,27 @@ namespace Finisher.Characters
                 // check if the enemy is in your field of vision
                 if (angle < MAINFOV)
                 {
-                    alternateTarget = target;
-                    if (!useDirectInput)
+                    target = enemyCollider.transform;
+                    if (!usingDirectionalInput)
                     {
                         break;
                     }
                 }
-                else if (Vector3.Distance(transform.position, target.position) <= EXTRARANGE && angle < EXTRAFOV)
+                else if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= EXTRARANGE && angle < EXTRAFOV)
                 {
-                    if (alternateTarget == null)
+                    if (target == null) // set the target to the one found in the smaller outer cones
                     {
-                        alternateTarget = target;
+                        target = enemyCollider.transform;
                     }
                 }
             }
-            return alternateTarget;
+
+            return target;
         }
+
+#endregion
+
+        #region SetCharacterRotation
 
         private void SetCharacterRotation()
         {
@@ -207,6 +234,7 @@ namespace Finisher.Characters
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
         }
 
+        #endregion
 
         #region Class Overrides
 
