@@ -5,6 +5,12 @@ namespace Finisher.Characters
 {
     public class PlayerCharacterController : CharacterAnimator
     {
+
+        public Transform CombatTarget { get; private set; }
+        public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
+        public bool Attacking { get { return combatSystem.IsAttacking; } }
+        public bool Dodging { get { return combatSystem.IsDodging; } }
+
         [Header("Player Controller Specific Settings")]
 
         [SerializeField] float mainRange = 3f;
@@ -14,9 +20,6 @@ namespace Finisher.Characters
         private CombatSystem combatSystem;
         private Transform camRig = null;
 
-        public Transform CombatTarget { get; private set; }
-        public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
-        public bool Attacking { get { return combatSystem.IsAttacking; } }
 
         #region Public Interface
 
@@ -125,14 +128,38 @@ namespace Finisher.Characters
                 {
                     if (CombatTargetInRange)
                     {
-                        transform.LookAt(new Vector3(CombatTarget.position.x, transform.position.y, CombatTarget.position.z));
+                        LookAtCombatTarget();
                     }
                     else
                     {
-                        transform.rotation = camRig.localRotation;
+                        UseCamRigRotation();
+                    }
+                }
+                else if (Dodging) {
+                    UseCamRigRotation();
+                }
+                else if(Attacking)
+                {
+                    if (CombatTargetInRange)
+                    {
+                        LookAtCombatTarget();
+                    }
+                    else
+                    {
+                        UseCamRigRotation();
                     }
                 }
             }
+        }
+
+        private void UseCamRigRotation()
+        {
+            transform.rotation = camRig.localRotation;
+        }
+
+        private void LookAtCombatTarget()
+        {
+            transform.LookAt(new Vector3(CombatTarget.position.x, transform.position.y, CombatTarget.position.z));
         }
 
 

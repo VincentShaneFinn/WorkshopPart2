@@ -18,7 +18,7 @@ namespace Finisher.Cameras
         #region Class Variables
 
         public Transform OptionalAutoLookTarget = null; // set what the autocamera will look at
-        public bool ForceAutoLook = false;
+        public bool ForceAutoLook = false; // force it to use the auto camera
 
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
@@ -60,7 +60,6 @@ namespace Finisher.Cameras
             playerController = FindObjectOfType<PlayerCharacterController>();
         }
 
-
         protected void Update()
         {
             if (GameManager.instance.GamePaused)
@@ -78,6 +77,8 @@ namespace Finisher.Cameras
                 HandleRotationMovement();
             }
         }
+
+        #region Helper Methods
 
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
@@ -127,6 +128,8 @@ namespace Finisher.Cameras
             }
 
         }
+
+        #endregion
 
         // handle player input to look around
         private void HandleRotationMovement()

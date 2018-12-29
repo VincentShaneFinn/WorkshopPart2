@@ -13,7 +13,20 @@ namespace Finisher.Characters
 
         public float currentWeaponDamage { get; private set; }
         public bool IsDamageFrame { get; private set; }
-        public bool IsAttacking { get; private set; }
+        public bool IsAttacking
+        {
+            get
+            {
+                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
+            }
+        }
+        public bool IsDodging {
+            get
+            {
+                return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE);
+            }
+        }
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
@@ -47,8 +60,6 @@ namespace Finisher.Characters
 
         void Update()
         {
-            IsAttacking = Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
-                Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
             LockMovementInCombatAction();
 
         }
