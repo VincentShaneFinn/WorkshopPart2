@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 7a4cfa3380fcb524c9233ff11170833e
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 23
   fileIDToRecycleName:
     100000: B_L_Hand
     100002: B_L_Forearm
@@ -237,10 +237,12 @@ ModelImporter:
     13700000: Soldier_Mesh
     13700002: RPG-Character-Mesh
     2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -251,35 +253,27 @@ ModelImporter:
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'B_Spine' has translation animation that will
-      be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
-      average position error 0.5 mm and maximum position error 10.7 mm at time 0:12
-      (46.2%) Frame 12\n\tLeftUpperArm average position error 24.3 mm and maximum
-      position error 41.2 mm at time 0:11 (42.3%) Frame 11\n\tLeftLowerArm average
-      position error 24.8 mm and maximum position error 43.0 mm at time 0:11 (42.3%)
-      Frame 11\n\tLeftHand average position error 24.0 mm and maximum position error
-      44.7 mm at time 0:11 (42.3%) Frame 11\n\tRightUpperArm average position error
-      24.4 mm and maximum position error 41.0 mm at time 0:11 (42.3%) Frame 11\n\tRightLowerArm
-      average position error 20.4 mm and maximum position error 41.8 mm at time 0:12
-      (46.2%) Frame 12\n\tRightHand average position error 21.9 mm and maximum position
-      error 42.9 mm at time 0:12 (46.2%) Frame 12\n\tHead average position error 36.9
-      mm and maximum position error 50.2 mm at time 0: 2 (7.7%) Frame 2\n"
+      might lower retargeting quality:\n\t'B_Spine2' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftFoot
+      average position error 0.2 mm and maximum position error 4.1 mm at time 0:12
+      (46.2%) Frame 12\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Unarmed-Roll-Left
       takeName: Take 001
       firstFrame: 2
-      lastFrame: 26
+      lastFrame: 20
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -419,22 +413,34 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
     importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 0
     keepQuads: 0
     weldVertices: 0
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 0
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 2
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
@@ -1132,7 +1138,6 @@ ModelImporter:
     legStretch: 0
     feetSpacing: 0
     rootMotionBoneName: PositionLocator
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 1
     hasExtraRoot: 0
     skeletonHasParents: 0

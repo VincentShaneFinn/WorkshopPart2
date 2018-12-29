@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using Finisher.Characters;
+using Finisher.Core;
 
 namespace Finisher.Cameras
 {
@@ -16,8 +17,8 @@ namespace Finisher.Cameras
 
         #region Class Variables
 
-        public Transform CurrentLookTarget = null;
-        public bool LookTargetSetFromOutside = false;
+        public Transform OptionalAutoLookTarget = null; // set what the autocamera will look at
+        public bool ForceAutoLook = false;
 
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
@@ -34,7 +35,7 @@ namespace Finisher.Cameras
         private float currentTurnAmount; // How much to turn the camera
         private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
-        public PlayerInputProcessor player;
+        private PlayerCharacterController playerController;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -45,6 +46,7 @@ namespace Finisher.Cameras
         private bool usingAutoCam = false;
         float inputX;
         float inputY;
+
         #endregion
 
         protected override void Awake()
@@ -55,34 +57,32 @@ namespace Finisher.Cameras
 			pivotEulers = pivot.rotation.eulerAngles;
 	        pivotTargetRot = pivot.transform.localRotation;
 			transformTargetRot = transform.localRotation;
-            player = FindObjectOfType<PlayerInputProcessor>();
+            playerController = FindObjectOfType<PlayerCharacterController>();
         }
 
 
         protected void Update()
         {
+            if (GameManager.instance.GamePaused)
+            {
+                return;
+            }
+
             // Read the user input
             inputX = Input.GetAxis("Mouse X");
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
-            AttemptToHandleRotationMovement();
-
-            if (!LookTargetSetFromOutside)
+            if (!usingAutoCam)
             {
-                CurrentLookTarget = player.CombatTarget;
-            }
-
-            if (player.character.Strafing && player.Moving || player.Attacking) // todo switch with another player variable that can allow for direct input in certain situations
-            {
-                player.transform.rotation = transform.localRotation;
+                HandleRotationMovement();
             }
         }
 
         // check if we should start auto rotating the camera if no input for time [timeUntilAutoCam]
         private void SetUsingAutoCam()
         {
-            if (LookTargetSetFromOutside) //use auto cam if forceautolook is true
+            if (ForceAutoLook) //use auto cam if forceautolook is true
             {
                 ChangeCameraMode(true);
                 return;
@@ -126,28 +126,6 @@ namespace Finisher.Cameras
                 }
             }
 
-        }
-
-        private void AttemptToHandleRotationMovement()
-        {
-            if (usingAutoCam || Time.timeScale < float.Epsilon)
-            {
-                return;
-            }
-            if(player.Attacking) 
-            {
-                if (player.CombatTargetInRange) // if your attacking, you can turn, but not if your target is in range so you can't reinhart hammer cheese
-                {
-                    ChangeCameraMode(true);
-                    return;
-                }
-            }
-            else if (!player.character.CanRotate) // otherwise you are in a special state and cannot rotate the camera
-            {
-                ChangeCameraMode(true);
-                return;
-            }
-            HandleRotationMovement();
         }
 
         // handle player input to look around
@@ -241,9 +219,15 @@ namespace Finisher.Cameras
             Quaternion desiredTiltRotation = Quaternion.identity;
 
             //If there is an active optional look target, look at that
-            if (CurrentLookTarget != null && CurrentLookTarget.gameObject.activeSelf)
+            if (OptionalAutoLookTarget != null && OptionalAutoLookTarget.gameObject.activeSelf)
             {
-                Quaternion rotationToTarget = Quaternion.LookRotation(CurrentLookTarget.transform.position - transform.position);
+                Quaternion rotationToTarget = Quaternion.LookRotation(OptionalAutoLookTarget.transform.position - transform.position);
+                desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
+                desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
+            }
+            else if (playerController.CombatTarget != null)
+            {
+                Quaternion rotationToTarget = Quaternion.LookRotation(playerController.CombatTarget.transform.position - transform.position);
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }

@@ -19,9 +19,9 @@ namespace Finisher.Characters
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
  
-        public bool Dying { // todo observer delegate when kill is called
-            get { return dying; }
-            set { if (!dying) dying = value; }
+        public bool Dying {
+            get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
+            set { if (!Dying) Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, value); }
         }
         public virtual bool CanMove
         {
@@ -34,7 +34,6 @@ namespace Finisher.Characters
             set { canRotate = value; }
         }
 
-        private bool dying = false;
         private bool canMove = true;
         private bool canRotate = true;
         private float origGroundCheckDistance;
@@ -55,7 +54,7 @@ namespace Finisher.Characters
         [Tooltip("Used to move faster, using rigibody velocity")]
         [SerializeField] protected float runMoveSpeedMultiplier = 1f;
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
-        [SerializeField] private float groundCheckDistance = 0.3f;
+        [SerializeField] protected float groundCheckDistance = 0.3f;
         #endregion
 
         #region Character Animator Variables
@@ -77,7 +76,7 @@ namespace Finisher.Characters
 
         #region Components 
 
-        protected Animator animator;
+        [HideInInspector] public Animator Animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
 
@@ -110,8 +109,8 @@ namespace Finisher.Characters
         protected void componentBuilder()
         {
             //Get Components
-            animator = gameObject.GetComponent<Animator>();
-            animator.runtimeAnimatorController = animOverrideController;
+            Animator = gameObject.GetComponent<Animator>();
+            Animator.runtimeAnimatorController = animOverrideController;
 
             //Add Components
             rigidBody = gameObject.AddComponent<Rigidbody>();
@@ -172,7 +171,8 @@ namespace Finisher.Characters
 
         #endregion
 
-        #region Character Mover
+        #region Public Character Mover
+
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
@@ -204,7 +204,6 @@ namespace Finisher.Characters
             {
                 turnAmount = Mathf.Atan2(moveDirection.x, Mathf.Abs(moveDirection.z));
                 turnAmount = Mathf.Clamp(turnAmount, -1, 1);
-                setStrafingRotation();
             }
             else
             {
@@ -252,7 +251,8 @@ namespace Finisher.Characters
 
         protected abstract void updateAnimator(Vector3 moveDirection);
 
-        #region Other Helper Methods [Virtual SetStrafeRotation]
+        #region Other Helper Methods
+
         // help the character turn faster (this is in addition to root rotation in the animation)
         // modified by the turnSpeedMultiplier
         void applyExtraTurnRotation()
@@ -261,24 +261,13 @@ namespace Finisher.Characters
             transform.Rotate(0, turnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-        protected virtual void setStrafingRotation()
+        // overriden by player controller since enemies will be snapped to the ground via the NavMeshAgent
+        protected virtual void snapToGround()
         {
-            if (CurrentLookTarget)
-            {
-                transform.LookAt(new Vector3(CurrentLookTarget.position.x, transform.position.y, CurrentLookTarget.position.z));
-            }
+            return;
         }
 
-        void snapToGround()
-        {
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
-            {
-                transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
-            }
-        }
-
-        void adjustVariablesWhileAirborne()
+        private void adjustVariablesWhileAirborne()
 		{
 			// apply extra gravity from multiplier:
 			Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
@@ -287,7 +276,7 @@ namespace Finisher.Characters
 			groundCheckDistance = rigidBody.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
 		}
 
-		void checkGroundStatus()
+		private void checkGroundStatus()
 		{
 			RaycastHit hitInfo;
 
@@ -300,15 +289,16 @@ namespace Finisher.Characters
 			{
 				groundNormal = hitInfo.normal;
 				isGrounded = true;
-				animator.applyRootMotion = true;
+				Animator.applyRootMotion = true;
 			}
 			else
 			{
 				isGrounded = false;
 				groundNormal = Vector3.up;
-				animator.applyRootMotion = false;
+				Animator.applyRootMotion = false;
 			}
 		}
+
         #endregion
     }
 }

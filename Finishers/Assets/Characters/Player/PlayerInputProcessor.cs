@@ -1,5 +1,5 @@
-using System.Linq;
 using UnityEngine;
+
 using Finisher.Core;
 
 namespace Finisher.Characters
@@ -11,19 +11,24 @@ namespace Finisher.Characters
     {
         #region member variables
 
-        [SerializeField] float mainRange = 3f;
-        [SerializeField] float extraRange = 1.5f;
-
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
-        private Vector3 moveDirection;          // the world-relative desired move direction, calculated from the camForward and user input.
+        public Vector3 InputMoveDirection { get; private set; }          // the world-relative desired move direction, calculated from the camForward and user input.
 
-        public Transform CombatTarget { get; private set; }
-        public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
-        public bool Moving { get; private set; }
-        public bool Attacking { get { return combatSystem.IsAttacking; } }
+        #endregion
+
+        #region Public Interface
+
+        public bool HasMoveInput()
+        {
+            if (InputMoveDirection != Vector3.zero)
+            {
+                return true;
+            }
+            return false;
+        }
 
         #endregion
 
@@ -40,17 +45,6 @@ namespace Finisher.Characters
         private void Update()
         {
             if (GameManager.instance.GamePaused) { return; }
-
-            var tempCombatTarget = GetCombatTarget();
-            if (tempCombatTarget)
-            {
-                CombatTargetInRange = true;
-                CombatTarget = tempCombatTarget; // todo forget the current target if out of range
-            }
-            else
-            {
-                CombatTargetInRange = false;
-            }
 
             if (character.isGrounded)
             {
@@ -84,14 +78,14 @@ namespace Finisher.Characters
 
             if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
-                var moveDirection = GetMoveDirection();
-                combatSystem.Dodge(moveDirection);
+                var dodgeDirection = GetMoveDirection();
+                combatSystem.Dodge(dodgeDirection);
             }
         }
 
         // todo, make sure it gets the direction with respect to the camera rig rotation
         // and that it makes you dodge the way you expect
-        MoveDirection GetMoveDirection()
+        private MoveDirection GetMoveDirection()
         {
             float vertical = Input.GetAxisRaw("Vertical");
             float horizontal = Input.GetAxisRaw("Horizontal");
@@ -100,22 +94,22 @@ namespace Finisher.Characters
             {
                 if(vertical >= 0)
                 {
-                    return MoveDirection.Forward;
+                    return Characters.MoveDirection.Forward;
                 }
                 else
                 {
-                    return MoveDirection.Backward;
+                    return Characters.MoveDirection.Backward;
                 }
             }
             else
             {
                 if (horizontal >= 0)
                 {
-                    return MoveDirection.Right;
+                    return Characters.MoveDirection.Right;
                 }
                 else
                 {
-                    return MoveDirection.Left;
+                    return Characters.MoveDirection.Left;
                 }
             }
         }
@@ -154,50 +148,6 @@ namespace Finisher.Characters
             }
         }
 
-        private Transform GetCombatTarget()
-        {
-            //Get nearby enemy colliders
-            int layerMask = 1 << LayerNames.EnemyLayer;
-            var enemyColliders = Physics.OverlapSphere(transform.position, mainRange, layerMask).ToList();
-            if (enemyColliders.Count <= 0) { return null; }
-
-            enemyColliders = enemyColliders.OrderBy(
-                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
-                ).ToList();
-
-            Transform alternateTarget = null;
-            foreach (Collider enemyCollider in enemyColliders)
-            {
-                Transform target = enemyCollider.transform;
-                var targetMotor = target.gameObject.GetComponent<CharacterMotor>();
-                if (targetMotor == null) { continue; }
-                else if (targetMotor.Dying) { continue; }
-
-                // get the current angle of that enemy to the left or right of you
-                Vector3 targetDir = target.position - transform.position;
-                float angle = Vector3.Angle(targetDir, transform.forward);
-
-                // check if the enemy is in your field of vision
-                float mainFOV = 90f;
-                float extraFOV = 190f;
-                if (angle < mainFOV / 2)
-                {
-                    //Debug.DrawLine(transform.position + Vector3.up, target.position + Vector3.up, Color.red);
-                    return target;
-                }
-                else if (Vector3.Distance(transform.position, target.position) <= extraRange && angle < extraFOV / 2)
-                {
-                    if (alternateTarget == null)
-                    {
-                        alternateTarget = target;
-                    }
-                }
-            }
-            //if(alternateTarget)
-                //Debug.DrawLine(transform.position + Vector3.up, alternateTarget.transform.position + Vector3.up, Color.white);
-            return alternateTarget;
-        }
-
         #region Fixed Update and movement Processing
 
         void FixedUpdate()
@@ -223,9 +173,7 @@ namespace Finisher.Characters
             bool running = Input.GetButton(InputNames.Sprint);
 
             // pass all parameters to the character control script
-            character.MoveCharacter(moveDirection, running);//change to use run button
-
-            SetMoveing();
+            character.MoveCharacter(InputMoveDirection, running);//change to use run button
         }
 
         private void SetMoveDirection(float horizontal, float vertical)
@@ -235,24 +183,12 @@ namespace Finisher.Characters
             {
                 // calculate camera relative direction to move:
                 camForward = Vector3.Scale(camRig.forward, new Vector3(1, 0, 1)).normalized;
-                moveDirection = vertical * camForward + horizontal * camRig.right;
+                InputMoveDirection = vertical * camForward + horizontal * camRig.right;
             }
             else
             {
                 // we use world-relative directions in the case of no main camera
-                moveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
-            }
-        }
-
-        private void SetMoveing()
-        {
-            if (moveDirection != Vector3.zero)
-            {
-                Moving = true;
-            }
-            else
-            {
-                Moving = false;
+                InputMoveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
             }
         }
 
