@@ -194,5 +194,26 @@ namespace Finisher.Characters
 
         #endregion
 
+        void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            float MAINRANGE = 5f;
+            float MAINFOV = 15f;
+
+            // local coordinate rotation around the Y axis to the given angle
+            Quaternion rotation = Quaternion.AngleAxis(MAINFOV, Vector3.up);
+            // add the desired distance to the direction
+            Vector3 addDistanceToDirection = rotation * InputMoveDirection * MAINRANGE;
+            Vector3 destination = transform.position + addDistanceToDirection;
+
+            Quaternion rotation2 = Quaternion.AngleAxis(-MAINFOV, Vector3.up);
+            // add the desired distance to the direction
+            Vector3 addDistanceToDirection2 = rotation2 * InputMoveDirection * MAINRANGE;
+            Vector3 destination2 = transform.position + addDistanceToDirection2;
+
+            Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
+            Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
+
+        }
     }
 }
