@@ -210,10 +210,13 @@ namespace Finisher.Characters
                 applyExtraTurnRotation();
             }
 
+            restrictYVelocity();
+
             // control and velocity handling is different when grounded and airborne:
             if (isGrounded)
             {
-                snapToGround();
+                if (Mathf.Abs(rigidBody.velocity.x) + Mathf.Abs(rigidBody.velocity.z) > 5)
+                    snapToGround();
             }
             else
             {
@@ -245,6 +248,15 @@ namespace Finisher.Characters
             checkGroundStatus();
             moveDirection = Vector3.ProjectOnPlane(moveDirection, groundNormal);
             return moveDirection;
+        }
+
+        void restrictYVelocity()
+        {
+            float newYVelocity = rigidBody.velocity.y;
+            if (rigidBody.velocity.y > 0)
+                newYVelocity = 0;
+
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x, newYVelocity, rigidBody.velocity.z);
         }
 
         #endregion

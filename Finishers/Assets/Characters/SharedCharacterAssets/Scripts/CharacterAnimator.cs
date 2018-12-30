@@ -90,7 +90,7 @@ namespace Finisher.Characters
             if (isGrounded && Time.deltaTime > 0)
             {
                 Vector3 v;
-                if (Running)
+                if (Running && !Strafing)
                 {
                     v = (Animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
                 }
@@ -98,32 +98,10 @@ namespace Finisher.Characters
                 {
                     v = (Animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
                 }
-
                 // we preserve the existing y part of the current velocity.
-                if (rigidBody.velocity.y > 0) // protect from going to fast up hill
-                {
-                    v.y = 0;
-                }
-                else
-                {
-                    v.y = rigidBody.velocity.y;
-                }
+                v.y = rigidBody.velocity.y;
                 rigidBody.velocity = v;
-                if (isGrounded)
-                {
-                    restrictYVelocity();
-                }
-
             }
-        }
-
-        void restrictYVelocity()
-        {
-            float newYVelocity = rigidBody.velocity.y;
-            if (rigidBody.velocity.y > 0)
-                newYVelocity = 0;
-
-            rigidBody.velocity = new Vector3(rigidBody.velocity.x, newYVelocity, rigidBody.velocity.z);
         }
 
         #endregion

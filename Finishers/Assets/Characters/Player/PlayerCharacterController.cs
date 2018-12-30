@@ -62,7 +62,7 @@ namespace Finisher.Characters
             camRig = GetMainCameraTransform();
         }
 
-        void Update()
+        public void ManualUpdate()
         {
             SetCurrentCombatTarget();
             SetCharacterRotation();
@@ -238,11 +238,7 @@ namespace Finisher.Characters
 
         protected override void snapToGround()
         {
-            RaycastHit hitInfo;
-            if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, groundCheckDistance))
-            {
-                transform.position = new Vector3(transform.position.x, hitInfo.point.y, transform.position.z);
-            }
+            rigidBody.AddForce(Vector3.down * 50, ForceMode.Acceleration);
         }
 
         #endregion

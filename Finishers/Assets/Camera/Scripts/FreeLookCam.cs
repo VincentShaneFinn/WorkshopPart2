@@ -20,6 +20,7 @@ namespace Finisher.Cameras
         public Transform OptionalAutoLookTarget = null; // set what the autocamera will look at
         public bool ForceAutoLook = false; // force it to use the auto camera
 
+        [SerializeField] private float moveSpeed = 10f;
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
@@ -75,6 +76,7 @@ namespace Finisher.Cameras
             if (!usingAutoCam)
             {
                 HandleRotationMovement();
+                playerController.ManualUpdate();
             }
         }
 
@@ -178,11 +180,12 @@ namespace Finisher.Cameras
             if (!(deltaTime > 0) || followTarget == null) return;
 
             // Move the rig towards target position.
-            transform.position = followTarget.position;
+            transform.position = Vector3.Lerp(transform.position, followTarget.position, deltaTime * moveSpeed);
 
             if (usingAutoCam)
             {
                 AutoRotateCamera(deltaTime);
+                playerController.ManualUpdate();
             }
         }
 

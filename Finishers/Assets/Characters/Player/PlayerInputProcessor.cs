@@ -40,6 +40,7 @@ namespace Finisher.Characters
 
             // get the transform of the main camera
             camRig = character.GetMainCameraTransform();
+            startFixedDeltaTime = Time.fixedDeltaTime;
         }
 
         private void Update()
@@ -114,6 +115,7 @@ namespace Finisher.Characters
             }
         }
 
+        private float startFixedDeltaTime;
         private void testingInputZone()
         {
 
@@ -137,10 +139,12 @@ namespace Finisher.Characters
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Time.timeScale = .1f;
+                Time.fixedDeltaTime = startFixedDeltaTime * Time.timeScale;
             }
             if (Input.GetKeyUp(KeyCode.Z))
             {
                 Time.timeScale = 1;
+                Time.fixedDeltaTime = startFixedDeltaTime;
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
