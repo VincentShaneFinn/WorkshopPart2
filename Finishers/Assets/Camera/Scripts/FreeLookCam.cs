@@ -63,6 +63,7 @@ namespace Finisher.Cameras
 
         protected void Update()
         {
+            
             if (GameManager.instance.GamePaused)
             {
                 return;
@@ -76,6 +77,11 @@ namespace Finisher.Cameras
             if (!usingAutoCam)
             {
                 HandleRotationMovement();
+                playerController.ManualUpdate();
+            }
+            if (usingAutoCam)
+            {
+                AutoRotateCamera(Time.deltaTime);
                 playerController.ManualUpdate();
             }
         }
@@ -181,12 +187,6 @@ namespace Finisher.Cameras
 
             // Move the rig towards target position.
             transform.position = Vector3.Lerp(transform.position, followTarget.position, deltaTime * moveSpeed);
-
-            if (usingAutoCam)
-            {
-                AutoRotateCamera(deltaTime);
-                playerController.ManualUpdate();
-            }
         }
 
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
