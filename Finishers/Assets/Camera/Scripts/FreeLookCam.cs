@@ -249,27 +249,27 @@ namespace Finisher.Cameras
 
         #endregion
 
-        
-        //void OnDrawGizmos()
-        //{
-        //    float MAINRANGE = 5f;
-        //    float MAINFOV = 30f;
 
-        //    Gizmos.color = Color.green;
+        void OnDrawGizmos()
+        {
+            float MAINRANGE = 5f;
+            float MAINFOV = 30f;
 
-        //    // local coordinate rotation around the Y axis to the given angle
-        //    Quaternion rotation = Quaternion.AngleAxis(MAINFOV, Vector3.up);
-        //    // add the desired distance to the direction
-        //    Vector3 addDistanceToDirection = rotation * transform.forward * MAINRANGE;
-        //    Vector3 destination = transform.position + addDistanceToDirection;
+            Gizmos.color = Color.green;
 
-        //    Quaternion rotation2 = Quaternion.AngleAxis(-MAINFOV, Vector3.up);
-        //    // add the desired distance to the direction
-        //    Vector3 addDistanceToDirection2 = rotation2 * transform.forward * MAINRANGE;
-        //    Vector3 destination2 = transform.position + addDistanceToDirection2;
+            // local coordinate rotation around the Y axis to the given angle
+            Quaternion rotation = Quaternion.AngleAxis(MAINFOV, Vector3.up);
+            // add the desired distance to the direction
+            Vector3 addDistanceToDirection = rotation * transform.forward * MAINRANGE;
+            Vector3 destination = transform.position + addDistanceToDirection;
 
-        //    Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
-        //    Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
-        //}
+            Quaternion rotation2 = Quaternion.AngleAxis(-MAINFOV, Vector3.up);
+            // add the desired distance to the direction
+            Vector3 addDistanceToDirection2 = rotation2 * transform.forward * MAINRANGE;
+            Vector3 destination2 = transform.position + addDistanceToDirection2;
+
+            Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
+            Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
+        }
     }
 }

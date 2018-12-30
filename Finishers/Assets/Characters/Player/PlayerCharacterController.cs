@@ -14,6 +14,7 @@ namespace Finisher.Characters
 
         [Header("Player Auto Target Hitbox Settings")]
 
+        [SerializeField] private float MAXCOMBATTARGETRANGE = 20f;
         [SerializeField] private float AutoLockTurnSpeed = 5f;
         [SerializeField] private float MAINRANGE = 3f;
         [SerializeField] private float EXTRARANGE = 1.5f;
@@ -21,10 +22,11 @@ namespace Finisher.Characters
         [SerializeField] private float EXTRAFOV = 100f;
         [SerializeField] private float DIRECTIONALINPUTFOV = 35f;
 
-        private bool usingDirectionalInput = false;
+        private bool usingLSInput = false;
+
         private List<Collider> enemyColliders = null;
 
-        private PlayerInputProcessor playerI;
+        private PlayerInputProcessor playerIP;
         private CombatSystem combatSystem;
         private Transform camRig = null;
         
@@ -55,7 +57,7 @@ namespace Finisher.Characters
         void Start()
         {
             Strafing = true;
-            playerI = GetComponent<PlayerInputProcessor>();
+            playerIP = GetComponent<PlayerInputProcessor>();
             combatSystem = GetComponent<CombatSystem>();
             camRig = GetMainCameraTransform();
         }
@@ -70,28 +72,24 @@ namespace Finisher.Characters
 
         private void SetCurrentCombatTarget()
         {
-            usingDirectionalInput = playerI.InputMoveDirection != Vector3.zero;
+            usingLSInput = playerIP.InputMoveDirection != Vector3.zero;
             if (CombatTarget)
             {
-                if (CombatTarget.gameObject.GetComponent<CharacterMotor>().Dying)
+                float distanceFromTarget = Vector3.Distance(CombatTarget.position, transform.position);
+                if (CombatTarget.gameObject.GetComponent<CharacterMotor>().Dying ||
+                    distanceFromTarget > MAXCOMBATTARGETRANGE)
                 {
                     CombatTarget = null;
                     CombatTargetInRange = false;
                 }
-                else if (Vector3.Distance(CombatTarget.position, transform.position) > MAINRANGE)
+                else if (distanceFromTarget > MAINRANGE)
                 {
                     CombatTargetInRange = false;
                 }
-                if (usingDirectionalInput && Attacking && Animator.IsInTransition(0))
-                {
-                    SetNewCombatTarget();
-                }
-                //if (CombatTargetOutOfCameraView())
-                //{
 
-                //}
             }
-            if (!CombatTargetInRange)
+            if ((usingLSInput && Attacking && Animator.IsInTransition(0)) ||
+                !CombatTargetInRange)
             {
                 SetNewCombatTarget();
             }
@@ -147,9 +145,9 @@ namespace Finisher.Characters
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
 
-                if (usingDirectionalInput)
+                if (usingLSInput)
                 {
-                    float overrideAngle = Vector3.Angle(targetDir, playerI.InputMoveDirection);
+                    float overrideAngle = Vector3.Angle(targetDir, playerIP.InputMoveDirection);
 
                     //first check for user directional Input
                     if (overrideAngle < DIRECTIONALINPUTFOV)
@@ -165,7 +163,7 @@ namespace Finisher.Characters
                 if (angle < MAINFOV)
                 {
                     target = enemyCollider.transform;
-                    if (!usingDirectionalInput)
+                    if (!usingLSInput)
                     {
                         break;
                     }
@@ -204,7 +202,7 @@ namespace Finisher.Characters
                         RotateWithCamRig();
                     }
                 }
-                else if (CanRotate && playerI.HasMoveInput())
+                else if (CanRotate && playerIP.HasMoveInput())
                 {
                     RotateWithCamRig();
                 }
@@ -249,6 +247,7 @@ namespace Finisher.Characters
 
         #endregion
 
+        // draws the hitbox lines for player, the 2 smaller hitboxes, and the player input hitbox
         void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
@@ -283,6 +282,27 @@ namespace Finisher.Characters
 
             Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
             Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
+
+            Gizmos.color = Color.red;
+
+            if (playerIP)
+            {
+
+                // local coordinate rotation around the Y axis to the given angle
+                rotation = Quaternion.AngleAxis(DIRECTIONALINPUTFOV, Vector3.up);
+                // add the desired distance to the direction
+                addDistanceToDirection = rotation * playerIP.InputMoveDirection * MAINRANGE;
+                destination = transform.position + addDistanceToDirection;
+
+                rotation2 = Quaternion.AngleAxis(-DIRECTIONALINPUTFOV, Vector3.up);
+                // add the desired distance to the direction
+                addDistanceToDirection2 = rotation2 * playerIP.InputMoveDirection * MAINRANGE;
+                destination2 = transform.position + addDistanceToDirection2;
+
+                Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
+                Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
+
+            }
 
         }
     }

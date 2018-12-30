@@ -2024,10 +2024,17 @@ MonoBehaviour:
   runAnimSpeedMultiplier: 1.6
   animOverrideController: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
     type: 2}
+  Animator: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
+  AutoLockTurnSpeed: 5
+  MAINRANGE: 3
+  EXTRARANGE: 1.5
+  MAINFOV: 50
+  EXTRAFOV: 100
+  DIRECTIONALINPUTFOV: 35
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2040,9 +2047,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6009fa1d308ae9a44884b0f1f1b46226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainRange: 3
-  extraRange: 1.5
-  runAngle: 50
 --- !u!114 &1962851767
 MonoBehaviour:
   m_ObjectHideFlags: 0
