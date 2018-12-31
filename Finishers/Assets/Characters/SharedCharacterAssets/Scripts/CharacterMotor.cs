@@ -68,6 +68,8 @@ namespace Finisher.Characters
         [SerializeField] private AnimatorOverrideController AnimatorOverrideControllerConfig;
         protected AnimatorOverrideController animOverrideController;
 
+        public CharAnimStateHandler stateHandler { get; private set; }
+
         #endregion
 
         #region Constants
@@ -129,6 +131,8 @@ namespace Finisher.Characters
 
 
             //Add Components
+            stateHandler = gameObject.AddComponent<CharAnimStateHandler>();
+
             rigidBody = gameObject.AddComponent<Rigidbody>();
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             rigidBody.useGravity = true;

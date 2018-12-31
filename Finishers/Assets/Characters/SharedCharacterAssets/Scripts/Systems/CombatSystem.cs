@@ -17,14 +17,13 @@ namespace Finisher.Characters
         {
             get
             {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
+                return CharacterAnim.stateHandler.IsAttacking;
             }
         }
         public bool IsDodging {
             get
             {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE);
+                return CharacterAnim.stateHandler.IsDodging;
             }
         }
         public delegate void DamageFrameChanged(bool isDamageFrame);
@@ -56,30 +55,6 @@ namespace Finisher.Characters
             lightAttackDamage = config.LightAttackDamage;
             heavyAttackDamage = config.HeavyAttackDamage;
             IsDamageFrame = false;
-        }
-
-        void Update()
-        {
-            LockMovementInCombatAction();
-
-        }
-
-        private void LockMovementInCombatAction()
-        {
-            if (!Animator.IsInTransition(0))
-            {
-                if (IsAttacking ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
-                {
-                    CharacterAnim.CanRotate = false;
-                    CharacterAnim.CanMove = false;
-                }
-            }
-            else
-            {
-                CharacterAnim.CanMove = true;
-                CharacterAnim.CanRotate = true;
-            }
         }
 
         public void LightAttack()

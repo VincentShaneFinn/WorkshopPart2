@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -12,10 +13,13 @@ namespace Finisher.Characters
         public bool Attacking { get { return combatSystem.IsAttacking; } }
         public bool Dodging { get { return combatSystem.IsDodging; } }
 
-        [Header("Player Auto Target Hitbox Settings")]
+        //[Header("Player Controller Specific")]
 
-        [SerializeField] private float MAXCOMBATTARGETRANGE = 20f;
+        [Header("Player Combat Target Hitbox Settings")]
+        [SerializeField] private GameObject CombatTargetIndicator;
+        [SerializeField] private float RotateWithCameraSpeed = 10f;
         [SerializeField] private float AutoLockTurnSpeed = 5f;
+        [SerializeField] private float MAXCOMBATTARGETRANGE = 20f;
         [SerializeField] private float MAINRANGE = 3f;
         [SerializeField] private float EXTRARANGE = 1.5f;
         [SerializeField] private float MAINFOV = 50f;
@@ -23,8 +27,8 @@ namespace Finisher.Characters
         [SerializeField] private float DIRECTIONALINPUTFOV = 35f;
 
         private bool usingLSInput = false;
-
         private List<Collider> enemyColliders = null;
+        private GameObject currentCombatTargetIndicator;
 
         private PlayerInputProcessor playerIP;
         private CombatSystem combatSystem;
@@ -62,9 +66,14 @@ namespace Finisher.Characters
             camRig = GetMainCameraTransform();
         }
 
-        public void ManualUpdate()
+        void Update()
         {
             SetCurrentCombatTarget();
+            UpdateCombatTargetIndicator();
+        }
+
+        public void ManualUpdate() // currently updated with camera look
+        {
             SetCharacterRotation();
         }
 
@@ -93,7 +102,6 @@ namespace Finisher.Characters
             {
                 SetNewCombatTarget();
             }
-
         }
 
         private void SetNewCombatTarget()
@@ -180,7 +188,34 @@ namespace Finisher.Characters
             return target;
         }
 
-#endregion
+        #endregion
+
+        #region UpdateCombatTargetIndicator
+
+        private void UpdateCombatTargetIndicator()
+        {
+            if (CombatTarget)
+            {
+                if (!currentCombatTargetIndicator)
+                {
+                    currentCombatTargetIndicator = Instantiate(CombatTargetIndicator, CombatTarget);
+                }
+                else
+                {
+                    currentCombatTargetIndicator.transform.parent = CombatTarget;
+                }
+                currentCombatTargetIndicator.transform.localPosition = new Vector3(0, CombatTarget.GetComponent<CapsuleCollider>().height + .2f, 0);
+            }
+            else
+            {
+                if (currentCombatTargetIndicator)
+                {
+                    Destroy(currentCombatTargetIndicator);
+                }
+            }
+        }
+
+        #endregion
 
         #region SetCharacterRotation
 
@@ -218,12 +253,12 @@ namespace Finisher.Characters
 
         private void RotateWithCamRig()
         {
-            transform.rotation = camRig.localRotation;
+            // Smoothly rotate towards the target point.
+            transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation, RotateWithCameraSpeed * Time.deltaTime);
         }
 
         private void EngageEnemy()
         {
-            //transform.LookAt(new Vector3(CombatTarget.position.x, transform.position.y, CombatTarget.position.z));
             var targetRotation = Quaternion.LookRotation(CombatTarget.transform.position - transform.position);
             targetRotation.x = 0;
             targetRotation.z = 0;
