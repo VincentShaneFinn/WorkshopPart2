@@ -84,7 +84,6 @@ namespace Finisher.Characters
 
         public void LightAttack()
         {
-            Animator.runtimeAnimatorController = CharacterAnim.animOverrideController;
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, false);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = lightAttackDamage;
@@ -94,7 +93,6 @@ namespace Finisher.Characters
 
         public void HeavyAttack()
         {
-            Animator.runtimeAnimatorController = CharacterAnim.animOverrideController;
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, true);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             currentWeaponDamage = heavyAttackDamage;
@@ -128,7 +126,6 @@ namespace Finisher.Characters
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            Animator.runtimeAnimatorController = CharacterAnim.animOverrideController;
             SetDodgeTrigger(animToUse);
         }
 
@@ -141,8 +138,7 @@ namespace Finisher.Characters
             }
             else
             {
-                CharacterAnim.animOverrideController[AnimContstants.OverrideIndexes.DODGE_INDEX] = animClip;
-                Animator.SetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
+                CharacterAnim.SetTriggerOverride(AnimContstants.Parameters.DODGE_TRIGGER, AnimContstants.OverrideIndexes.DODGE_INDEX, animClip);
             }
         }
 

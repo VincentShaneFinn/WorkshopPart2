@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -64,7 +65,8 @@ namespace Finisher.Characters
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
-        [SerializeField] public AnimatorOverrideController animOverrideController;
+        [SerializeField] private AnimatorOverrideController AnimatorOverrideControllerConfig;
+        protected AnimatorOverrideController animOverrideController;
 
         #endregion
 
@@ -110,7 +112,21 @@ namespace Finisher.Characters
         {
             //Get Components
             Animator = gameObject.GetComponent<Animator>();
+
+            //Setup a new AnimOverrideController
+
+            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
             Animator.runtimeAnimatorController = animOverrideController;
+
+            //fill new override with data
+            var dataOverride = AnimatorOverrideControllerConfig;
+
+            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
+            dataOverride.GetOverrides(overrides);
+
+            //Apply it
+            animOverrideController.ApplyOverrides(overrides);
+
 
             //Add Components
             rigidBody = gameObject.AddComponent<Rigidbody>();

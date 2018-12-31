@@ -22,13 +22,11 @@ namespace Finisher.Characters
 
         [HideInInspector] public CharacterAnimator CharacterAnim;
         [HideInInspector] public Animator Animator;
-        private AnimatorOverrideController animOverrideController;
 
         void Start()
         {
             CharacterAnim = GetComponent<CharacterAnimator>();
 
-            animOverrideController = new AnimatorOverrideController(CharacterAnim.animOverrideController);
             Animator = GetComponent<Animator>();
 
             currentHealth = maxHealth;
@@ -83,19 +81,15 @@ namespace Finisher.Characters
         public void Kill(AnimationClip animClip)
         {
             if (CharacterAnim.Dying) { return; }
-            animOverrideController[AnimContstants.OverrideIndexes.DEATH_INDEX] = animClip;
-            Animator.runtimeAnimatorController = animOverrideController;
             currentHealth = 0;
             healthSlider.value = getCurrentHealthAsPercent();
             CharacterAnim.Dying = true;
-            Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
+            CharacterAnim.SetBoolOverride(AnimContstants.Parameters.DYING_BOOL, true, AnimContstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            animOverrideController[AnimContstants.OverrideIndexes.KNOCKBACK_INDEX] = animClip;
-            Animator.runtimeAnimatorController = animOverrideController;
-            Animator.SetTrigger(AnimContstants.Parameters.KNOCKBACK_TRIGGER);
+            CharacterAnim.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
         }
 
         private float getCurrentHealthAsPercent()

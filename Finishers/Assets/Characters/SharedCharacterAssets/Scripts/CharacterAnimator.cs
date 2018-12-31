@@ -2,9 +2,42 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+    public struct OverrideParams
+    {
+        AnimationClip AnimClip;
+        string OverrideIndex;
+    }
 
     public class CharacterAnimator : CharacterMotor
 	{
+
+        #region Public Interface for Overriding Animation Clips
+
+        public void SetFloatOverride(string floatName, float floatValue, string overrideIndex, AnimationClip animClip)
+        {
+            animOverrideController[overrideIndex] = animClip;
+            Animator.SetFloat(floatName, floatValue);
+        }
+
+        public void SetIntegerOverride(string intName, int intValue, string overrideIndex, AnimationClip animClip)
+        {
+            animOverrideController[overrideIndex] = animClip;
+            Animator.SetInteger(intName, intValue);
+        }
+
+        public void SetBoolOverride(string boolName, bool boolValue, string overrideIndex, AnimationClip animClip)
+        {
+            animOverrideController[overrideIndex] = animClip;
+            Animator.SetBool(boolName, boolValue);
+        }
+
+        public void SetTriggerOverride(string TriggerName, string OverrideIndex, AnimationClip AnimClip)
+        {
+            animOverrideController[OverrideIndex] = AnimClip;
+            Animator.SetTrigger(TriggerName);
+        }
+
+        #endregion
 
         #region Movement Animation Control
 

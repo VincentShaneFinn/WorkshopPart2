@@ -77,13 +77,12 @@ namespace Finisher.Cameras
             if (!usingAutoCam)
             {
                 HandleRotationMovement();
-                playerController.ManualUpdate();
             }
             if (usingAutoCam)
             {
                 AutoRotateCamera(Time.deltaTime);
-                playerController.ManualUpdate();
             }
+            playerController.ManualUpdate();
         }
 
         #region Helper Methods

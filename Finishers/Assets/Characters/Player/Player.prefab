@@ -2022,6 +2022,8 @@ MonoBehaviour:
   groundCheckDistance: 0.3
   animSpeedMultiplier: 1
   runAnimSpeedMultiplier: 1.6
+  AnimatorOverrideControllerConfig: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
+    type: 2}
   animOverrideController: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
     type: 2}
   Animator: {fileID: 0}
@@ -2029,6 +2031,7 @@ MonoBehaviour:
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
+  MAXCOMBATTARGETRANGE: 20
   AutoLockTurnSpeed: 5
   MAINRANGE: 3
   EXTRARANGE: 1.5
