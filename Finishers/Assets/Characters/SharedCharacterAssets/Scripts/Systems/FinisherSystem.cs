@@ -6,11 +6,9 @@ namespace Finisher.Characters {
     public class FinisherSystem : MonoBehaviour
     {
         private Animator animator;
-        private PlayerCharacterController playerChar;
+        private PlayerCharacterController character;
         private FreeLookCam freeLookCam;
         private Transform grabTarget;
-
-        public bool FinisherModeActive { get { return animator.GetBool(AnimContstants.Parameters.FINISHERMODE_BOOL); } }
 
         public delegate void StartGrabbingTarget();
         public event StartGrabbingTarget OnStartGrabbingTarget;
@@ -20,7 +18,7 @@ namespace Finisher.Characters {
         void Start()
         {
             animator = GetComponent<Animator>();
-            playerChar = GetComponent<PlayerCharacterController>();
+            character = GetComponent<PlayerCharacterController>();
             freeLookCam = FindObjectOfType<FreeLookCam>();
             OnStartGrabbingTarget += startGrab;
             OnStopGrabbingTarget += stopGrab;
@@ -28,16 +26,16 @@ namespace Finisher.Characters {
 
         void Update()
         {
-            if(playerChar.Dying)
+            if(character.Dying)
             {
                 return;
             }
 
             if (Input.GetKeyDown(KeyCode.F))
             {
-                animator.SetBool(AnimContstants.Parameters.FINISHERMODE_BOOL, !FinisherModeActive);
+                animator.SetBool(AnimContstants.Parameters.FINISHERMODE_BOOL, !character.FinisherModeActive);
             }
-            if (FinisherModeActive)
+            if (character.FinisherModeActive)
             {
                 if (Input.GetKeyDown(KeyCode.G))
                 {
@@ -47,7 +45,7 @@ namespace Finisher.Characters {
                     }
                     else
                     {
-                        if (playerChar.CombatTarget != null)
+                        if (character.CombatTarget != null)
                         {
                             OnStartGrabbingTarget();
                         }
@@ -74,9 +72,9 @@ namespace Finisher.Characters {
 
         private void startGrab()
         {
-            grabTarget = playerChar.CombatTarget;
+            grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
-            playerChar.Grabbing = true;
+            character.Grabbing = true;
             grabTarget.GetComponent<CharacterMotor>().Staggered = true;
         }
 
@@ -85,7 +83,7 @@ namespace Finisher.Characters {
             grabTarget.GetComponent<CharacterMotor>().Staggered = false;
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
-            playerChar.Grabbing = false;
+            character.Grabbing = false;
         }
     }
 }

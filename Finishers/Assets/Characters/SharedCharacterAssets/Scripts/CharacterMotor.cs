@@ -9,7 +9,7 @@ namespace Finisher.Characters
     public abstract class CharacterMotor : MonoBehaviour
     {
 
-        #region Class Variables
+        #region Class Variables and public State Variables
 
         [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
@@ -30,6 +30,7 @@ namespace Finisher.Characters
             }
         }
         public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
+        public bool FinisherModeActive { get { return Animator.GetBool(AnimContstants.Parameters.FINISHERMODE_BOOL); } }
         public bool Staggered
         {
             get { return Animator.GetBool(AnimContstants.Parameters.STAGGERED_BOOL); }

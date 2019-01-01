@@ -20,12 +20,12 @@ namespace Finisher.Characters
         private float currentHealth;
         private int knockbackCount;
 
-        [HideInInspector] public CharacterAnimator CharacterAnim;
+        [HideInInspector] public CharacterAnimator character;
         [HideInInspector] public Animator Animator;
 
         void Start()
         {
-            CharacterAnim = GetComponent<CharacterAnimator>();
+            character = GetComponent<CharacterAnimator>();
 
             Animator = GetComponent<Animator>();
 
@@ -80,16 +80,16 @@ namespace Finisher.Characters
 
         public void Kill(AnimationClip animClip)
         {
-            if (CharacterAnim.Dying) { return; }
+            if (character.Dying) { return; }
             currentHealth = 0;
             healthSlider.value = getCurrentHealthAsPercent();
-            CharacterAnim.Dying = true;
-            CharacterAnim.SetBoolOverride(AnimContstants.Parameters.DYING_BOOL, true, AnimContstants.OverrideIndexes.DEATH_INDEX, animClip);
+            character.Dying = true;
+            character.SetBoolOverride(AnimContstants.Parameters.DYING_BOOL, true, AnimContstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         public void Knockback(AnimationClip animClip)
         {
-            CharacterAnim.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+            character.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
         }
 
         private float getCurrentHealthAsPercent()

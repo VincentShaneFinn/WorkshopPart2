@@ -15,7 +15,7 @@ namespace Finisher.Characters
         [Tooltip("Will use player as the default Combat Target")]
         [SerializeField] GameObject combatTarget = null;
 
-        AICharacterController aiCharacter;
+        AICharacterController character;
         private CombatSystem combatSystem;
 
         private EnemyState currentState;
@@ -28,7 +28,7 @@ namespace Finisher.Characters
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
-            aiCharacter = GetComponent<AICharacterController>();
+            character = GetComponent<AICharacterController>();
             combatSystem = GetComponent<CombatSystem>();
         }
 
@@ -48,19 +48,19 @@ namespace Finisher.Characters
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
-                aiCharacter.CanMove = false;
+                character.CanMove = false;
             }
             if (Input.GetKeyUp(KeyCode.F))
             {
-                aiCharacter.CanMove = true;
+                character.CanMove = true;
             }
             if (Input.GetKeyDown(KeyCode.G))
             {
-                aiCharacter.CanRotate = false;
+                character.CanRotate = false;
             }
             if (Input.GetKeyUp(KeyCode.G))
             {
-                aiCharacter.CanRotate = true;
+                character.CanRotate = true;
             }
         }
 
@@ -69,11 +69,11 @@ namespace Finisher.Characters
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= chaseRadius)
             {
-                aiCharacter.SetTarget(combatTarget.transform);
+                character.SetTarget(combatTarget.transform);
             }
             else
             {
-                aiCharacter.SetTarget(transform);
+                character.SetTarget(transform);
             }
         }
 

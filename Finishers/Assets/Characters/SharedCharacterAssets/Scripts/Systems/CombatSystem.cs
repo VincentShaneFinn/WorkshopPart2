@@ -25,12 +25,12 @@ namespace Finisher.Characters
         [SerializeField] private float attackAnimSpeed = 1f;
 
         [HideInInspector] public Animator Animator;
-        [HideInInspector] public CharacterAnimator CharacterAnim;
+        private CharacterAnimator character;
         private CombatSMB[] combatSMBs;
 
         void Start()
         {
-            CharacterAnim = GetComponent<CharacterAnimator>();
+            character = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
             Animator.SetFloat(AnimContstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
             combatSMBs = Animator.GetBehaviours<CombatSMB>();
@@ -95,23 +95,26 @@ namespace Finisher.Characters
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG) || 
                 Animator.GetAnimatorTransitionInfo(0).anyState ||
-                CharacterAnim.Staggered ||
-                CharacterAnim.Grabbing)
+                character.Staggered ||
+                character.Grabbing)
             {
                 Animator.ResetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }
             else
             {
-                CharacterAnim.SetTriggerOverride(AnimContstants.Parameters.DODGE_TRIGGER, AnimContstants.OverrideIndexes.DODGE_INDEX, animClip);
+                character.SetTriggerOverride(AnimContstants.Parameters.DODGE_TRIGGER, AnimContstants.OverrideIndexes.DODGE_INDEX, animClip);
+            }
+        }
+
+        public void CollectHitEnemy(GameObject enemy)
+        {
+            if (character.FinisherModeActive)
+            {
+                print("hit enemy " + enemy);
             }
         }
 
         #region Combat Animation Events
-
-        void Hit()
-        {
-            print("hit something now");
-        }
 
         void DamageStart()
         {

@@ -2,11 +2,6 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    public struct OverrideParams
-    {
-        AnimationClip AnimClip;
-        string OverrideIndex;
-    }
 
     public class CharacterAnimator : CharacterMotor
 	{

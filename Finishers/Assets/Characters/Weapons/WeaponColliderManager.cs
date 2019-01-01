@@ -37,29 +37,24 @@ namespace Finisher.Characters.Weapons
 
         void OnTriggerEnter(Collider collider)
         {
-            if(collider.gameObject.layer == combatSystem.gameObject.layer)
-                return; 
+            // Dont hit somethting in the same layer
+            if (collider.gameObject.layer == combatSystem.gameObject.layer)
+                return;
 
-            HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
-            if (targetHealthSystem && !targetHealthSystem.CharacterAnim.Dying) {
+            DamageEnemy(collider.gameObject.GetComponent<HealthSystem>());
+        }
+
+        private void DamageEnemy(HealthSystem targetHealthSystem)
+        {
+            if (targetHealthSystem && !targetHealthSystem.character.Dying)
+            {
                 targetHealthSystem.Damage(combatSystem.currentWeaponDamage);
 
                 if (isPlayer)
                 {
+                    combatSystem.CollectHitEnemy(targetHealthSystem.gameObject);
                     StartCoroutine(ImpactFrames(targetHealthSystem));
                 }
-            }
-        }
-
-        void ToggleTriggerCollider(bool isDamageFrame)
-        {
-            if (isDamageFrame)
-            {
-                boxCollider.enabled = true;
-            }
-            else
-            {
-                boxCollider.enabled = false;
             }
         }
 
@@ -72,6 +67,18 @@ namespace Finisher.Characters.Weapons
 
             combatSystem.Animator.speed = 1;
             targetHealthSystem.Animator.speed = 1;
+        }
+
+        void ToggleTriggerCollider(bool isDamageFrame)
+        {
+            if (isDamageFrame)
+            {
+                boxCollider.enabled = true;
+            }
+            else
+            {
+                boxCollider.enabled = false;
+            }
         }
     }
 }

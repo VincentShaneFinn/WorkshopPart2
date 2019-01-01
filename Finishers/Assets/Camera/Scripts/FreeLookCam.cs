@@ -37,7 +37,7 @@ namespace Finisher.Cameras
         private float currentTurnAmount; // How much to turn the camera
         private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
-        private PlayerCharacterController playerController;
+        private PlayerCharacterController character;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -59,7 +59,7 @@ namespace Finisher.Cameras
 			pivotEulers = pivot.rotation.eulerAngles;
 	        pivotTargetRot = pivot.transform.localRotation;
 			transformTargetRot = transform.localRotation;
-            playerController = FindObjectOfType<PlayerCharacterController>();
+            character = FindObjectOfType<PlayerCharacterController>();
         }
 
         protected void Update()
@@ -75,7 +75,7 @@ namespace Finisher.Cameras
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
-            if (playerController.Grabbing)
+            if (character.Grabbing)
             {
                 usingAutoCam = false;
             }
@@ -87,7 +87,7 @@ namespace Finisher.Cameras
             {
                 AutoRotateCamera(Time.deltaTime);
             }
-            playerController.ManualUpdate();
+            character.ManualUpdate();
         }
 
         #region Helper Methods
@@ -246,9 +246,9 @@ namespace Finisher.Cameras
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }
-            else if (playerController.CombatTarget != null)
+            else if (character.CombatTarget != null)
             {
-                Quaternion rotationToTarget = Quaternion.LookRotation(playerController.CombatTarget.transform.position - transform.position);
+                Quaternion rotationToTarget = Quaternion.LookRotation(character.CombatTarget.transform.position - transform.position);
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }

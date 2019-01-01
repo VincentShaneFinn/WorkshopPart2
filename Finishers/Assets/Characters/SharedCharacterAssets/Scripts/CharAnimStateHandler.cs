@@ -7,12 +7,12 @@ namespace Finisher.Characters {
     {
 
         private Animator animator;
-        private CharacterAnimator characterAnim;
+        private CharacterAnimator character;
 
         void Start()
         {
             animator = GetComponent<Animator>();
-            characterAnim = GetComponent<CharacterAnimator>();
+            character = GetComponent<CharacterAnimator>();
         }
 
         void Update()
@@ -22,28 +22,30 @@ namespace Finisher.Characters {
 
         private void SetCharacterMovementVariables()
         {
-            if (characterAnim.Grabbing ||
-                characterAnim.Staggered) 
+            // these two are in code states becuase they can be in multuple animation states,
+            // like grabbing an enemy and stabbing, or staggered but knockedback, returning to locomotion then go to staggered
+            if (character.Grabbing ||
+                character.Staggered) 
             {
-                characterAnim.CanMove = false;
-                characterAnim.CanRotate = false;
+                character.CanMove = false;
+                character.CanRotate = false;
                 return;
             }
 
             if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LOCOMOTION_TAG))
             {
-                characterAnim.CanMove = true;
-                characterAnim.CanRotate = true;
+                character.CanMove = true;
+                character.CanRotate = true;
             }
-            else if(animator.IsInTransition(0) && characterAnim.Attacking)
+            else if(animator.IsInTransition(0) && character.Attacking)
             {
-                characterAnim.CanMove = true;
-                characterAnim.CanRotate = true;
+                character.CanMove = true;
+                character.CanRotate = true;
             }
             else
             {
-                characterAnim.CanRotate = false;
-                characterAnim.CanMove = false;
+                character.CanRotate = false;
+                character.CanMove = false;
             }
 
             //if (!animator.IsInTransition(0))
