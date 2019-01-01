@@ -15,6 +15,7 @@ namespace Finisher.Characters
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
         [HideInInspector] public Transform CurrentLookTarget { private get; set; }
         [HideInInspector] public bool Running = false;
+        [HideInInspector] public bool Grabbing = false;
 
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
@@ -24,6 +25,15 @@ namespace Finisher.Characters
             get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
             set { if (!Dying) Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, value); }
         }
+        public bool Staggered
+        {
+            get { return Animator.GetBool(AnimContstants.Parameters.STAGGERED_BOOL); }
+            set {
+                Animator.SetTrigger("Reset");
+                Animator.SetBool(AnimContstants.Parameters.STAGGERED_BOOL, value);
+            }
+        }
+
         public virtual bool CanMove
         {
             get { return canMove; }
@@ -196,7 +206,7 @@ namespace Finisher.Characters
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
-            if (Dying)
+            if (Dying || Grabbing || Staggered)
             {
                 disableAllControl();
                 return;

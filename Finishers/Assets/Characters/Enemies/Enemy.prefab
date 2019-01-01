@@ -81,8 +81,6 @@ MonoBehaviour:
   runAnimSpeedMultiplier: 1.5
   AnimatorOverrideControllerConfig: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
     type: 2}
-  animOverrideController: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
-    type: 2}
   Animator: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
@@ -121,7 +119,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
   maxHealth: 100
   KnockbackLimit: 2
-  FreeKnockbackTime: 1.5
+  FreeKnockbackTime: 0
   CharacterAnim: {fileID: 0}
   Animator: {fileID: 0}
 --- !u!114 &1084891823

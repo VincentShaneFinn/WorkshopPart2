@@ -38,6 +38,8 @@
             public const string ONGROUND_BOOL = "OnGround";
             public const string STRAFING_BOOL = "Strafing";
             public const string ISHEAVY_BOOL = "IsHeavy";
+            public const string FINISHERMODE_BOOL = "FinisherMode";
+            public const string STAGGERED_BOOL = "Staggered";
             public const string DYING_BOOL = "Dying";
 
             public const string ATTACK_TRIGGER = "Attack";

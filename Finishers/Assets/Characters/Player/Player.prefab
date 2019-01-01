@@ -1958,6 +1958,7 @@ GameObject:
   - component: {fileID: 3079736054807551835}
   - component: {fileID: 1962851767}
   - component: {fileID: 1962851768}
+  - component: {fileID: 4620075608317267798}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -2031,6 +2032,7 @@ MonoBehaviour:
   capsuleColliderRadius: 0.3
   CombatTargetIndicator: {fileID: 7755425906318135635, guid: ca6fb907b0c391f41a111fb884d063f1,
     type: 3}
+  RotateWithCameraSpeed: 15
   AutoLockTurnSpeed: 5
   MAXCOMBATTARGETRANGE: 20
   MAINRANGE: 3
@@ -2086,6 +2088,18 @@ MonoBehaviour:
   attackAnimSpeed: 0.9
   Animator: {fileID: 0}
   CharacterAnim: {fileID: 0}
+--- !u!114 &4620075608317267798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c2cd92379a94ab4d8ffa183e7d053f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1261069488335191895
 PrefabInstance:
   m_ObjectHideFlags: 0

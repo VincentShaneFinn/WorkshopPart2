@@ -8,6 +8,8 @@ namespace Finisher.Characters
     public class PlayerCharacterController : CharacterAnimator
     {
 
+        #region Class Variables
+
         public Transform CombatTarget { get; private set; }
         public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
         public bool Attacking { get { return combatSystem.IsAttacking; } }
@@ -33,7 +35,8 @@ namespace Finisher.Characters
         private PlayerInputProcessor playerIP;
         private CombatSystem combatSystem;
         private Transform camRig = null;
-        
+
+        #endregion
 
         #region Public Interface
 
@@ -221,6 +224,16 @@ namespace Finisher.Characters
 
         private void SetCharacterRotation()
         {
+            if (Dying) {
+                return;
+            }
+
+            if (Grabbing)
+            {
+                RotateWithCamRig();
+                return;
+            }
+
             if (Strafing)
             {
                 if (Dodging) {

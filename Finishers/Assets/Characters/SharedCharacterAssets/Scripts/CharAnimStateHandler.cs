@@ -5,21 +5,13 @@ namespace Finisher.Characters {
     [DisallowMultipleComponent]
     public class CharAnimStateHandler : MonoBehaviour
     {
-        public bool IsAttacking
-        {
-            get
-            {
+        public bool IsAttacking {
+            get {
                 return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
                     animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
             }
         }
-        public bool IsDodging
-        {
-            get
-            {
-                return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE);
-            }
-        }
+        public bool IsDodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
 
         private Animator animator;
         private CharacterAnimator characterAnim;
@@ -52,5 +44,6 @@ namespace Finisher.Characters {
                 characterAnim.CanRotate = true;
             }
         }
+
     }
 }

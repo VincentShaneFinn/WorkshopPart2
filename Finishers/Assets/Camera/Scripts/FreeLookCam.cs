@@ -19,6 +19,7 @@ namespace Finisher.Cameras
 
         public Transform OptionalAutoLookTarget = null; // set what the autocamera will look at
         public bool ForceAutoLook = false; // force it to use the auto camera
+        public Transform NewFollowTarget = null; // used to switch follow target to enemy during grab
 
         [SerializeField] private float moveSpeed = 10f;
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
@@ -74,6 +75,10 @@ namespace Finisher.Cameras
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
+            if (playerController.Grabbing)
+            {
+                usingAutoCam = false;
+            }
             if (!usingAutoCam)
             {
                 HandleRotationMovement();
@@ -184,8 +189,19 @@ namespace Finisher.Cameras
         {
             if (!(deltaTime > 0) || followTarget == null) return;
 
+            Transform targetToUse;
+
+            if (NewFollowTarget)
+            {
+                targetToUse = NewFollowTarget;
+            }
+            else
+            {
+                targetToUse = followTarget;
+            }
+
             // Move the rig towards target position.
-            transform.position = Vector3.Lerp(transform.position, followTarget.position, deltaTime * moveSpeed);
+            transform.position = Vector3.Lerp(transform.position, targetToUse.position, deltaTime * moveSpeed);
         }
 
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]

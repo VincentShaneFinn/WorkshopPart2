@@ -57,11 +57,20 @@ namespace Finisher.Characters
 
         private void processCombatInput()
         {
+            processAttackInput();
+            if (!character.Grabbing)
+            {
+                processDodgeInput();
+            }
+        }
+
+        private void processAttackInput()
+        {
             if (Input.GetButtonDown(InputNames.LightAttack))
             {
                 combatSystem.LightAttack();
             }
-            if(ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
+            if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
                 if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
                 {
@@ -75,8 +84,10 @@ namespace Finisher.Characters
                     combatSystem.HeavyAttack();
                 }
             }
+        }
 
-
+        private void processDodgeInput()
+        {
             if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
                 var dodgeDirection = GetMoveDirection();
@@ -84,8 +95,6 @@ namespace Finisher.Characters
             }
         }
 
-        // todo, make sure it gets the direction with respect to the camera rig rotation
-        // and that it makes you dodge the way you expect
         private MoveDirection GetMoveDirection()
         {
             float vertical = Input.GetAxisRaw("Vertical");
