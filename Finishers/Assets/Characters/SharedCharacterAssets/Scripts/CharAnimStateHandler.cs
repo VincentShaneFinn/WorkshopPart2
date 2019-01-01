@@ -22,7 +22,7 @@ namespace Finisher.Characters {
 
         private void SetCharacterMovementVariables()
         {
-            if (characterAnim.Grabbing || // todo make grabbing an uninteruptable animation state
+            if (characterAnim.Grabbing ||
                 characterAnim.Staggered) 
             {
                 characterAnim.CanMove = false;
