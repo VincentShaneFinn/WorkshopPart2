@@ -12,8 +12,6 @@ namespace Finisher.Characters
 
         public Transform CombatTarget { get; private set; }
         public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
-        public bool Attacking { get { return combatSystem.IsAttacking; } }
-        public bool Dodging { get { return combatSystem.IsDodging; } }
 
         //[Header("Player Controller Specific")]
 
@@ -230,7 +228,7 @@ namespace Finisher.Characters
 
             if (Grabbing)
             {
-                RotateWithCamRig();
+                RotateWithCamRig(true);
                 return;
             }
 
@@ -264,10 +262,17 @@ namespace Finisher.Characters
             }
         }
 
-        private void RotateWithCamRig()
+        private void RotateWithCamRig(bool instant = false)
         {
-            // Smoothly rotate towards the target point.
-            transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation, RotateWithCameraSpeed * Time.deltaTime);
+            if (instant)
+            {
+                transform.rotation = camRig.localRotation;
+            }
+            else
+            {
+                // Smoothly rotate towards the target point.
+                transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation, RotateWithCameraSpeed * Time.deltaTime);
+            }
         }
 
         private void EngageEnemy()

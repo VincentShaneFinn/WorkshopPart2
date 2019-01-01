@@ -5,13 +5,6 @@ namespace Finisher.Characters {
     [DisallowMultipleComponent]
     public class CharAnimStateHandler : MonoBehaviour
     {
-        public bool IsAttacking {
-            get {
-                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
-            }
-        }
-        public bool IsDodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
 
         private Animator animator;
         private CharacterAnimator characterAnim;
@@ -29,20 +22,45 @@ namespace Finisher.Characters {
 
         private void SetCharacterMovementVariables()
         {
-            if (!animator.IsInTransition(0))
+            if (characterAnim.Grabbing || // todo make grabbing an uninteruptable animation state
+                characterAnim.Staggered) 
             {
-                if (IsAttacking ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
-                {
-                    characterAnim.CanRotate = false;
-                    characterAnim.CanMove = false;
-                }
+                characterAnim.CanMove = false;
+                characterAnim.CanRotate = false;
+                return;
             }
-            else
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LOCOMOTION_TAG))
             {
                 characterAnim.CanMove = true;
                 characterAnim.CanRotate = true;
             }
+            else if(animator.IsInTransition(0) && characterAnim.Attacking)
+            {
+                characterAnim.CanMove = true;
+                characterAnim.CanRotate = true;
+            }
+            else
+            {
+                characterAnim.CanRotate = false;
+                characterAnim.CanMove = false;
+            }
+
+            //if (!animator.IsInTransition(0))
+            //{
+            //    if (characterAnim.Attacking ||
+            //        characterAnim.Grabbing ||
+            //        animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG))
+            //    {
+            //        characterAnim.CanRotate = false;
+            //        characterAnim.CanMove = false;
+            //    }
+            //}
+            //else
+            //{
+            //    characterAnim.CanMove = true;
+            //    characterAnim.CanRotate = true;
+            //}
         }
 
     }

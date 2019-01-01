@@ -13,19 +13,6 @@ namespace Finisher.Characters
 
         public float currentWeaponDamage { get; private set; }
         public bool IsDamageFrame { get; private set; }
-        public bool IsAttacking
-        {
-            get
-            {
-                return CharacterAnim.stateHandler.IsAttacking;
-            }
-        }
-        public bool IsDodging {
-            get
-            {
-                return CharacterAnim.stateHandler.IsDodging;
-            }
-        }
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
@@ -107,7 +94,9 @@ namespace Finisher.Characters
         public void SetDodgeTrigger(AnimationClip animClip)
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG) || 
-                Animator.GetAnimatorTransitionInfo(0).anyState)
+                Animator.GetAnimatorTransitionInfo(0).anyState ||
+                CharacterAnim.Staggered ||
+                CharacterAnim.Grabbing)
             {
                 Animator.ResetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
             }

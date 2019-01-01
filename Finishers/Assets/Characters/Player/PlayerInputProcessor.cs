@@ -58,10 +58,7 @@ namespace Finisher.Characters
         private void processCombatInput()
         {
             processAttackInput();
-            if (!character.Grabbing)
-            {
-                processDodgeInput();
-            }
+            processDodgeInput();
         }
 
         private void processAttackInput()

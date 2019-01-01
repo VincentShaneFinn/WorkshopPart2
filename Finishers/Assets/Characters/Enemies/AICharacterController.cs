@@ -109,7 +109,7 @@ namespace Finisher.Characters
         private void StationaryLookAt()
         {
             MoveCharacter(Vector3.zero);
-            if (CanRotate && !Staggered)
+            if (CanRotate)
             {
                 if (target)
                 {

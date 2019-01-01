@@ -45,6 +45,7 @@
             public const string ATTACK_TRIGGER = "Attack";
             public const string DODGE_TRIGGER = "Dodge";
             public const string KNOCKBACK_TRIGGER = "Knockback";
+            public const string RESET_TRIGGER = "Reset";
 
             public const string ATTACK_SPEED_MULTIPLIER = "AttackSpeedMultiplier";
             public const string MOVEMENT_SPEED_MULTIPLIER = "MovementSpeedMultiplier";

@@ -14,24 +14,34 @@ namespace Finisher.Characters
         [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
         [HideInInspector] public Transform CurrentLookTarget { private get; set; }
-        [HideInInspector] public bool Running = false;
-        [HideInInspector] public bool Grabbing = false;
 
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
- 
-        public bool Dying {
-            get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
-            set { if (!Dying) Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, value); }
+
+        public bool Running { get; set; }
+        public bool Grabbing { get; set; }
+        public bool Attacking
+        {
+            get
+            {
+                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
+            }
         }
+        public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
         public bool Staggered
         {
             get { return Animator.GetBool(AnimContstants.Parameters.STAGGERED_BOOL); }
             set {
-                Animator.SetTrigger("Reset");
+                Animator.SetTrigger(AnimContstants.Parameters.RESET_TRIGGER);
                 Animator.SetBool(AnimContstants.Parameters.STAGGERED_BOOL, value);
             }
+        }
+        public bool Dying
+        {
+            get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
+            set { if (!Dying) Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, value); }
         }
 
         public virtual bool CanMove
@@ -118,6 +128,8 @@ namespace Finisher.Characters
             isGrounded = true;
             turnAmount = 0;
             forwardAmount = 0;
+            Grabbing = false;
+            Running = false;
         }
 
         protected void componentBuilder()
@@ -206,7 +218,7 @@ namespace Finisher.Characters
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
-            if (Dying || Grabbing || Staggered)
+            if (Dying)
             {
                 disableAllControl();
                 return;

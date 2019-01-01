@@ -2013,7 +2013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
-  Running: 0
   movingTurnSpeed: 1000
   stationaryTurnSpeed: 1000
   gravityMultiplier: 2
@@ -2032,7 +2031,7 @@ MonoBehaviour:
   capsuleColliderRadius: 0.3
   CombatTargetIndicator: {fileID: 7755425906318135635, guid: ca6fb907b0c391f41a111fb884d063f1,
     type: 3}
-  RotateWithCameraSpeed: 15
+  RotateWithCameraSpeed: 20
   AutoLockTurnSpeed: 5
   MAXCOMBATTARGETRANGE: 20
   MAINRANGE: 3
