@@ -42,7 +42,15 @@ namespace Finisher.Characters
         public bool Dying
         {
             get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
-            set { if (!Dying) Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, value); }
+            set {
+                if (!Dying)
+                {
+                    if (value)
+                    {
+                        OnCharacterKilled();
+                    }
+                }
+            }
         }
 
         public virtual bool CanMove
@@ -60,6 +68,18 @@ namespace Finisher.Characters
         private bool canRotate = true;
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
+
+        #endregion
+
+        #region Delegates
+
+        public delegate void CharacterIsDying();
+        public event CharacterIsDying OnCharacterKilled;
+
+        private void KillCharacter()
+        {
+            Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
+        }
 
         #endregion
 
@@ -131,6 +151,7 @@ namespace Finisher.Characters
             forwardAmount = 0;
             Grabbing = false;
             Running = false;
+            OnCharacterKilled += KillCharacter;
         }
 
         protected void componentBuilder()

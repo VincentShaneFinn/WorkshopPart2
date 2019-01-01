@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Finisher.Cameras;
+using Finisher.Characters.Skills;
 
 namespace Finisher.Characters {
     public class FinisherSystem : MonoBehaviour
@@ -15,10 +16,18 @@ namespace Finisher.Characters {
         public delegate void StopGrabbingTarget();
         public event StopGrabbingTarget OnStopGrabbingTarget;
 
+        #region Siphoning Skills // todo encapsualte into another class later
+
+        [Header("Siphoning Settings")]
+        [SerializeField] private ThrowingWeapon throwingWeapon;
+
+        #endregion
+
         void Start()
         {
             animator = GetComponent<Animator>();
             character = GetComponent<PlayerCharacterController>();
+            character.OnCharacterKilled += stopGrab;
             freeLookCam = FindObjectOfType<FreeLookCam>();
             OnStartGrabbingTarget += startGrab;
             OnStopGrabbingTarget += stopGrab;
@@ -26,11 +35,20 @@ namespace Finisher.Characters {
 
         void Update()
         {
-            if(character.Dying)
+            if (character.Dying)
             {
                 return;
             }
 
+            FinisherInputProcessing();
+
+            MovementHandlerWithGrabTarget();
+        }
+
+        #region Update Helpers
+
+        private void FinisherInputProcessing()
+        {
             if (Input.GetKeyDown(KeyCode.F))
             {
                 animator.SetBool(AnimContstants.Parameters.FINISHERMODE_BOOL, !character.FinisherModeActive);
@@ -52,7 +70,10 @@ namespace Finisher.Characters {
                     }
                 }
             }
+        }
 
+        private void MovementHandlerWithGrabTarget()
+        {
             if (grabTarget)
             {
                 if (grabTarget.GetComponent<CharacterMotor>().Dying)
@@ -70,6 +91,10 @@ namespace Finisher.Characters {
             }
         }
 
+        #endregion
+
+        #region Start and Stop grab
+
         private void startGrab()
         {
             grabTarget = character.CombatTarget;
@@ -84,6 +109,31 @@ namespace Finisher.Characters {
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
             character.Grabbing = false;
+        }
+
+        #endregion
+
+        public void WeaponStruckEnemy(GameObject enemy)
+        {
+            if (character.FinisherModeActive)
+            {
+                if (character.Grabbing)
+                {
+                    if (enemy == grabTarget.gameObject)
+                    {
+                        float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
+                        Vector3 targetSpawnPoint = grabTarget.position + Vector3.up - (grabTarget.forward * spawnDistanceFromEnemy);
+                        ThrowingWeapon currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
+
+                        currentThrowingWeapon.ThrowWeapon();
+                    }
+                }
+                else
+                {
+                    print("hit enemy in Finisher " + enemy);
+                }
+
+            }
         }
     }
 }

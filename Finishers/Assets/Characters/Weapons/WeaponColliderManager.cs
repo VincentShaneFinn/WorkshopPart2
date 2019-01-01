@@ -13,6 +13,7 @@ namespace Finisher.Characters.Weapons
         private bool isPlayer = false;
 
         private CombatSystem combatSystem;
+        private FinisherSystem finisherSystem;
         private BoxCollider boxCollider;
 
         void Start()
@@ -30,10 +31,10 @@ namespace Finisher.Characters.Weapons
 
             if (combatSystem.gameObject.tag == "Player")
             {
+                finisherSystem = GetComponentInParent<FinisherSystem>();
                 isPlayer = true;
             }
         }
-
 
         void OnTriggerEnter(Collider collider)
         {
@@ -50,9 +51,13 @@ namespace Finisher.Characters.Weapons
             {
                 targetHealthSystem.Damage(combatSystem.currentWeaponDamage);
 
+                if (finisherSystem)
+                {
+                    finisherSystem.WeaponStruckEnemy(targetHealthSystem.gameObject);
+                }
+
                 if (isPlayer)
                 {
-                    combatSystem.CollectHitEnemy(targetHealthSystem.gameObject);
                     StartCoroutine(ImpactFrames(targetHealthSystem));
                 }
             }

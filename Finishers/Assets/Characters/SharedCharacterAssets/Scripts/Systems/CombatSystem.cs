@@ -9,6 +9,9 @@ namespace Finisher.Characters
     [RequireComponent(typeof(CharacterAnimator))]
     public class CombatSystem : MonoBehaviour
     {
+
+        #region Class Variables
+
         [SerializeField] CombatSystemConfig config;
 
         public float currentWeaponDamage { get; private set; }
@@ -28,6 +31,8 @@ namespace Finisher.Characters
         private CharacterAnimator character;
         private CombatSMB[] combatSMBs;
 
+        #endregion
+
         void Start()
         {
             character = GetComponent<CharacterAnimator>();
@@ -43,6 +48,8 @@ namespace Finisher.Characters
             heavyAttackDamage = config.HeavyAttackDamage;
             IsDamageFrame = false;
         }
+
+        #region Attacks
 
         public void LightAttack()
         {
@@ -69,6 +76,10 @@ namespace Finisher.Characters
             Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
             runningResetCR = false;
         }
+
+        #endregion
+
+        #region Dodge
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
@@ -106,13 +117,7 @@ namespace Finisher.Characters
             }
         }
 
-        public void CollectHitEnemy(GameObject enemy)
-        {
-            if (character.FinisherModeActive)
-            {
-                print("hit enemy " + enemy);
-            }
-        }
+        #endregion
 
         #region Combat Animation Events
 
