@@ -124,24 +124,7 @@ namespace Finisher.Characters
         private float startFixedDeltaTime;
         private void testingInputZone()
         {
-
             // todo remove this testing code
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                character.CanMove = false;
-            }
-            if (Input.GetKeyUp(KeyCode.Alpha3))
-            {
-                character.CanMove = true;
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                character.CanRotate = false;
-            }
-            if (Input.GetKeyUp(KeyCode.Alpha4))
-            {
-                character.CanRotate = true;
-            }
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Time.timeScale = .1f;
@@ -151,10 +134,6 @@ namespace Finisher.Characters
             {
                 Time.timeScale = 1;
                 Time.fixedDeltaTime = startFixedDeltaTime;
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                character.Strafing = !character.Strafing;
             }
         }
 

@@ -34,6 +34,7 @@ namespace Finisher.Characters.Weapons
                 finisherSystem = GetComponentInParent<FinisherSystem>();
                 isPlayer = true;
             }
+
         }
 
         void OnTriggerEnter(Collider collider)
@@ -49,11 +50,11 @@ namespace Finisher.Characters.Weapons
         {
             if (targetHealthSystem && !targetHealthSystem.character.Dying)
             {
-                targetHealthSystem.Damage(combatSystem.currentWeaponDamage);
+                targetHealthSystem.Damage(combatSystem.CurrentAttackDamage);
 
-                if (finisherSystem)
+                if (finisherSystem && finisherSystem.FinisherModeActive)
                 {
-                    finisherSystem.WeaponStruckEnemy(targetHealthSystem.gameObject);
+                    finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
                 }
 
                 if (isPlayer)

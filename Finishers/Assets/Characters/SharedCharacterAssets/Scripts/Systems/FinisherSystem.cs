@@ -6,9 +6,8 @@ using Finisher.Characters.Skills;
 namespace Finisher.Characters {
     public class FinisherSystem : MonoBehaviour
     {
-        private Animator animator;
-        private PlayerCharacterController character;
-        private FreeLookCam freeLookCam;
+        public bool FinisherModeActive { get { return character.FinisherModeActive; } }
+
         private Transform grabTarget;
 
         public delegate void StartGrabbingTarget();
@@ -16,10 +15,16 @@ namespace Finisher.Characters {
         public delegate void StopGrabbingTarget();
         public event StopGrabbingTarget OnStopGrabbingTarget;
 
+        private Animator animator;
+        private PlayerCharacterController character;
+        private CombatSystem combatSystem;
+        private FreeLookCam freeLookCam;
+
         #region Siphoning Skills // todo encapsualte into another class later
 
         [Header("Siphoning Settings")]
         [SerializeField] private ThrowingWeapon throwingWeapon;
+        [SerializeField] private float distanceFromEnemyBack = .1f;
 
         #endregion
 
@@ -28,6 +33,7 @@ namespace Finisher.Characters {
             animator = GetComponent<Animator>();
             character = GetComponent<PlayerCharacterController>();
             character.OnCharacterKilled += stopGrab;
+            combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<FreeLookCam>();
             OnStartGrabbingTarget += startGrab;
             OnStopGrabbingTarget += stopGrab;
@@ -42,7 +48,7 @@ namespace Finisher.Characters {
 
             FinisherInputProcessing();
 
-            MovementHandlerWithGrabTarget();
+            AimingHandlerWithGrabTarget();
         }
 
         #region Update Helpers
@@ -72,7 +78,7 @@ namespace Finisher.Characters {
             }
         }
 
-        private void MovementHandlerWithGrabTarget()
+        private void AimingHandlerWithGrabTarget()
         {
             if (grabTarget)
             {
@@ -105,7 +111,10 @@ namespace Finisher.Characters {
 
         private void stopGrab()
         {
-            grabTarget.GetComponent<CharacterMotor>().Staggered = false;
+            if (grabTarget)
+            {
+                grabTarget.GetComponent<CharacterMotor>().Staggered = false;
+            }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
             character.Grabbing = false;
@@ -113,27 +122,58 @@ namespace Finisher.Characters {
 
         #endregion
 
-        public void WeaponStruckEnemy(GameObject enemy)
+        public void StabbedEnemy(GameObject enemy)
         {
-            if (character.FinisherModeActive)
+            if (character.Grabbing)
             {
-                if (character.Grabbing)
+                if (enemy == grabTarget.gameObject)
                 {
-                    if (enemy == grabTarget.gameObject)
+                    if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                     {
-                        float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
-                        Vector3 targetSpawnPoint = grabTarget.position + Vector3.up - (grabTarget.forward * spawnDistanceFromEnemy);
-                        ThrowingWeapon currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
-
-                        currentThrowingWeapon.ThrowWeapon();
+                        ThrowSword(enemy);
+                    }
+                    else if (combatSystem.CurrentAttackType == AttackType.HeavyBlade)
+                    {
+                        ThrowSwords(enemy);
                     }
                 }
-                else
-                {
-                    print("hit enemy in Finisher " + enemy);
-                }
-
             }
+            //else
+            //{
+            //    if (combatSystem.CurrentAttackType == AttackType.LightBlade)
+            //    {
+            //        ThrowSword(enemy);
+            //    }
+            //    else if (combatSystem.CurrentAttackType == AttackType.HeavyBlade)
+            //    {
+            //        ThrowSwords(enemy);
+            //    }
+            //}
+        }
+
+        private void ThrowSword(GameObject enemy)
+        {
+            float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + distanceFromEnemyBack;
+            Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
+            ThrowingWeapon currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
+
+            currentThrowingWeapon.ThrowWeapon();
+        }
+
+        private void ThrowSwords(GameObject enemy)
+        {
+            float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
+            Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
+            ThrowingWeapon currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
+            currentThrowingWeapon.ThrowWeapon();
+
+            targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy) + enemy.transform.right;
+            currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
+            currentThrowingWeapon.ThrowWeapon();
+
+            targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy) - enemy.transform.right;
+            currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
+            currentThrowingWeapon.ThrowWeapon();
         }
     }
 }

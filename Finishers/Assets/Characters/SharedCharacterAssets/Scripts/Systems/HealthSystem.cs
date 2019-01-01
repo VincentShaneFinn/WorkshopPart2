@@ -31,11 +31,11 @@ namespace Finisher.Characters
 
             currentHealth = maxHealth;
 
-            GetHealthSlider();
+            GetPlayerHealthSlider();
             healthSlider.value = getCurrentHealthAsPercent();
         }
 
-        void GetHealthSlider()
+        void GetPlayerHealthSlider()
         {
             if(gameObject.tag == "Player")
             {
@@ -90,6 +90,15 @@ namespace Finisher.Characters
         public void Knockback(AnimationClip animClip)
         {
             character.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+        }
+
+        public bool CharacterWillDie(float damage)
+        {
+            if(currentHealth - damage <= 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         private float getCurrentHealthAsPercent()

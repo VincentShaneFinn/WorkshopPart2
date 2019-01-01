@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
+
+    public enum AttackType { None, LightBlade, HeavyBlade };
     public enum MoveDirection { Forward,Right,Backward,Left };
 
     [DisallowMultipleComponent]
@@ -14,13 +16,40 @@ namespace Finisher.Characters
 
         [SerializeField] CombatSystemConfig config;
 
-        public float currentWeaponDamage { get; private set; }
         public bool IsDamageFrame { get; private set; }
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
-        private float lightAttackDamage;
-        private float heavyAttackDamage;
+        public float LightAttackDamage { get; private set; }
+        public float HeavyAttackDamage { get; private set; }
+        public AttackType CurrentAttackType {
+            get
+            {
+                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LIGHTATTACK_TAG))
+                {
+                    return AttackType.LightBlade;
+                }
+                else if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.HEAVYATTACK_TAG))
+                {
+                    return AttackType.HeavyBlade;
+                }
+                return AttackType.None;
+            }
+        }
+        public float CurrentAttackDamage {
+            get
+            {
+                switch (CurrentAttackType)
+                {
+                    case AttackType.LightBlade:
+                        return LightAttackDamage;
+                    case AttackType.HeavyBlade:
+                        return HeavyAttackDamage;
+                    default:
+                        return 0;
+                }
+            }
+        }
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
 
@@ -44,8 +73,8 @@ namespace Finisher.Characters
                 smb.AttackExitListeners += DamageEnd;
             }
 
-            lightAttackDamage = config.LightAttackDamage;
-            heavyAttackDamage = config.HeavyAttackDamage;
+            LightAttackDamage = config.LightAttackDamage;
+            HeavyAttackDamage = config.HeavyAttackDamage;
             IsDamageFrame = false;
         }
 
@@ -55,7 +84,6 @@ namespace Finisher.Characters
         {
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, false);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
-            currentWeaponDamage = lightAttackDamage;
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
@@ -64,7 +92,6 @@ namespace Finisher.Characters
         {
             Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, true);
             Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
-            currentWeaponDamage = heavyAttackDamage;
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }

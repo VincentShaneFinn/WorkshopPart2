@@ -5,14 +5,15 @@ using UnityEngine;
 namespace Finisher.Characters.Skills {
     public class ThrowingWeapon : MonoBehaviour
     {
+        [SerializeField] private float ThrowingWeaponDamage = 10f;
         [SerializeField] private float moveSpeed = 75f;
         [SerializeField] private AnimationClip StandingDeathAnimClip;
         [Tooltip("This helps make sure the throwable can have a wide hitbox, but prevent it looking like you missed when they hand on the wall")]
         [SerializeField] private float xClamp = .2f;
         private bool hitFirstEnemy = false;
         private bool beginSpecialAttack = false;
-        private Transform myEnemy;
-        private Vector3 savedEnemyPosition;
+        private List<Transform> myEnemies;
+        private List<Vector3> savedEnemyPositions;
 
         private BoxCollider boxCollider;
         private Rigidbody rigidBody;
@@ -26,6 +27,9 @@ namespace Finisher.Characters.Skills {
             rigidBody.useGravity = false;
             rigidBody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
+
+            myEnemies = new List<Transform>();
+            savedEnemyPositions = new List<Vector3>();
         }
 
         void Update()
@@ -33,9 +37,9 @@ namespace Finisher.Characters.Skills {
             if (beginSpecialAttack)
             {
                 rigidBody.velocity = transform.forward * moveSpeed;
-                if (myEnemy)
+                for (int i = 0; i < myEnemies.Count; i++)
                 {
-                    myEnemy.localPosition = savedEnemyPosition;
+                    myEnemies[i].localPosition = savedEnemyPositions[i];
                 }
             }
         }
@@ -55,16 +59,14 @@ namespace Finisher.Characters.Skills {
                 var healthSystem = collision.gameObject.GetComponent<HealthSystem>();
                 if (healthSystem)
                 {
-                    if (!hitFirstEnemy)
+                    if (healthSystem.CharacterWillDie(ThrowingWeaponDamage))
                     {
                         KillEnemyAndMakeChild(collision, healthSystem);
-                        hitFirstEnemy = true;
                     }
                     else
                     {
-                        healthSystem.Damage(10);
+                        healthSystem.Damage(ThrowingWeaponDamage);
                     }
-
                 }
             }
             else // hit a wall
@@ -77,10 +79,13 @@ namespace Finisher.Characters.Skills {
         {
             collision.transform.parent = transform;
             healthSystem.Kill(StandingDeathAnimClip);
-            myEnemy = collision.transform;
-            savedEnemyPosition = collision.transform.localPosition;
-            savedEnemyPosition.z = .5f;
-            savedEnemyPosition.x = Mathf.Clamp(savedEnemyPosition.x, -xClamp, xClamp); // allow for 
+            myEnemies.Add(collision.transform);
+
+            Vector3 pos = collision.transform.localPosition;
+            pos.z = .5f;
+            pos.x = Mathf.Clamp(pos.x, -xClamp, xClamp); // allow for 
+
+            savedEnemyPositions.Add(pos);
         }
 
         private void StopProjectileMovement()

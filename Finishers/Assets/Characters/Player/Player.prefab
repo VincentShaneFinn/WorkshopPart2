@@ -2068,7 +2068,7 @@ MonoBehaviour:
   maxHealth: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 2
-  CharacterAnim: {fileID: 0}
+  character: {fileID: 0}
   Animator: {fileID: 0}
 --- !u!114 &1962851768
 MonoBehaviour:
@@ -2086,7 +2086,6 @@ MonoBehaviour:
   timeToClearAttackInputQue: 0.5
   attackAnimSpeed: 0.9
   Animator: {fileID: 0}
-  CharacterAnim: {fileID: 0}
 --- !u!114 &4620075608317267798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2099,6 +2098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2cd92379a94ab4d8ffa183e7d053f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  throwingWeapon: {fileID: 6683639795073119639, guid: 92a4a3abc826a4e4eba407339f7b9c47,
+    type: 3}
 --- !u!1001 &1261069488335191895
 PrefabInstance:
   m_ObjectHideFlags: 0

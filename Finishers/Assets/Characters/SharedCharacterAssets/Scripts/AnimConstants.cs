@@ -23,8 +23,8 @@
         public class Tags
         {
             public const string LOCOMOTION_TAG = "Locomotion";
-            public const string ATTACKRIGHT_TAG = "AttackRight";
-            public const string ATTACKLEFT_TAG = "AttackLeft";
+            public const string LIGHTATTACK_TAG = "LightAttack";
+            public const string HEAVYATTACK_TAG = "HeavyAttack";
             public const string UNINTERUPTABLE_TAG = "Uninteruptable";
         }
 

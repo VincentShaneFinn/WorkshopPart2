@@ -25,8 +25,8 @@ namespace Finisher.Characters
         {
             get
             {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKRIGHT_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.ATTACKLEFT_TAG);
+                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LIGHTATTACK_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.HEAVYATTACK_TAG);
             }
         }
         public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
@@ -79,6 +79,8 @@ namespace Finisher.Characters
         private void KillCharacter()
         {
             Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
+            capsule.enabled = false;
+            rigidBody.constraints = RigidbodyConstraints.FreezeAll;
         }
 
         #endregion
