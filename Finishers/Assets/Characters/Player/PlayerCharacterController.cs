@@ -31,7 +31,6 @@ namespace Finisher.Characters
         private GameObject currentCombatTargetIndicator;
 
         private PlayerInputProcessor playerIP;
-        private CombatSystem combatSystem;
         private Transform camRig = null;
 
         #endregion
@@ -63,7 +62,6 @@ namespace Finisher.Characters
         {
             Strafing = true;
             playerIP = GetComponent<PlayerInputProcessor>();
-            combatSystem = GetComponent<CombatSystem>();
             camRig = GetMainCameraTransform();
         }
 

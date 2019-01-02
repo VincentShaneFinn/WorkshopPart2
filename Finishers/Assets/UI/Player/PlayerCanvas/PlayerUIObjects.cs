@@ -9,5 +9,6 @@ namespace Finisher.UI
     {
         [SerializeField] public GameObject PauseMenuObject;
         [SerializeField] public Slider HealthSlider;
+        [SerializeField] public Slider FinisherSlider;
     }
 }

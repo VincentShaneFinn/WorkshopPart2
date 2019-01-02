@@ -10,7 +10,6 @@ namespace Finisher.Characters.Skills {
         [SerializeField] private AnimationClip StandingDeathAnimClip;
         [Tooltip("This helps make sure the throwable can have a wide hitbox, but prevent it looking like you missed when they hand on the wall")]
         [SerializeField] private float xClamp = .2f;
-        private bool hitFirstEnemy = false;
         private bool beginSpecialAttack = false;
         private List<Transform> myEnemies;
         private List<Vector3> savedEnemyPositions;
