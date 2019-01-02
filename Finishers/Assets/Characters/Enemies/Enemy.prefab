@@ -69,7 +69,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
-  Running: 0
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
   gravityMultiplier: 2
@@ -120,7 +119,7 @@ MonoBehaviour:
   maxHealth: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 0
-  CharacterAnim: {fileID: 0}
+  character: {fileID: 0}
   Animator: {fileID: 0}
 --- !u!114 &1084891823
 MonoBehaviour:
@@ -138,7 +137,6 @@ MonoBehaviour:
   timeToClearAttackInputQue: 0
   attackAnimSpeed: 0.5
   Animator: {fileID: 0}
-  CharacterAnim: {fileID: 0}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3183,6 +3181,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_Name
@@ -3303,6 +3311,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9220192124885783507, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d6801d46e6d8f489566842adb22449, type: 3}
 --- !u!224 &887910919 stripped
