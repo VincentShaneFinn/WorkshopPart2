@@ -115,8 +115,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthSlider: {fileID: 8623202209548946600}
+  volatilityMeter: {fileID: 5403148204753897423}
   config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
   maxHealth: 100
+  maxVolatility: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 0
   character: {fileID: 0}
@@ -3181,16 +3183,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_Name
@@ -3301,6 +3293,21 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3834099725927186803, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3327,6 +3334,18 @@ RectTransform:
 --- !u!114 &8623202209548946600 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2429115361264216974, guid: 18d6801d46e6d8f489566842adb22449,
+    type: 3}
+  m_PrefabInstance: {fileID: 6205458041028896550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5403148204753897423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2082318478315561193, guid: 18d6801d46e6d8f489566842adb22449,
     type: 3}
   m_PrefabInstance: {fileID: 6205458041028896550}
   m_PrefabAsset: {fileID: 0}

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 using Finisher.Cameras;
 using Finisher.Characters.Skills;
@@ -6,25 +7,39 @@ using Finisher.Characters.Skills;
 namespace Finisher.Characters {
     public class FinisherSystem : MonoBehaviour
     {
-        public bool FinisherModeActive { get { return character.FinisherModeActive; } }
 
-        private Transform grabTarget;
+        #region Class Variables
+
+        public bool FinisherModeActive { get { return character.FinisherModeActive; } }
 
         public delegate void StartGrabbingTarget();
         public event StartGrabbingTarget OnStartGrabbingTarget;
         public delegate void StopGrabbingTarget();
         public event StopGrabbingTarget OnStopGrabbingTarget;
 
+        private Transform grabTarget;
+        private float currentFinisherMeter = 0;
+
         private Animator animator;
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private FreeLookCam freeLookCam;
+        private Slider finisherMeter;
+
+        #region Finisher Settings
+
+        [Header("Finisher Settings")]
+        [SerializeField] private float maxFinisherMeter = 100f;
+
+        #endregion
 
         #region Siphoning Skills // todo encapsualte into another class later
 
         [Header("Siphoning Settings")]
         [SerializeField] private ThrowingWeapon throwingWeapon;
         [SerializeField] private float distanceFromEnemyBack = .1f;
+
+        #endregion
 
         #endregion
 
@@ -35,8 +50,20 @@ namespace Finisher.Characters {
             character.OnCharacterKilled += stopGrab;
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<FreeLookCam>();
+
             OnStartGrabbingTarget += startGrab;
             OnStopGrabbingTarget += stopGrab;
+
+            getPlayerFinisherSlider();
+            decreaseFinisherMeter(maxFinisherMeter);
+        }
+
+        private void getPlayerFinisherSlider()
+        {
+            if (gameObject.tag == "Player")
+            {
+                finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
+            }
         }
 
         void Update()
@@ -46,14 +73,13 @@ namespace Finisher.Characters {
                 return;
             }
 
-            FinisherInputProcessing();
-
-            AimingHandlerWithGrabTarget();
+            finisherInputProcessing();
+            aimingHandlerWithGrabTarget();
         }
 
         #region Update Helpers
 
-        private void FinisherInputProcessing()
+        private void finisherInputProcessing()
         {
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -78,7 +104,7 @@ namespace Finisher.Characters {
             }
         }
 
-        private void AimingHandlerWithGrabTarget()
+        private void aimingHandlerWithGrabTarget()
         {
             if (grabTarget)
             {
@@ -122,6 +148,53 @@ namespace Finisher.Characters {
 
         #endregion
 
+        #region Public Interface
+
+        #region FinisherMeter
+
+        public void GainFinisherMeter(float amount)
+        {
+            increaseFinisherMeter(amount);
+            checkFinisherFull();
+        }
+
+        private void increaseFinisherMeter(float amount)
+        {
+            currentFinisherMeter += amount;
+            if(currentFinisherMeter > maxFinisherMeter - Mathf.Epsilon)
+            {
+                currentFinisherMeter = maxFinisherMeter;
+            }
+            finisherMeter.value = GetFinisherMeterAsPercent();
+        }
+
+        private void decreaseFinisherMeter(float amount)
+        {
+            currentFinisherMeter -= amount;
+            if (currentFinisherMeter < Mathf.Epsilon)
+            {
+                currentFinisherMeter = 0;
+            }
+            finisherMeter.value = GetFinisherMeterAsPercent();
+        }
+
+        private void checkFinisherFull()
+        {
+            if (currentFinisherMeter >= maxFinisherMeter)
+            {
+                print("finisher Metere full");
+            }
+        }
+
+        public float GetFinisherMeterAsPercent()
+        {
+            return currentFinisherMeter / maxFinisherMeter;
+        }
+
+        #endregion
+
+        #region Stabbed Enemy
+
         public void StabbedEnemy(GameObject enemy)
         {
             if (character.Grabbing)
@@ -130,11 +203,11 @@ namespace Finisher.Characters {
                 {
                     if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                     {
-                        ThrowSword(enemy);
+                        throwSword(enemy);
                     }
                     else if (combatSystem.CurrentAttackType == AttackType.HeavyBlade)
                     {
-                        ThrowSwords(enemy);
+                        throwSwords(enemy);
                     }
                 }
             }
@@ -151,7 +224,7 @@ namespace Finisher.Characters {
             //}
         }
 
-        private void ThrowSword(GameObject enemy)
+        private void throwSword(GameObject enemy)
         {
             float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + distanceFromEnemyBack;
             Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
@@ -160,7 +233,7 @@ namespace Finisher.Characters {
             currentThrowingWeapon.ThrowWeapon();
         }
 
-        private void ThrowSwords(GameObject enemy)
+        private void throwSwords(GameObject enemy)
         {
             float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
             Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
@@ -175,5 +248,9 @@ namespace Finisher.Characters {
             currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
             currentThrowingWeapon.ThrowWeapon();
         }
+
+        #endregion
+
+        #endregion
     }
 }

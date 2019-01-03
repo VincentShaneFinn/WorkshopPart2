@@ -43,22 +43,30 @@ namespace Finisher.Characters.Weapons
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
 
-            DamageEnemy(collider.gameObject.GetComponent<HealthSystem>());
+            DamageCharacter(collider.gameObject.GetComponent<HealthSystem>());
         }
 
-        private void DamageEnemy(HealthSystem targetHealthSystem)
+        private void DamageCharacter(HealthSystem targetHealthSystem)
         {
             if (targetHealthSystem && !targetHealthSystem.character.Dying)
             {
-                targetHealthSystem.Damage(combatSystem.CurrentAttackDamage);
+                targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
 
-                if (finisherSystem && finisherSystem.FinisherModeActive)
+                if (finisherSystem)
                 {
-                    finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
+                    if (finisherSystem.FinisherModeActive)
+                    {
+                        finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
+                    }
+                    else
+                    {
+                        finisherSystem.GainFinisherMeter(30f); // todo replace with dynamic number
+                    }
                 }
 
                 if (isPlayer)
                 {
+                    targetHealthSystem.DamageVolatility(30f); // todo replace with dynamic number
                     StartCoroutine(ImpactFrames(targetHealthSystem));
                 }
             }

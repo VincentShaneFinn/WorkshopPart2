@@ -58,13 +58,13 @@ namespace Finisher.Characters.Skills {
                 var healthSystem = collision.gameObject.GetComponent<HealthSystem>();
                 if (healthSystem)
                 {
-                    if (healthSystem.CharacterWillDie(ThrowingWeaponDamage))
+                    if (healthSystem.WillDamageKill(ThrowingWeaponDamage))
                     {
                         KillEnemyAndMakeChild(collision, healthSystem);
                     }
                     else
                     {
-                        healthSystem.Damage(ThrowingWeaponDamage);
+                        healthSystem.DamageHealth(ThrowingWeaponDamage);
                     }
                 }
             }
