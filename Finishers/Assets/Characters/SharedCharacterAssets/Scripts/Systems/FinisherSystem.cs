@@ -43,9 +43,8 @@ namespace Finisher.Characters {
             }
         }
 
-        public delegate void GrabbingTargetChanged();
-        public event GrabbingTargetChanged OnStartGrabbingTarget;
-        public event GrabbingTargetChanged OnStopGrabbingTarget;
+        public delegate void GrabbingTargetChanged(bool enabled);
+        public event GrabbingTargetChanged OnGrabbingTargetToggled;
 
         public delegate void FinisherModeChanged(bool enabled);
         public event FinisherModeChanged OnFinisherModeToggled;
@@ -90,9 +89,7 @@ namespace Finisher.Characters {
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<FreeLookCam>();
 
-            OnStartGrabbingTarget += startGrab;
-            OnStopGrabbingTarget += stopGrab;
-
+            OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
@@ -147,13 +144,13 @@ namespace Finisher.Characters {
                 {
                     if (grabTarget)
                     {
-                        OnStopGrabbingTarget();
+                        OnGrabbingTargetToggled(false);
                     }
                     else
                     {
                         if (character.CombatTarget != null)
                         {
-                            OnStartGrabbingTarget();
+                            OnGrabbingTargetToggled(true);
                         }
                     }
                 }
@@ -186,7 +183,7 @@ namespace Finisher.Characters {
             {
                 if (grabTarget.GetComponent<CharacterMotor>().Dying)
                 {
-                    OnStopGrabbingTarget();
+                    OnGrabbingTargetToggled(false);
                 }
                 else
                 {
@@ -213,28 +210,7 @@ namespace Finisher.Characters {
 
         #endregion
 
-        #region Start and Stop grab
 
-        private void startGrab()
-        {
-            grabTarget = character.CombatTarget;
-            freeLookCam.NewFollowTarget = grabTarget;
-            character.Grabbing = true;
-            grabTarget.GetComponent<CharacterMotor>().Staggered = true;
-        }
-
-        private void stopGrab()
-        {
-            if (grabTarget)
-            {
-                grabTarget.GetComponent<CharacterMotor>().Staggered = false;
-            }
-            grabTarget = null;
-            freeLookCam.NewFollowTarget = null;
-            character.Grabbing = false;
-        }
-
-        #endregion
 
         #region Public Interface
 
@@ -336,6 +312,42 @@ namespace Finisher.Characters {
 
         #endregion
 
+        #region Toggle Grab Delegate Method
+
+        // subscribed to the OnGrabbingToggled()
+        private void toggleGrab(bool enabled)
+        {
+            if (enabled)
+            {
+                startGrab();
+            }
+            else
+            {
+                stopGrab();
+            }
+        }
+
+        private void startGrab()
+        {
+            grabTarget = character.CombatTarget;
+            freeLookCam.NewFollowTarget = grabTarget;
+            character.Grabbing = true;
+            grabTarget.GetComponent<CharacterMotor>().Staggered = true;
+        }
+
+        private void stopGrab()
+        {
+            if (grabTarget)
+            {
+                grabTarget.GetComponent<CharacterMotor>().Staggered = false;
+            }
+            grabTarget = null;
+            freeLookCam.NewFollowTarget = null;
+            character.Grabbing = false;
+        }
+
+        #endregion
+
         // subscribed to the OnFinisherModeToggled delegate
         private void toggleFinisherMode(bool enabled)
         {
@@ -347,7 +359,7 @@ namespace Finisher.Characters {
 
             if (!finisherModeActive)
             {
-                OnStopGrabbingTarget();
+                OnGrabbingTargetToggled(false);
             }
         }
 
