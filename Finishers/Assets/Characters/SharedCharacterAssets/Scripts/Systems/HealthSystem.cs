@@ -65,6 +65,10 @@ namespace Finisher.Characters
             {
                 DamageHealth(10);
             }
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                character.Stunned = !character.Stunned;
+            }
         }
 
         #region Public Interface
@@ -74,7 +78,7 @@ namespace Finisher.Characters
         public void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE)) { return; }
+            if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE)) { return; }
 
             decreaseHealth(damage);
             attempKnockback();
@@ -177,7 +181,12 @@ namespace Finisher.Characters
 
         public void Knockback(AnimationClip animClip)
         {
-            character.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+            if (!character.Uninteruptable || 
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.KNOCKBACK_STATE)||
+                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.STUNNED_STATE))
+            {
+                character.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+            }
         }
 
         public void Kill()
@@ -190,7 +199,7 @@ namespace Finisher.Characters
             currentHealth = 0;
             updateHealthUI();
             character.Dying = true;
-            character.SetBoolOverride(AnimContstants.Parameters.DYING_BOOL, true, AnimContstants.OverrideIndexes.DEATH_INDEX, animClip);
+            character.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         #endregion

@@ -27,11 +27,11 @@ namespace Finisher.Characters
         public AttackType CurrentAttackType {
             get
             {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LIGHTATTACK_TAG))
+                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG))
                 {
                     return AttackType.LightBlade;
                 }
-                else if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.HEAVYATTACK_TAG))
+                else if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
                 {
                     return AttackType.HeavyBlade;
                 }
@@ -68,7 +68,7 @@ namespace Finisher.Characters
         {
             character = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
-            Animator.SetFloat(AnimContstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            Animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
             combatSMBs = Animator.GetBehaviours<CombatSMB>();
             foreach(CombatSMB smb in combatSMBs)
             {
@@ -84,16 +84,16 @@ namespace Finisher.Characters
 
         public void LightAttack()
         {
-            Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, false);
-            Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
+            Animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
+            Animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
         public void HeavyAttack()
         {
-            Animator.SetBool(AnimContstants.Parameters.ISHEAVY_BOOL, true);
-            Animator.SetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
+            Animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
+            Animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
@@ -102,7 +102,7 @@ namespace Finisher.Characters
         {
             runningResetCR = true;
             yield return new WaitWhile(() => Time.time < resetAttackTriggerTime);
-            Animator.ResetTrigger(AnimContstants.Parameters.ATTACK_TRIGGER);
+            Animator.ResetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             runningResetCR = false;
         }
 
@@ -133,16 +133,13 @@ namespace Finisher.Characters
 
         public void SetDodgeTrigger(AnimationClip animClip)
         {
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.UNINTERUPTABLE_TAG) || 
-                Animator.GetAnimatorTransitionInfo(0).anyState ||
-                character.Staggered ||
-                character.Grabbing)
+            if (character.Uninteruptable)
             {
-                Animator.ResetTrigger(AnimContstants.Parameters.DODGE_TRIGGER);
+                Animator.ResetTrigger(AnimConstants.Parameters.DODGE_TRIGGER);
             }
             else
             {
-                character.SetTriggerOverride(AnimContstants.Parameters.DODGE_TRIGGER, AnimContstants.OverrideIndexes.DODGE_INDEX, animClip);
+                character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
             }
         }
 

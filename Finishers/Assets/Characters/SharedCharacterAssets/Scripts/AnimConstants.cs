@@ -1,6 +1,6 @@
 ﻿namespace Finisher.Characters
 {
-    public static class AnimContstants
+    public static class AnimConstants
     {
         public class States
         {
@@ -10,6 +10,7 @@
             public const string AIRBORNE_STATE = "Airborne";
             public const string STRAFING_STATE = "Strafing Locomotion";
             public const string KNOCKBACK_STATE = "Knockback";
+            public const string STUNNED_STATE = "Stunned";
             public const string LIGHT_ATTACK1_STATE = "Light1";
             public const string LIGHT_ATTACK2_STATE = "Light2";
             public const string LIGHT_ATTACK3_STATE = "Light3";
@@ -39,7 +40,7 @@
             public const string STRAFING_BOOL = "Strafing";
             public const string ISHEAVY_BOOL = "IsHeavy";
             public const string FINISHERMODE_BOOL = "FinisherMode";
-            public const string STAGGERED_BOOL = "Staggered";
+            public const string STUNNED_BOOL = "Stunned";
             public const string DYING_BOOL = "Dying";
 
             public const string ATTACK_TRIGGER = "Attack";

@@ -332,14 +332,14 @@ namespace Finisher.Characters {
             grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
             character.Grabbing = true;
-            grabTarget.GetComponent<CharacterMotor>().Staggered = true;
+            grabTarget.GetComponent<CharacterMotor>().Stunned = true;
         }
 
         private void stopGrab()
         {
             if (grabTarget)
             {
-                grabTarget.GetComponent<CharacterMotor>().Staggered = false;
+                grabTarget.GetComponent<CharacterMotor>().Stunned = false;
             }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
@@ -353,8 +353,8 @@ namespace Finisher.Characters {
         {
             var finisherModeActive = enabled;
 
-            animator.SetBool(AnimContstants.Parameters.FINISHERMODE_BOOL, finisherModeActive);
-            animator.SetTrigger(AnimContstants.Parameters.RESETPEACEFULLY_TRIGGER);
+            animator.SetBool(AnimConstants.Parameters.FINISHERMODE_BOOL, finisherModeActive);
+            animator.SetTrigger(AnimConstants.Parameters.RESETPEACEFULLY_TRIGGER);
             inFinisherIndicator.gameObject.SetActive(finisherModeActive);
 
             if (!finisherModeActive)

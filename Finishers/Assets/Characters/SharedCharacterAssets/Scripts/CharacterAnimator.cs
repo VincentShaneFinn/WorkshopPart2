@@ -46,13 +46,13 @@ namespace Finisher.Characters
         private void updateAnimatorParams()
         {
             // update the animator parameters
-            Animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
-            Animator.SetFloat(AnimContstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
-            Animator.SetBool(AnimContstants.Parameters.ONGROUND_BOOL, isGrounded);
-            Animator.SetBool(AnimContstants.Parameters.STRAFING_BOOL, Strafing);
+            Animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
+            Animator.SetFloat(AnimConstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
+            Animator.SetBool(AnimConstants.Parameters.ONGROUND_BOOL, isGrounded);
+            Animator.SetBool(AnimConstants.Parameters.STRAFING_BOOL, Strafing);
             if (!isGrounded)
             {
-                Animator.SetFloat(AnimContstants.Parameters.JUMP_FLOAT, rigidBody.velocity.y);
+                Animator.SetFloat(AnimConstants.Parameters.JUMP_FLOAT, rigidBody.velocity.y);
             }
         }
 
@@ -67,7 +67,7 @@ namespace Finisher.Characters
             float jumpLeg = (runCycle < HALF ? 1 : -1) * forwardAmount;
             if (isGrounded)
             {
-                Animator.SetFloat(AnimContstants.Parameters.FORWARDLEG_FLOAT, jumpLeg);
+                Animator.SetFloat(AnimConstants.Parameters.FORWARDLEG_FLOAT, jumpLeg);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LOCOMOTION_TAG) && move.magnitude > 0)
+            if (isGrounded && Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LOCOMOTION_TAG) && move.magnitude > 0)
             {
                 if (Running)
                 {
@@ -83,21 +83,21 @@ namespace Finisher.Characters
                     {
                         if (forwardAmount >= .3f)
                         {
-                            Animator.SetFloat(AnimContstants.Parameters.FORWARD_FLOAT, 2);
+                            Animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, 2);
                         }
                         else
                         {
                             Running = false;
                         }
-                        Animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
+                        Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                     }
                     else
                     {
-                        Animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
+                        Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
                     }
                 }
                 else {
-                    Animator.SetFloat(AnimContstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
+                    Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                 }
             }
             else

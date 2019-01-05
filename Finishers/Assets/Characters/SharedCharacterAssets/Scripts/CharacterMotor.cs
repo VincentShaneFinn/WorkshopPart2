@@ -25,23 +25,23 @@ namespace Finisher.Characters
         {
             get
             {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.LIGHTATTACK_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimContstants.Tags.HEAVYATTACK_TAG);
+                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
             }
         }
-        public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimContstants.States.DODGE_STATE); } }
-        public bool FinisherModeActive { get { return Animator.GetBool(AnimContstants.Parameters.FINISHERMODE_BOOL); } }
-        public bool Staggered
+        public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
+        public bool FinisherModeActive { get { return Animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
+        public bool Stunned
         {
-            get { return Animator.GetBool(AnimContstants.Parameters.STAGGERED_BOOL); }
+            get { return Animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
             set {
-                Animator.SetTrigger(AnimContstants.Parameters.RESETFORCEFULLY_TRIGGER);
-                Animator.SetBool(AnimContstants.Parameters.STAGGERED_BOOL, value);
+                Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                Animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
             }
         }
         public bool Dying
         {
-            get { return Animator.GetBool(AnimContstants.Parameters.DYING_BOOL); }
+            get { return Animator.GetBool(AnimConstants.Parameters.DYING_BOOL); }
             set {
                 if (!Dying)
                 {
@@ -52,7 +52,23 @@ namespace Finisher.Characters
                 }
             }
         }
-
+        public bool Uninteruptable
+        {
+            get {
+                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
+                Animator.GetAnimatorTransitionInfo(0).anyState ||
+                Stunned ||
+                Grabbing)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        
         public virtual bool CanMove
         {
             get { return canMove; }
@@ -78,7 +94,7 @@ namespace Finisher.Characters
 
         private void KillCharacter()
         {
-            Animator.SetBool(AnimContstants.Parameters.DYING_BOOL, true);
+            Animator.SetBool(AnimConstants.Parameters.DYING_BOOL, true);
             capsule.enabled = false;
             rigidBody.constraints = RigidbodyConstraints.FreezeAll;
         }
