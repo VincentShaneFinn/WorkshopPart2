@@ -243,7 +243,10 @@ namespace Finisher.Characters {
             if (currentFinisherMeter < Mathf.Epsilon)
             {
                 currentFinisherMeter = 0;
-                OnFinisherModeToggled(false);
+                if (FinisherModeActive)
+                {
+                    OnFinisherModeToggled(false);
+                }
             }
             updateFinisherMeterUI();
         }
