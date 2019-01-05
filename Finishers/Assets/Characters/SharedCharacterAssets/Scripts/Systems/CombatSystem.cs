@@ -22,8 +22,8 @@ namespace Finisher.Characters
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
 
-        public float LightAttackDamage { get; private set; }
-        public float HeavyAttackDamage { get; private set; }
+        public float LightAttackDamage { get { return config.LightAttackDamage; } }
+        public float HeavyAttackDamage { get { return config.HeavyAttackDamage; } }
         public AttackType CurrentAttackType {
             get
             {
@@ -75,8 +75,6 @@ namespace Finisher.Characters
                 smb.AttackExitListeners += DamageEnd;
             }
 
-            LightAttackDamage = config.LightAttackDamage;
-            HeavyAttackDamage = config.HeavyAttackDamage;
             IsDamageFrame = false;
         }
 

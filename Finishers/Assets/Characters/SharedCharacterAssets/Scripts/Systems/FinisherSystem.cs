@@ -20,11 +20,25 @@ namespace Finisher.Characters {
             {
                 if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                 {
-                    return lightVolatilityDamage;
+                    if (Grabbing)
+                    {
+                        return lightVolatilityDamage * 3;
+                    }
+                    else
+                    {
+                        return lightVolatilityDamage;
+                    }
                 }
                 else
                 {
-                    return heavyVolatilityDamage;
+                    if (Grabbing)
+                    {
+                        return heavyVolatilityDamage * 3;
+                    }
+                    else
+                    {
+                        return heavyVolatilityDamage;
+                    }
                 }
             }
         }
@@ -59,6 +73,9 @@ namespace Finisher.Characters {
         private Slider finisherMeter;
         private GameObject inFinisherIndicator;
 
+        private bool L3Pressed = false;
+        private bool R3Pressed = false;
+
         #region Finisher Settings
 
         [Header("Finisher Settings")]
@@ -75,6 +92,7 @@ namespace Finisher.Characters {
         [Header("Siphoning Settings")]
         [SerializeField] private ThrowingWeapon throwingWeapon;
         [SerializeField] private float distanceFromEnemyBack = .1f;
+        [SerializeField] private Flamethrower flamethrower;
         [SerializeField] private FlameAOE flameAOE;
 
         #endregion
@@ -122,15 +140,19 @@ namespace Finisher.Characters {
 
         private void finisherInputProcessing()
         {
-            attemptToggleFinisherMode();
             attemptToggleGrab();
             attemptFinisher();
+
+            setL3AndR3();
+            attemptToggleFinisherMode();
         }
 
         private void attemptToggleFinisherMode()
         {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (L3Pressed && R3Pressed)
             {
+                L3Pressed = false;
+                R3Pressed = false;
                 if (FinisherModeActive || currentFinisherMeter >= maxFinisherMeter - float.Epsilon)
                 {
                     OnFinisherModeToggled(!FinisherModeActive);
@@ -138,11 +160,31 @@ namespace Finisher.Characters {
             }
         }
 
+        private void setL3AndR3()
+        {
+            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
+            {
+                L3Pressed = true;
+            }
+            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
+            {
+                R3Pressed = true;
+            }
+            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
+            {
+                L3Pressed = false;
+            }
+            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
+            {
+                R3Pressed = false;
+            }
+        }
+
         private void attemptToggleGrab()
         {
             if (FinisherModeActive)
             {
-                if (Input.GetKeyDown(KeyCode.G))
+                if (Input.GetButtonDown(InputNames.Grab))
                 {
                     if (grabTarget)
                     {
@@ -167,12 +209,12 @@ namespace Finisher.Characters {
                 HealthSystem grabHealthSystem = grabTarget.GetComponent<HealthSystem>();
 
                 if (grabHealthSystem &&
-                    Input.GetKeyDown(KeyCode.H) && 
+                    Input.GetButtonDown(InputNames.Finisher) && 
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
-                    Instantiate(flameAOE, transform.position, transform.rotation);
                     grabTarget.GetComponent<HealthSystem>().Kill();
                     decreaseFinisherMeter(50f);
+                    Instantiate(flameAOE, transform.position, transform.rotation);
                 }
             }
         }
@@ -276,13 +318,13 @@ namespace Finisher.Characters {
                 {
                     if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                     {
-                        throwSword(enemy);
+                        throwFlames(enemy);
                         decreaseFinisherMeter(10f);
                     }
                     else if (combatSystem.CurrentAttackType == AttackType.HeavyBlade)
                     {
-                        throwSwords(enemy);
-                        decreaseFinisherMeter(100f);
+                        throwSword(enemy);
+                        decreaseFinisherMeter(25f);
                     }
                 }
             }
@@ -297,20 +339,11 @@ namespace Finisher.Characters {
             currentThrowingWeapon.ThrowWeapon();
         }
 
-        private void throwSwords(GameObject enemy)
+        private void throwFlames(GameObject enemy)
         {
             float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
             Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
-            ThrowingWeapon currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
-            currentThrowingWeapon.ThrowWeapon();
-
-            targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy) + enemy.transform.right;
-            currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
-            currentThrowingWeapon.ThrowWeapon();
-
-            targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy) - enemy.transform.right;
-            currentThrowingWeapon = Instantiate(throwingWeapon, targetSpawnPoint, freeLookCam.transform.rotation);
-            currentThrowingWeapon.ThrowWeapon();
+            Instantiate(flamethrower, targetSpawnPoint, freeLookCam.transform.rotation);
         }
 
         #endregion

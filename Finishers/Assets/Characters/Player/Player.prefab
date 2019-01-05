@@ -2063,9 +2063,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 0}
+  enemyCanvas: {fileID: 0}
   config: {fileID: 11400000, guid: fef240be565c6e34d982022f97a240c4, type: 2}
   maxHealth: 100
+  maxVolatility: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 2
   character: {fileID: 0}
@@ -2098,7 +2099,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c2cd92379a94ab4d8ffa183e7d053f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxFinisherMeter: 100
+  lightFinisherGain: 10
+  heavyFinisherGain: 30
+  lightVolatilityDamage: 10
+  heavyVolatilityDamage: 30
   throwingWeapon: {fileID: 6683639795073119639, guid: 92a4a3abc826a4e4eba407339f7b9c47,
+    type: 3}
+  distanceFromEnemyBack: 0.1
+  flamethrower: {fileID: 3765164083241058191, guid: c890e1725f72f80498c099139682a769,
+    type: 3}
+  flameAOE: {fileID: 7192056542658797483, guid: 88f86fc037f63c148ac53c88c524cea5,
     type: 3}
 --- !u!1001 &1261069488335191895
 PrefabInstance:
