@@ -14,6 +14,16 @@ public static class InputNames
 
 #endregion
 
+#region TagNames
+
+public static class TagNames
+{
+    public const string PlayerTag = "Player";
+    public const string EnemyTag = "Enemy";
+}
+
+#endregion
+
 #region LayerNames
 
 public static class LayerNames

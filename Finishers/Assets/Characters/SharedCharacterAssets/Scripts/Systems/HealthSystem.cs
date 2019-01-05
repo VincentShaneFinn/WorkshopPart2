@@ -7,6 +7,7 @@ namespace Finisher.Characters
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
+    // todo polymorphise To Player and Enemy Health System
     public class HealthSystem : MonoBehaviour
     {
         [Tooltip("Player's is set automatically")]
@@ -31,22 +32,30 @@ namespace Finisher.Characters
 
             Animator = GetComponent<Animator>();
 
-            getPlayerHealthSlider();
-
-            currentHealth = maxHealth;
-            healthSlider.value = GetHealthAsPercent();
-
-            if (volatilityMeter)
-            {
-                decreaseVolatility(maxVolatility);
-            }
+            setPlayerHealthSlider();
+            increaseHealth(maxHealth);
+            decreaseVolatility(maxVolatility);
+            setupVolatilityMeter();
         }
 
-        private void getPlayerHealthSlider()
+        private void setPlayerHealthSlider()
         {
             if(gameObject.tag == "Player")
             {
                 healthSlider = FindObjectOfType<UI.PlayerUIObjects>().HealthSlider;
+            }
+        }
+
+        private void setupVolatilityMeter()
+        {
+            if (volatilityMeter)
+            {
+                volatilityMeter.gameObject.SetActive(false);
+                FinisherSystem playerFinisherSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<FinisherSystem>();
+                if (playerFinisherSystem)
+                {
+                    playerFinisherSystem.OnFinisherModeToggled += toggleVolatiltyMeter;
+                }
             }
         }
 
@@ -69,7 +78,11 @@ namespace Finisher.Characters
 
             decreaseHealth(damage);
             attempKnockback();
-            checkToKill();
+
+            if (currentHealth <= 0)
+            {
+                Kill();
+            }
         }
 
         private void attempKnockback()
@@ -83,14 +96,6 @@ namespace Finisher.Characters
             }
         }
 
-        private void checkToKill()
-        {
-            if (currentHealth <= 0)
-            {
-                Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)]);
-            }
-        }
-
         private void increaseHealth(float healing)
         {
             currentHealth += healing;
@@ -98,7 +103,7 @@ namespace Finisher.Characters
             {
                 currentHealth = maxHealth;
             }
-            healthSlider.value = GetHealthAsPercent();
+            updateHealthUI();
         }
 
         private void decreaseHealth(float damage)
@@ -108,7 +113,7 @@ namespace Finisher.Characters
             {
                 currentHealth = 0;
             }
-            healthSlider.value = GetHealthAsPercent();
+            updateHealthUI();
         }
 
         public float GetHealthAsPercent()
@@ -133,7 +138,7 @@ namespace Finisher.Characters
             {
                 currentVolatility = maxVolatility;
             }
-            volatilityMeter.value = GetVolaitilityAsPercent();
+            updateVolatilityUI();
         }
 
         private void decreaseVolatility(float amount)
@@ -143,7 +148,7 @@ namespace Finisher.Characters
             {
                 currentVolatility = 0;
             }
-            volatilityMeter.value = GetVolaitilityAsPercent();
+            updateVolatilityUI();
         }
 
         public float GetVolaitilityAsPercent()
@@ -155,8 +160,7 @@ namespace Finisher.Characters
         {
             if (currentVolatility >= maxVolatility)
             {
-                print("Volatility Full");
-                character.Staggered = true; // todo protect from leaving grab mode?
+                //character.Staggered = true; // todo protect from leaving grab mode?
             }
         }
 
@@ -176,11 +180,15 @@ namespace Finisher.Characters
             character.SetTriggerOverride(AnimContstants.Parameters.KNOCKBACK_TRIGGER, AnimContstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
         }
 
+        public void Kill()
+        {
+            Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)]);
+        }
         public void Kill(AnimationClip animClip)
         {
             if (character.Dying) { return; }
             currentHealth = 0;
-            healthSlider.value = GetHealthAsPercent();
+            updateHealthUI();
             character.Dying = true;
             character.SetBoolOverride(AnimContstants.Parameters.DYING_BOOL, true, AnimContstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
@@ -194,6 +202,34 @@ namespace Finisher.Characters
                 return true;
             }
             return false;
+        }
+
+        #endregion
+
+        #region updateUI
+
+        private void updateHealthUI()
+        {
+            if (healthSlider)
+            {
+                healthSlider.value = GetHealthAsPercent();
+            }
+        }
+
+        private void updateVolatilityUI()
+        {
+            if (volatilityMeter)
+            {
+                volatilityMeter.value = GetVolaitilityAsPercent();
+            }
+        }
+
+        private void toggleVolatiltyMeter(bool enabled)
+        {
+            currentVolatility = 0;
+            updateVolatilityUI();
+
+            volatilityMeter.gameObject.SetActive(enabled);
         }
 
         #endregion

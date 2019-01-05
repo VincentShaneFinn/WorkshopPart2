@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Finisher.Characters
 {
-    [CreateAssetMenu(menuName = ("Finisher/CombatSystem"))]
+    [CreateAssetMenu(menuName = ("Finisher/Systems/CombatSystem"))]
     public class CombatSystemConfig : ScriptableObject
     {
         [SerializeField] AnimationClip dodgeForwardAnimation; public AnimationClip DodgeForwardAnimation { get { return dodgeForwardAnimation; } private set { } }

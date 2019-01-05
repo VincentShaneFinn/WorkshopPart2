@@ -5,10 +5,14 @@ using UnityEngine.UI;
 
 namespace Finisher.UI
 {
-    public class PlayerUIObjects : MonoBehaviour
+
+    public class PlayerUIObjects : MonoBehaviour 
     {
         [SerializeField] public GameObject PauseMenuObject;
+
+        // todo encapsulate into a bottom left player ui class
         [SerializeField] public Slider HealthSlider;
         [SerializeField] public Slider FinisherSlider;
+        [SerializeField] public Image InFinisherIndicator;
     }
 }

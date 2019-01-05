@@ -37,10 +37,8 @@ namespace Finisher.UI
         {
             var paused = !GameManager.instance.GamePaused;
             GameManager.instance.GamePaused = paused;
-            PauseMenuObject.SetActive(paused);
-            Cursor.visible = paused;
 
-            if (GameManager.instance.GamePaused)
+            if (paused)
             {
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
@@ -50,6 +48,9 @@ namespace Finisher.UI
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
             }
+
+            PauseMenuObject.SetActive(paused);
+            Cursor.visible = paused;
         }
 
         public void Restart()

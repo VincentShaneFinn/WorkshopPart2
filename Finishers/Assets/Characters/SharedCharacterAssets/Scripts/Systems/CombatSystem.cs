@@ -9,6 +9,8 @@ namespace Finisher.Characters
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
+    // todo polymorphize to player and enemy combat system
+    // todo also, is it possible to polymorphise animation controllers, otherwise seperate into player and enemy animation controllers
     public class CombatSystem : MonoBehaviour
     {
 

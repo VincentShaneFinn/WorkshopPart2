@@ -35,7 +35,7 @@ namespace Finisher.Characters
         {
             get { return Animator.GetBool(AnimContstants.Parameters.STAGGERED_BOOL); }
             set {
-                Animator.SetTrigger(AnimContstants.Parameters.RESET_TRIGGER);
+                Animator.SetTrigger(AnimContstants.Parameters.RESETFORCEFULLY_TRIGGER);
                 Animator.SetBool(AnimContstants.Parameters.STAGGERED_BOOL, value);
             }
         }

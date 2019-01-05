@@ -60,13 +60,19 @@ namespace Finisher.Characters.Weapons
                     }
                     else
                     {
-                        finisherSystem.GainFinisherMeter(30f); // todo replace with dynamic number
+                        if (!finisherSystem.FinisherModeActive)
+                        {
+                            finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
+                        }
                     }
                 }
 
                 if (isPlayer)
                 {
-                    targetHealthSystem.DamageVolatility(30f); // todo replace with dynamic number
+                    if (finisherSystem.FinisherModeActive)
+                    {
+                        targetHealthSystem.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
+                    }
                     StartCoroutine(ImpactFrames(targetHealthSystem));
                 }
             }

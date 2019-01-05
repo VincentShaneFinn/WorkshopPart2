@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Finisher.Characters
 {
-    [CreateAssetMenu(menuName = ("Finisher/FinisherSystem"))]
+    [CreateAssetMenu(menuName = ("Finisher/Systems/FinisherSystem"))]
     public class FinisherSystemConfig : ScriptableObject
     {
         //[SerializeField] AnimationClip light1Animation; public AnimationClip Light1Animation { get { return light1Animation; } private set { } }
