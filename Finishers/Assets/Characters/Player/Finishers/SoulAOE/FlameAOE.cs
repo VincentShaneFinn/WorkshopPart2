@@ -38,7 +38,6 @@ namespace Finisher.Characters.Finishers {
             {
                 healthSystem.DamageHealth(damage);
             }
-            print(col.gameObject);
         }
 
     }

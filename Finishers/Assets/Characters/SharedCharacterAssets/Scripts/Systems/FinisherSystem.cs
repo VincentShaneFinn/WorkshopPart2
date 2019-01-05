@@ -92,6 +92,8 @@ namespace Finisher.Characters {
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
 
+            GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
+
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
@@ -314,6 +316,11 @@ namespace Finisher.Characters {
 
         #region Toggle Grab Delegate Method
 
+        public void ToggleGrabOff()
+        {
+            OnGrabbingTargetToggled(false);
+        }
+
         // subscribed to the OnGrabbingToggled()
         private void toggleGrab(bool enabled)
         {
@@ -359,7 +366,7 @@ namespace Finisher.Characters {
 
             if (!finisherModeActive)
             {
-                OnGrabbingTargetToggled(false);
+                ToggleGrabOff();
             }
         }
 

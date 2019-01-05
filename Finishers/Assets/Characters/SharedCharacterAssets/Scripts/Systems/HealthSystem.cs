@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Finisher.UI;
 
 namespace Finisher.Characters
 {
@@ -11,13 +12,17 @@ namespace Finisher.Characters
     public class HealthSystem : MonoBehaviour
     {
         [Tooltip("Player's is set automatically")]
-        [SerializeField] Slider healthSlider;
-        [SerializeField] Slider volatilityMeter;
+        [SerializeField] private EnemyUI enemyCanvas;
+
         [SerializeField] HealthSystemConfig config;
         [SerializeField] float maxHealth = 100f;
         [SerializeField] float maxVolatility = 100f;
         [SerializeField] int KnockbackLimit = 2;
         [SerializeField] float FreeKnockbackTime = 1f;
+
+        public delegate void KnockedBack();
+        public event KnockedBack OnKnockBack;
+        // Note: we do not guarantee this has a subscriber, so check if null when calling
 
         private float currentHealth;
         private float currentVolatility;
@@ -25,6 +30,8 @@ namespace Finisher.Characters
 
         [HideInInspector] public CharacterAnimator character;
         [HideInInspector] public Animator Animator;
+        private Slider healthSlider;
+        private Slider volatilityMeter;
 
         void Start()
         {
@@ -32,10 +39,21 @@ namespace Finisher.Characters
 
             Animator = GetComponent<Animator>();
 
+
+            setEnemySliders();
             setPlayerHealthSlider();
             increaseHealth(maxHealth);
             decreaseVolatility(maxVolatility);
             setupVolatilityMeter();
+        }
+
+        private void setEnemySliders()
+        {
+            if (enemyCanvas)
+            {
+                healthSlider = enemyCanvas.HealthSlider;
+                volatilityMeter = enemyCanvas.VolatilityMeter;
+            }
         }
 
         private void setPlayerHealthSlider()
@@ -69,6 +87,10 @@ namespace Finisher.Characters
             {
                 character.Stunned = !character.Stunned;
             }
+            if (Input.GetKeyDown(KeyCode.Alpha8) && character.Strafing)
+            {
+                Animator.SetTrigger(AnimConstants.Parameters.INVULNERABLEACTION_TRIGGER);
+            }
         }
 
         #region Public Interface
@@ -78,25 +100,18 @@ namespace Finisher.Characters
         public void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE)) { return; }
+            if (character.Invulnerable) { return; }
 
             decreaseHealth(damage);
-            attempKnockback();
+
+            if (knockbackCount < KnockbackLimit)
+            {
+                Knockback();
+            }
 
             if (currentHealth <= 0)
             {
                 Kill();
-            }
-        }
-
-        private void attempKnockback()
-        {
-            if (knockbackCount < KnockbackLimit)
-            {
-                // todo make a unique random number generator so they dont all die the same way each frame?
-                Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
-                knockbackCount++;
-                StartCoroutine(releaseCountAfterDelay());
             }
         }
 
@@ -170,23 +185,30 @@ namespace Finisher.Characters
 
         #endregion
 
+        // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
+
+        public void Knockback()
+        {
+            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
+        }
+        public void Knockback(AnimationClip animClip)
+        {
+            if (character.Dying) { return; }
+            character.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+            knockbackCount++;
+            StartCoroutine(releaseCountAfterDelay());
+            if (OnKnockBack != null)
+            {
+                OnKnockBack();
+            }
+        }
 
         // todo, make this care about consective hits or building up a resistance?
         private IEnumerator releaseCountAfterDelay()
         {
             yield return new WaitForSeconds(FreeKnockbackTime);
             knockbackCount--;
-        }
-
-        public void Knockback(AnimationClip animClip)
-        {
-            if (!character.Uninteruptable || 
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.KNOCKBACK_STATE)||
-                Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.STUNNED_STATE))
-            {
-                character.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
-            }
         }
 
         public void Kill()
@@ -198,6 +220,7 @@ namespace Finisher.Characters
             if (character.Dying) { return; }
             currentHealth = 0;
             updateHealthUI();
+            toggleEnemyCanvas(false);
             character.Dying = true;
             character.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
@@ -239,6 +262,14 @@ namespace Finisher.Characters
             updateVolatilityUI();
 
             volatilityMeter.gameObject.SetActive(enabled);
+        }
+
+        private void toggleEnemyCanvas(bool enabled)
+        {
+            if (enemyCanvas)
+            {
+                enemyCanvas.gameObject.SetActive(enabled);
+            }
         }
 
         #endregion

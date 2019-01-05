@@ -38,10 +38,10 @@ namespace Finisher.Characters
             testInput();
             // todo make a state machine
             pursueNearbyPlayer();
-            if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
-            {
+            //if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
+            //{
                 attackPlayerIfNear();
-            }
+            //}
         }
 
         private void testInput()

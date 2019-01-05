@@ -114,8 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthSlider: {fileID: 8623202209548946600}
-  volatilityMeter: {fileID: 5403148204753897423}
+  enemyCanvas: {fileID: 8309976212981156009}
   config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
   maxHealth: 100
   maxVolatility: 100
@@ -3331,27 +3330,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6205458041028896550}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8623202209548946600 stripped
+--- !u!114 &8309976212981156009 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2429115361264216974, guid: 18d6801d46e6d8f489566842adb22449,
+  m_CorrespondingSourceObject: {fileID: 2687734612132523919, guid: 18d6801d46e6d8f489566842adb22449,
     type: 3}
   m_PrefabInstance: {fileID: 6205458041028896550}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5403148204753897423 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2082318478315561193, guid: 18d6801d46e6d8f489566842adb22449,
-    type: 3}
-  m_PrefabInstance: {fileID: 6205458041028896550}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 8b3bf98a2b67d4548934d54c923edc0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -35,7 +35,10 @@ namespace Finisher.Characters
         {
             get { return Animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
             set {
-                Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                if (!Uninteruptable)
+                {
+                    Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                }
                 Animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
             }
         }
@@ -59,6 +62,21 @@ namespace Finisher.Characters
                 Animator.GetAnimatorTransitionInfo(0).anyState ||
                 Stunned ||
                 Grabbing)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public bool Invulnerable
+        {
+            get
+            {
+                if(Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
+                    Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
                 {
                     return true;
                 }
@@ -190,7 +208,6 @@ namespace Finisher.Characters
 
             //Apply it
             animOverrideController.ApplyOverrides(overrides);
-
 
             //Add Components
             stateHandler = gameObject.AddComponent<CharAnimStateHandler>();

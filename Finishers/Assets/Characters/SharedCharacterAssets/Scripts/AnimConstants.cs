@@ -11,6 +11,7 @@
             public const string STRAFING_STATE = "Strafing Locomotion";
             public const string KNOCKBACK_STATE = "Knockback";
             public const string STUNNED_STATE = "Stunned";
+            public const string INVULNERABLEACTION_STATE = "Invulnerable Action";
             public const string LIGHT_ATTACK1_STATE = "Light1";
             public const string LIGHT_ATTACK2_STATE = "Light2";
             public const string LIGHT_ATTACK3_STATE = "Light3";
@@ -45,6 +46,7 @@
 
             public const string ATTACK_TRIGGER = "Attack";
             public const string DODGE_TRIGGER = "Dodge";
+            public const string INVULNERABLEACTION_TRIGGER = "InvulnerableAction";
             public const string KNOCKBACK_TRIGGER = "Knockback";
             public const string RESETFORCEFULLY_TRIGGER = "ResetForcefully";
             public const string RESETPEACEFULLY_TRIGGER = "ResetPeacefully";

@@ -112,6 +112,11 @@ namespace Finisher.Characters
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
+            if (character.Uninteruptable || Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE))
+            {
+                return;
+            }
+
             AnimationClip animToUse;
             switch (moveDirection)
             {
@@ -131,16 +136,9 @@ namespace Finisher.Characters
             SetDodgeTrigger(animToUse);
         }
 
-        public void SetDodgeTrigger(AnimationClip animClip)
+        private void SetDodgeTrigger(AnimationClip animClip)
         {
-            if (character.Uninteruptable)
-            {
-                Animator.ResetTrigger(AnimConstants.Parameters.DODGE_TRIGGER);
-            }
-            else
-            {
-                character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
-            }
+            character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
         }
 
         #endregion
