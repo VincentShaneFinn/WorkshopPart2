@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Systems
 {
     [CreateAssetMenu(menuName = ("Finisher/Systems/CombatSystem"))]
     public class CombatSystemConfig : ScriptableObject

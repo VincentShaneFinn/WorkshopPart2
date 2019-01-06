@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
+using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Finishers {
     public class FlameAOE : MonoBehaviour

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4856822250100709866}
   - component: {fileID: 114825973488843026}
   - component: {fileID: 114527653871411836}
-  - component: {fileID: 2080629207}
+  - component: {fileID: 2548389234887140761}
   - component: {fileID: 1084891823}
   m_Layer: 13
   m_Name: Enemy
@@ -102,7 +102,7 @@ MonoBehaviour:
   chaseRadius: 7
   attackRadius: 1.3
   combatTarget: {fileID: 0}
---- !u!114 &2080629207
+--- !u!114 &2548389234887140761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,17 +111,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297612759035436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a87160573b3532f4a835cb6de56e4038, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b42a32f5667ae44a1013f24708b7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCanvas: {fileID: 8309976212981156009}
-  config: {fileID: 11400000, guid: 45e479ac8a41ce543a15462db3fdc531, type: 2}
+  config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
   maxHealth: 100
-  maxVolatility: 100
   KnockbackLimit: 2
-  FreeKnockbackTime: 0
+  FreeKnockbackTime: 1
   character: {fileID: 0}
   Animator: {fileID: 0}
+  enemyCanvas: {fileID: 8309976212981156009}
+  maxVolatility: 100
 --- !u!114 &1084891823
 MonoBehaviour:
   m_ObjectHideFlags: 0

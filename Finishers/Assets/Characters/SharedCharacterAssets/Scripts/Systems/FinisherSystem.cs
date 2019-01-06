@@ -5,7 +5,7 @@ using Finisher.Cameras;
 using Finisher.Characters.Finishers;
 using System;
 
-namespace Finisher.Characters {
+namespace Finisher.Characters.Systems {
 
     public class FinisherSystem : MonoBehaviour
     {
@@ -110,7 +110,7 @@ namespace Finisher.Characters {
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
 
-            GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
+            GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
 
@@ -206,7 +206,7 @@ namespace Finisher.Characters {
 
             if (character.Grabbing)
             {
-                HealthSystem grabHealthSystem = grabTarget.GetComponent<HealthSystem>();
+                var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
                 if (grabHealthSystem &&
                     Input.GetButtonDown(InputNames.Finisher) && 
@@ -248,7 +248,7 @@ namespace Finisher.Characters {
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && grabTarget)
             {
-                grabTarget.GetComponent<HealthSystem>().DamageVolatility(100f);
+                grabTarget.GetComponent<EnemyHealthSystem>().DamageVolatility(100f);
             }
         }
 

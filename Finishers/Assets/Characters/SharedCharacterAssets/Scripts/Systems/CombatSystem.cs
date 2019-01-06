@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Systems
 {
 
     public enum AttackType { None, LightBlade, HeavyBlade };

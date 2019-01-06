@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+using Finisher.Characters.Systems;
+
 namespace Finisher.Characters.Finishers
 {
     public class Flamethrower : MonoBehaviour

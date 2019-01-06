@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using Finisher.Characters.Systems;
+
 namespace Finisher.Characters
 {
     public enum EnemyState { idle, Patrolling, Chasing, Attacking }

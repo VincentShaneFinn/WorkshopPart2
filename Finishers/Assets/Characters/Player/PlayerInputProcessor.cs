@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Finisher.Core;
+using Finisher.Characters.Systems;
 
 namespace Finisher.Characters
 {
@@ -101,22 +102,22 @@ namespace Finisher.Characters
             {
                 if(vertical >= 0)
                 {
-                    return Characters.MoveDirection.Forward;
+                    return MoveDirection.Forward;
                 }
                 else
                 {
-                    return Characters.MoveDirection.Backward;
+                    return MoveDirection.Backward;
                 }
             }
             else
             {
                 if (horizontal >= 0)
                 {
-                    return Characters.MoveDirection.Right;
+                    return MoveDirection.Right;
                 }
                 else
                 {
-                    return Characters.MoveDirection.Left;
+                    return MoveDirection.Left;
                 }
             }
         }

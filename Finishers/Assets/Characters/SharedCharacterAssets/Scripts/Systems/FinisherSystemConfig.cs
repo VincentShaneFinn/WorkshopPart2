@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Systems
 {
     [CreateAssetMenu(menuName = ("Finisher/Systems/FinisherSystem"))]
     public class FinisherSystemConfig : ScriptableObject
