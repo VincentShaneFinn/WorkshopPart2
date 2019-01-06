@@ -60,6 +60,7 @@
             public const string KNOCKBACK_INDEX = "DEFAULT_KNOCKBACK";
             public const string DODGE_INDEX = "DEFAULT_DODGE";
             public const string DEATH_INDEX = "DEFAULT_DEATH";
+            public const string INVULNERABLEACTION_INDEX = "DEFAULT_INVULNERABLE_ACTION";
         }
     }
 }

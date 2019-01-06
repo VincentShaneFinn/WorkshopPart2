@@ -10,6 +10,8 @@ namespace Finisher.Characters.Finishers {
         [SerializeField] private float knockbackRange = 2f;
         [SerializeField] private float aoeRadius = 5f;
         [SerializeField] private float destroyInNSeconds = 1f;
+        [SerializeField] private AnimationClip animationToPlay; public AnimationClip AnimationToPlay { get { return animationToPlay; } }
+        // todo make configs for Finisher
 
         private List<Transform> myEnemies;
 
