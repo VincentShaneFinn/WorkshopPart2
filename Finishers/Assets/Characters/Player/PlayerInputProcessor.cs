@@ -14,6 +14,7 @@ namespace Finisher.Characters
 
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
+        private FinisherSystem finisherSystem;
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         public Vector3 InputMoveDirection { get; private set; }          // the world-relative desired move direction, calculated from the camForward and user input.
@@ -38,6 +39,7 @@ namespace Finisher.Characters
             // get the third person character ( this should never be null due to require component )
             character = GetComponent<PlayerCharacterController>();
             combatSystem = GetComponent<CombatSystem>();
+            finisherSystem = GetComponent<FinisherSystem>();
 
             // get the transform of the main camera
             camRig = character.GetMainCameraTransform();
@@ -88,6 +90,8 @@ namespace Finisher.Characters
         {
             if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
+
+                finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
                 combatSystem.Dodge(dodgeDirection);
             }
