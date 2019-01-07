@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 using Finisher.Cameras;
 using Finisher.Characters.Finishers;
-using System;
+using Finisher.Core;
 
 namespace Finisher.Characters.Systems {
 
@@ -127,7 +127,7 @@ namespace Finisher.Characters.Systems {
 
         void Update()
         {
-            if (character.Dying)
+            if (character.Dying || GameManager.instance.GamePaused)
             {
                 return;
             }
