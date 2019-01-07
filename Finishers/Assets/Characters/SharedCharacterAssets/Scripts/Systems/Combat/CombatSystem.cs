@@ -21,6 +21,10 @@ namespace Finisher.Characters.Systems
         public bool IsDamageFrame { get; private set; }
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
+        public void CallDamageFrameChangedEvent(bool isDamageFrame)
+        {
+            OnDamageFrameChanged(isDamageFrame);
+        }
 
         public float LightAttackDamage { get { return config.LightAttackDamage; } }
         public float HeavyAttackDamage { get { return config.HeavyAttackDamage; } }
@@ -70,12 +74,21 @@ namespace Finisher.Characters.Systems
             Animator = GetComponent<Animator>();
             Animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
             combatSMBs = Animator.GetBehaviours<CombatSMB>();
+
             foreach(CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
             }
 
             IsDamageFrame = false;
+        }
+
+        void OnDestroy()
+        {
+            foreach (CombatSMB smb in combatSMBs)
+            {
+                smb.AttackExitListeners -= DamageEnd;
+            }
         }
 
         #region Attacks
@@ -147,7 +160,7 @@ namespace Finisher.Characters.Systems
         {
             if (!IsDamageFrame)
             {
-                OnDamageFrameChanged(true);
+                CallDamageFrameChangedEvent(true);
                 IsDamageFrame = true;
             }
         }
@@ -156,7 +169,7 @@ namespace Finisher.Characters.Systems
         {
             if (IsDamageFrame)
             {
-                OnDamageFrameChanged(false);
+                CallDamageFrameChangedEvent(false);
                 IsDamageFrame = false;
             }
         }

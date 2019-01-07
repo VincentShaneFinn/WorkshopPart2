@@ -21,6 +21,14 @@ namespace Finisher.Characters.Systems
             setPlayerHealthSlider();
         }
 
+        private void setPlayerHealthSlider()
+        {
+            if (gameObject.tag == "Player")
+            {
+                healthSlider = FindObjectOfType<UI.PlayerUIObjects>().HealthSlider;
+            }
+        }
+
         #region override Knockback
 
         public override void Knockback(AnimationClip animClip)
@@ -31,12 +39,5 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        private void setPlayerHealthSlider()
-        {
-            if (gameObject.tag == "Player")
-            {
-                healthSlider = FindObjectOfType<UI.PlayerUIObjects>().HealthSlider;
-            }
-        }
     }
 }

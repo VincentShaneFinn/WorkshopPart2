@@ -39,6 +39,11 @@ namespace Finisher.Characters.Weapons
 
         }
 
+        void OnDestroy()
+        {
+            combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
+        }
+
         void OnTriggerEnter(Collider collider)
         {
             // Dont hit somethting in the same layer

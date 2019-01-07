@@ -113,7 +113,6 @@ namespace Finisher.Characters.Systems {
 
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
-
             GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
@@ -124,6 +123,12 @@ namespace Finisher.Characters.Systems {
             decreaseFinisherMeter(maxFinisherMeter); // deplete finisher meter at start
         }
 
+        void OnDestroy()
+        {
+            OnGrabbingTargetToggled -= toggleGrab;
+            OnFinisherModeToggled -= toggleFinisherMode;
+            GetComponent<PlayerHealthSystem>().OnKnockBack -= ToggleGrabOff;
+        }
 
         void Update()
         {

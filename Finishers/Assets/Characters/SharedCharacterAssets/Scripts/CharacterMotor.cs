@@ -48,7 +48,7 @@ namespace Finisher.Characters
             set {
                 if (!Dying)
                 {
-                    if (value)
+                    if (value && OnCharacterKilled != null)
                     {
                         OnCharacterKilled();
                     }
@@ -176,6 +176,11 @@ namespace Finisher.Characters
         {
             initialization();
             componentBuilder();
+        }
+
+        void OnDestroy()
+        {
+            OnCharacterKilled -= KillCharacter;
         }
 
         #region Initialization and ComponentBuilder

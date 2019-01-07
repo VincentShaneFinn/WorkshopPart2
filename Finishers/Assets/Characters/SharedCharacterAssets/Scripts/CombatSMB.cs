@@ -11,7 +11,10 @@ namespace Finisher.Characters
 
         void OnStateExit()
         {
-            AttackExitListeners();
+            if (AttackExitListeners != null)
+            {
+                AttackExitListeners();
+            }
         }
 
         //void OnStateMachineEnter()

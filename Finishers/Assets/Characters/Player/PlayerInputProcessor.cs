@@ -10,7 +10,7 @@ namespace Finisher.Characters
     [RequireComponent(typeof (PlayerCharacterController))]
     public class PlayerInputProcessor : MonoBehaviour
     {
-        #region member variables
+        #region Member variables
 
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
         private CombatSystem combatSystem;
@@ -18,19 +18,6 @@ namespace Finisher.Characters
         private Transform camRig = null;                  // A reference to the main camera in the scenes transform
         private Vector3 camForward;             // The current forward direction of the camera
         public Vector3 InputMoveDirection { get; private set; }          // the world-relative desired move direction, calculated from the camForward and user input.
-
-        #endregion
-
-        #region Public Interface
-
-        public bool HasMoveInput()
-        {
-            if (InputMoveDirection != Vector3.zero)
-            {
-                return true;
-            }
-            return false;
-        }
 
         #endregion
 
@@ -184,6 +171,19 @@ namespace Finisher.Characters
                 // we use world-relative directions in the case of no main camera
                 InputMoveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
             }
+        }
+
+        #endregion
+
+        #region Public Interface
+
+        public bool HasMoveInput()
+        {
+            if (InputMoveDirection != Vector3.zero)
+            {
+                return true;
+            }
+            return false;
         }
 
         #endregion
