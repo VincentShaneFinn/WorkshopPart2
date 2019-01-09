@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -30,7 +29,7 @@ namespace Finisher.Characters
         private List<Collider> enemyColliders = null;
         private GameObject currentCombatTargetIndicator;
 
-        private PlayerInputProcessor playerIP;
+        private PlayerMoveInputProcessor playerIP;
         private Transform camRig = null;
 
         #endregion
@@ -61,7 +60,7 @@ namespace Finisher.Characters
         void Start()
         {
             Strafing = true;
-            playerIP = GetComponent<PlayerInputProcessor>();
+            playerIP = GetComponent<PlayerMoveInputProcessor>();
             camRig = GetMainCameraTransform();
         }
 

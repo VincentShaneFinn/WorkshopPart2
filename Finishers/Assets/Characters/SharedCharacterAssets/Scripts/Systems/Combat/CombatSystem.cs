@@ -68,7 +68,7 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        void Start()
+        protected virtual void Start()
         {
             character = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
