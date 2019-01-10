@@ -10,7 +10,7 @@ namespace Finisher.Characters.Systems
     public class PlayerCombatSystem : CombatSystem
     {
 
-        private PlayerCharacterController character; // A reference to the ThirdPersonCharacter on the object
+        private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private FinisherSystem finisherSystem;
 
         protected override void Start()
@@ -18,7 +18,7 @@ namespace Finisher.Characters.Systems
             base.Start();
 
             // get the third person character ( this should never be null due to require component )
-            character = GetComponent<PlayerCharacterController>();
+            playerCharacter = GetComponent<PlayerCharacterController>();
             finisherSystem = GetComponent<FinisherSystem>();
             startFixedDeltaTime = Time.fixedDeltaTime;
         }
@@ -27,7 +27,7 @@ namespace Finisher.Characters.Systems
         {
             if (GameManager.instance.GamePaused) { return; }
 
-            if (character.isGrounded)
+            if (playerCharacter.isGrounded)
             {
                 processCombatInput();
             }

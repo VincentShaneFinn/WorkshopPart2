@@ -73,7 +73,7 @@ namespace Finisher.Characters.Systems {
         private Animator animator;
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
-        private FreeLookCam freeLookCam;
+        private CameraLookController freeLookCam;
         private Slider finisherMeter;
         private GameObject inFinisherIndicator;
 
@@ -109,7 +109,7 @@ namespace Finisher.Characters.Systems {
             character = GetComponent<PlayerCharacterController>();
             character.OnCharacterKilled += stopGrab;
             combatSystem = GetComponent<CombatSystem>();
-            freeLookCam = FindObjectOfType<FreeLookCam>();
+            freeLookCam = FindObjectOfType<CameraLookController>();
 
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;

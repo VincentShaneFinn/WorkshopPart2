@@ -6,7 +6,7 @@ using Finisher.Core;
 
 namespace Finisher.Cameras
 {
-    public class FreeLookCam : PivotBasedCameraRig
+    public class CameraLookController : PivotBasedCameraRig
     {
         // This script is designed to be placed on the root object of a camera rig,
         // comprising 3 gameobjects, each parented to the next:
