@@ -16,16 +16,5 @@ namespace Finisher.Characters
                 AttackExitListeners();
             }
         }
-
-        //void OnStateMachineEnter()
-        //{
-        //    Debug.Log("Enter State");
-        //}
-
-        //// is not called when any state is used
-        //void OnStateMachineExit()
-        //{
-        //    Debug.Log("Exit State");
-        //}
     }
 }

@@ -13,13 +13,13 @@ namespace Finisher.Characters
 
         [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
                                                         // also it is currently getting interupted by attack anims that play since they always pause and resume movement
-        [HideInInspector] public Transform CurrentLookTarget { private get; set; }
+        [HideInInspector] public Transform CurrentLookTarget { get; set; }
 
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
 
-        public bool Running { get; set; }
+        public bool Running { get; protected set; }
         public bool Grabbing { get; set; }
         public bool Attacking
         {
