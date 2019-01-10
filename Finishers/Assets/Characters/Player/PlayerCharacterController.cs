@@ -38,9 +38,9 @@ namespace Finisher.Characters
 
         public Transform GetMainCameraTransform()
         {
-            if (GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>())
+            if (GameObject.FindObjectOfType<Finisher.Cameras.CameraLookController>())
             {
-                return GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>().gameObject.transform;
+                return GameObject.FindObjectOfType<Finisher.Cameras.CameraLookController>().gameObject.transform;
             }
             else if (Camera.main != null)
             {

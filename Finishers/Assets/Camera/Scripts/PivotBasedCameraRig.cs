@@ -12,7 +12,6 @@ namespace Finisher.Cameras
         // 		Pivot
         // 			Camera
 
-        protected Transform cam; // the transform of the camera
         protected Transform pivot; // the point at which the camera pivots around
         protected Vector3 lastTargetPosition;
 
@@ -20,8 +19,7 @@ namespace Finisher.Cameras
         protected virtual void Awake()
         {
             // find the camera in the object hierarchy
-            cam = GetComponentInChildren<Camera>().transform;
-            pivot = cam.parent;
+            pivot = GetComponentInChildren<Pivot>().transform;
         }
     }
 }
