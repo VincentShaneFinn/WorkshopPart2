@@ -17,7 +17,7 @@ namespace Finisher.Cameras
         private string dontClipTag = "Player";           // don't clip against objects with this tag (useful for not clipping against the targeted object)
         private string orThistag = "Enemy"; // todo make a better list of do not clip tags
         private Transform cam;                  // the transform of the camera
-        private Transform pivot;                // the point at which the camera pivots around
+        private Transform desiredTransform;                // the point at which the camera pivots around
         private float originalDist;             // the original distance to the camera before any modification are made
         private float moveVelocity;             // the velocity at which the camera moved
         private float currentDist;              // the current distance from the camera to the target
@@ -30,7 +30,7 @@ namespace Finisher.Cameras
         {
             // find the camera in the object hierarchy
             cam = GetComponentInChildren<Camera>().transform;
-            pivot = cam.parent;
+            desiredTransform = cam.parent;
             originalDist = cam.localPosition.magnitude;
             currentDist = originalDist;
 
@@ -43,8 +43,8 @@ namespace Finisher.Cameras
             // initially set the target distance
             float targetDist = originalDist;
 
-            ray.origin = pivot.position + pivot.forward*sphereCastRadius;
-            ray.direction = -pivot.forward;
+            ray.origin = desiredTransform.position + desiredTransform.forward*sphereCastRadius;
+            ray.direction = -desiredTransform.forward;
 
             // initial check to see if start of spherecast intersects anything
             var cols = Physics.OverlapSphere(ray.origin, sphereCastRadius);
@@ -66,7 +66,7 @@ namespace Finisher.Cameras
             // if there is a collision
             if (initialIntersect)
             {
-                ray.origin += pivot.forward*sphereCastRadius;
+                ray.origin += desiredTransform.forward*sphereCastRadius;
 
                 // do a raycast and gather all the intersections
                 hits = Physics.RaycastAll(ray, originalDist - sphereCastRadius);
@@ -94,7 +94,7 @@ namespace Finisher.Cameras
                 {
                     // change the nearest collision to latest
                     nearest = hits[i].distance;
-                    targetDist = -pivot.InverseTransformPoint(hits[i].point).z;
+                    targetDist = -desiredTransform.InverseTransformPoint(hits[i].point).z;
                     hitSomething = true;
                 }
             }
@@ -102,7 +102,7 @@ namespace Finisher.Cameras
             // visualise the cam clip effect in the editor
             if (hitSomething)
             {
-                Debug.DrawRay(ray.origin, -pivot.forward*(targetDist + sphereCastRadius), Color.red);
+                Debug.DrawRay(ray.origin, -desiredTransform.forward*(targetDist + sphereCastRadius), Color.red);
             }
 
             // hit something so move the camera to a better position
