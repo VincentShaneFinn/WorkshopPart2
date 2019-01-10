@@ -144,13 +144,10 @@ namespace Finisher.Characters.Systems
                     animToUse = config.DodgeForwardAnimation;
                     break;
             }
-            SetDodgeTrigger(animToUse);
-        }
 
-        private void SetDodgeTrigger(AnimationClip animClip)
-        {
-            character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
+            character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animToUse);
         }
+       
 
         #endregion
 

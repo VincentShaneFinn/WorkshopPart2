@@ -68,10 +68,6 @@ namespace Finisher.Characters
         {
             SetCurrentCombatTarget();
             UpdateCombatTargetIndicator();
-        }
-
-        public void ManualUpdate() // currently updated with camera look
-        {
             SetCharacterRotation();
         }
 

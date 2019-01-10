@@ -87,7 +87,6 @@ namespace Finisher.Cameras
             {
                 AutoRotateCamera(Time.deltaTime);
             }
-            character.ManualUpdate();
         }
 
         #region Helper Methods
