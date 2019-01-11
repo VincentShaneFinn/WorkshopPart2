@@ -79,7 +79,7 @@ namespace Finisher.Characters
             if (CombatTarget)
             {
                 float distanceFromTarget = Vector3.Distance(CombatTarget.position, transform.position);
-                if (CombatTarget.gameObject.GetComponent<CharacterMotor>().Dying ||
+                if (CombatTarget.gameObject.GetComponent<CharacterState>().Dying ||
                     distanceFromTarget > MAXCOMBATTARGETRANGE)
                 {
                     CombatTarget = null;
@@ -140,9 +140,9 @@ namespace Finisher.Characters
             foreach (Collider enemyCollider in enemyColliders)
             {
 
-                var targetMotor = enemyCollider.gameObject.GetComponent<CharacterMotor>();
+                var targetState = enemyCollider.gameObject.GetComponent<CharacterState>();
                 if (enemyCollider.gameObject.GetComponent<CharacterMotor>() == null) { continue; }
-                else if (targetMotor.Dying) { continue; }
+                else if (targetState.Dying) { continue; }
 
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
@@ -215,7 +215,7 @@ namespace Finisher.Characters
 
         private void SetCharacterRotation()
         {
-            if (Dying) {
+            if (characterState.Dying) {
                 return;
             }
 

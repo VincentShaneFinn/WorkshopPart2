@@ -72,10 +72,12 @@ namespace Finisher.Characters.Systems {
         private float currentFinisherMeter = 0;
 
         private Animator animator;
+        private CharacterState characterState;
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private CameraLookController freeLookCam;
         private Slider finisherMeter;
+
         private GameObject inFinisherIndicator;
 
         private Sword sword;
@@ -112,17 +114,12 @@ namespace Finisher.Characters.Systems {
         {
             animator = GetComponent<Animator>();
             character = GetComponent<PlayerCharacterController>();
-            character.OnCharacterKilled += stopGrab;
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<CameraLookController>();
 
             knife = GetComponentInChildren<Knife>();
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
-
-            OnGrabbingTargetToggled += toggleGrab;
-            OnFinisherModeToggled += toggleFinisherMode;
-            GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
 
@@ -132,8 +129,20 @@ namespace Finisher.Characters.Systems {
             decreaseFinisherMeter(maxFinisherMeter); // deplete finisher meter at start
         }
 
-        void OnDestroy()
+        void OnEnable()
         {
+            characterState = GetComponent<CharacterState>();
+            characterState.SubscribeToDeathEvent(stopGrab);
+
+            OnGrabbingTargetToggled += toggleGrab;
+            OnFinisherModeToggled += toggleFinisherMode;
+            GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
+        }
+
+        void OnDisable()
+        {
+            characterState.UnsubscribeToDeathEvent(stopGrab);
+
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;
             GetComponent<PlayerHealthSystem>().OnKnockBack -= ToggleGrabOff;
@@ -141,7 +150,7 @@ namespace Finisher.Characters.Systems {
 
         void Update()
         {
-            if (character.Dying || GameManager.instance.GamePaused)
+            if (characterState.Dying || GameManager.instance.GamePaused)
             {
                 return;
             }
@@ -241,7 +250,7 @@ namespace Finisher.Characters.Systems {
         {
             if (grabTarget)
             {
-                if (grabTarget.GetComponent<CharacterMotor>().Dying)
+                if (grabTarget.GetComponent<CharacterState>().Dying)
                 {
                     OnGrabbingTargetToggled(false);
                 }

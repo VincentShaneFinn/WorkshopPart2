@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4766649399272452}
   - component: {fileID: 4856822250100709866}
+  - component: {fileID: 6746336452500533811}
   - component: {fileID: 114825973488843026}
   - component: {fileID: 114527653871411836}
   - component: {fileID: 2548389234887140761}
@@ -56,6 +57,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6746336452500533811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd6407392c3213344970f463c99656ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
 --- !u!114 &114825973488843026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +83,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
+  CurrentLookTarget: {fileID: 0}
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
   gravityMultiplier: 2
@@ -118,8 +133,9 @@ MonoBehaviour:
   maxHealth: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 0
-  character: {fileID: 0}
+  Character: {fileID: 0}
   Animator: {fileID: 0}
+  CharacterState: {fileID: 0}
   enemyCanvas: {fileID: 8309976212981156009}
   maxVolatility: 100
 --- !u!114 &1084891823

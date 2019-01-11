@@ -5,20 +5,20 @@ namespace Finisher.Characters
 {
 
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(CharacterState))]
     public abstract class CharacterMotor : MonoBehaviour
     {
 
         #region Class Variables and public State Variables
 
-        [HideInInspector] public bool Strafing = false; // todo strafing currently doesn't let you do anything that basic locomotion does, and is a work in progress
-                                                        // also it is currently getting interupted by attack anims that play since they always pause and resume movement
-        [HideInInspector] public Transform CurrentLookTarget { get; set; }
+        [HideInInspector] public bool Strafing = false;
+        [HideInInspector] public Transform CurrentLookTarget;
 
+        public bool Running { get; protected set; }
         public bool isGrounded { get; private set; }
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
 
-        public bool Running { get; protected set; }
         public bool Grabbing { get; set; }
         public bool Attacking
         {
@@ -39,19 +39,6 @@ namespace Finisher.Characters
                     Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                 }
                 Animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
-            }
-        }
-        public bool Dying
-        {
-            get { return Animator.GetBool(AnimConstants.Parameters.DYING_BOOL); }
-            set {
-                if (!Dying)
-                {
-                    if (value && OnCharacterKilled != null)
-                    {
-                        OnCharacterKilled();
-                    }
-                }
             }
         }
         public bool Uninteruptable
@@ -102,21 +89,7 @@ namespace Finisher.Characters
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
 
-        #endregion
-
-        #region Delegates
-
-        public delegate void CharacterIsDying();
-        public event CharacterIsDying OnCharacterKilled;
-
-        private void KillCharacter()
-        {
-            Animator.SetBool(AnimConstants.Parameters.DYING_BOOL, true);
-            capsule.enabled = false;
-            rigidBody.constraints = RigidbodyConstraints.FreezeAll;
-        }
-
-        #endregion
+        #endregion]
 
         #region Character Motor Variables
 
@@ -169,50 +142,41 @@ namespace Finisher.Characters
         [SerializeField] float capsuleColliderHeight = 2f;
         [SerializeField] float capsuleColliderRadius = 0.5f;
 
+        protected CharacterState characterState;
+
         #endregion
 
         void Awake()
         {
             initialization();
             componentBuilder();
+            componentGetter();
         }
 
-        void OnDestroy()
+        void OnEnable()
         {
-            OnCharacterKilled -= KillCharacter;
+            characterState = GetComponent<CharacterState>();
+            characterState.SubscribeToDeathEvent(KillCharacter);
+        }
+
+        void OnDisable()
+        {
+            characterState.UnsubscribeToDeathEvent(KillCharacter);
         }
 
         #region Initialization and ComponentBuilder
 
-        void initialization()
+        private void initialization()
         {
             isGrounded = true;
             turnAmount = 0;
             forwardAmount = 0;
             Grabbing = false;
             Running = false;
-            OnCharacterKilled += KillCharacter;
         }
 
-        protected void componentBuilder()
+        private void componentBuilder()
         {
-            //Get Components
-            Animator = gameObject.GetComponent<Animator>();
-
-            //Setup a new AnimOverrideController
-
-            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
-            Animator.runtimeAnimatorController = animOverrideController;
-
-            //fill new override with data
-            var dataOverride = AnimatorOverrideControllerConfig;
-
-            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
-            dataOverride.GetOverrides(overrides);
-
-            //Apply it
-            animOverrideController.ApplyOverrides(overrides);
-
             //Add Components
             stateHandler = gameObject.AddComponent<CharAnimStateHandler>();
 
@@ -236,6 +200,26 @@ namespace Finisher.Characters
 
             //Class Init
             origGroundCheckDistance = groundCheckDistance;
+        }
+        
+        private void componentGetter()
+        {
+            //Get Components
+            Animator = gameObject.GetComponent<Animator>();
+
+            //Setup a new AnimOverrideController
+
+            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+            Animator.runtimeAnimatorController = animOverrideController;
+
+            //fill new override with data
+            var dataOverride = AnimatorOverrideControllerConfig;
+
+            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
+            dataOverride.GetOverrides(overrides);
+
+            //Apply it
+            animOverrideController.ApplyOverrides(overrides);
         }
 
         #endregion
@@ -279,7 +263,7 @@ namespace Finisher.Characters
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
-            if (Dying)
+            if (characterState.Dying)
             {
                 disableAllControl();
                 return;
@@ -413,6 +397,16 @@ namespace Finisher.Characters
 				Animator.applyRootMotion = false;
 			}
 		}
+
+        #endregion
+
+        #region Delegated Methods
+
+        private void KillCharacter()
+        {
+            capsule.enabled = false;
+            rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        }
 
         #endregion
     }

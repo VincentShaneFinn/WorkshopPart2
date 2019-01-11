@@ -1955,6 +1955,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3079736054807551834}
   - component: {fileID: 3706741003250733307}
+  - component: {fileID: 1523469320027708110}
   - component: {fileID: 3079736054807551836}
   - component: {fileID: 3079736054807551835}
   - component: {fileID: 7070460760452883848}
@@ -2001,6 +2002,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1523469320027708110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a557c98f6a79df49a8922d68690ace1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 0}
+  stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &3079736054807551836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2014,6 +2029,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
+  CurrentLookTarget: {fileID: 0}
   movingTurnSpeed: 1000
   stationaryTurnSpeed: 1000
   gravityMultiplier: 2
@@ -2084,8 +2100,9 @@ MonoBehaviour:
   maxHealth: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 1
-  character: {fileID: 0}
+  Character: {fileID: 0}
   Animator: {fileID: 0}
+  CharacterState: {fileID: 0}
 --- !u!114 &4620075608317267798
 MonoBehaviour:
   m_ObjectHideFlags: 0

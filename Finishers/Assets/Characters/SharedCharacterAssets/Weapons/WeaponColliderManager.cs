@@ -25,8 +25,6 @@ namespace Finisher.Characters.Weapons
 
         private void Initialization()
         {
-            combatSystem = GetComponentInParent<CombatSystem>();
-            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
             finisherSystem = GetComponentInParent<FinisherSystem>();
 
             boxCollider = GetComponent<BoxCollider>();
@@ -39,7 +37,13 @@ namespace Finisher.Characters.Weapons
 
         }
 
-        void OnDestroy()
+        void OnEnable()
+        {
+            combatSystem = GetComponentInParent<CombatSystem>();
+            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+        }
+
+        void OnDisable()
         {
             combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
         }
@@ -55,7 +59,7 @@ namespace Finisher.Characters.Weapons
 
         private void DamageCharacter(HealthSystem targetHealthSystem)
         {
-            if (targetHealthSystem && !targetHealthSystem.character.Dying && !targetHealthSystem.Invulnerable)
+            if (targetHealthSystem && !targetHealthSystem.CharacterState.Dying && !targetHealthSystem.Invulnerable)
             {
                 targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
 

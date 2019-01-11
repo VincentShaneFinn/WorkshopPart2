@@ -68,7 +68,7 @@ namespace Finisher.Characters
         {
             if (agent.isActiveAndEnabled)
             {
-                if(Dying) {
+                if(characterState.Dying) {
                     agent.SetDestination(transform.position);
                     return;
                 }
