@@ -6,19 +6,27 @@ namespace Finisher.Characters
 {
     public delegate void CharacterIsDying();
 
-    public abstract class CharacterState : MonoBehaviour
+    public class CharacterState : MonoBehaviour
     {
         [HideInInspector] public Animator Animator;
 
-        void Start()
+        protected void Awake()
         {
             Animator = GetComponent<Animator>();
             Assert.IsNotNull(Animator);
+
+            initialize();
+        }
+
+        protected virtual void initialize()
+        {
+            DyingBool = new DyingBool(Animator);
         }
 
         // while Dying is an aniamtion tree parameter, it should only be set through here, not via the animator
-        public abstract bool Dying { get; set; }
-        public abstract void SubscribeToDeathEvent(CharacterIsDying method);
-        public abstract void UnsubscribeToDeathEvent(CharacterIsDying method);
+        public virtual DyingBool DyingBool { get; set; }
+        public bool Dying { get { return DyingBool.Dying; } set { DyingBool.Dying = value; } } 
+
+
     }
 }

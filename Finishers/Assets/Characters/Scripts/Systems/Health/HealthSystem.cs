@@ -117,8 +117,8 @@ namespace Finisher.Characters.Systems
             if (CharacterState.Dying) { return; }
             currentHealth = 0;
             updateHealthUI();
+            Character.SetOverride(AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
             CharacterState.Dying = true;
-            Character.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         #endregion

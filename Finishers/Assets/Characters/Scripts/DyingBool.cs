@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Finisher.Characters
 {
-    public class CharacterStateFromSelf : CharacterState
+    public class DyingBool
     {
+        private Animator animator;
 
         #region Delegates
 
@@ -15,8 +14,13 @@ namespace Finisher.Characters
 
         #endregion
 
+        public DyingBool(Animator anim)
+        {
+            animator = anim;
+        }
+
         private bool dying = false;
-        public override bool Dying
+        public bool Dying
         {
             get { return dying; }
             set
@@ -27,7 +31,7 @@ namespace Finisher.Characters
                     {
                         if (OnCharacterKilled != null)
                         {
-                            Animator.SetBool(AnimConstants.Parameters.DYING_BOOL, true);
+                            animator.SetBool(AnimConstants.Parameters.DYING_BOOL, true);
                             dying = true;
                             OnCharacterKilled();
                         }
@@ -35,14 +39,14 @@ namespace Finisher.Characters
                 }
             }
         }
-        public override void SubscribeToDeathEvent(CharacterIsDying method)
+
+        public void SubscribeToDeathEvent(CharacterIsDying method)
         {
             OnCharacterKilled += method;
         }
-        public override void UnsubscribeToDeathEvent(CharacterIsDying method)
+        public void UnsubscribeToDeathEvent(CharacterIsDying method)
         {
             OnCharacterKilled -= method;
         }
-
     }
 }

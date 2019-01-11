@@ -8,6 +8,11 @@ namespace Finisher.Characters
 
         #region Public Interface for Overriding Animation Clips
 
+        public void SetOverride(string overrideIndex, AnimationClip animClip)
+        {
+            animOverrideController[overrideIndex] = animClip;
+        }
+
         public void SetFloatOverride(string floatName, float floatValue, string overrideIndex, AnimationClip animClip)
         {
             animOverrideController[overrideIndex] = animClip;

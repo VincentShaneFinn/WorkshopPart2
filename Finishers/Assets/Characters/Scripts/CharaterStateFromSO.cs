@@ -9,18 +9,15 @@ namespace Finisher.Characters
     {
         [SerializeField] private CharacterStateSO stateSO;
 
-        public override bool Dying
+        protected override void initialize()
         {
-            get { return stateSO.Dying; }
-            set { stateSO.Dying = value; }
+            stateSO.Initialize(Animator); 
         }
-        public override void SubscribeToDeathEvent(CharacterIsDying method)
+
+        public override DyingBool DyingBool
         {
-            stateSO.OnCharacterKilled += method;
-        }
-        public override void UnsubscribeToDeathEvent(CharacterIsDying method)
-        {
-            stateSO.OnCharacterKilled -= method;
+            get { return stateSO.DyingBool; }
+            set { stateSO.DyingBool = value; }
         }
 
     }

@@ -156,12 +156,12 @@ namespace Finisher.Characters
         void OnEnable()
         {
             characterState = GetComponent<CharacterState>();
-            characterState.SubscribeToDeathEvent(KillCharacter);
+            characterState.DyingBool.SubscribeToDeathEvent(KillCharacter);
         }
 
         void OnDisable()
         {
-            characterState.UnsubscribeToDeathEvent(KillCharacter);
+            characterState.DyingBool.UnsubscribeToDeathEvent(KillCharacter);
         }
 
         #region Initialization and ComponentBuilder
@@ -263,7 +263,7 @@ namespace Finisher.Characters
         // make sure you at least call movecharacter every update or fixed update to update animator parameters
         public void MoveCharacter(Vector3 moveDirection, bool running = false)
         {
-            if (characterState.Dying)
+            if (characterState.DyingBool.Dying)
             {
                 disableAllControl();
                 return;

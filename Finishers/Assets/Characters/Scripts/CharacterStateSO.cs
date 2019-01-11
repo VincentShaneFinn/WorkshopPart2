@@ -8,35 +8,13 @@ namespace Finisher.Characters
     public class CharacterStateSO : ScriptableObject
     {
 
-        #region Delegates
-
-        public event CharacterIsDying OnCharacterKilled;
-
-        #endregion
+        public void Initialize(Animator anim)
+        {
+            DyingBool = new DyingBool(anim);
+        }
 
         // todo create property drawer to allow preview of setting dying, so that the delegate event gets called
-        private bool dying = false;
-        public bool Dying
-        {
-            get
-            {
-                return dying;
-            }
-            set
-            {
-                if (!dying)
-                {
-                    if (value)
-                    {
-                        dying = true;
-                        if (OnCharacterKilled != null)
-                        {
-                            OnCharacterKilled();
-                        }
-                    }
-                }
-            }
-        }
+        public DyingBool DyingBool { get; set; }
 
     }
 }
