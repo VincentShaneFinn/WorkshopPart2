@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Finisher.Characters
 {
@@ -8,13 +6,8 @@ namespace Finisher.Characters
     public class CharacterStateSO : ScriptableObject
     {
 
-        //public void Initialize(Animator anim)
-        //{
-        //    DyingBool = new DyingBool(anim);
-        //}
-
         // todo create property drawer to allow preview of setting dying, so that the delegate event gets called
-        [SerializeField] public DyingBool DyingBool;
+        [SerializeField] public DyingState DyingBool;
         [SerializeField] public bool Grabbing;
 
     }

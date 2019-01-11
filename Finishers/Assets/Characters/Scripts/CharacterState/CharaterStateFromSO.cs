@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Assertions;
+﻿using UnityEngine;
 
 namespace Finisher.Characters
 {
@@ -14,7 +11,7 @@ namespace Finisher.Characters
         //    stateSO.Initialize(Animator); 
         //}
 
-        public override DyingBool DyingBool
+        public override DyingState DyingBool
         {
             get { return stateSO.DyingBool; }
             set { stateSO.DyingBool = value; }

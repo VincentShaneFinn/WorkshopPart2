@@ -16,6 +16,7 @@ namespace Finisher.Characters.Weapons
 
         private CombatSystem combatSystem;
         private FinisherSystem finisherSystem;
+        private CharacterState characterState;
         private BoxCollider boxCollider;
 
         void Start()
@@ -26,6 +27,7 @@ namespace Finisher.Characters.Weapons
         private void Initialization()
         {
             finisherSystem = GetComponentInParent<FinisherSystem>();
+            characterState = GetComponentInParent<CharacterState>();
 
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
@@ -54,25 +56,25 @@ namespace Finisher.Characters.Weapons
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
 
-            DamageCharacter(collider.gameObject.GetComponent<HealthSystem>());
+            DamageCharacter(collider.gameObject.GetComponent<HealthSystem>(), collider.gameObject.GetComponent<CharacterState>());
         }
 
-        private void DamageCharacter(HealthSystem targetHealthSystem)
+        private void DamageCharacter(HealthSystem targetHealthSystem, CharacterState targetState)
         {
-            if (targetHealthSystem && !targetHealthSystem.CharacterState.Dying && !targetHealthSystem.Invulnerable)
+            if (targetHealthSystem && !targetState.Dying && !targetState.Invulnerable)
             {
                 targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
 
                 if (finisherSystem)
                 {
-                    if (finisherSystem.FinisherModeActive)
+                    if (characterState.FinisherModeActive)
                     {
                         finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
                         targetHealthSystem.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
                     }
                     else
                     {
-                        if (!finisherSystem.FinisherModeActive)
+                        if (!characterState.FinisherModeActive)
                         {
                             finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
                         }

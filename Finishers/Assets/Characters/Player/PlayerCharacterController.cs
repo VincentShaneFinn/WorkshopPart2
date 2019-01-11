@@ -91,7 +91,7 @@ namespace Finisher.Characters
                 }
 
             }
-            if ((usingLSInput && Attacking && Animator.IsInTransition(0)) ||
+            if ((usingLSInput && characterState.Attacking && Animator.IsInTransition(0)) ||
                 !CombatTargetInRange)
             {
                 SetNewCombatTarget();
@@ -227,10 +227,10 @@ namespace Finisher.Characters
 
             if (Strafing)
             {
-                if (Dodging) {
+                if (characterState.Dodging) {
                     RotateWithCamRig();
                 }
-                else if(Attacking)
+                else if(characterState.Attacking)
                 {
                     if (CombatTargetInRange)
                     {
@@ -248,7 +248,7 @@ namespace Finisher.Characters
             }
             else
             {
-                if (Dodging)
+                if (characterState.Dodging)
                 {
                     RotateWithCamRig();
                 }

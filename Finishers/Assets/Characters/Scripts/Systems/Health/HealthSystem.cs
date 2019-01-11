@@ -8,8 +8,6 @@ namespace Finisher.Characters.Systems
     [RequireComponent(typeof(CharacterAnimator))]
     public abstract class HealthSystem : MonoBehaviour
     {
-        public bool Invulnerable { get { return Character.Invulnerable; } }
-
         [SerializeField] private HealthConfig config;
         [SerializeField] float maxHealth = 100f;
         [SerializeField] int KnockbackLimit = 2;
@@ -20,14 +18,14 @@ namespace Finisher.Characters.Systems
 
         [HideInInspector] public CharacterAnimator Character;
         [HideInInspector] public Animator Animator;
-        [HideInInspector] public CharacterState CharacterState;
+        [HideInInspector] private CharacterState characterState;
         protected Slider healthSlider;
 
         protected virtual void Start()
         {
             Character = GetComponent<CharacterAnimator>();
             Animator = GetComponent<Animator>();
-            CharacterState = GetComponent<CharacterState>();
+            characterState = GetComponent<CharacterState>();
 
             increaseHealth(maxHealth);
         }
@@ -39,7 +37,7 @@ namespace Finisher.Characters.Systems
         public void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
-            if (Invulnerable) { return; }
+            if (characterState.Invulnerable) { return; }
 
             decreaseHealth(damage);
 
@@ -95,7 +93,7 @@ namespace Finisher.Characters.Systems
         }
         public virtual void Knockback(AnimationClip animClip)
         {
-            if (CharacterState.Dying) { return; }
+            if (characterState.Dying) { return; }
             Character.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
             knockbackCount++;
             StartCoroutine(releaseCountAfterDelay());
@@ -114,11 +112,11 @@ namespace Finisher.Characters.Systems
         }
         public virtual void Kill(AnimationClip animClip)
         {
-            if (CharacterState.Dying) { return; }
+            if (characterState.Dying) { return; }
             currentHealth = 0;
             updateHealthUI();
             Character.SetOverride(AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
-            CharacterState.Dying = true;
+            characterState.Dying = true;
         }
 
         #endregion

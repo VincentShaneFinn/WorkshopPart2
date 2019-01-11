@@ -19,75 +19,19 @@ namespace Finisher.Characters
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
 
-        #region Move out of Character Motor
-        public bool Attacking
-        {
-            get
-            {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
-            }
-        }
-        public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
-        public bool FinisherModeActive { get { return Animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
-        public bool Stunned
-        {
-            get { return Animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
-            set {
-                if (!Uninteruptable)
-                {
-                    Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
-                }
-                Animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
-            }
-        }
-        public bool Uninteruptable
-        {
-            get {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
-                Animator.GetAnimatorTransitionInfo(0).anyState ||
-                Stunned ||
-                characterState.Grabbing)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        public bool Invulnerable
-        {
-            get
-            {
-                if(Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-
-        #endregion
-
+        private bool canMove = true;
         public virtual bool CanMove
         {
             get { return canMove; }
             set { canMove = value; }
         }
+        private bool canRotate = true;
         public virtual bool CanRotate
         {
             get { return canRotate; }
             set { canRotate = value; }
         }
 
-        private bool canMove = true;
-        private bool canRotate = true;
         private float origGroundCheckDistance;
         private Vector3 groundNormal;
 
@@ -107,20 +51,6 @@ namespace Finisher.Characters
         [SerializeField] protected float runMoveSpeedMultiplier = 1f;
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
         [SerializeField] protected float groundCheckDistance = 0.3f;
-        #endregion
-
-        #region Character Animator Variables
-
-        [Header("Animation Settings")]
-        [Tooltip("Used to move faster, using animation speed")]
-        [SerializeField] protected float animSpeedMultiplier = 1f;
-        [Tooltip("Used to move faster, using animation speed")]
-        [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
-        [SerializeField] private AnimatorOverrideController AnimatorOverrideControllerConfig;
-        protected AnimatorOverrideController animOverrideController;
-
-        public CharAnimStateHandler stateHandler { get; private set; }
-
         #endregion
 
         #region Constants
@@ -148,11 +78,10 @@ namespace Finisher.Characters
 
         #endregion
 
-        void Awake()
+        protected virtual void Awake()
         {
             initialization();
             componentBuilder();
-            componentGetter();
         }
 
         void OnEnable()
@@ -178,9 +107,6 @@ namespace Finisher.Characters
 
         private void componentBuilder()
         {
-            //Add Components
-            stateHandler = gameObject.AddComponent<CharAnimStateHandler>();
-
             rigidBody = gameObject.AddComponent<Rigidbody>();
             rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             rigidBody.useGravity = true;
@@ -201,26 +127,6 @@ namespace Finisher.Characters
 
             //Class Init
             origGroundCheckDistance = groundCheckDistance;
-        }
-        
-        private void componentGetter()
-        {
-            //Get Components
-            Animator = gameObject.GetComponent<Animator>();
-
-            //Setup a new AnimOverrideController
-
-            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
-            Animator.runtimeAnimatorController = animOverrideController;
-
-            //fill new override with data
-            var dataOverride = AnimatorOverrideControllerConfig;
-
-            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
-            dataOverride.GetOverrides(overrides);
-
-            //Apply it
-            animOverrideController.ApplyOverrides(overrides);
         }
 
         #endregion

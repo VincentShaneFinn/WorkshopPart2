@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Finisher.Characters
@@ -5,6 +6,50 @@ namespace Finisher.Characters
 
     public class CharacterAnimator : CharacterMotor
 	{
+
+        #region Character Animator Variables
+
+        [Header("Animation Settings")]
+        [Tooltip("Used to move faster, using animation speed")]
+        [SerializeField] protected float animSpeedMultiplier = 1f;
+        [Tooltip("Used to move faster, using animation speed")]
+        [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
+        [SerializeField] private AnimatorOverrideController AnimatorOverrideControllerConfig;
+        protected AnimatorOverrideController animOverrideController;
+
+        public CharAnimStateHandler stateHandler { get; private set; }
+
+        #endregion
+
+        protected override void Awake()
+        {
+            base.Awake();
+
+            //Add Components
+            stateHandler = gameObject.AddComponent<CharAnimStateHandler>();
+
+            componentGetter();
+        }
+
+        private void componentGetter()
+        {
+            //Get Components
+            Animator = gameObject.GetComponent<Animator>();
+
+            //Setup a new AnimOverrideController
+
+            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+            Animator.runtimeAnimatorController = animOverrideController;
+
+            //fill new override with data
+            var dataOverride = AnimatorOverrideControllerConfig;
+
+            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
+            dataOverride.GetOverrides(overrides);
+
+            //Apply it
+            animOverrideController.ApplyOverrides(overrides);
+        }
 
         #region Public Interface for Overriding Animation Clips
 

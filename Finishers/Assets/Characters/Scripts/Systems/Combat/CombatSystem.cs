@@ -64,6 +64,7 @@ namespace Finisher.Characters.Systems
 
         [HideInInspector] public Animator Animator;
         private CharacterAnimator character;
+        private CharacterState characterState;
         private CombatSMB[] combatSMBs;
 
         #endregion
@@ -71,6 +72,7 @@ namespace Finisher.Characters.Systems
         protected virtual void Start()
         {
             character = GetComponent<CharacterAnimator>();
+            characterState = GetComponent<CharacterState>();
             Animator = GetComponent<Animator>();
             Animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
             combatSMBs = Animator.GetBehaviours<CombatSMB>();
@@ -123,7 +125,7 @@ namespace Finisher.Characters.Systems
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
-            if (character.Uninteruptable || Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE))
+            if (characterState.Uninteruptable || characterState.Dodging)
             {
                 return;
             }
@@ -147,7 +149,6 @@ namespace Finisher.Characters.Systems
 
             character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animToUse);
         }
-       
 
         #endregion
 

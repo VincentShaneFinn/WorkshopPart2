@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Finisher.Characters
 {
     [Serializable]
-    public class DyingBool
+    public class DyingState
     {
         private Animator animator;
 
@@ -14,7 +14,7 @@ namespace Finisher.Characters
 
         #endregion
 
-        public DyingBool(Animator anim)
+        public DyingState(Animator anim)
         {
             animator = anim;
         }
@@ -48,5 +48,6 @@ namespace Finisher.Characters
         {
             OnCharacterKilled -= method;
         }
+
     }
 }

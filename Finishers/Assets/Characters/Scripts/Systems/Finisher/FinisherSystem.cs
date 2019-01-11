@@ -13,7 +13,6 @@ namespace Finisher.Characters.Systems {
 
         #region Class Variables
 
-        public bool FinisherModeActive { get { return character.FinisherModeActive; } }
         public float CurrentVolatilityDamage
         {
             get
@@ -179,9 +178,9 @@ namespace Finisher.Characters.Systems {
             {
                 L3Pressed = false;
                 R3Pressed = false;
-                if (FinisherModeActive || currentFinisherMeter >= maxFinisherMeter - float.Epsilon)
+                if (characterState.FinisherModeActive || currentFinisherMeter >= maxFinisherMeter - float.Epsilon)
                 {
-                    OnFinisherModeToggled(!FinisherModeActive);
+                    OnFinisherModeToggled(!characterState.FinisherModeActive);
                 }
             }
         }
@@ -208,7 +207,7 @@ namespace Finisher.Characters.Systems {
 
         private void attemptToggleGrab()
         {
-            if (FinisherModeActive)
+            if (characterState.FinisherModeActive)
             {
                 if (Input.GetButtonDown(InputNames.Grab))
                 {
@@ -216,7 +215,7 @@ namespace Finisher.Characters.Systems {
                     {
                         OnGrabbingTargetToggled(false);
                     }
-                    else if (character.CombatTarget != null && !character.Uninteruptable)
+                    else if (character.CombatTarget != null && !characterState.Uninteruptable)
                     {
                         OnGrabbingTargetToggled(true);
                     }
@@ -284,7 +283,7 @@ namespace Finisher.Characters.Systems {
 
         public void GainFinisherMeter(float amount)
         {
-            if (!FinisherModeActive)
+            if (!characterState.FinisherModeActive)
             {
                 increaseFinisherMeter(amount);
             }
@@ -307,7 +306,7 @@ namespace Finisher.Characters.Systems {
             if (currentFinisherMeter < Mathf.Epsilon)
             {
                 currentFinisherMeter = 0;
-                if (FinisherModeActive)
+                if (characterState.FinisherModeActive)
                 {
                     OnFinisherModeToggled(false);
                 }
@@ -407,14 +406,14 @@ namespace Finisher.Characters.Systems {
             grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
             characterState.Grabbing = true;
-            grabTarget.GetComponent<CharacterMotor>().Stunned = true;
+            grabTarget.GetComponent<CharacterState>().Stunned = true;
         }
 
         private void stopGrab()
         {
             if (grabTarget)
             {
-                grabTarget.GetComponent<CharacterMotor>().Stunned = false;
+                grabTarget.GetComponent<CharacterState>().Stunned = false;
             }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;

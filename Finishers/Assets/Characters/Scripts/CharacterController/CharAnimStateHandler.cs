@@ -27,7 +27,7 @@ namespace Finisher.Characters {
             // these two are in code states becuase they can be in multuple animation states,
             // like grabbing an enemy and stabbing, or staggered but knockedback, returning to locomotion then go to staggered
             if (characterState.Grabbing ||
-                character.Stunned) 
+                characterState.Stunned) 
             {
                 character.CanMove = false;
                 character.CanRotate = false;
@@ -39,7 +39,7 @@ namespace Finisher.Characters {
                 character.CanMove = true;
                 character.CanRotate = true;
             }
-            else if(animator.IsInTransition(0) && character.Attacking)
+            else if(animator.IsInTransition(0) && characterState.Attacking)
             {
                 character.CanMove = true;
                 character.CanRotate = true;
