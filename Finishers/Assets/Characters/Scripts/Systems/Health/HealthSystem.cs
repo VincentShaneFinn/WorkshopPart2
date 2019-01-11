@@ -79,7 +79,7 @@ namespace Finisher.Characters.Systems
 
         public virtual void DamageVolatility(float amount)
         {
-
+            
         }
 
         // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
@@ -123,7 +123,7 @@ namespace Finisher.Characters.Systems
 
         private void enterDyingState(AnimationClip animClip)
         {
-            characterState.DyingBool.Dying = true;
+            characterState.DyingState.Kill();
             animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true,AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 

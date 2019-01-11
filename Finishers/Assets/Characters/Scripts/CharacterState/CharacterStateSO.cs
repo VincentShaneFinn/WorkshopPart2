@@ -7,7 +7,7 @@ namespace Finisher.Characters
     {
 
         // todo create property drawer to allow preview of setting dying, so that the delegate event gets called
-        [SerializeField] public DyingState DyingBool;
+        [SerializeField] public DyingState DyingState;
         [SerializeField] public bool Grabbing;
 
     }

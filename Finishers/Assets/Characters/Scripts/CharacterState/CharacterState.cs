@@ -25,7 +25,7 @@ namespace Finisher.Characters
 
         protected void initialize()
         {
-            DyingBool = new DyingState(animator);
+            DyingState = new DyingState(animator);
             Grabbing = false;
         }
 
@@ -34,8 +34,8 @@ namespace Finisher.Characters
         #region Dying State
 
         // while Dying is an aniamtion tree parameter, it should only be set through here, not via the animator
-        public virtual DyingState DyingBool { get; set; }
-        public bool Dying { get { return DyingBool.Dying; } }
+        public virtual DyingState DyingState { get; set; }
+        public bool Dying { get { return DyingState.Dying; } }
 
         #endregion
 

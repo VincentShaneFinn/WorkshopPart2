@@ -17,11 +17,11 @@ namespace Finisher.Characters.Systems
 
         protected override void Start()
         {
-            base.Start();
-
             setEnemySliders();
-            setVolatilityMeter();
+            setupVolatilityMeterToggle();
             decreaseVolatility(maxVolatility);
+
+            base.Start();
         }
 
         private void setEnemySliders()
@@ -33,7 +33,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private void setVolatilityMeter()
+        private void setupVolatilityMeterToggle()
         {
             if (volatilityMeter)
             {

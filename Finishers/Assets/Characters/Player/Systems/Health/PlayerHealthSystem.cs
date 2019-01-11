@@ -16,9 +16,10 @@ namespace Finisher.Characters.Systems
 
         protected override void Start()
         {
-            base.Start();
 
             setPlayerHealthSlider();
+
+            base.Start();
         }
 
         private void setPlayerHealthSlider()

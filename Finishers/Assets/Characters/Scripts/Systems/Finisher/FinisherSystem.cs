@@ -130,7 +130,7 @@ namespace Finisher.Characters.Systems {
         void OnEnable()
         {
             characterState = GetComponent<CharacterState>();
-            characterState.DyingBool.SubscribeToDeathEvent(stopGrab);
+            characterState.DyingState.SubscribeToDeathEvent(stopGrab);
 
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
@@ -139,7 +139,7 @@ namespace Finisher.Characters.Systems {
 
         void OnDisable()
         {
-            characterState.DyingBool.UnsubscribeToDeathEvent(stopGrab);
+            characterState.DyingState.UnsubscribeToDeathEvent(stopGrab);
 
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;

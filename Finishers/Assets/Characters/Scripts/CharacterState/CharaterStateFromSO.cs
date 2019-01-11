@@ -11,10 +11,10 @@ namespace Finisher.Characters
         //    stateSO.Initialize(Animator); 
         //}
 
-        public override DyingState DyingBool
+        public override DyingState DyingState
         {
-            get { return stateSO.DyingBool; }
-            set { stateSO.DyingBool = value; }
+            get { return stateSO.DyingState; }
+            set { stateSO.DyingState = value; }
         }
         public override bool Grabbing { get { return stateSO.Grabbing; } set { stateSO.Grabbing = value; } } 
 
