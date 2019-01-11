@@ -21,22 +21,22 @@ namespace Finisher.Characters.Systems {
                 {
                     if (characterState.Grabbing)
                     {
-                        return lightVolatilityDamage * 3;
+                        return config.LightVolatilityDamage * 3;
                     }
                     else
                     {
-                        return lightVolatilityDamage;
+                        return config.LightVolatilityDamage;
                     }
                 }
                 else
                 {
                     if (characterState.Grabbing)
                     {
-                        return heavyVolatilityDamage * 3;
+                        return config.HeavyVolatilityDamage * 3;
                     }
                     else
                     {
-                        return heavyVolatilityDamage;
+                        return config.HeavyVolatilityDamage;
                     }
                 }
             }
@@ -47,11 +47,11 @@ namespace Finisher.Characters.Systems {
             {
                 if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                 {
-                    return lightFinisherGain;
+                    return config.LightFinisherGain;
                 }
                 else
                 {
-                    return heavyFinisherGain;
+                    return config.HeavyFinisherGain;
                 }
             }
         }
@@ -85,16 +85,7 @@ namespace Finisher.Characters.Systems {
         private bool L3Pressed = false;
         private bool R3Pressed = false;
 
-        #region Finisher Settings
-
-        [Header("Finisher Settings")]
-        [SerializeField] private float maxFinisherMeter = 100f;
-        [SerializeField] private float lightFinisherGain = 10f;
-        [SerializeField] private float heavyFinisherGain = 30f;
-        [SerializeField] private float lightVolatilityDamage = 10f;
-        [SerializeField] private float heavyVolatilityDamage = 30f;
-
-        #endregion
+        [SerializeField] private FinisherConfig config;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
@@ -124,7 +115,7 @@ namespace Finisher.Characters.Systems {
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
 
-            decreaseFinisherMeter(maxFinisherMeter); // deplete finisher meter at start
+            decreaseFinisherMeter(config.MaxFinisherMeter); // deplete finisher meter at start
         }
 
         void OnEnable()
@@ -178,7 +169,7 @@ namespace Finisher.Characters.Systems {
             {
                 L3Pressed = false;
                 R3Pressed = false;
-                if (characterState.FinisherModeActive || currentFinisherMeter >= maxFinisherMeter - float.Epsilon)
+                if (characterState.FinisherModeActive || currentFinisherMeter >= config.MaxFinisherMeter - float.Epsilon)
                 {
                     OnFinisherModeToggled(!characterState.FinisherModeActive);
                 }
@@ -265,7 +256,7 @@ namespace Finisher.Characters.Systems {
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                increaseFinisherMeter(maxFinisherMeter);
+                increaseFinisherMeter(config.MaxFinisherMeter);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && grabTarget)
             {
@@ -291,9 +282,9 @@ namespace Finisher.Characters.Systems {
         private void increaseFinisherMeter(float amount)
         {
             currentFinisherMeter += amount;
-            if(currentFinisherMeter > maxFinisherMeter - Mathf.Epsilon)
+            if(currentFinisherMeter > config.MaxFinisherMeter - Mathf.Epsilon)
             {
-                currentFinisherMeter = maxFinisherMeter;
+                currentFinisherMeter = config.MaxFinisherMeter;
             }
             updateFinisherMeterUI();
         }
@@ -314,7 +305,7 @@ namespace Finisher.Characters.Systems {
 
         private void checkFinisherFull()
         {
-            if (currentFinisherMeter >= maxFinisherMeter)
+            if (currentFinisherMeter >= config.MaxFinisherMeter)
             {
                 // do something if finisher full
             }
@@ -322,7 +313,7 @@ namespace Finisher.Characters.Systems {
 
         public float GetFinisherMeterAsPercent()
         {
-            return currentFinisherMeter / maxFinisherMeter;
+            return currentFinisherMeter / config.MaxFinisherMeter;
         }
 
         #endregion

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771f1c90119a8f545b833cbb6071c585, type: 3}
   m_Name: PlayerHealthConfig
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  maxVolatility: 100
+  knockbackLimit: 2
+  freeKnockbackTime: 0
   normalDeathAnimations:
   - {fileID: 7400000, guid: 9a26352c93a81e947b73b8e47cc931bb, type: 3}
   knockbackAnimations:

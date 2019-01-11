@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Finisher.Characters.Systems;
 
@@ -8,15 +7,7 @@ namespace Finisher.Characters.Weapons
     [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
-
-        [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
-        [SerializeField] float impactFrameTime = .01f;
-
-        private bool isPlayer = false;
-
         private CombatSystem combatSystem;
-        private FinisherSystem finisherSystem;
-        private CharacterState characterState;
         private BoxCollider boxCollider;
 
         void Start()
@@ -26,17 +17,8 @@ namespace Finisher.Characters.Weapons
 
         private void Initialization()
         {
-            finisherSystem = GetComponentInParent<FinisherSystem>();
-            characterState = GetComponentInParent<CharacterState>();
-
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
-
-            if (combatSystem.gameObject.tag == "Player")
-            {
-                isPlayer = true;
-            }
-
         }
 
         void OnEnable()
@@ -48,6 +30,7 @@ namespace Finisher.Characters.Weapons
         void OnDisable()
         {
             combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
+            StopAllCoroutines();
         }
 
         void OnTriggerEnter(Collider collider)
@@ -65,38 +48,8 @@ namespace Finisher.Characters.Weapons
             {
                 targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
 
-                if (finisherSystem)
-                {
-                    if (characterState.FinisherModeActive)
-                    {
-                        finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
-                        targetHealthSystem.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
-                    }
-                    else
-                    {
-                        if (!characterState.FinisherModeActive)
-                        {
-                            finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
-                        }
-                    }
-                }
-
-                if (isPlayer)
-                {
-                    StartCoroutine(ImpactFrames(targetHealthSystem));
-                }
+                combatSystem.DealtDamage(targetHealthSystem);
             }
-        }
-
-        IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
-        {
-            combatSystem.GetComponent<Animator>().speed = 0;
-            targetHealthSystem.GetComponent<Animator>().speed = 0;
-
-            yield return new WaitForSeconds(impactFrameTime);
-
-            combatSystem.GetComponent<Animator>().speed = 1;
-            targetHealthSystem.GetComponent<Animator>().speed = 1;
         }
 
         void ToggleTriggerCollider(bool isDamageFrame)

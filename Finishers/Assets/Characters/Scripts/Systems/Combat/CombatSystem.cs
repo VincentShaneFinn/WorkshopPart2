@@ -19,6 +19,7 @@ namespace Finisher.Characters.Systems
         [SerializeField] CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
+
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
@@ -26,8 +27,6 @@ namespace Finisher.Characters.Systems
             OnDamageFrameChanged(isDamageFrame);
         }
 
-        public float LightAttackDamage { get { return config.LightAttackDamage; } }
-        public float HeavyAttackDamage { get { return config.HeavyAttackDamage; } }
         public AttackType CurrentAttackType {
             get
             {
@@ -48,9 +47,9 @@ namespace Finisher.Characters.Systems
                 switch (CurrentAttackType)
                 {
                     case AttackType.LightBlade:
-                        return LightAttackDamage;
+                        return config.LightAttackDamage;
                     case AttackType.HeavyBlade:
-                        return HeavyAttackDamage;
+                        return config.HeavyAttackDamage;
                     default:
                         return 0;
                 }
@@ -62,9 +61,9 @@ namespace Finisher.Characters.Systems
         [SerializeField] private float timeToClearAttackInputQue = 0;
         [SerializeField] private float attackAnimSpeed = 1f;
 
-        [HideInInspector] private Animator animator;
+        [HideInInspector] protected Animator animator;
         private AnimOverrideHandler animOverrideHandler;
-        private CharacterState characterState;
+        protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
 
         #endregion
@@ -175,6 +174,12 @@ namespace Finisher.Characters.Systems
                 CallDamageFrameChangedEvent(false);
                 IsDamageFrame = false;
             }
+        }
+
+        // todo make this and the class abstract when we add an enemy combat system
+        public virtual void DealtDamage(HealthSystem target)
+        {
+            return;
         }
 
         #endregion

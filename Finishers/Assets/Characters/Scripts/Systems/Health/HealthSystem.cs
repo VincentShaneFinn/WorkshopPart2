@@ -8,12 +8,10 @@ namespace Finisher.Characters.Systems
     [RequireComponent(typeof(CharacterAnimator))]
     public abstract class HealthSystem : MonoBehaviour
     {
-        [SerializeField] private HealthConfig config;
-        [SerializeField] float maxHealth = 100f;
-        [SerializeField] int KnockbackLimit = 2;
-        [SerializeField] float FreeKnockbackTime = 1f;
+        [SerializeField] protected HealthConfig config;
 
-        protected float currentHealth;
+        protected float currentHealth { get; set; }
+        protected float currentVolatility { get; set; }
         protected int knockbackCount;
 
         private CharacterState characterState;
@@ -25,7 +23,8 @@ namespace Finisher.Characters.Systems
             characterState = GetComponent<CharacterState>();
             animOverrideHandler = GetComponent<AnimOverrideHandler>();
 
-            increaseHealth(maxHealth);
+            increaseHealth(config.MaxHealth);
+            decreaseVolatility(config.MaxVolatility);
         }
 
         #region Public Interface
@@ -39,7 +38,7 @@ namespace Finisher.Characters.Systems
 
             decreaseHealth(damage);
 
-            if (knockbackCount < KnockbackLimit)
+            if (knockbackCount < config.KnockbackLimit)
             {
                 Knockback();
             }
@@ -53,9 +52,9 @@ namespace Finisher.Characters.Systems
         private void increaseHealth(float healing)
         {
             currentHealth += healing;
-            if(currentHealth > maxHealth - Mathf.Epsilon)
+            if(currentHealth > config.MaxHealth - Mathf.Epsilon)
             {
-                currentHealth = maxHealth;
+                currentHealth = config.MaxHealth;
             }
             updateHealthUI();
         }
@@ -72,15 +71,53 @@ namespace Finisher.Characters.Systems
 
         public float GetHealthAsPercent()
         {
-            return currentHealth / maxHealth;
+            return currentHealth / config.MaxHealth;
         }
 
         #endregion
 
-        public virtual void DamageVolatility(float amount)
+        #region Change Volatility
+
+        public void DamageVolatility(float amount)
         {
-            
+            increaseVolatility(amount);
+            checkVolatilityFull();
         }
+
+        private void increaseVolatility(float amount)
+        {
+            currentVolatility += amount;
+            if (currentVolatility > config.MaxVolatility - Mathf.Epsilon)
+            {
+                currentVolatility = config.MaxVolatility;
+            }
+            updateVolatilityUI();
+        }
+
+        private void decreaseVolatility(float amount)
+        {
+            currentVolatility -= amount;
+            if (currentVolatility <= Mathf.Epsilon)
+            {
+                currentVolatility = 0;
+            }
+            updateVolatilityUI();
+        }
+
+        public float GetVolaitilityAsPercent()
+        {
+            return currentVolatility / config.MaxVolatility;
+        }
+
+        private void checkVolatilityFull()
+        {
+            if (currentVolatility >= config.MaxVolatility)
+            {
+                //character.Staggered = true; // todo if stagger implemented here, protect from leaving grab mode
+            }
+        }
+
+        #endregion
 
         // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
@@ -105,7 +142,7 @@ namespace Finisher.Characters.Systems
         // todo, make this care about consective hits or building up a resistance?
         private IEnumerator releaseCountAfterDelay()
         {
-            yield return new WaitForSeconds(FreeKnockbackTime);
+            yield return new WaitForSeconds(config.FreeKnockbackTime);
             knockbackCount--;
         }
 
@@ -151,6 +188,8 @@ namespace Finisher.Characters.Systems
         }
 
         #endregion
+
+        protected abstract void updateVolatilityUI();
 
     }
 }

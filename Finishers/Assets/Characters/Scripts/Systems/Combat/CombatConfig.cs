@@ -2,7 +2,7 @@
 
 namespace Finisher.Characters.Systems
 {
-    [CreateAssetMenu(menuName = ("Finisher/Systems/CombatSystem"))]
+    [CreateAssetMenu(menuName = ("Finisher/Systems/CombatConfig"))]
     public class CombatConfig : ScriptableObject
     {
         [SerializeField] AnimationClip dodgeForwardAnimation; public AnimationClip DodgeForwardAnimation { get { return dodgeForwardAnimation; } }

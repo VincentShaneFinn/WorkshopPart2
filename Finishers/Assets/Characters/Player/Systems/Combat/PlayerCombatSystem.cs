@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 using Finisher.Core;
+using System.Collections;
 
 namespace Finisher.Characters.Systems
 {
@@ -9,6 +10,9 @@ namespace Finisher.Characters.Systems
     [RequireComponent(typeof(FinisherSystem))]
     public class PlayerCombatSystem : CombatSystem
     {
+
+        [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
+        [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private FinisherSystem finisherSystem;
@@ -117,6 +121,38 @@ namespace Finisher.Characters.Systems
                 Time.timeScale = 1;
                 Time.fixedDeltaTime = startFixedDeltaTime;
             }
+        }
+
+        public override void DealtDamage(HealthSystem target)
+        {
+            if (finisherSystem)
+            {
+                if (characterState.FinisherModeActive)
+                {
+                    finisherSystem.StabbedEnemy(target.gameObject);
+                    target.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
+                }
+                else
+                {
+                    if (!characterState.FinisherModeActive)
+                    {
+                        finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
+                    }
+                }
+            }
+
+            StartCoroutine(ImpactFrames(target));
+        }
+
+        IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
+        {
+            animator.speed = 0;
+            targetHealthSystem.GetComponent<Animator>().speed = 0;
+
+            yield return new WaitForSeconds(impactFrameTime);
+
+            animator.GetComponent<Animator>().speed = 1;
+            targetHealthSystem.GetComponent<Animator>().speed = 1;
         }
 
     }

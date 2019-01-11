@@ -8,9 +8,6 @@ namespace Finisher.Characters.Systems
     public class EnemyHealthSystem : HealthSystem
     {
         [SerializeField] private EnemyUI enemyCanvas;
-        [SerializeField] float maxVolatility = 100f;
-
-        protected float currentVolatility;
 
         private Slider volatilityMeter;
 
@@ -19,7 +16,6 @@ namespace Finisher.Characters.Systems
         {
             setEnemySliders();
             setupVolatilityMeterToggle();
-            decreaseVolatility(maxVolatility);
 
             base.Start();
         }
@@ -46,49 +42,6 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #region Change Volatility
-
-        public override void DamageVolatility(float amount)
-        {
-            increaseVolatility(amount);
-            checkVolatilityFull();
-        }
-
-        private void increaseVolatility(float amount)
-        {
-            currentVolatility += amount;
-            if (currentVolatility > maxVolatility - Mathf.Epsilon)
-            {
-                currentVolatility = maxVolatility;
-            }
-            updateVolatilityUI();
-        }
-
-        private void decreaseVolatility(float amount)
-        {
-            currentVolatility -= amount;
-            if (currentVolatility <= Mathf.Epsilon)
-            {
-                currentVolatility = 0;
-            }
-            updateVolatilityUI();
-        }
-
-        public float GetVolaitilityAsPercent()
-        {
-            return currentVolatility / maxVolatility;
-        }
-
-        private void checkVolatilityFull()
-        {
-            if (currentVolatility >= maxVolatility)
-            {
-                //character.Staggered = true; // todo protect from leaving grab mode?
-            }
-        }
-
-        #endregion
-
         #region Override Kill(animclip)
 
         public override void Kill(AnimationClip animClip)
@@ -101,7 +54,7 @@ namespace Finisher.Characters.Systems
 
         #region Enemy UI
 
-        private void updateVolatilityUI()
+        protected override void updateVolatilityUI()
         {
             if (volatilityMeter)
             {

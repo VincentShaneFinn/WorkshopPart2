@@ -40,5 +40,10 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
+        protected override void updateVolatilityUI()
+        {
+            return;
+        }
+
     }
 }
