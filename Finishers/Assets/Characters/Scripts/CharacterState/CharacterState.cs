@@ -12,8 +12,7 @@ namespace Finisher.Characters
 
         private AnimOverrideHandler animOverrideHandler;
 
-
-        protected void Awake()
+        void Awake()
         {
             animator = GetComponent<Animator>();
             Assert.IsNotNull(animator);
@@ -23,9 +22,9 @@ namespace Finisher.Characters
             initialize();
         }
 
-        protected void initialize()
+        private void initialize()
         {
-            DyingState = new DyingState(animator);
+            DyingState = new DyingState();
             Grabbing = false;
         }
 

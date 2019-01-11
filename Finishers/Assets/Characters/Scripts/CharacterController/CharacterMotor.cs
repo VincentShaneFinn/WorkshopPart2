@@ -83,13 +83,18 @@ namespace Finisher.Characters
             componentBuilder();
         }
 
-        void OnEnable()
+        protected virtual void Start()
+        {
+            subscribeToDelegates();
+        }
+
+        private void subscribeToDelegates()
         {
             characterState = GetComponent<CharacterState>();
             characterState.DyingState.SubscribeToDeathEvent(KillCharacter);
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             characterState.DyingState.UnsubscribeToDeathEvent(KillCharacter);
         }

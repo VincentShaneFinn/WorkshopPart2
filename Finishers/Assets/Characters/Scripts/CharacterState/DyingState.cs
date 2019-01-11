@@ -13,7 +13,7 @@ namespace Finisher.Characters
 
         #endregion
 
-        public DyingState(Animator anim) { }
+        public DyingState() { }
 
         private bool dying = false;
         public bool Dying
@@ -24,7 +24,10 @@ namespace Finisher.Characters
         public void Kill()
         {
             dying = true;
-            OnCharacterKilled();
+            if (OnCharacterKilled != null)
+            {
+                OnCharacterKilled();
+            }
         }
 
         public void SubscribeToDeathEvent(CharacterIsDying method)

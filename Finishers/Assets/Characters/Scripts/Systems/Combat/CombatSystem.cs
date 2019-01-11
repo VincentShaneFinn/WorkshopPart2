@@ -58,9 +58,6 @@ namespace Finisher.Characters.Systems
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
 
-        [SerializeField] private float timeToClearAttackInputQue = 0;
-        [SerializeField] private float attackAnimSpeed = 1f;
-
         [HideInInspector] protected Animator animator;
         private AnimOverrideHandler animOverrideHandler;
         protected CharacterState characterState;
@@ -72,7 +69,7 @@ namespace Finisher.Characters.Systems
         {
             characterState = GetComponent<CharacterState>();
             animator = GetComponent<Animator>();
-            animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
             animOverrideHandler = GetComponent<AnimOverrideHandler>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
 
@@ -98,7 +95,7 @@ namespace Finisher.Characters.Systems
         {
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
-            resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
@@ -106,7 +103,7 @@ namespace Finisher.Characters.Systems
         {
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
-            resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 

@@ -19,18 +19,19 @@ namespace Finisher.Characters.Weapons
         {
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
+
+            subscribeToDelegates();
         }
 
-        void OnEnable()
+        void subscribeToDelegates()
         {
             combatSystem = GetComponentInParent<CombatSystem>();
             combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
-            StopAllCoroutines();
         }
 
         void OnTriggerEnter(Collider collider)

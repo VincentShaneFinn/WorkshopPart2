@@ -106,6 +106,8 @@ namespace Finisher.Characters.Systems {
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<CameraLookController>();
 
+            subscribeToDelegates();
+
             knife = GetComponentInChildren<Knife>();
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
@@ -118,7 +120,7 @@ namespace Finisher.Characters.Systems {
             decreaseFinisherMeter(config.MaxFinisherMeter); // deplete finisher meter at start
         }
 
-        void OnEnable()
+        private void subscribeToDelegates()
         {
             characterState = GetComponent<CharacterState>();
             characterState.DyingState.SubscribeToDeathEvent(stopGrab);
@@ -128,7 +130,7 @@ namespace Finisher.Characters.Systems {
             GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
         }
 
-        void OnDisable()
+        void OnDestroy()
         {
             characterState.DyingState.UnsubscribeToDeathEvent(stopGrab);
 

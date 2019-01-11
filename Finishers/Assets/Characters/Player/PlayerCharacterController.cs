@@ -57,8 +57,10 @@ namespace Finisher.Characters
 
         #endregion
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+
             Strafing = true;
             playerIP = GetComponent<PlayerMoveInputProcessor>();
             camRig = GetMainCameraTransform();
