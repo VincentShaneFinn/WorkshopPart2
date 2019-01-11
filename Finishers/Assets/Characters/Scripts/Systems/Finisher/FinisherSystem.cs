@@ -235,9 +235,7 @@ namespace Finisher.Characters.Systems {
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
                     grabTarget.GetComponent<HealthSystem>().Kill();
-                    character.SetTriggerOverride(AnimConstants.Parameters.INVULNERABLEACTION_TRIGGER, 
-                        AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX, 
-                        flameAOE.AnimationToPlay);
+                    characterState.EnterInvulnerableActionState(flameAOE.AnimationToPlay);
                 }
             }
         }

@@ -2014,7 +2014,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a557c98f6a79df49a8922d68690ace1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
+  animOverrideControllerConfig: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
+    type: 2}
   stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &3079736054807551836
 MonoBehaviour:
@@ -2037,15 +2038,12 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
-  animSpeedMultiplier: 1
-  runAnimSpeedMultiplier: 1.6
-  AnimatorOverrideControllerConfig: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
-    type: 2}
-  Animator: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
+  animSpeedMultiplier: 1
+  runAnimSpeedMultiplier: 1.6
   CombatTargetIndicator: {fileID: 7755425906318135635, guid: ca6fb907b0c391f41a111fb884d063f1,
     type: 3}
   RotateWithCameraSpeed: 20
@@ -2099,10 +2097,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 9d3f44b43640a2847af99fb282a59570, type: 2}
   maxHealth: 100
   KnockbackLimit: 2
-  FreeKnockbackTime: 1
-  Character: {fileID: 0}
-  Animator: {fileID: 0}
-  CharacterState: {fileID: 0}
+  FreeKnockbackTime: 2
 --- !u!114 &4620075608317267798
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,49 +5,58 @@ namespace Finisher.Characters
 {
     public delegate void CharacterIsDying();
 
+    [RequireComponent(typeof(AnimOverrideHandler))]
     public class CharacterState : MonoBehaviour
     {
-        [HideInInspector] public Animator Animator;
+        [HideInInspector] private Animator animator;
+
+        [SerializeField] private AnimatorOverrideController animOverrideControllerConfig;
+        private AnimOverrideHandler animOverrideHandler;
+
 
         protected void Awake()
         {
-            Animator = GetComponent<Animator>();
-            Assert.IsNotNull(Animator);
+            animator = GetComponent<Animator>();
+            Assert.IsNotNull(animator);
+
+            animOverrideHandler = new AnimOverrideHandler();
+            animOverrideHandler.Initialize(animOverrideControllerConfig, animator);
 
             initialize();
         }
 
         protected void initialize()
         {
-            DyingBool = new DyingState(Animator);
+            DyingBool = new DyingState(animator);
             Grabbing = false;
         }
 
         // The core idea is that something that may want to be visable from an external class should be added to the Character State From SO class overrides
 
-        #region States Stored in Scriptable Object
+        #region Dying State
 
         // while Dying is an aniamtion tree parameter, it should only be set through here, not via the animator
         public virtual DyingState DyingBool { get; set; }
-
-        public virtual bool Grabbing { get; set; }
+        public bool Dying { get { return DyingBool.Dying; } }
+        public void EnterDyingState(AnimationClip animClip)
+        {
+            DyingBool.Dying = true;
+        }
 
         #endregion
 
-        #region Public Interface
-
-        public bool Dying { get { return DyingBool.Dying; } set { DyingBool.Dying = value; } }
+        public virtual bool Grabbing { get; set; }
 
         public bool Stunned
         {
-            get { return Animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
+            get { return animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
             set
             {
                 if (!Uninteruptable)
                 {
-                    Animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                    animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                 }
-                Animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
+                animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
             }
         }
 
@@ -55,19 +64,25 @@ namespace Finisher.Characters
         {
             get
             {
-                return Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
+                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
+                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
             }
         }
-        public bool Dodging { get { return Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
-        public bool FinisherModeActive { get { return Animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
+
+        public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
+        public void EnterDodgingState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
+        }
+
+        public bool FinisherModeActive { get { return animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
 
         public bool Uninteruptable
         {
             get
             {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
-                Animator.GetAnimatorTransitionInfo(0).anyState ||
+                if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
+                animator.GetAnimatorTransitionInfo(0).anyState ||
                 Stunned ||
                 Grabbing)
                 {
@@ -84,8 +99,8 @@ namespace Finisher.Characters
         {
             get
             {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
-                    Animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
+                    animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
                 {
                     return true;
                 }
@@ -95,9 +110,17 @@ namespace Finisher.Characters
                 }
             }
         }
+        public void EnterInvulnerableActionState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.INVULNERABLEACTION_TRIGGER,
+            AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX,
+            animClip);
+        }
 
-        #endregion
-
+        public void EnterKnockbackState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+        }
 
     }
 }

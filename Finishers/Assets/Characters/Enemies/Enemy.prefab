@@ -70,6 +70,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Animator: {fileID: 0}
+  animOverrideControllerConfig: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
+    type: 2}
 --- !u!114 &114825973488843026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -91,15 +93,12 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
-  animSpeedMultiplier: 0.6
-  runAnimSpeedMultiplier: 1.5
-  AnimatorOverrideControllerConfig: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
-    type: 2}
-  Animator: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
   capsuleColliderRadius: 0.5
+  animSpeedMultiplier: 0.6
+  runAnimSpeedMultiplier: 1.5
   baseOffset: -0.04
   stoppingDistance: 1.3
 --- !u!114 &114527653871411836
@@ -133,9 +132,6 @@ MonoBehaviour:
   maxHealth: 100
   KnockbackLimit: 2
   FreeKnockbackTime: 0
-  Character: {fileID: 0}
-  Animator: {fileID: 0}
-  CharacterState: {fileID: 0}
   enemyCanvas: {fileID: 8309976212981156009}
   maxVolatility: 100
 --- !u!114 &1084891823

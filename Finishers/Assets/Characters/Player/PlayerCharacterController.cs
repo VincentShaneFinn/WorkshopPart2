@@ -91,7 +91,7 @@ namespace Finisher.Characters
                 }
 
             }
-            if ((usingLSInput && characterState.Attacking && Animator.IsInTransition(0)) ||
+            if ((usingLSInput && characterState.Attacking && animator.IsInTransition(0)) ||
                 !CombatTargetInRange)
             {
                 SetNewCombatTarget();

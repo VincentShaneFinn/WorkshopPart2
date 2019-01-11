@@ -61,7 +61,7 @@ namespace Finisher.Characters
 
         #region Components 
 
-        [HideInInspector] public Animator Animator;
+        [HideInInspector] protected Animator animator;
         protected Rigidbody rigidBody;
         protected CapsuleCollider capsule;
 
@@ -295,13 +295,13 @@ namespace Finisher.Characters
 			{
 				groundNormal = hitInfo.normal;
 				isGrounded = true;
-				Animator.applyRootMotion = true;
+				animator.applyRootMotion = true;
 			}
 			else
 			{
 				isGrounded = false;
 				groundNormal = Vector3.up;
-				Animator.applyRootMotion = false;
+				animator.applyRootMotion = false;
 			}
 		}
 

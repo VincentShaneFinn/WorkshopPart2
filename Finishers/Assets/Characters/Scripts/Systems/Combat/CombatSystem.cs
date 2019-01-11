@@ -63,7 +63,6 @@ namespace Finisher.Characters.Systems
         [SerializeField] private float attackAnimSpeed = 1f;
 
         [HideInInspector] public Animator Animator;
-        private CharacterAnimator character;
         private CharacterState characterState;
         private CombatSMB[] combatSMBs;
 
@@ -71,7 +70,6 @@ namespace Finisher.Characters.Systems
 
         protected virtual void Start()
         {
-            character = GetComponent<CharacterAnimator>();
             characterState = GetComponent<CharacterState>();
             Animator = GetComponent<Animator>();
             Animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
@@ -147,7 +145,7 @@ namespace Finisher.Characters.Systems
                     break;
             }
 
-            character.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animToUse);
+            characterState.EnterDodgingState(animToUse);
         }
 
         #endregion

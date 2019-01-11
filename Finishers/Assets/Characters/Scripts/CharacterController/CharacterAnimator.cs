@@ -14,8 +14,6 @@ namespace Finisher.Characters
         [SerializeField] protected float animSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using animation speed")]
         [SerializeField] protected float runAnimSpeedMultiplier = 1.6f;
-        [SerializeField] private AnimatorOverrideController AnimatorOverrideControllerConfig;
-        protected AnimatorOverrideController animOverrideController;
 
         public CharAnimStateHandler stateHandler { get; private set; }
 
@@ -34,55 +32,8 @@ namespace Finisher.Characters
         private void componentGetter()
         {
             //Get Components
-            Animator = gameObject.GetComponent<Animator>();
-
-            //Setup a new AnimOverrideController
-
-            animOverrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
-            Animator.runtimeAnimatorController = animOverrideController;
-
-            //fill new override with data
-            var dataOverride = AnimatorOverrideControllerConfig;
-
-            var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(dataOverride.overridesCount);
-            dataOverride.GetOverrides(overrides);
-
-            //Apply it
-            animOverrideController.ApplyOverrides(overrides);
+            animator = gameObject.GetComponent<Animator>();
         }
-
-        #region Public Interface for Overriding Animation Clips
-
-        public void SetOverride(string overrideIndex, AnimationClip animClip)
-        {
-            animOverrideController[overrideIndex] = animClip;
-        }
-
-        public void SetFloatOverride(string floatName, float floatValue, string overrideIndex, AnimationClip animClip)
-        {
-            animOverrideController[overrideIndex] = animClip;
-            Animator.SetFloat(floatName, floatValue);
-        }
-
-        public void SetIntegerOverride(string intName, int intValue, string overrideIndex, AnimationClip animClip)
-        {
-            animOverrideController[overrideIndex] = animClip;
-            Animator.SetInteger(intName, intValue);
-        }
-
-        public void SetBoolOverride(string boolName, bool boolValue, string overrideIndex, AnimationClip animClip)
-        {
-            animOverrideController[overrideIndex] = animClip;
-            Animator.SetBool(boolName, boolValue);
-        }
-
-        public void SetTriggerOverride(string TriggerName, string OverrideIndex, AnimationClip AnimClip)
-        {
-            animOverrideController[OverrideIndex] = AnimClip;
-            Animator.SetTrigger(TriggerName);
-        }
-
-        #endregion
 
         #region Movement Animation Control
 
@@ -96,13 +47,13 @@ namespace Finisher.Characters
         private void updateAnimatorParams()
         {
             // update the animator parameters
-            Animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
-            Animator.SetFloat(AnimConstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
-            Animator.SetBool(AnimConstants.Parameters.ONGROUND_BOOL, isGrounded);
-            Animator.SetBool(AnimConstants.Parameters.STRAFING_BOOL, Strafing);
+            animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
+            animator.SetFloat(AnimConstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
+            animator.SetBool(AnimConstants.Parameters.ONGROUND_BOOL, isGrounded);
+            animator.SetBool(AnimConstants.Parameters.STRAFING_BOOL, Strafing);
             if (!isGrounded)
             {
-                Animator.SetFloat(AnimConstants.Parameters.JUMP_FLOAT, rigidBody.velocity.y);
+                animator.SetFloat(AnimConstants.Parameters.JUMP_FLOAT, rigidBody.velocity.y);
             }
         }
 
@@ -113,11 +64,11 @@ namespace Finisher.Characters
             // and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
             float runCycle =
                 Mathf.Repeat(
-                    Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + runCycleLegOffset, 1);
+                    animator.GetCurrentAnimatorStateInfo(0).normalizedTime + runCycleLegOffset, 1);
             float jumpLeg = (runCycle < HALF ? 1 : -1) * forwardAmount;
             if (isGrounded)
             {
-                Animator.SetFloat(AnimConstants.Parameters.FORWARDLEG_FLOAT, jumpLeg);
+                animator.SetFloat(AnimConstants.Parameters.FORWARDLEG_FLOAT, jumpLeg);
             }
         }
 
@@ -125,7 +76,7 @@ namespace Finisher.Characters
         {
             // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
             // which affects the movement speed because of the root motion.
-            if (isGrounded && Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LOCOMOTION_TAG) && move.magnitude > 0)
+            if (isGrounded && animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LOCOMOTION_TAG) && move.magnitude > 0)
             {
                 if (Running)
                 {
@@ -133,21 +84,21 @@ namespace Finisher.Characters
                     {
                         if (forwardAmount >= .3f)
                         {
-                            Animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, 2);
+                            animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, 2);
                         }
                         else
                         {
                             Running = false;
                         }
-                        Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
+                        animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                     }
                     else
                     {
-                        Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
+                        animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, runAnimSpeedMultiplier);
                     }
                 }
                 else {
-                    Animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
+                    animator.SetFloat(AnimConstants.Parameters.MOVEMENT_SPEED_MULTIPLIER, animSpeedMultiplier);
                 }
             }
             else
@@ -170,11 +121,11 @@ namespace Finisher.Characters
                 Vector3 v;
                 if (Running && !Strafing)
                 {
-                    v = (Animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
+                    v = (animator.deltaPosition * runMoveSpeedMultiplier) / Time.deltaTime;
                 }
                 else
                 {
-                    v = (Animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                    v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
                 }
                 // we preserve the existing y part of the current velocity.
                 v.y = rigidBody.velocity.y;

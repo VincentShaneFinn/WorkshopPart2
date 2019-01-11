@@ -16,15 +16,11 @@ namespace Finisher.Characters.Systems
         protected float currentHealth;
         protected int knockbackCount;
 
-        [HideInInspector] public CharacterAnimator Character;
-        [HideInInspector] public Animator Animator;
-        [HideInInspector] private CharacterState characterState;
+        private CharacterState characterState;
         protected Slider healthSlider;
 
         protected virtual void Start()
         {
-            Character = GetComponent<CharacterAnimator>();
-            Animator = GetComponent<Animator>();
             characterState = GetComponent<CharacterState>();
 
             increaseHealth(maxHealth);
@@ -94,7 +90,7 @@ namespace Finisher.Characters.Systems
         public virtual void Knockback(AnimationClip animClip)
         {
             if (characterState.Dying) { return; }
-            Character.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
+            characterState.EnterKnockbackState(animClip);
             knockbackCount++;
             StartCoroutine(releaseCountAfterDelay());
         }
@@ -115,8 +111,7 @@ namespace Finisher.Characters.Systems
             if (characterState.Dying) { return; }
             currentHealth = 0;
             updateHealthUI();
-            Character.SetOverride(AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
-            characterState.Dying = true;
+            characterState.EnterDyingState(animClip);
         }
 
         #endregion
