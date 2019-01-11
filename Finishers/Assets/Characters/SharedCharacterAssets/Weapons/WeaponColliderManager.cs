@@ -90,12 +90,12 @@ namespace Finisher.Characters.Weapons
 
         IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
         {
-            combatSystem.Animator.speed = 0;
+            combatSystem.GetComponent<Animator>().speed = 0;
             targetHealthSystem.GetComponent<Animator>().speed = 0;
 
             yield return new WaitForSeconds(impactFrameTime);
 
-            combatSystem.Animator.speed = 1;
+            combatSystem.GetComponent<Animator>().speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 1;
         }
 

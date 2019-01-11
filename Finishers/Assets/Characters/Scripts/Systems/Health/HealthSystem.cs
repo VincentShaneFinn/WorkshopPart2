@@ -17,11 +17,13 @@ namespace Finisher.Characters.Systems
         protected int knockbackCount;
 
         private CharacterState characterState;
+        private AnimOverrideHandler animOverrideHandler;
         protected Slider healthSlider;
 
         protected virtual void Start()
         {
             characterState = GetComponent<CharacterState>();
+            animOverrideHandler = GetComponent<AnimOverrideHandler>();
 
             increaseHealth(maxHealth);
         }
@@ -90,9 +92,14 @@ namespace Finisher.Characters.Systems
         public virtual void Knockback(AnimationClip animClip)
         {
             if (characterState.Dying) { return; }
-            characterState.EnterKnockbackState(animClip);
+            enterKnockbackState(animClip);
             knockbackCount++;
             StartCoroutine(releaseCountAfterDelay());
+        }
+
+        private void enterKnockbackState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
         }
 
         // todo, make this care about consective hits or building up a resistance?
@@ -111,7 +118,13 @@ namespace Finisher.Characters.Systems
             if (characterState.Dying) { return; }
             currentHealth = 0;
             updateHealthUI();
-            characterState.EnterDyingState(animClip);
+            enterDyingState(animClip);
+        }
+
+        private void enterDyingState(AnimationClip animClip)
+        {
+            characterState.DyingBool.Dying = true;
+            animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true,AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         #endregion

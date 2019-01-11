@@ -10,7 +10,6 @@ namespace Finisher.Characters
     {
         [HideInInspector] private Animator animator;
 
-        [SerializeField] private AnimatorOverrideController animOverrideControllerConfig;
         private AnimOverrideHandler animOverrideHandler;
 
 
@@ -19,8 +18,7 @@ namespace Finisher.Characters
             animator = GetComponent<Animator>();
             Assert.IsNotNull(animator);
 
-            animOverrideHandler = new AnimOverrideHandler();
-            animOverrideHandler.Initialize(animOverrideControllerConfig, animator);
+            animOverrideHandler = GetComponent<AnimOverrideHandler>();
 
             initialize();
         }
@@ -38,10 +36,6 @@ namespace Finisher.Characters
         // while Dying is an aniamtion tree parameter, it should only be set through here, not via the animator
         public virtual DyingState DyingBool { get; set; }
         public bool Dying { get { return DyingBool.Dying; } }
-        public void EnterDyingState(AnimationClip animClip)
-        {
-            DyingBool.Dying = true;
-        }
 
         #endregion
 
@@ -70,10 +64,6 @@ namespace Finisher.Characters
         }
 
         public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
-        public void EnterDodgingState(AnimationClip animClip)
-        {
-            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
-        }
 
         public bool FinisherModeActive { get { return animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
 
@@ -116,11 +106,5 @@ namespace Finisher.Characters
             AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX,
             animClip);
         }
-
-        public void EnterKnockbackState(AnimationClip animClip)
-        {
-            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
-        }
-
     }
 }

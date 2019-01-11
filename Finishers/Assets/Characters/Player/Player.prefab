@@ -1956,6 +1956,7 @@ GameObject:
   - component: {fileID: 3079736054807551834}
   - component: {fileID: 3706741003250733307}
   - component: {fileID: 1523469320027708110}
+  - component: {fileID: 4940009788626016722}
   - component: {fileID: 3079736054807551836}
   - component: {fileID: 3079736054807551835}
   - component: {fileID: 7070460760452883848}
@@ -2014,9 +2015,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a557c98f6a79df49a8922d68690ace1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
+--- !u!114 &4940009788626016722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5a6fbdf6bca094195234ea0da59c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   animOverrideControllerConfig: {fileID: 22100000, guid: 15213794c414f9248aff1c6525cc5e54,
     type: 2}
-  stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &3079736054807551836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2081,7 +2094,6 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
   timeToClearAttackInputQue: 0.5
   attackAnimSpeed: 0.9
-  Animator: {fileID: 0}
 --- !u!114 &7146908285708924571
 MonoBehaviour:
   m_ObjectHideFlags: 0

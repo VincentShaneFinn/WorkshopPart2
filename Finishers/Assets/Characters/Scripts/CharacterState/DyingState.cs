@@ -6,7 +6,6 @@ namespace Finisher.Characters
     [Serializable]
     public class DyingState
     {
-        private Animator animator;
 
         #region Delegates
 
@@ -16,7 +15,6 @@ namespace Finisher.Characters
 
         public DyingState(Animator anim)
         {
-            animator = anim;
         }
 
         private bool dying = false;
@@ -31,7 +29,6 @@ namespace Finisher.Characters
                     {
                         if (OnCharacterKilled != null)
                         {
-                            animator.SetBool(AnimConstants.Parameters.DYING_BOOL, true);
                             dying = true;
                             OnCharacterKilled();
                         }

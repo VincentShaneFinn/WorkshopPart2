@@ -31,11 +31,11 @@ namespace Finisher.Characters.Systems
         public AttackType CurrentAttackType {
             get
             {
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG))
+                if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG))
                 {
                     return AttackType.LightBlade;
                 }
-                else if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
                 {
                     return AttackType.HeavyBlade;
                 }
@@ -62,7 +62,8 @@ namespace Finisher.Characters.Systems
         [SerializeField] private float timeToClearAttackInputQue = 0;
         [SerializeField] private float attackAnimSpeed = 1f;
 
-        [HideInInspector] public Animator Animator;
+        [HideInInspector] private Animator animator;
+        private AnimOverrideHandler animOverrideHandler;
         private CharacterState characterState;
         private CombatSMB[] combatSMBs;
 
@@ -71,9 +72,10 @@ namespace Finisher.Characters.Systems
         protected virtual void Start()
         {
             characterState = GetComponent<CharacterState>();
-            Animator = GetComponent<Animator>();
-            Animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
-            combatSMBs = Animator.GetBehaviours<CombatSMB>();
+            animator = GetComponent<Animator>();
+            animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, attackAnimSpeed);
+            animOverrideHandler = GetComponent<AnimOverrideHandler>();
+            combatSMBs = animator.GetBehaviours<CombatSMB>();
 
             foreach(CombatSMB smb in combatSMBs)
             {
@@ -95,16 +97,16 @@ namespace Finisher.Characters.Systems
 
         public void LightAttack()
         {
-            Animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
-            Animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
         public void HeavyAttack()
         {
-            Animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
-            Animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + timeToClearAttackInputQue;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
@@ -113,7 +115,7 @@ namespace Finisher.Characters.Systems
         {
             runningResetCR = true;
             yield return new WaitWhile(() => Time.time < resetAttackTriggerTime);
-            Animator.ResetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            animator.ResetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             runningResetCR = false;
         }
 
@@ -145,7 +147,12 @@ namespace Finisher.Characters.Systems
                     break;
             }
 
-            characterState.EnterDodgingState(animToUse);
+            enterDodgingState(animToUse);
+        }
+
+        private void enterDodgingState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
         }
 
         #endregion

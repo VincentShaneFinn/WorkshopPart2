@@ -1,17 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimOverrideHandler
+public class AnimOverrideHandler : MonoBehaviour
 {
-    private AnimatorOverrideController animOverrideControllerConfig;
+    [SerializeField] private AnimatorOverrideController animOverrideControllerConfig;
     private AnimatorOverrideController animOverrideController;
     private Animator animator;
 
-    public void Initialize(AnimatorOverrideController aoc, Animator anim) {
+    void Start() {
 
-        animOverrideControllerConfig = aoc;
-        animator = anim;
+        animator = GetComponent<Animator>();
 
         animOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = animOverrideController;
