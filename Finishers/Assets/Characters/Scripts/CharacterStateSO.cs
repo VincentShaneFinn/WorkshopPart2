@@ -8,13 +8,14 @@ namespace Finisher.Characters
     public class CharacterStateSO : ScriptableObject
     {
 
-        public void Initialize(Animator anim)
-        {
-            DyingBool = new DyingBool(anim);
-        }
+        //public void Initialize(Animator anim)
+        //{
+        //    DyingBool = new DyingBool(anim);
+        //}
 
         // todo create property drawer to allow preview of setting dying, so that the delegate event gets called
-        public DyingBool DyingBool { get; set; }
+        [SerializeField] public DyingBool DyingBool;
+        [SerializeField] public bool Grabbing;
 
     }
 }

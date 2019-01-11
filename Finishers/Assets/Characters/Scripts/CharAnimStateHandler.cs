@@ -8,11 +8,13 @@ namespace Finisher.Characters {
 
         private Animator animator;
         private CharacterAnimator character;
+        private CharacterState characterState;
 
         void Start()
         {
             animator = GetComponent<Animator>();
             character = GetComponent<CharacterAnimator>();
+            characterState = GetComponent<CharacterState>();
         }
 
         void Update()
@@ -24,7 +26,7 @@ namespace Finisher.Characters {
         {
             // these two are in code states becuase they can be in multuple animation states,
             // like grabbing an enemy and stabbing, or staggered but knockedback, returning to locomotion then go to staggered
-            if (character.Grabbing ||
+            if (characterState.Grabbing ||
                 character.Stunned) 
             {
                 character.CanMove = false;

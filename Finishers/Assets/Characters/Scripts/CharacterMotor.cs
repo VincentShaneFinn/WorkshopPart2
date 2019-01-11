@@ -19,7 +19,7 @@ namespace Finisher.Characters
         public float turnAmount { get; private set; }
         public float forwardAmount { get; private set; }
 
-        public bool Grabbing { get; set; }
+        #region Move out of Character Motor
         public bool Attacking
         {
             get
@@ -47,7 +47,7 @@ namespace Finisher.Characters
                 if (Animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
                 Animator.GetAnimatorTransitionInfo(0).anyState ||
                 Stunned ||
-                Grabbing)
+                characterState.Grabbing)
                 {
                     return true;
                 }
@@ -72,7 +72,9 @@ namespace Finisher.Characters
                 }
             }
         }
-        
+
+        #endregion
+
         public virtual bool CanMove
         {
             get { return canMove; }
@@ -171,7 +173,6 @@ namespace Finisher.Characters
             isGrounded = true;
             turnAmount = 0;
             forwardAmount = 0;
-            Grabbing = false;
             Running = false;
         }
 

@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace Finisher.Characters
 {
+    [Serializable]
     public class DyingBool
     {
         private Animator animator;

@@ -38,6 +38,7 @@ namespace Finisher.Cameras
         private float turnSpeedVelocityChange; // The change in the turn speed velocity
 
         private PlayerCharacterController character;
+        [SerializeField] private CharacterStateSO playerState;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -75,7 +76,7 @@ namespace Finisher.Cameras
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
-            if (character.Grabbing)
+            if (playerState.Grabbing)
             {
                 usingAutoCam = false;
             }

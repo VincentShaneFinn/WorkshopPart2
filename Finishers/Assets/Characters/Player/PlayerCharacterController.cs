@@ -219,7 +219,7 @@ namespace Finisher.Characters
                 return;
             }
 
-            if (Grabbing)
+            if (characterState.Grabbing)
             {
                 RotateWithCamRig(true);
                 return;

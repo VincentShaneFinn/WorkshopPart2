@@ -14,14 +14,13 @@ namespace Finisher.Characters.Systems {
         #region Class Variables
 
         public bool FinisherModeActive { get { return character.FinisherModeActive; } }
-        public bool Grabbing { get { return character.Grabbing; } }
         public float CurrentVolatilityDamage
         {
             get
             {
                 if (combatSystem.CurrentAttackType == AttackType.LightBlade)
                 {
-                    if (Grabbing)
+                    if (characterState.Grabbing)
                     {
                         return lightVolatilityDamage * 3;
                     }
@@ -32,7 +31,7 @@ namespace Finisher.Characters.Systems {
                 }
                 else
                 {
-                    if (Grabbing)
+                    if (characterState.Grabbing)
                     {
                         return heavyVolatilityDamage * 3;
                     }
@@ -228,7 +227,7 @@ namespace Finisher.Characters.Systems {
         private void attemptFinisher()
         {
 
-            if (character.Grabbing)
+            if (characterState.Grabbing)
             {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
@@ -335,7 +334,7 @@ namespace Finisher.Characters.Systems {
 
         public void StabbedEnemy(GameObject enemy)
         {
-            if (character.Grabbing)
+            if (characterState.Grabbing)
             {
                 if (enemy == grabTarget.gameObject)
                 {
@@ -407,7 +406,7 @@ namespace Finisher.Characters.Systems {
         {
             grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
-            character.Grabbing = true;
+            characterState.Grabbing = true;
             grabTarget.GetComponent<CharacterMotor>().Stunned = true;
         }
 
@@ -419,7 +418,7 @@ namespace Finisher.Characters.Systems {
             }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
-            character.Grabbing = false;
+            characterState.Grabbing = false;
         }
 
         #endregion
