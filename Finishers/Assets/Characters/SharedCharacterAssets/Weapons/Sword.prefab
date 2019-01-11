@@ -943,8 +943,9 @@ GameObject:
   - component: {fileID: 877261307200454203}
   - component: {fileID: 3965212775926639922}
   - component: {fileID: 1599581485481047705}
+  - component: {fileID: 5068545775141108805}
   m_Layer: 14
-  m_Name: Knife
+  m_Name: Sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1011,4 +1012,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8454502dd519ecd408d161e71d70e517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImpactFrameTime: 0.09
+  impactFrameTime: 0.01
+--- !u!114 &5068545775141108805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268659948991016263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfc493339dead2a42b3cc1504348ffa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

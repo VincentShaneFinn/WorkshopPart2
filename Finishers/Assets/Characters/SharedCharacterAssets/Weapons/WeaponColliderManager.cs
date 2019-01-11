@@ -10,7 +10,7 @@ namespace Finisher.Characters.Weapons
     {
 
         [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
-        [SerializeField] float ImpactFrameTime = .01f;
+        [SerializeField] float impactFrameTime = .01f;
 
         private bool isPlayer = false;
 
@@ -27,13 +27,13 @@ namespace Finisher.Characters.Weapons
         {
             combatSystem = GetComponentInParent<CombatSystem>();
             combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+            finisherSystem = GetComponentInParent<FinisherSystem>();
 
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
 
             if (combatSystem.gameObject.tag == "Player")
             {
-                finisherSystem = GetComponentInParent<FinisherSystem>();
                 isPlayer = true;
             }
 
@@ -55,7 +55,7 @@ namespace Finisher.Characters.Weapons
 
         private void DamageCharacter(HealthSystem targetHealthSystem)
         {
-            if (targetHealthSystem && !targetHealthSystem.character.Dying)
+            if (targetHealthSystem && !targetHealthSystem.character.Dying && !targetHealthSystem.Invulnerable)
             {
                 targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
 
@@ -64,6 +64,7 @@ namespace Finisher.Characters.Weapons
                     if (finisherSystem.FinisherModeActive)
                     {
                         finisherSystem.StabbedEnemy(targetHealthSystem.gameObject);
+                        targetHealthSystem.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
                     }
                     else
                     {
@@ -76,10 +77,6 @@ namespace Finisher.Characters.Weapons
 
                 if (isPlayer)
                 {
-                    if (finisherSystem.FinisherModeActive)
-                    {
-                        targetHealthSystem.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
-                    }
                     StartCoroutine(ImpactFrames(targetHealthSystem));
                 }
             }
@@ -90,7 +87,7 @@ namespace Finisher.Characters.Weapons
             combatSystem.Animator.speed = 0;
             targetHealthSystem.Animator.speed = 0;
 
-            yield return new WaitForSeconds(ImpactFrameTime);
+            yield return new WaitForSeconds(impactFrameTime);
 
             combatSystem.Animator.speed = 1;
             targetHealthSystem.Animator.speed = 1;

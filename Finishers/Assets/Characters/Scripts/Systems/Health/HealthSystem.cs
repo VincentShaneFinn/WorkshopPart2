@@ -8,6 +8,8 @@ namespace Finisher.Characters.Systems
     [RequireComponent(typeof(CharacterAnimator))]
     public abstract class HealthSystem : MonoBehaviour
     {
+        public bool Invulnerable { get { return character.Invulnerable; } }
+
         [SerializeField] private HealthConfig config;
         [SerializeField] float maxHealth = 100f;
         [SerializeField] int KnockbackLimit = 2;
@@ -35,7 +37,7 @@ namespace Finisher.Characters.Systems
         public void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
-            if (character.Invulnerable) { return; }
+            if (Invulnerable) { return; }
 
             decreaseHealth(damage);
 

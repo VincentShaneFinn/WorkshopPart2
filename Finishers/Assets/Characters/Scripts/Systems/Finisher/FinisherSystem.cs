@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using Finisher.Cameras;
 using Finisher.Characters.Finishers;
 using Finisher.Core;
+using Finisher.Characters.Weapons;
 
 namespace Finisher.Characters.Systems {
 
@@ -77,6 +78,10 @@ namespace Finisher.Characters.Systems {
         private Slider finisherMeter;
         private GameObject inFinisherIndicator;
 
+        private Sword sword;
+        private Knife knife;
+        private enum WeaponToggle { Sword, Knife };
+
         private bool L3Pressed = false;
         private bool R3Pressed = false;
 
@@ -110,6 +115,10 @@ namespace Finisher.Characters.Systems {
             character.OnCharacterKilled += stopGrab;
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<CameraLookController>();
+
+            knife = GetComponentInChildren<Knife>();
+            sword = GetComponentInChildren<Sword>();
+            toggleWeapon(WeaponToggle.Sword);
 
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
@@ -415,9 +424,34 @@ namespace Finisher.Characters.Systems {
             animator.SetTrigger(AnimConstants.Parameters.RESETPEACEFULLY_TRIGGER);
             inFinisherIndicator.gameObject.SetActive(finisherModeActive);
 
+            if (enabled)
+            {
+                toggleWeapon(WeaponToggle.Knife);
+            }
+            else
+            {
+                toggleWeapon(WeaponToggle.Sword);
+            }
+
             if (!finisherModeActive)
             {
                 ToggleGrabOff();
+            }
+        }
+
+        private void toggleWeapon(WeaponToggle weaponToggle)
+        {
+            knife.gameObject.SetActive(false);
+            sword.gameObject.SetActive(false);
+
+            switch (weaponToggle)
+            {
+                case WeaponToggle.Sword:
+                    sword.gameObject.SetActive(true);
+                    break;
+                case WeaponToggle.Knife:
+                    knife.gameObject.SetActive(true);
+                    break;
             }
         }
 
