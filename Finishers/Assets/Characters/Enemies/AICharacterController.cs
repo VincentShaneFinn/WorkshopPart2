@@ -120,10 +120,13 @@ namespace Finisher.Characters
             }
         }
 
+
+
         public void SetTarget(Transform target)
         {
             this.target = target;
         }
+
 
         //void OnDrawGizmos()
         //{

@@ -127,7 +127,7 @@ namespace Finisher.Characters.Systems {
 
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
-            GetComponent<PlayerHealthSystem>().OnKnockBack += ToggleGrabOff;
+            GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
         }
 
         void OnDestroy()
@@ -136,7 +136,7 @@ namespace Finisher.Characters.Systems {
 
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;
-            GetComponent<PlayerHealthSystem>().OnKnockBack -= ToggleGrabOff;
+            GetComponent<HealthSystem>().OnKnockBack -= ToggleGrabOff;
         }
 
         void Update()

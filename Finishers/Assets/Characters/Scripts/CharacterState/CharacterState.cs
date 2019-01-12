@@ -5,19 +5,19 @@ namespace Finisher.Characters
 {
     public delegate void CharacterIsDying();
 
-    [RequireComponent(typeof(AnimOverrideHandler))]
+    [RequireComponent(typeof(AnimOverrideSetter))]
     public class CharacterState : MonoBehaviour
     {
         [HideInInspector] private Animator animator;
 
-        private AnimOverrideHandler animOverrideHandler;
+        private AnimOverrideSetter animOverrideHandler;
 
         void Awake()
         {
             animator = GetComponent<Animator>();
             Assert.IsNotNull(animator);
 
-            animOverrideHandler = GetComponent<AnimOverrideHandler>();
+            animOverrideHandler = GetComponent<AnimOverrideSetter>();
 
             initialize();
         }

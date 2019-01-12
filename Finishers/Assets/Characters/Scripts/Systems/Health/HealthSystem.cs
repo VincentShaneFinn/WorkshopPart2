@@ -14,14 +14,28 @@ namespace Finisher.Characters.Systems
         protected float currentVolatility { get; set; }
         protected int knockbackCount;
 
+        #region Delegates
+
+        public delegate void KnockedBack();
+        public event KnockedBack OnKnockBack;
+        private void CallKnockbackEvent()
+        {
+            if (OnKnockBack != null)
+            {
+                OnKnockBack();
+            }
+        }
+
+        #endregion
+
         private CharacterState characterState;
-        private AnimOverrideHandler animOverrideHandler;
+        private AnimOverrideSetter animOverrideHandler;
         protected Slider healthSlider;
 
         protected virtual void Start()
         {
             characterState = GetComponent<CharacterState>();
-            animOverrideHandler = GetComponent<AnimOverrideHandler>();
+            animOverrideHandler = GetComponent<AnimOverrideSetter>();
 
             increaseHealth(config.MaxHealth);
             decreaseVolatility(config.MaxVolatility);
@@ -126,10 +140,13 @@ namespace Finisher.Characters.Systems
         {
             Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
         }
-        public virtual void Knockback(AnimationClip animClip)
+        public void Knockback(AnimationClip animClip)
         {
             if (characterState.Dying) { return; }
+
             enterKnockbackState(animClip);
+            CallKnockbackEvent();
+
             knockbackCount++;
             StartCoroutine(releaseCountAfterDelay());
         }

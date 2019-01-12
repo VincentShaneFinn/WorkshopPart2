@@ -16,6 +16,7 @@ namespace Finisher.Characters
         [SerializeField] float attackRadius = 1.5f;
         [Tooltip("Will use player as the default Combat Target")]
         [SerializeField] GameObject combatTarget = null;
+        [SerializeField] CharacterStateSO playerState;
 
         AICharacterController character;
         private CombatSystem combatSystem;
@@ -37,33 +38,17 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            testInput();
+
             // todo make a state machine
             pursueNearbyPlayer();
             //if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
             //{
-                attackPlayerIfNear();
+            //     attackPlayerIfNear();
             //}
-        }
-
-        private void testInput()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
+            if (!playerState.DyingState.Dying)
             {
-                character.CanMove = false;
-            }
-            if (Input.GetKeyUp(KeyCode.F))
-            {
-                character.CanMove = true;
-            }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                character.CanRotate = false;
-            }
-            if (Input.GetKeyUp(KeyCode.G))
-            {
-                character.CanRotate = true;
-            }
+                attackPlayerIfNear();
+            }    
         }
 
         private void pursueNearbyPlayer()
@@ -93,13 +78,7 @@ namespace Finisher.Characters
                     combatSystem.LightAttack();
                 }
                 currentState = EnemyState.Attacking;
-                StartCoroutine(TempStopAttackingInSeconds());
             }
-        }
-        IEnumerator TempStopAttackingInSeconds()
-        {
-            yield return new WaitForSeconds(.3f);
-            currentState = EnemyState.idle;
         }
     }
 }

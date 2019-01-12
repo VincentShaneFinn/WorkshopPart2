@@ -128,6 +128,7 @@ MonoBehaviour:
   chaseRadius: 7
   attackRadius: 1.3
   combatTarget: {fileID: 0}
+  playerState: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &2548389234887140761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,11 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
-  maxHealth: 100
-  KnockbackLimit: 2
-  FreeKnockbackTime: 0
   enemyCanvas: {fileID: 8309976212981156009}
-  maxVolatility: 100
 --- !u!114 &1084891823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,8 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
-  timeToClearAttackInputQue: 0
-  attackAnimSpeed: 0.5
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0

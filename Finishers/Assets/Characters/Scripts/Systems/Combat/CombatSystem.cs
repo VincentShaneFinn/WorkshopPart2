@@ -59,7 +59,7 @@ namespace Finisher.Characters.Systems
         private bool runningResetCR = false;
 
         [HideInInspector] protected Animator animator;
-        private AnimOverrideHandler animOverrideHandler;
+        private AnimOverrideSetter animOverrideHandler;
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
 
@@ -70,7 +70,7 @@ namespace Finisher.Characters.Systems
             characterState = GetComponent<CharacterState>();
             animator = GetComponent<Animator>();
             animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
-            animOverrideHandler = GetComponent<AnimOverrideHandler>();
+            animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
 
             foreach(CombatSMB smb in combatSMBs)

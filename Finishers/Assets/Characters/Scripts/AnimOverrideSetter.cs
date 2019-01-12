@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimOverrideHandler : MonoBehaviour
+public class AnimOverrideSetter : MonoBehaviour
 {
     [SerializeField] private AnimatorOverrideController animOverrideControllerConfig;
     private AnimatorOverrideController animOverrideController;
