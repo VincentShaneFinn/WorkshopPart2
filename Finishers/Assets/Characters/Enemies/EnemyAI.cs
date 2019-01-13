@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Finisher.Characters.Systems;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Enemies
 {
     public enum EnemyState { idle, Patrolling, Chasing, Attacking }
 
@@ -16,12 +15,10 @@ namespace Finisher.Characters
         [SerializeField] float attackRadius = 1.5f;
         [Tooltip("Will use player as the default Combat Target")]
         [SerializeField] GameObject combatTarget = null;
+        [SerializeField] CharacterStateSO playerState;
 
         AICharacterController character;
         private CombatSystem combatSystem;
-
-        private EnemyState currentState;
-
 
         // Use this for initialization
         void Start()
@@ -37,33 +34,13 @@ namespace Finisher.Characters
         // Update is called once per frame
         void Update()
         {
-            testInput();
+
             // todo make a state machine
             pursueNearbyPlayer();
-            //if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
-            //{
+            if (!playerState.DyingState.Dying)
+            {
                 attackPlayerIfNear();
-            //}
-        }
-
-        private void testInput()
-        {
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                character.CanMove = false;
-            }
-            if (Input.GetKeyUp(KeyCode.F))
-            {
-                character.CanMove = true;
-            }
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                character.CanRotate = false;
-            }
-            if (Input.GetKeyUp(KeyCode.G))
-            {
-                character.CanRotate = true;
-            }
+            }    
         }
 
         private void pursueNearbyPlayer()
@@ -92,14 +69,7 @@ namespace Finisher.Characters
                 {
                     combatSystem.LightAttack();
                 }
-                currentState = EnemyState.Attacking;
-                StartCoroutine(TempStopAttackingInSeconds());
             }
-        }
-        IEnumerator TempStopAttackingInSeconds()
-        {
-            yield return new WaitForSeconds(.3f);
-            currentState = EnemyState.idle;
         }
     }
 }

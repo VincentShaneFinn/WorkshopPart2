@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Enemies
 {
     public class AICharacterController : CharacterAnimator
     {
@@ -50,8 +50,10 @@ namespace Finisher.Characters
 
         #endregion
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
             //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -68,7 +70,7 @@ namespace Finisher.Characters
         {
             if (agent.isActiveAndEnabled)
             {
-                if(Dying) {
+                if(characterState.Dying) {
                     agent.SetDestination(transform.position);
                     return;
                 }
@@ -118,10 +120,13 @@ namespace Finisher.Characters
             }
         }
 
+
+
         public void SetTarget(Transform target)
         {
             this.target = target;
         }
+
 
         //void OnDrawGizmos()
         //{

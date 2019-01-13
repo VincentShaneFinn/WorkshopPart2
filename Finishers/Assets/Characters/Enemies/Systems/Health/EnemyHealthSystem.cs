@@ -2,26 +2,23 @@
 using UnityEngine.UI;
 
 using Finisher.UI;
+using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Systems
+namespace Finisher.Characters.Enemies.Systems
 {
     public class EnemyHealthSystem : HealthSystem
     {
         [SerializeField] private EnemyUI enemyCanvas;
-        [SerializeField] float maxVolatility = 100f;
-
-        protected float currentVolatility;
 
         private Slider volatilityMeter;
 
 
         protected override void Start()
         {
-            base.Start();
-
             setEnemySliders();
-            setVolatilityMeter();
-            decreaseVolatility(maxVolatility);
+            setupVolatilityMeterToggle();
+
+            base.Start();
         }
 
         private void setEnemySliders()
@@ -33,7 +30,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private void setVolatilityMeter()
+        private void setupVolatilityMeterToggle()
         {
             if (volatilityMeter)
             {
@@ -45,49 +42,6 @@ namespace Finisher.Characters.Systems
                 }
             }
         }
-
-        #region Change Volatility
-
-        public override void DamageVolatility(float amount)
-        {
-            increaseVolatility(amount);
-            checkVolatilityFull();
-        }
-
-        private void increaseVolatility(float amount)
-        {
-            currentVolatility += amount;
-            if (currentVolatility > maxVolatility - Mathf.Epsilon)
-            {
-                currentVolatility = maxVolatility;
-            }
-            updateVolatilityUI();
-        }
-
-        private void decreaseVolatility(float amount)
-        {
-            currentVolatility -= amount;
-            if (currentVolatility <= Mathf.Epsilon)
-            {
-                currentVolatility = 0;
-            }
-            updateVolatilityUI();
-        }
-
-        public float GetVolaitilityAsPercent()
-        {
-            return currentVolatility / maxVolatility;
-        }
-
-        private void checkVolatilityFull()
-        {
-            if (currentVolatility >= maxVolatility)
-            {
-                //character.Staggered = true; // todo protect from leaving grab mode?
-            }
-        }
-
-        #endregion
 
         #region Override Kill(animclip)
 
@@ -101,7 +55,7 @@ namespace Finisher.Characters.Systems
 
         #region Enemy UI
 
-        private void updateVolatilityUI()
+        protected override void updateVolatilityUI()
         {
             if (volatilityMeter)
             {

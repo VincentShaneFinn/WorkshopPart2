@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4766649399272452}
   - component: {fileID: 4856822250100709866}
+  - component: {fileID: 6746336452500533811}
+  - component: {fileID: 4163102736935993905}
   - component: {fileID: 114825973488843026}
   - component: {fileID: 114527653871411836}
   - component: {fileID: 2548389234887140761}
@@ -56,6 +58,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6746336452500533811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bc646fbd99570847b080a9caebb2592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4163102736935993905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5a6fbdf6bca094195234ea0da59c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animOverrideControllerConfig: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
+    type: 2}
 --- !u!114 &114825973488843026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Strafing: 0
+  CurrentLookTarget: {fileID: 0}
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
   gravityMultiplier: 2
@@ -76,15 +105,12 @@ MonoBehaviour:
   moveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
-  animSpeedMultiplier: 0.6
-  runAnimSpeedMultiplier: 1.5
-  AnimatorOverrideControllerConfig: {fileID: 22100000, guid: 918bbf9dffe703d4ea64fd68932a7253,
-    type: 2}
-  Animator: {fileID: 0}
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
   capsuleColliderRadius: 0.5
+  animSpeedMultiplier: 0.6
+  runAnimSpeedMultiplier: 1.5
   baseOffset: -0.04
   stoppingDistance: 1.3
 --- !u!114 &114527653871411836
@@ -102,6 +128,7 @@ MonoBehaviour:
   chaseRadius: 7
   attackRadius: 1.3
   combatTarget: {fileID: 0}
+  playerState: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &2548389234887140761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,13 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
-  maxHealth: 100
-  KnockbackLimit: 2
-  FreeKnockbackTime: 1
-  character: {fileID: 0}
-  Animator: {fileID: 0}
   enemyCanvas: {fileID: 8309976212981156009}
-  maxVolatility: 100
 --- !u!114 &1084891823
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,9 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
-  timeToClearAttackInputQue: 0
-  attackAnimSpeed: 0.5
-  Animator: {fileID: 0}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0

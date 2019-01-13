@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 using Finisher.Core;
+using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Systems
+namespace Finisher.Characters.Player.Systems
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(PlayerCharacterController))]
@@ -10,7 +12,10 @@ namespace Finisher.Characters.Systems
     public class PlayerCombatSystem : CombatSystem
     {
 
-        private PlayerCharacterController character; // A reference to the ThirdPersonCharacter on the object
+        [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
+        [SerializeField] float impactFrameTime = .01f;
+
+        private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private FinisherSystem finisherSystem;
 
         protected override void Start()
@@ -18,7 +23,7 @@ namespace Finisher.Characters.Systems
             base.Start();
 
             // get the third person character ( this should never be null due to require component )
-            character = GetComponent<PlayerCharacterController>();
+            playerCharacter = GetComponent<PlayerCharacterController>();
             finisherSystem = GetComponent<FinisherSystem>();
             startFixedDeltaTime = Time.fixedDeltaTime;
         }
@@ -27,7 +32,7 @@ namespace Finisher.Characters.Systems
         {
             if (GameManager.instance.GamePaused) { return; }
 
-            if (character.isGrounded)
+            if (playerCharacter.isGrounded)
             {
                 processCombatInput();
             }
@@ -117,6 +122,38 @@ namespace Finisher.Characters.Systems
                 Time.timeScale = 1;
                 Time.fixedDeltaTime = startFixedDeltaTime;
             }
+        }
+
+        public override void DealtDamage(HealthSystem target)
+        {
+            if (finisherSystem)
+            {
+                if (characterState.FinisherModeActive)
+                {
+                    finisherSystem.StabbedEnemy(target.gameObject);
+                    target.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
+                }
+                else
+                {
+                    if (!characterState.FinisherModeActive)
+                    {
+                        finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
+                    }
+                }
+            }
+
+            StartCoroutine(ImpactFrames(target));
+        }
+
+        IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
+        {
+            animator.speed = 0;
+            targetHealthSystem.GetComponent<Animator>().speed = 0;
+
+            yield return new WaitForSeconds(impactFrameTime);
+
+            animator.GetComponent<Animator>().speed = 1;
+            targetHealthSystem.GetComponent<Animator>().speed = 1;
         }
 
     }

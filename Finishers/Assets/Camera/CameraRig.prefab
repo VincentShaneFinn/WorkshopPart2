@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4900345407462588}
+  - component: {fileID: 1175803329713370024}
   m_Layer: 0
   m_Name: Pivot
   m_TagString: Untagged
@@ -27,10 +28,22 @@ Transform:
   m_LocalPosition: {x: 0, y: 1.565, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7650847299250805513}
+  - {fileID: 5396163540051251724}
   m_Father: {fileID: 4299258274184632}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1175803329713370024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263573014730678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f37bb5e66fa4ea4181a95b152efa1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1489285622189716
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,7 +56,6 @@ GameObject:
   - component: {fileID: 54031346373556820}
   - component: {fileID: 114590938643267900}
   - component: {fileID: 114724886324918150}
-  - component: {fileID: 9205562777949044545}
   m_Layer: 0
   m_Name: CameraRig
   m_TagString: Untagged
@@ -111,6 +123,7 @@ MonoBehaviour:
   timeUntilAutoCam: 1
   targetVelocityLowerLimit: 10
   smoothTurnFactor: 0.2
+  playerState: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &114724886324918150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,22 +141,57 @@ MonoBehaviour:
   sphereCastRadius: 0.1
   visualiseInEditor: 0
   closestDistance: 0.5
---- !u!114 &9205562777949044545
-MonoBehaviour:
+--- !u!1 &1955245525106492712
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489285622189716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a10072e0a4f9b794e89b6b696d1cfc6e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gameManager: {fileID: 755630127305961269, guid: 4c2cec9c7076433448ee5002c76aba44,
-    type: 3}
-  controlMethodDetector: {fileID: 3287274411487818261, guid: d8e9a34c335835746beaed00ddba1519,
-    type: 3}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5396163540051251724}
+  - component: {fileID: 4528270921938534398}
+  m_Layer: 0
+  m_Name: AnimatedCameraLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5396163540051251724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955245525106492712}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7650847299250805513}
+  m_Father: {fileID: 4900345407462588}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &4528270921938534398
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955245525106492712}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fe781c57f33d71a48a68410661d10a7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3298248469058211840
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,11 +217,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3298248469058211840}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4900345407462588}
+  m_Father: {fileID: 5396163540051251724}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &3314777869079347704

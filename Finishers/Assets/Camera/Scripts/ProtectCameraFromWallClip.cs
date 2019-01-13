@@ -30,8 +30,8 @@ namespace Finisher.Cameras
         {
             // find the camera in the object hierarchy
             cam = GetComponentInChildren<Camera>().transform;
-            pivot = cam.parent;
-            originalDist = cam.localPosition.magnitude;
+            pivot = GetComponentInChildren<Pivot>().transform;
+            originalDist = (pivot.position - cam.position).magnitude;
             currentDist = originalDist;
 
             // create a new RayHitComparer
@@ -110,7 +110,8 @@ namespace Finisher.Cameras
             currentDist = Mathf.SmoothDamp(currentDist, targetDist, ref moveVelocity,
                                            currentDist > targetDist ? clipMoveTime : returnTime);
             currentDist = Mathf.Clamp(currentDist, closestDistance, originalDist);
-            cam.localPosition = -Vector3.forward*currentDist;
+
+            cam.localPosition = Vector3.forward*(originalDist - currentDist);
         }
 
 

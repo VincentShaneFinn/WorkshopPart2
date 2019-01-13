@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Player
 {
 
     [DisallowMultipleComponent]

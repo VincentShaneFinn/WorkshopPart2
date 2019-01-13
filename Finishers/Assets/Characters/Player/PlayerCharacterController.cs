@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Player
 {
     public class PlayerCharacterController : CharacterAnimator
     {
@@ -38,9 +38,9 @@ namespace Finisher.Characters
 
         public Transform GetMainCameraTransform()
         {
-            if (GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>())
+            if (GameObject.FindObjectOfType<Finisher.Cameras.CameraLookController>())
             {
-                return GameObject.FindObjectOfType<Finisher.Cameras.FreeLookCam>().gameObject.transform;
+                return GameObject.FindObjectOfType<Finisher.Cameras.CameraLookController>().gameObject.transform;
             }
             else if (Camera.main != null)
             {
@@ -57,8 +57,10 @@ namespace Finisher.Characters
 
         #endregion
 
-        void Start()
+        protected override void Start()
         {
+            base.Start();
+
             Strafing = true;
             playerIP = GetComponent<PlayerMoveInputProcessor>();
             camRig = GetMainCameraTransform();
@@ -68,10 +70,6 @@ namespace Finisher.Characters
         {
             SetCurrentCombatTarget();
             UpdateCombatTargetIndicator();
-        }
-
-        public void ManualUpdate() // currently updated with camera look
-        {
             SetCharacterRotation();
         }
 
@@ -83,7 +81,7 @@ namespace Finisher.Characters
             if (CombatTarget)
             {
                 float distanceFromTarget = Vector3.Distance(CombatTarget.position, transform.position);
-                if (CombatTarget.gameObject.GetComponent<CharacterMotor>().Dying ||
+                if (CombatTarget.gameObject.GetComponent<CharacterState>().Dying ||
                     distanceFromTarget > MAXCOMBATTARGETRANGE)
                 {
                     CombatTarget = null;
@@ -95,7 +93,7 @@ namespace Finisher.Characters
                 }
 
             }
-            if ((usingLSInput && Attacking && Animator.IsInTransition(0)) ||
+            if ((usingLSInput && characterState.Attacking && animator.IsInTransition(0)) ||
                 !CombatTargetInRange)
             {
                 SetNewCombatTarget();
@@ -144,9 +142,9 @@ namespace Finisher.Characters
             foreach (Collider enemyCollider in enemyColliders)
             {
 
-                var targetMotor = enemyCollider.gameObject.GetComponent<CharacterMotor>();
+                var targetState = enemyCollider.gameObject.GetComponent<CharacterState>();
                 if (enemyCollider.gameObject.GetComponent<CharacterMotor>() == null) { continue; }
-                else if (targetMotor.Dying) { continue; }
+                else if (targetState.Dying) { continue; }
 
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
@@ -219,11 +217,11 @@ namespace Finisher.Characters
 
         private void SetCharacterRotation()
         {
-            if (Dying) {
+            if (characterState.Dying) {
                 return;
             }
 
-            if (Grabbing)
+            if (characterState.Grabbing)
             {
                 RotateWithCamRig(true);
                 return;
@@ -231,10 +229,10 @@ namespace Finisher.Characters
 
             if (Strafing)
             {
-                if (Dodging) {
+                if (characterState.Dodging) {
                     RotateWithCamRig();
                 }
-                else if(Attacking)
+                else if(characterState.Attacking)
                 {
                     if (CombatTargetInRange)
                     {
@@ -252,7 +250,7 @@ namespace Finisher.Characters
             }
             else
             {
-                if (Dodging)
+                if (characterState.Dodging)
                 {
                     RotateWithCamRig();
                 }
