@@ -2,9 +2,11 @@
 using UnityEngine.UI;
 
 using Finisher.Cameras;
-using Finisher.Characters.Finishers;
 using Finisher.Core;
-using Finisher.Characters.Weapons;
+using Finisher.Characters.Weapons; //TODO: Consider a way to do it via animation layer
+using Finisher.Characters.Player; //TODO: Consider rewire or player specific, and Enemy Specific Finisher Systems
+using Finisher.Characters.Player.Finishers;
+using Finisher.Characters.Enemies.Systems;
 
 namespace Finisher.Characters.Systems {
 

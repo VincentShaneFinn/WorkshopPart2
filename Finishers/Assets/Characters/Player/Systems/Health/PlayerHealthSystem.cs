@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Finisher.Characters.Systems
+using Finisher.Characters.Systems;
+
+namespace Finisher.Characters.Player.Systems
 {
     public class PlayerHealthSystem : HealthSystem
     {

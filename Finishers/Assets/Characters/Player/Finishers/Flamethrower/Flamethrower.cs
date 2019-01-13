@@ -2,7 +2,7 @@
 
 using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Finishers
+namespace Finisher.Characters.Player.Finishers
 {
     public class Flamethrower : MonoBehaviour
     {

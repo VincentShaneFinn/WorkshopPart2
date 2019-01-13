@@ -2,8 +2,9 @@
 using UnityEngine.UI;
 
 using Finisher.UI;
+using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Systems
+namespace Finisher.Characters.Enemies.Systems
 {
     public class EnemyHealthSystem : HealthSystem
     {

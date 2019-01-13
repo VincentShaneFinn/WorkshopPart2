@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 using Finisher.Characters.Systems;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Enemies
 {
     public enum EnemyState { idle, Patrolling, Chasing, Attacking }
 
@@ -20,9 +19,6 @@ namespace Finisher.Characters
 
         AICharacterController character;
         private CombatSystem combatSystem;
-
-        private EnemyState currentState;
-
 
         // Use this for initialization
         void Start()
@@ -41,10 +37,6 @@ namespace Finisher.Characters
 
             // todo make a state machine
             pursueNearbyPlayer();
-            //if (currentState != EnemyState.Attacking && combatSystem.isActiveAndEnabled) // should be in range, then start attacking if we arent already
-            //{
-            //     attackPlayerIfNear();
-            //}
             if (!playerState.DyingState.Dying)
             {
                 attackPlayerIfNear();
@@ -77,7 +69,6 @@ namespace Finisher.Characters
                 {
                     combatSystem.LightAttack();
                 }
-                currentState = EnemyState.Attacking;
             }
         }
     }

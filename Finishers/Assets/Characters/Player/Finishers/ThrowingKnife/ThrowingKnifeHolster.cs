@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Finisher.Characters.Finishers
+namespace Finisher.Characters.Player.Finishers
 {
     public class ThrowingKnifeHolster : MonoBehaviour
     {

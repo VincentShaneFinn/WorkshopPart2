@@ -3,17 +3,17 @@ using UnityEngine;
 
 using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Finishers {
+namespace Finisher.Characters.Player.Finishers {
     public class FlameAOE : MonoBehaviour
     {
         [SerializeField] private float damage = 10f;
-        [SerializeField] private float knockbackRange = 2f;
-        [SerializeField] private float aoeRadius = 5f;
+        //[SerializeField] private float knockbackRange = 2f;
+        //[SerializeField] private float aoeRadius = 5f;
         [SerializeField] private float destroyInNSeconds = 1f;
         [SerializeField] private AnimationClip animationToPlay; public AnimationClip AnimationToPlay { get { return animationToPlay; } }
         // todo make configs for Finisher
 
-        private List<Transform> myEnemies;
+        //private List<Transform> myEnemies;
 
         private CapsuleCollider capsuleCollider;
 
@@ -23,7 +23,7 @@ namespace Finisher.Characters.Finishers {
             //capsuleCollider.enabled = true;
             //capsuleCollider.isTrigger = true;
 
-            myEnemies = new List<Transform>(); // todo add knockback and dont damage the same enemy twice like from throwweapon
+            //myEnemies = new List<Transform>(); // todo add knockback and dont damage the same enemy twice like from throwweapon
 
         }
 

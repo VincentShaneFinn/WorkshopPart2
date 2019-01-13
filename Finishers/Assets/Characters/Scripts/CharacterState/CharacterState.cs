@@ -28,6 +28,8 @@ namespace Finisher.Characters
             Grabbing = false;
         }
 
+        #region States that you must Get and Set from Here
+
         // The core idea is that something that may want to be visable from an external class should be added to the Character State From SO class overrides
 
         #region Dying State
@@ -52,6 +54,32 @@ namespace Finisher.Characters
                 animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
             }
         }
+
+        public bool Invulnerable
+        {
+            get
+            {
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
+                    animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+        public void EnterInvulnerableActionState(AnimationClip animClip)
+        {
+            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.INVULNERABLEACTION_TRIGGER,
+            AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX,
+            animClip);
+        }
+
+        #endregion
+
+        #region States that you can Get here, but whose animation triggers are set somewhere else
 
         public bool Attacking
         {
@@ -84,26 +112,7 @@ namespace Finisher.Characters
             }
         }
 
-        public bool Invulnerable
-        {
-            get
-            {
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        public void EnterInvulnerableActionState(AnimationClip animClip)
-        {
-            animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.INVULNERABLEACTION_TRIGGER,
-            AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX,
-            animClip);
-        }
+        #endregion
+
     }
 }

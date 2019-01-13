@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 using Finisher.Core;
-using System.Collections;
+using Finisher.Characters.Systems;
 
-namespace Finisher.Characters.Systems
+namespace Finisher.Characters.Player.Systems
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(PlayerCharacterController))]

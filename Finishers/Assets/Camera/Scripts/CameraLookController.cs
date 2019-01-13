@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using Finisher.Characters;
+using Finisher.Characters.Player; //TODO: Close but not yet fully independant from our player
 using Finisher.Core;
 
 namespace Finisher.Cameras

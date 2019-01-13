@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Finisher.Characters
+namespace Finisher.Characters.Player
 {
     public class PlayerCharacterController : CharacterAnimator
     {
