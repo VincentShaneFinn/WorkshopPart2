@@ -66,6 +66,7 @@ namespace Finisher.Characters.Player.Finishers {
                     else
                     {
                         healthSystem.DamageHealth(damage);
+                        healthSystem.Knockback();
                     }
                 }
             }

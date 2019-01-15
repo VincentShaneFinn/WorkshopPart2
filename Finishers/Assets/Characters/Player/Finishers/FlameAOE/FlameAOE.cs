@@ -40,6 +40,7 @@ namespace Finisher.Characters.Player.Finishers {
             if (healthSystem) // hit an enemy
             {
                 healthSystem.DamageHealth(damage);
+                healthSystem.Knockback();
             }
         }
 
