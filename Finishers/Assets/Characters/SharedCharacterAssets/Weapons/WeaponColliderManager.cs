@@ -7,8 +7,19 @@ namespace Finisher.Characters.Weapons
     [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
-        private CombatSystem combatSystem;
+        FinisherSystem finisherSystem;
+        CombatSystem combatSystem;
         private BoxCollider boxCollider;
+
+        public delegate void HitCharacterDelegete(HealthSystem targetHealthSystem);
+        public event HitCharacterDelegete OnHitCharacter;
+        public void CallHitCharacterEvent(HealthSystem targetHealthSystem)
+        {
+            if (OnHitCharacter != null)
+            {
+                OnHitCharacter(targetHealthSystem);
+            }
+        }
 
         void Start()
         {
@@ -26,12 +37,33 @@ namespace Finisher.Characters.Weapons
         void subscribeToDelegates()
         {
             combatSystem = GetComponentInParent<CombatSystem>();
-            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+            if (combatSystem)
+            {
+                combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
+
+                OnHitCharacter += combatSystem.HitCharacter;
+            }
+
+            finisherSystem = GetComponentInParent<FinisherSystem>();
+            if (finisherSystem)
+            {
+                OnHitCharacter += finisherSystem.HitCharacter;
+            }
         }
 
         void OnDestroy()
         {
-            combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
+            if (combatSystem)
+            {
+                combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
+
+                OnHitCharacter -= combatSystem.HitCharacter;
+            }
+
+            if (finisherSystem)
+            {
+                OnHitCharacter -= finisherSystem.HitCharacter;
+            }
         }
 
         void OnTriggerEnter(Collider collider)
@@ -40,16 +72,11 @@ namespace Finisher.Characters.Weapons
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
 
-            DamageCharacter(collider.gameObject.GetComponent<HealthSystem>(), collider.gameObject.GetComponent<CharacterState>());
-        }
-
-        private void DamageCharacter(HealthSystem targetHealthSystem, CharacterState targetState)
-        {
+            HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
+            CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
             if (targetHealthSystem && !targetState.Dying && !targetState.Invulnerable)
             {
-                targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
-
-                combatSystem.DealtDamage(targetHealthSystem);
+                CallHitCharacterEvent(targetHealthSystem);
             }
         }
 

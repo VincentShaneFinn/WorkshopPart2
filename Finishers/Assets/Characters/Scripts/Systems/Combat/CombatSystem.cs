@@ -24,7 +24,10 @@ namespace Finisher.Characters.Systems
         public event DamageFrameChanged OnDamageFrameChanged;
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
         {
-            OnDamageFrameChanged(isDamageFrame);
+            if (OnDamageFrameChanged != null)
+            {
+                OnDamageFrameChanged(isDamageFrame);
+            }
         }
 
         public AttackType CurrentAttackType {
@@ -174,8 +177,9 @@ namespace Finisher.Characters.Systems
         }
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void DealtDamage(HealthSystem target)
+        public virtual void HitCharacter(HealthSystem target)
         {
+            target.DamageHealth(CurrentAttackDamage);
             return;
         }
 

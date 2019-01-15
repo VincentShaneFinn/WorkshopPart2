@@ -130,6 +130,7 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
+
         }
 
         void OnDestroy()
@@ -358,6 +359,23 @@ namespace Finisher.Characters.Systems {
             float spawnDistanceFromEnemy = enemy.GetComponent<CapsuleCollider>().radius + 1f;
             Vector3 targetSpawnPoint = enemy.transform.position + Vector3.up - (enemy.transform.forward * spawnDistanceFromEnemy);
             Instantiate(flamethrower, targetSpawnPoint, freeLookCam.transform.rotation);
+        }
+
+        #endregion
+
+        #region Hit Character
+
+        public void HitCharacter(HealthSystem targetHealthSystem)
+        {
+            if (characterState.FinisherModeActive)
+            {
+                StabbedEnemy(targetHealthSystem.gameObject);
+                targetHealthSystem.DamageVolatility(CurrentVolatilityDamage);
+            }
+            else
+            {
+                GainFinisherMeter(CurrentFinisherGain);
+            }
         }
 
         #endregion

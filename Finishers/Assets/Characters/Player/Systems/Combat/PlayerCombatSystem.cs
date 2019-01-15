@@ -124,24 +124,9 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void DealtDamage(HealthSystem target)
+        public override void HitCharacter(HealthSystem target)
         {
-            if (finisherSystem)
-            {
-                if (characterState.FinisherModeActive)
-                {
-                    finisherSystem.StabbedEnemy(target.gameObject);
-                    target.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
-                }
-                else
-                {
-                    if (!characterState.FinisherModeActive)
-                    {
-                        finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
-                    }
-                }
-            }
-
+            base.HitCharacter(target);
             StartCoroutine(ImpactFrames(target));
         }
 
