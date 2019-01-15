@@ -4,33 +4,16 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6624719855217977526}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3984f5721be73e3409a7b97b249e11ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6624719855217977526
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 4268659948991016263, guid: f4c8e89ffc7985540b621b4a637a5756,
-    type: 3}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5280632809974542895}
-  m_Layer: 0
-  m_Name: Knife Variant
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
 --- !u!1001 &6976893862068700657
-Prefab:
+PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
@@ -114,5 +97,9 @@ Prefab:
     m_RemovedComponents:
     - {fileID: 5068545775141108805, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
-  m_RootGameObject: {fileID: 0}
-  m_IsPrefabAsset: 0
+--- !u!1 &6624719855217977526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4268659948991016263, guid: f4c8e89ffc7985540b621b4a637a5756,
+    type: 3}
+  m_PrefabInstance: {fileID: 6976893862068700657}
+  m_PrefabAsset: {fileID: 0}
