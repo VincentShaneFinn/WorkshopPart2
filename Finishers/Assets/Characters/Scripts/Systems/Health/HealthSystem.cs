@@ -52,11 +52,6 @@ namespace Finisher.Characters.Systems
 
             decreaseHealth(damage);
 
-            if (knockbackCount < config.KnockbackLimit)
-            {
-                Knockback();
-            }
-
             if (currentHealth <= 0)
             {
                 Kill();
@@ -136,13 +131,15 @@ namespace Finisher.Characters.Systems
         // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
-        public void Knockback()
+        public void Knockback(AnimationClip animClip = null)
         {
-            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
-        }
-        public void Knockback(AnimationClip animClip)
-        {
-            if (characterState.Dying) { return; }
+            //TODO: Add a method to override the knockback limiter
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)];
+            }
 
             enterKnockbackState(animClip);
             CallKnockbackEvent();
@@ -163,13 +160,15 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public void Kill()
-        {
-            Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)]);
-        }
-        public virtual void Kill(AnimationClip animClip)
+        public virtual void Kill(AnimationClip animClip = null)
         {
             if (characterState.Dying) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            }
+
             currentHealth = 0;
             updateHealthUI();
             enterDyingState(animClip);

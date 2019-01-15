@@ -180,6 +180,7 @@ namespace Finisher.Characters.Systems
         public virtual void HitCharacter(HealthSystem target)
         {
             target.DamageHealth(CurrentAttackDamage);
+            target.Knockback();
             return;
         }
 
