@@ -9,17 +9,8 @@ namespace Finisher.Characters.Weapons
     {
         FinisherSystem finisherSystem;
         CombatSystem combatSystem;
+        CharacterState characterState;
         private BoxCollider boxCollider;
-
-        public delegate void HitCharacterDelegete(HealthSystem targetHealthSystem);
-        public event HitCharacterDelegete OnHitCharacter;
-        public void CallHitCharacterEvent(HealthSystem targetHealthSystem)
-        {
-            if (OnHitCharacter != null)
-            {
-                OnHitCharacter(targetHealthSystem);
-            }
-        }
 
         void Start()
         {
@@ -31,39 +22,21 @@ namespace Finisher.Characters.Weapons
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
 
+            combatSystem = GetComponentInParent<CombatSystem>();
+            finisherSystem = GetComponentInParent<FinisherSystem>();
+            characterState = GetComponentInParent<CharacterState>();
+
             subscribeToDelegates();
         }
 
-        void subscribeToDelegates()
+        private void subscribeToDelegates()
         {
-            combatSystem = GetComponentInParent<CombatSystem>();
-            if (combatSystem)
-            {
-                combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
-
-                OnHitCharacter += combatSystem.HitCharacter;
-            }
-
-            finisherSystem = GetComponentInParent<FinisherSystem>();
-            if (finisherSystem)
-            {
-                OnHitCharacter += finisherSystem.HitCharacter;
-            }
+            combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
         }
 
         void OnDestroy()
         {
-            if (combatSystem)
-            {
-                combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
-
-                OnHitCharacter -= combatSystem.HitCharacter;
-            }
-
-            if (finisherSystem)
-            {
-                OnHitCharacter -= finisherSystem.HitCharacter;
-            }
+            combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
         }
 
         void OnTriggerEnter(Collider collider)
@@ -74,9 +47,17 @@ namespace Finisher.Characters.Weapons
 
             HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
             CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
+
             if (targetHealthSystem && !targetState.Dying && !targetState.Invulnerable)
             {
-                CallHitCharacterEvent(targetHealthSystem);
+                if (characterState.FinisherModeActive)
+                {
+                    finisherSystem.HitCharacter(targetHealthSystem);
+                }
+                else
+                {
+                    combatSystem.HitCharacter(targetHealthSystem);
+                }
             }
         }
 

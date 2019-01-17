@@ -46,9 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1335ac973cf9dd24c8a85939042a62d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  knockbackRange: 2
-  aoeRadius: 5
+  executionDamageSystem: {fileID: 11400000, guid: a3a29c45052fc9d44afa921a97416dce,
+    type: 2}
   destroyInNSeconds: 1
   animationToPlay: {fileID: 7400000, guid: 1091e567ba2e27847a427b1c4624b061, type: 3}
 --- !u!54 &7763179379847101351

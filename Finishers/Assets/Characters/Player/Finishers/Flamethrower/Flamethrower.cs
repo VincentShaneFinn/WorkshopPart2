@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
 using Finisher.Characters.Systems;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Player.Finishers
 {
     public class Flamethrower : MonoBehaviour
     {
-        [SerializeField] private float damage = 10f;
+        [SerializeField] private FinisherSkillsDamageSystem flamethrowerDamageSystem;
+        public float FinisherMeterCost { get { return flamethrowerDamageSystem.FinisherMeterCost; } }
+
         [SerializeField] private float destroyInNSeconds = 1f;
 
         // Start is called before the first frame update
@@ -19,11 +22,10 @@ namespace Finisher.Characters.Player.Finishers
         {
             if (col.gameObject.tag == "Player") { return; }
 
-            var healthSystem = col.gameObject.GetComponent<HealthSystem>();
-            if (healthSystem) // hit an enemy
+            var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
+            if (targetHealthSystem) // hit an enemy
             {
-                healthSystem.DamageHealth(damage);
-                healthSystem.Knockback();
+                flamethrowerDamageSystem.HitCharacter(targetHealthSystem);
             }
         }
 
