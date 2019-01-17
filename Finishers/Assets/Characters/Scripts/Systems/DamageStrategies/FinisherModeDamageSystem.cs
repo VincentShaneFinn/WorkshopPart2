@@ -6,9 +6,9 @@ namespace Finisher.Characters.Systems.Strategies
     {
         [SerializeField] private float volatilityDamage = 10f;
 
-        protected void DealVolatilityDamage(HealthSystem target)
+        protected void DealVolatilityDamage(HealthSystem targetHealthSystem)
         {
-            target.DamageVolatility(volatilityDamage);
+            targetHealthSystem.DamageVolatility(volatilityDamage);
         }
     }
 }

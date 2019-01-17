@@ -16,7 +16,6 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        private FinisherSystem finisherSystem;
 
         protected override void Start()
         {

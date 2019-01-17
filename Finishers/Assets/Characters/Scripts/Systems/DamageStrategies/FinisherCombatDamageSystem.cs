@@ -1,15 +1,15 @@
-﻿namespace Finisher.Characters.Systems.Strategies
+﻿using UnityEngine;
+
+namespace Finisher.Characters.Systems.Strategies
 {
+    [CreateAssetMenu(menuName = ("Finisher/Systems/Damage/FinisherCombat"))]
     public class FinisherCombatDamageSystem : FinisherModeDamageSystem
     {
-        public override void Hit(HealthSystem target)
+        public override void HitCharacter(HealthSystem targetHealthSystem)
         {
-            if (target)
-            {
-                DealDamage(target);
-                DealKnockback(target);
-                DealVolatilityDamage(target);
-            }
+            DealDamage(targetHealthSystem);
+            DealKnockback(targetHealthSystem);
+            DealVolatilityDamage(targetHealthSystem);
         }
     }
 }

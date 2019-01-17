@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using Finisher.Characters.Systems.Strategies;
+
 namespace Finisher.Characters.Systems
 {
 
@@ -16,6 +18,8 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
+        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
         [SerializeField] CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
@@ -44,20 +48,7 @@ namespace Finisher.Characters.Systems
                 return AttackType.None;
             }
         }
-        public float CurrentAttackDamage {
-            get
-            {
-                switch (CurrentAttackType)
-                {
-                    case AttackType.LightBlade:
-                        return config.LightAttackDamage;
-                    case AttackType.HeavyBlade:
-                        return config.HeavyAttackDamage;
-                    default:
-                        return 0;
-                }
-            }
-        }
+
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
 
@@ -65,6 +56,7 @@ namespace Finisher.Characters.Systems
         private AnimOverrideSetter animOverrideHandler;
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
+        protected FinisherSystem finisherSystem;
 
         #endregion
 
@@ -75,6 +67,7 @@ namespace Finisher.Characters.Systems
             animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
+            finisherSystem = GetComponent<FinisherSystem>();
 
             foreach(CombatSMB smb in combatSMBs)
             {
@@ -177,11 +170,27 @@ namespace Finisher.Characters.Systems
         }
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void HitCharacter(HealthSystem target)
+        public virtual void HitCharacter(HealthSystem targetHealthSystem)
         {
-            target.DamageHealth(CurrentAttackDamage);
-            target.Knockback();
-            return;
+            if (CurrentAttackType == AttackType.LightBlade)
+            {
+                lightAttackDamageSystem.HitCharacter(targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(lightAttackDamageSystem);
+            }
+            else if (CurrentAttackType == AttackType.HeavyBlade)
+            {
+                heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(heavyAttackDamageSystem);
+            }
+        }
+
+        //TODO: think of a better way or use observer at least
+        private void CallCombatSystemDealtDamageListeners(CoreCombatDamageSystem coreCombatDamageSystem)
+        {
+            if (finisherSystem)
+            {
+                finisherSystem.GainFinisherMeter(coreCombatDamageSystem.FinisherMeterGainAmount);
+            }
         }
 
         #endregion

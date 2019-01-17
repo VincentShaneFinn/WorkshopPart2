@@ -7,6 +7,7 @@ using Finisher.Characters.Weapons; //TODO: Consider a way to do it via animation
 using Finisher.Characters.Player; //TODO: Consider rewire or player specific, and Enemy Specific Finisher Systems
 using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Systems {
 
@@ -15,48 +16,9 @@ namespace Finisher.Characters.Systems {
 
         #region Class Variables
 
-        public float CurrentVolatilityDamage
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.LightVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.LightVolatilityDamage;
-                    }
-                }
-                else
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.HeavyVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.HeavyVolatilityDamage;
-                    }
-                }
-            }
-        }
-        public float CurrentFinisherGain
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    return config.LightFinisherGain;
-                }
-                else
-                {
-                    return config.HeavyFinisherGain;
-                }
-            }
-        }
+        [SerializeField] private FinisherConfig config;
+        [SerializeField] private FinisherModeDamageSystem lightFinisherAttackDamageSystem;
+        [SerializeField] private FinisherModeDamageSystem heavyFinisherAttackDamageSystem;
 
         #region Delegates
 
@@ -86,8 +48,6 @@ namespace Finisher.Characters.Systems {
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
-
-        [SerializeField] private FinisherConfig config;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
@@ -367,14 +327,15 @@ namespace Finisher.Characters.Systems {
 
         public void HitCharacter(HealthSystem targetHealthSystem)
         {
-            if (characterState.FinisherModeActive)
+            StabbedEnemy(targetHealthSystem.gameObject);
+
+            if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {
-                StabbedEnemy(targetHealthSystem.gameObject);
-                targetHealthSystem.DamageVolatility(CurrentVolatilityDamage);
+                lightFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
             }
-            else
+            else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
             {
-                GainFinisherMeter(CurrentFinisherGain);
+                heavyFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
             }
         }
 

@@ -6,29 +6,26 @@ namespace Finisher.Characters.Systems.Strategies {
 
         [SerializeField] private float baseDamage = 10f;
         [SerializeField] private bool dealsKnockback = true;
-        [SerializeField] private float knockbackRange = 0;
-        [SerializeField] private ParticleSystem particleSystem = null;
+        //[SerializeField] private float knockbackRange = 0;
+        //[SerializeField] private ParticleSystem particleSystem = null;
 
-        public virtual void Hit(HealthSystem target)
+        public virtual void HitCharacter(HealthSystem targetHealthSytem)
         {
-            if (target)
-            {
-                DealDamage(target);
-                DealKnockback(target);
-            }
+            DealDamage(targetHealthSytem);
+            DealKnockback(targetHealthSytem);
         }
 
-        protected void DealDamage(HealthSystem target)
+        protected void DealDamage(HealthSystem targetHealthSystem)
         {
-            target.DamageHealth(baseDamage);
+            targetHealthSystem.DamageHealth(baseDamage);
         }
 
-        protected void DealKnockback(HealthSystem target)
+        protected void DealKnockback(HealthSystem targetHealthSystem)
         {
             //TODO: allow health systems knockback to take a movementVector
             if (dealsKnockback)
             {
-                target.Knockback();
+                targetHealthSystem.Knockback();
             }
         }
 
