@@ -2,13 +2,14 @@
 using UnityEngine;
 
 using Finisher.Characters.Systems;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Player.Finishers {
     public class ThrowingWeapon : MonoBehaviour
     {
-        [SerializeField] private float damage = 10f;
+        [SerializeField] private ThrowingWeaponDamageSystem throwingWeaponDamageSystem;
+        public float FinisherMeterCost { get { return throwingWeaponDamageSystem.FinisherMeterCost; } }
         [SerializeField] private float moveSpeed = 75f;
-        [SerializeField] private AnimationClip StandingDeathAnimClip;
         [Tooltip("This helps make sure the throwable can have a wide hitbox, but prevent it looking like you missed when they hand on the wall")]
         [SerializeField] private float xClamp = .2f;
         private bool beginSpecialAttack = false;
@@ -56,17 +57,13 @@ namespace Finisher.Characters.Player.Finishers {
             if (collision.gameObject.tag == "Enemy") // hit an enemy
             {
                 Physics.IgnoreCollision(collision.collider, boxCollider);
-                var healthSystem = collision.gameObject.GetComponent<HealthSystem>();
-                if (healthSystem)
+                var targetHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
+                if (targetHealthSystem)
                 {
-                    if (healthSystem.WillDamageKill(damage))
+                    throwingWeaponDamageSystem.HitCharacter(targetHealthSystem);
+                    if (targetHealthSystem.GetComponent<CharacterState>().Dying)
                     {
-                        KillEnemyAndMakeChild(collision, healthSystem);
-                    }
-                    else
-                    {
-                        healthSystem.DamageHealth(damage);
-                        healthSystem.Knockback();
+                        MakeChild(collision);
                     }
                 }
             }
@@ -76,13 +73,12 @@ namespace Finisher.Characters.Player.Finishers {
             }
         }
 
-        private void KillEnemyAndMakeChild(Collision collision, HealthSystem healthSystem)
+        private void MakeChild(Collision targetCol)
         {
-            collision.transform.parent = transform;
-            healthSystem.Kill(StandingDeathAnimClip);
-            myEnemies.Add(collision.transform);
+            targetCol.transform.parent = transform;
+            myEnemies.Add(targetCol.transform);
 
-            Vector3 pos = collision.transform.localPosition;
+            Vector3 pos = targetCol.transform.localPosition;
             pos.z = .5f;
             pos.x = Mathf.Clamp(pos.x, -xClamp, xClamp); // allow for 
 

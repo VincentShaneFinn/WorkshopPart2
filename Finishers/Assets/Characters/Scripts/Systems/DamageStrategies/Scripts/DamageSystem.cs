@@ -4,7 +4,7 @@ namespace Finisher.Characters.Systems.Strategies {
     public abstract class DamageSystem : ScriptableObject
     {
 
-        [SerializeField] private float baseDamage = 10f;
+        [SerializeField] protected float baseDamage = 10f;
         [SerializeField] private bool dealsKnockback = true;
         //[SerializeField] private float knockbackRange = 0;
         //[SerializeField] private ParticleSystem particleSystem = null;
