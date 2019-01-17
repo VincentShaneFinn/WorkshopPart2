@@ -2067,8 +2067,40 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 755649148, guid: 8e444295d7d741e498008585d4500440, type: 3}
+      propertyPath: HealthSlider
+      value: 
+      objectReference: {fileID: 3816523489062601651}
+    - target: {fileID: 755649148, guid: 8e444295d7d741e498008585d4500440, type: 3}
+      propertyPath: FinisherSlider
+      value: 
+      objectReference: {fileID: 3816523489062601650}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e444295d7d741e498008585d4500440, type: 3}
+--- !u!114 &3816523489062601650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2133046496009551825, guid: 8e444295d7d741e498008585d4500440,
+    type: 3}
+  m_PrefabInstance: {fileID: 3816523489062601649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3816523489062601651 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2987658725565367798, guid: 8e444295d7d741e498008585d4500440,
+    type: 3}
+  m_PrefabInstance: {fileID: 3816523489062601649}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6183612315363211928
 Transform:
   m_ObjectHideFlags: 0
