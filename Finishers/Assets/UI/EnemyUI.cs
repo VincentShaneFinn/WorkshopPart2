@@ -7,5 +7,6 @@ namespace Finisher.UI
     {
         public Image HealthBar;
         public Image VolatilityMeter;
+        public Image VolatilityMeterMask;
     }
 }
