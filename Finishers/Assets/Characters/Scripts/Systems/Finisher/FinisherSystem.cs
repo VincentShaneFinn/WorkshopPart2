@@ -91,6 +91,7 @@ namespace Finisher.Characters.Systems {
             OnFinisherModeToggled += toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
 
+            combatSystem.OnHitEnemy += GainFinisherMeter;
         }
 
         void OnDestroy()
@@ -100,6 +101,8 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack -= ToggleGrabOff;
+
+            combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
 
         void Update()

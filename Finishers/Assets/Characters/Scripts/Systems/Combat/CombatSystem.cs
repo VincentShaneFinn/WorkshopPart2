@@ -24,6 +24,8 @@ namespace Finisher.Characters.Systems
 
         public bool IsDamageFrame { get; private set; }
 
+        #region Delegates
+
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
@@ -33,6 +35,18 @@ namespace Finisher.Characters.Systems
                 OnDamageFrameChanged(isDamageFrame);
             }
         }
+
+        public delegate void HitEnemyDelegate(float amount);
+        public event HitEnemyDelegate OnHitEnemy;
+        private void CallCombatSystemDealtDamageListeners(CoreCombatDamageSystem coreCombatDamageSystem)
+        {
+            if (OnHitEnemy != null)
+            {
+                OnHitEnemy(coreCombatDamageSystem.FinisherMeterGainAmount);
+            }
+        }
+
+        #endregion
 
         public AttackType CurrentAttackType {
             get
@@ -181,15 +195,6 @@ namespace Finisher.Characters.Systems
             {
                 heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(heavyAttackDamageSystem);
-            }
-        }
-
-        //TODO: think of a better way or use observer at least
-        private void CallCombatSystemDealtDamageListeners(CoreCombatDamageSystem coreCombatDamageSystem)
-        {
-            if (finisherSystem)
-            {
-                finisherSystem.GainFinisherMeter(coreCombatDamageSystem.FinisherMeterGainAmount);
             }
         }
 
