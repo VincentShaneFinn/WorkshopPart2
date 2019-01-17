@@ -7,8 +7,8 @@ namespace Finisher.Characters.Player.Finishers
 {
     public class Flamethrower : MonoBehaviour
     {
-        [SerializeField] private FinisherSkillsDamageSystem finisherSkillsDamageSystem;
-        public float FinisherMeterCost { get { return finisherSkillsDamageSystem.FinisherMeterCost; } }
+        [SerializeField] private FinisherSkillsDamageSystem flamethrowerDamageSystem;
+        public float FinisherMeterCost { get { return flamethrowerDamageSystem.FinisherMeterCost; } }
 
         [SerializeField] private float destroyInNSeconds = 1f;
 
@@ -25,7 +25,7 @@ namespace Finisher.Characters.Player.Finishers
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
             if (targetHealthSystem) // hit an enemy
             {
-                finisherSkillsDamageSystem.HitCharacter(targetHealthSystem);
+                flamethrowerDamageSystem.HitCharacter(targetHealthSystem);
             }
         }
 
