@@ -38,7 +38,7 @@ namespace Finisher.Characters.Systems {
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private CameraLookController freeLookCam;
-        private Slider finisherMeter;
+        private Image finisherMeter;
 
         private GameObject inFinisherIndicator;
 
@@ -74,7 +74,7 @@ namespace Finisher.Characters.Systems {
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
 
-            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
+            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherBar;
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
@@ -441,7 +441,7 @@ namespace Finisher.Characters.Systems {
         {
             if (finisherMeter)
             {
-                finisherMeter.value = GetFinisherMeterAsPercent();
+                finisherMeter.fillAmount = GetFinisherMeterAsPercent();
             }
         }
     }

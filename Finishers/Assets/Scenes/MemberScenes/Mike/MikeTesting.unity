@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 173035959}
   - component: {fileID: 173035958}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
 --- !u!222 &173035960
 CanvasRenderer:
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 183593512}
   - component: {fileID: 183593511}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -484,12 +484,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 787662546}
+      objectReference: {fileID: 918760263}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 1767948563}
+      objectReference: {fileID: 567830685}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 453498850}
   - component: {fileID: 453498849}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 455654192}
   - component: {fileID: 455654191}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -783,12 +783,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 725239448}
+      objectReference: {fileID: 1880984745}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 1798345886}
+      objectReference: {fileID: 1038769404}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -814,7 +814,7 @@ GameObject:
   - component: {fileID: 533641823}
   - component: {fileID: 533641822}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -928,7 +928,7 @@ Transform:
   - {fileID: 939626747}
   - {fileID: 1577326384}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &567830682
 GameObject:
@@ -943,7 +943,7 @@ GameObject:
   - component: {fileID: 567830685}
   - component: {fileID: 567830684}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1140,7 +1140,7 @@ GameObject:
   - component: {fileID: 649342787}
   - component: {fileID: 649342786}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1320,7 +1320,7 @@ GameObject:
   - component: {fileID: 658952177}
   - component: {fileID: 658952176}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1490,12 +1490,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 890854226}
+      objectReference: {fileID: 1929572900}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 649342787}
+      objectReference: {fileID: 2081237259}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -1527,7 +1527,7 @@ GameObject:
   - component: {fileID: 725239448}
   - component: {fileID: 725239447}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1644,7 +1644,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4299258274184632, guid: 14d91adb48ddce44aa00bdcc76a209ea, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4299258274184632, guid: 14d91adb48ddce44aa00bdcc76a209ea, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1673,7 +1673,7 @@ GameObject:
   - component: {fileID: 787662546}
   - component: {fileID: 787662545}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1934,12 +1934,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 533641823}
+      objectReference: {fileID: 2129698415}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 1632058817}
+      objectReference: {fileID: 1557757832}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -1971,7 +1971,7 @@ GameObject:
   - component: {fileID: 843736134}
   - component: {fileID: 843736133}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: FinisherBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2036,7 +2036,7 @@ MonoBehaviour:
   m_FillMethod: 1
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 1
   m_UseSpriteMesh: 0
 --- !u!222 &843736135
 CanvasRenderer:
@@ -2059,7 +2059,7 @@ GameObject:
   - component: {fileID: 890854226}
   - component: {fileID: 890854225}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2229,12 +2229,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 658952177}
+      objectReference: {fileID: 2079085706}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 455654192}
+      objectReference: {fileID: 183593512}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -2356,7 +2356,7 @@ GameObject:
   - component: {fileID: 918760263}
   - component: {fileID: 918760262}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2490,6 +2490,75 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aa343b0d61eaf048a1cd72005f70a75, type: 3}
+--- !u!1001 &1001103926
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 755630127305961269, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c2cec9c7076433448ee5002c76aba44, type: 3}
 --- !u!1001 &1002515856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2527,7 +2596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4398972994343254, guid: 05b2feebfe0a48f4c8318b6c739abd97, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05b2feebfe0a48f4c8318b6c739abd97, type: 3}
@@ -2625,12 +2694,12 @@ PrefabInstance:
         type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 1034408845}
+      objectReference: {fileID: 1694727456}
     - target: {fileID: 8309976212981156009, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: VolatilityMeter
       value: 
-      objectReference: {fileID: 1354891829}
+      objectReference: {fileID: 453498850}
     - target: {fileID: 7145878174533838421, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
       propertyPath: m_IsActive
@@ -2668,7 +2737,7 @@ GameObject:
   - component: {fileID: 1034408845}
   - component: {fileID: 1034408844}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2757,7 +2826,7 @@ GameObject:
   - component: {fileID: 1038769404}
   - component: {fileID: 1038769403}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2936,7 +3005,7 @@ GameObject:
   - component: {fileID: 1354891829}
   - component: {fileID: 1354891828}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3025,7 +3094,7 @@ GameObject:
   - component: {fileID: 1459715600}
   - component: {fileID: 1459715599}
   m_Layer: 0
-  m_Name: HealthBar
+  m_Name: HealthBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3205,7 +3274,7 @@ GameObject:
   - component: {fileID: 1557757832}
   - component: {fileID: 1557757831}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3314,7 +3383,7 @@ Transform:
   - {fileID: 1010765716}
   - {fileID: 795385034}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1576260744 stripped
 RectTransform:
@@ -3426,7 +3495,7 @@ GameObject:
   - component: {fileID: 1632058817}
   - component: {fileID: 1632058816}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3521,7 +3590,7 @@ GameObject:
   - component: {fileID: 1694727456}
   - component: {fileID: 1694727455}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3615,7 +3684,7 @@ GameObject:
   - component: {fileID: 1767948563}
   - component: {fileID: 1767948562}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3704,7 +3773,7 @@ GameObject:
   - component: {fileID: 1798345886}
   - component: {fileID: 1798345885}
   m_Layer: 0
-  m_Name: VolatilityBar
+  m_Name: VolatilityBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3793,7 +3862,7 @@ GameObject:
   - component: {fileID: 1880984745}
   - component: {fileID: 1880984744}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3881,7 +3950,7 @@ GameObject:
   - component: {fileID: 1929572900}
   - component: {fileID: 1929572899}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3969,7 +4038,7 @@ GameObject:
   - component: {fileID: 1961472916}
   - component: {fileID: 1961472915}
   m_Layer: 0
-  m_Name: FinisherBar
+  m_Name: FinisherBarMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4021,7 +4090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.32941177}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -4058,7 +4127,7 @@ GameObject:
   - component: {fileID: 2079085706}
   - component: {fileID: 2079085705}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4146,7 +4215,7 @@ GameObject:
   - component: {fileID: 2081237259}
   - component: {fileID: 2081237258}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: VolatilityBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4234,7 +4303,7 @@ GameObject:
   - component: {fileID: 2129698415}
   - component: {fileID: 2129698414}
   m_Layer: 0
-  m_Name: Fill
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4478,7 +4547,7 @@ PrefabInstance:
     - target: {fileID: 3079736054807551834, guid: f83221d9e6756614f869c751e8d09e4f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3079736054807551834, guid: f83221d9e6756614f869c751e8d09e4f,
         type: 3}
@@ -4580,7 +4649,7 @@ PrefabInstance:
     - target: {fileID: 3816523488526915845, guid: 8e444295d7d741e498008585d4500440,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3816523488526915845, guid: 8e444295d7d741e498008585d4500440,
         type: 3}
@@ -4715,11 +4784,11 @@ PrefabInstance:
     - target: {fileID: 755649148, guid: 8e444295d7d741e498008585d4500440, type: 3}
       propertyPath: HealthBar
       value: 
-      objectReference: {fileID: 1459715600}
+      objectReference: {fileID: 173035959}
     - target: {fileID: 755649148, guid: 8e444295d7d741e498008585d4500440, type: 3}
       propertyPath: FinisherBar
       value: 
-      objectReference: {fileID: 1961472916}
+      objectReference: {fileID: 843736134}
     - target: {fileID: 4147193946049232745, guid: 8e444295d7d741e498008585d4500440,
         type: 3}
       propertyPath: m_IsActive
@@ -4744,7 +4813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &9070960248953908851
 PrefabInstance:
@@ -4796,7 +4865,7 @@ PrefabInstance:
     - target: {fileID: 9070960248242127860, guid: 108dfdcfefc692745bdf0a54bd6d0957,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9070960248242127860, guid: 108dfdcfefc692745bdf0a54bd6d0957,
         type: 3}

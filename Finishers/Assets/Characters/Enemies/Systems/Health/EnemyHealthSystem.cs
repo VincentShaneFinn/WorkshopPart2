@@ -10,8 +10,7 @@ namespace Finisher.Characters.Enemies.Systems
     {
         [SerializeField] private EnemyUI enemyCanvas;
 
-        private Slider volatilityMeter;
-
+        private Image volatilityMeter;
 
         protected override void Start()
         {
@@ -25,7 +24,7 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (enemyCanvas)
             {
-                healthSlider = enemyCanvas.HealthSlider;
+                healthBar = enemyCanvas.HealthBar;
                 volatilityMeter = enemyCanvas.VolatilityMeter;
             }
         }
@@ -59,7 +58,7 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (volatilityMeter)
             {
-                volatilityMeter.value = GetVolaitilityAsPercent();
+                volatilityMeter.fillAmount = GetVolaitilityAsPercent();
             }
         }
 

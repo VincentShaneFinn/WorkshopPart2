@@ -11,8 +11,8 @@ namespace Finisher.UI
         [SerializeField] public GameObject PauseMenuObject;
 
         // todo encapsulate into a bottom left player ui class
-        [SerializeField] public Slider HealthSlider;
-        [SerializeField] public Slider FinisherSlider;
+        [SerializeField] public Image HealthBar;
+        [SerializeField] public Image FinisherBar;
         [SerializeField] public Image InFinisherIndicator;
     }
 }
