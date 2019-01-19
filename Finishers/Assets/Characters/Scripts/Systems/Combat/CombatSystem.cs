@@ -70,6 +70,7 @@ namespace Finisher.Characters.Systems
         private AnimOverrideSetter animOverrideHandler;
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
+        private DodgeSMB[] dodgeSMBs;
         protected FinisherSystem finisherSystem;
 
         #endregion
@@ -81,11 +82,17 @@ namespace Finisher.Characters.Systems
             animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
+            dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
             finisherSystem = GetComponent<FinisherSystem>();
 
             foreach(CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners += DodgeEnd;
             }
 
             IsDamageFrame = false;
@@ -96,6 +103,11 @@ namespace Finisher.Characters.Systems
             foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners -= DamageEnd;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners -= DodgeEnd;
             }
         }
 
@@ -181,6 +193,16 @@ namespace Finisher.Characters.Systems
                 CallDamageFrameChangedEvent(false);
                 IsDamageFrame = false;
             }
+        }
+
+        void DodgeStart()
+        {
+            characterState.IsDodgeFrame = true;
+        }
+
+        void DodgeEnd()
+        {
+            characterState.IsDodgeFrame = false;
         }
 
         // todo make this and the class abstract when we add an enemy combat system
