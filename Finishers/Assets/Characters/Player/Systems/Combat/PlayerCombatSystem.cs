@@ -16,7 +16,6 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        private FinisherSystem finisherSystem;
 
         protected override void Start()
         {
@@ -124,24 +123,9 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void DealtDamage(HealthSystem target)
+        public override void HitCharacter(HealthSystem target)
         {
-            if (finisherSystem)
-            {
-                if (characterState.FinisherModeActive)
-                {
-                    finisherSystem.StabbedEnemy(target.gameObject);
-                    target.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
-                }
-                else
-                {
-                    if (!characterState.FinisherModeActive)
-                    {
-                        finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
-                    }
-                }
-            }
-
+            base.HitCharacter(target);
             StartCoroutine(ImpactFrames(target));
         }
 

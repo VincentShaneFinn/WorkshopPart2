@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+using Finisher.Characters.Systems.Strategies;
+
 namespace Finisher.Characters.Systems
 {
 
@@ -16,16 +18,35 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
+        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
         [SerializeField] CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
+
+        #region Delegates
 
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
         {
-            OnDamageFrameChanged(isDamageFrame);
+            if (OnDamageFrameChanged != null)
+            {
+                OnDamageFrameChanged(isDamageFrame);
+            }
         }
+
+        public delegate void HitEnemyDelegate(float amount);
+        public event HitEnemyDelegate OnHitEnemy;
+        private void CallCombatSystemDealtDamageListeners(CoreCombatDamageSystem coreCombatDamageSystem)
+        {
+            if (OnHitEnemy != null)
+            {
+                OnHitEnemy(coreCombatDamageSystem.FinisherMeterGainAmount);
+            }
+        }
+
+        #endregion
 
         public AttackType CurrentAttackType {
             get
@@ -41,20 +62,7 @@ namespace Finisher.Characters.Systems
                 return AttackType.None;
             }
         }
-        public float CurrentAttackDamage {
-            get
-            {
-                switch (CurrentAttackType)
-                {
-                    case AttackType.LightBlade:
-                        return config.LightAttackDamage;
-                    case AttackType.HeavyBlade:
-                        return config.HeavyAttackDamage;
-                    default:
-                        return 0;
-                }
-            }
-        }
+
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
 
@@ -62,6 +70,8 @@ namespace Finisher.Characters.Systems
         private AnimOverrideSetter animOverrideHandler;
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
+        private DodgeSMB[] dodgeSMBs;
+        protected FinisherSystem finisherSystem;
 
         #endregion
 
@@ -72,10 +82,17 @@ namespace Finisher.Characters.Systems
             animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
+            dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
+            finisherSystem = GetComponent<FinisherSystem>();
 
             foreach(CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners += DodgeEnd;
             }
 
             IsDamageFrame = false;
@@ -86,6 +103,11 @@ namespace Finisher.Characters.Systems
             foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners -= DamageEnd;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners -= DodgeEnd;
             }
         }
 
@@ -173,10 +195,29 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        // todo make this and the class abstract when we add an enemy combat system
-        public virtual void DealtDamage(HealthSystem target)
+        void DodgeStart()
         {
-            return;
+            characterState.IsDodgeFrame = true;
+        }
+
+        void DodgeEnd()
+        {
+            characterState.IsDodgeFrame = false;
+        }
+
+        // todo make this and the class abstract when we add an enemy combat system
+        public virtual void HitCharacter(HealthSystem targetHealthSystem)
+        {
+            if (CurrentAttackType == AttackType.LightBlade)
+            {
+                lightAttackDamageSystem.HitCharacter(targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(lightAttackDamageSystem);
+            }
+            else if (CurrentAttackType == AttackType.HeavyBlade)
+            {
+                heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(heavyAttackDamageSystem);
+            }
         }
 
         #endregion
