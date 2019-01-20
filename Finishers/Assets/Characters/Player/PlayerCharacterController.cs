@@ -179,7 +179,7 @@ namespace Finisher.Characters.Player
                 }
 
                 // check if the enemy is in your main hitbox / camera field of view
-                else if (angle < MAINFOV)
+                if (angle < MAINFOV)
                 {
                     target = enemyCollider.transform;
 
@@ -189,9 +189,10 @@ namespace Finisher.Characters.Player
 
                 // if the enemy is not in the directional or main hitboxes, and within
                 // range and angle of the secondary of the secondary hitboxes
-                else if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
+                if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
                     angle < SECONDARY_HITBOX)
                 {
+                    if(target == null)
                     target = enemyCollider.transform;
                 }
             }
