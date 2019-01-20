@@ -25,7 +25,8 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (enemyCanvas)
             {
-                healthBar = enemyCanvas.HealthBar;
+                healthBar = GetComponentInChildren<HealthBar>();
+                healthBar.SetHealthBar(enemyCanvas.HealthBar);
                 volatilityMeter = enemyCanvas.VolatilityMeter;
                 volatilityMask = enemyCanvas.VolatilityMeterMask;
             }

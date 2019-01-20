@@ -30,7 +30,8 @@ namespace Finisher.Characters.Systems
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Image healthBar;
+        protected HealthBar healthBar;
+        // protected Image healthBar;
 
         protected virtual void Start()
         {
@@ -199,7 +200,7 @@ namespace Finisher.Characters.Systems
         {
             if (healthBar)
             {
-                healthBar.fillAmount = GetHealthAsPercent();
+                healthBar.SetFillAmount(GetHealthAsPercent());
             }
         }
 

@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 6205458041244095776}
   - component: {fileID: 6205458041244095805}
   - component: {fileID: 2687734612132523919}
+  - component: {fileID: 5782862302457072744}
   m_Layer: 0
   m_Name: EnemyCanvas
   m_TagString: Untagged
@@ -307,6 +308,18 @@ MonoBehaviour:
   HealthBar: {fileID: 4118249231009768622}
   VolatilityMeter: {fileID: 7324901567801279169}
   VolatilityMeterMask: {fileID: 2675361419620778170}
+--- !u!114 &5782862302457072744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6205458041244095782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5b12dcdca36e144d811ef09b62a24bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6810321317199912761
 GameObject:
   m_ObjectHideFlags: 0
