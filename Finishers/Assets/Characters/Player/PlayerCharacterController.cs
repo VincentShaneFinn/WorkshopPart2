@@ -21,7 +21,7 @@ namespace Finisher.Characters.Player
         [SerializeField] private float MAINRANGE = 3f;
         [SerializeField] private float SECONDARY_HITBOX_RANGE = 1.5f;
         [SerializeField] private float MAINFOV = 50f;
-        [SerializeField] private float EXTRAFOV = 100f;
+        [SerializeField] private float SECONDARY_HITBOX = 100f;
         [SerializeField] private float DIRECTIONAL_INPUT_HITBOX = 35f;
 
         private bool usingLSInput = false;
@@ -30,6 +30,13 @@ namespace Finisher.Characters.Player
 
         private PlayerMoveInputProcessor playerIP;
         private Transform camRig = null;
+
+        struct PossibleCombatTargets
+        {
+            public Transform main;
+            public Transform ls;
+            public Transform side;
+        }
 
         #endregion
 
@@ -90,8 +97,7 @@ namespace Finisher.Characters.Player
                 }
             }
 
-            if ((usingLSInput && characterState.Attacking && animator.IsInTransition(0)) ||
-                CombatTarget == null)
+            if (!characterState.Attacking || CombatTarget == null || (usingLSInput && characterState.Attacking && animator.IsInTransition(0)))
             {
                 SetNewCombatTarget();
             }
@@ -136,6 +142,8 @@ namespace Finisher.Characters.Player
         private Transform FindPreferredEnemyTarget()
         {
             Transform target = null;
+            
+            var possibletargets = new PossibleCombatTargets();
 
             // ORDERED BY DISTANCE, NEAREST -> FARTHEST
             foreach (Collider enemyCollider in enemyColliders)
@@ -155,7 +163,8 @@ namespace Finisher.Characters.Player
 
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
-
+                float angle = Vector3.Angle(targetDir, transform.forward);
+                
                 if (usingLSInput)
                 {
                     // gets the angle between the current enemy and the LS stick direction
@@ -169,19 +178,19 @@ namespace Finisher.Characters.Player
                     }
                 }
 
-                float angle = Vector3.Angle(targetDir, transform.forward);
-
                 // check if the enemy is in your main hitbox / camera field of view
-                if (angle < MAINFOV)
+                else if (angle < MAINFOV)
                 {
                     target = enemyCollider.transform;
-                    break;
+
+                    if (!usingLSInput)
+                        break;
                 }
 
                 // if the enemy is not in the directional or main hitboxes, and within
                 // range and angle of the secondary of the secondary hitboxes
-                if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
-                    angle < EXTRAFOV)
+                else if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
+                    angle < SECONDARY_HITBOX)
                 {
                     target = enemyCollider.transform;
                 }
@@ -326,12 +335,12 @@ namespace Finisher.Characters.Player
             Gizmos.color = Color.white;
 
             // local coordinate rotation around the Y axis to the given angle
-            rotation = Quaternion.AngleAxis(EXTRAFOV, Vector3.up);
+            rotation = Quaternion.AngleAxis(SECONDARY_HITBOX, Vector3.up);
             // add the desired distance to the direction
             addDistanceToDirection = rotation * transform.forward * SECONDARY_HITBOX_RANGE;
             destination = transform.position + addDistanceToDirection;
 
-            rotation2 = Quaternion.AngleAxis(-EXTRAFOV, Vector3.up);
+            rotation2 = Quaternion.AngleAxis(-SECONDARY_HITBOX, Vector3.up);
             // add the desired distance to the direction
             addDistanceToDirection2 = rotation2 * transform.forward * SECONDARY_HITBOX_RANGE;
             destination2 = transform.position + addDistanceToDirection2;
