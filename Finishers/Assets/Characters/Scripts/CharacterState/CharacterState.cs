@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Finisher.Characters
@@ -42,22 +43,47 @@ namespace Finisher.Characters
 
         public virtual bool Grabbing { get; set; }
 
+
+
         public bool Stunned
         {
             get { return animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
-            set
+        }
+        public void Stun(bool value)
+        {
+            if (!Uninteruptable)
             {
-                if (!Uninteruptable)
-                {
-                    animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
-                }
-                animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
+                animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
             }
+
+            animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
         }
 
-        #region Invulnerable
+        private bool runningRecoverCR = false;
+        private float recoverFromStunTime;
+        public void Stun(float timeStunned)
+        {
+            //if (!Uninteruptable)
+            //{
+                animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+            //}
 
-        public bool IsDodgeFrame = false;
+            animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, true);
+            recoverFromStunTime = Time.time + timeStunned;
+            if (!runningRecoverCR) StartCoroutine(RecoverFromStun());
+        }
+        IEnumerator RecoverFromStun()
+        {
+            runningRecoverCR = true;
+            yield return new WaitWhile(() => Time.time < recoverFromStunTime);
+            animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, false);
+            runningRecoverCR = false;
+        }
+
+
+    #region Invulnerable
+
+    public bool IsDodgeFrame = false;
         public bool IsParryFrame = false;
 
         public bool Invulnerable
