@@ -23,6 +23,7 @@ namespace Finisher.Characters.Systems
         [SerializeField] CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
+        public bool dodgingAllowed
 
         #region Delegates
 
