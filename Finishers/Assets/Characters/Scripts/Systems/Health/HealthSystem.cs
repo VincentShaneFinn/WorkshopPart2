@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
@@ -30,7 +31,7 @@ namespace Finisher.Characters.Systems
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Image healthBar;
+        protected UI_HealthMeter healthBar;
 
         protected virtual void Start()
         {
@@ -199,7 +200,7 @@ namespace Finisher.Characters.Systems
         {
             if (healthBar)
             {
-                healthBar.fillAmount = GetHealthAsPercent();
+                healthBar.SetFillAmount(GetHealthAsPercent());
             }
         }
 

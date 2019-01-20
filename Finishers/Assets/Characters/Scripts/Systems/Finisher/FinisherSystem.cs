@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 using Finisher.Cameras;
 using Finisher.Core;
@@ -8,6 +7,7 @@ using Finisher.Characters.Player; //TODO: Consider rewire or player specific, an
 using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Characters.Systems.Strategies;
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems {
 
@@ -38,7 +38,7 @@ namespace Finisher.Characters.Systems {
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private CameraLookController freeLookCam;
-        private Image finisherMeter;
+        private UI_FinisherMeter finisherMeter;
 
         private GameObject inFinisherIndicator;
 
@@ -74,7 +74,8 @@ namespace Finisher.Characters.Systems {
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
 
-            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherBar;
+            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
+            finisherMeter.SetMeter(FindObjectOfType<UI.PlayerUIObjects>().FinisherBar);
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
@@ -441,7 +442,7 @@ namespace Finisher.Characters.Systems {
         {
             if (finisherMeter)
             {
-                finisherMeter.fillAmount = GetFinisherMeterAsPercent();
+                finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
             }
         }
     }
