@@ -5,7 +5,8 @@ namespace Finisher.UI
 {
     public class EnemyUI : MonoBehaviour
     {
-        public Slider HealthSlider;
-        public Slider VolatilityMeter;
+        public Image HealthBar;
+        public Image VolatilityMeter;
+        public Image VolatilityMeterMask;
     }
 }

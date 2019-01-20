@@ -10,8 +10,8 @@ namespace Finisher.Characters.Enemies.Systems
     {
         [SerializeField] private EnemyUI enemyCanvas;
 
-        private Slider volatilityMeter;
-
+        private Image volatilityMeter;
+        private Image volatilityMask;
 
         protected override void Start()
         {
@@ -25,16 +25,17 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (enemyCanvas)
             {
-                healthSlider = enemyCanvas.HealthSlider;
+                healthBar = enemyCanvas.HealthBar;
                 volatilityMeter = enemyCanvas.VolatilityMeter;
+                volatilityMask = enemyCanvas.VolatilityMeterMask;
             }
         }
 
         private void setupVolatilityMeterToggle()
         {
-            if (volatilityMeter)
+            if (volatilityMask)
             {
-                volatilityMeter.gameObject.SetActive(false);
+                volatilityMask.gameObject.SetActive(false);
                 FinisherSystem playerFinisherSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<FinisherSystem>();
                 if (playerFinisherSystem)
                 {
@@ -59,7 +60,7 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (volatilityMeter)
             {
-                volatilityMeter.value = GetVolaitilityAsPercent();
+                volatilityMeter.fillAmount = GetVolaitilityAsPercent();
             }
         }
 
@@ -68,7 +69,7 @@ namespace Finisher.Characters.Enemies.Systems
             currentVolatility = 0;
             updateVolatilityUI();
 
-            volatilityMeter.gameObject.SetActive(enabled);
+            volatilityMask.gameObject.SetActive(enabled);
         }
 
         private void toggleEnemyCanvas(bool enabled)

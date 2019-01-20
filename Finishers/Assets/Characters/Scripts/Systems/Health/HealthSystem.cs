@@ -30,7 +30,7 @@ namespace Finisher.Characters.Systems
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Slider healthSlider;
+        protected Image healthBar;
 
         protected virtual void Start()
         {
@@ -197,9 +197,9 @@ namespace Finisher.Characters.Systems
 
         private void updateHealthUI()
         {
-            if (healthSlider)
+            if (healthBar)
             {
-                healthSlider.value = GetHealthAsPercent();
+                healthBar.fillAmount = GetHealthAsPercent();
             }
         }
 
