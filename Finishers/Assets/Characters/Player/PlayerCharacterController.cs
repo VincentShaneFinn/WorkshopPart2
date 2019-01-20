@@ -17,7 +17,6 @@ namespace Finisher.Characters.Player
 
         [SerializeField] private float RotateWithCameraSpeed = 10f;
         [SerializeField] private float AutoLockTurnSpeed = 5f;
-        [SerializeField] private float MAXCOMBATTARGETRANGE = 20f;
         [SerializeField] private float MAINRANGE = 3f;
         [SerializeField] private float SECONDARY_HITBOX_RANGE = 1.5f;
         [SerializeField] private float MAINFOV = 50f;
@@ -30,13 +29,6 @@ namespace Finisher.Characters.Player
 
         private PlayerMoveInputProcessor playerIP;
         private Transform camRig = null;
-
-        struct PossibleCombatTargets
-        {
-            public Transform main;
-            public Transform ls;
-            public Transform side;
-        }
 
         #endregion
 
@@ -143,8 +135,6 @@ namespace Finisher.Characters.Player
         {
             Transform target = null;
             
-            var possibletargets = new PossibleCombatTargets();
-
             // ORDERED BY DISTANCE, NEAREST -> FARTHEST
             foreach (Collider enemyCollider in enemyColliders)
             {
