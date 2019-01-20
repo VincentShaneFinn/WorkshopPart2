@@ -71,10 +71,14 @@ namespace Finisher.Characters.Player.Systems
         {
             if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
-
                 finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
+            }
+            if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
+            {
+                finisherSystem.ToggleGrabOff();
+                Parry();
             }
         }
 

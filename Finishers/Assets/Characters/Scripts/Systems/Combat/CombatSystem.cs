@@ -71,6 +71,7 @@ namespace Finisher.Characters.Systems
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
         private DodgeSMB[] dodgeSMBs;
+        private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
 
         #endregion
@@ -83,6 +84,7 @@ namespace Finisher.Characters.Systems
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
             dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
+            parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
 
             foreach(CombatSMB smb in combatSMBs)
@@ -93,6 +95,11 @@ namespace Finisher.Characters.Systems
             foreach (DodgeSMB smb in dodgeSMBs)
             {
                 smb.DodgeExitListeners += DodgeEnd;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
             }
 
             IsDamageFrame = false;
@@ -108,6 +115,11 @@ namespace Finisher.Characters.Systems
             foreach (DodgeSMB smb in dodgeSMBs)
             {
                 smb.DodgeExitListeners -= DodgeEnd;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
             }
         }
 
@@ -175,7 +187,23 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
+        #region Parry
+
+        public void Parry()
+        {
+            if (characterState.Uninteruptable || characterState.Parrying)
+            {
+                return;
+            }
+
+            animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
+        }
+
+        #endregion
+
         #region Combat Animation Events
+
+        #region Damage
 
         void DamageStart()
         {
@@ -195,6 +223,10 @@ namespace Finisher.Characters.Systems
             }
         }
 
+        #endregion
+
+        #region Dodge
+
         void DodgeStart()
         {
             characterState.IsDodgeFrame = true;
@@ -204,6 +236,22 @@ namespace Finisher.Characters.Systems
         {
             characterState.IsDodgeFrame = false;
         }
+
+        #endregion
+
+        #region Parry
+
+        void ParryStart()
+        {
+            characterState.IsParryFrame = true;
+        }
+
+        void ParryEnd()
+        {
+            characterState.IsParryFrame = false;
+        }
+
+        #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem)

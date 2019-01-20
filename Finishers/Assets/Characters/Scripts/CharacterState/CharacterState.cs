@@ -58,12 +58,14 @@ namespace Finisher.Characters
         #region Invulnerable
 
         public bool IsDodgeFrame = false;
+        public bool IsParryFrame = false;
 
         public bool Invulnerable
         {
             get
             {
                 if (IsDodgeFrame ||
+                    IsParryFrame ||
                     animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
                 {
                     return true;
@@ -97,6 +99,8 @@ namespace Finisher.Characters
         }
 
         public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
+
+        public bool Parrying { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.PARRY_STATE); } }
 
         public bool FinisherModeActive { get { return animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
 
