@@ -12,20 +12,20 @@ namespace Tests
     [SetUpFixture]
     public class Master
     {
-        private GameObject _player;
-        private GameObject _enemy;
+        public static GameObject Player;
+        public static GameObject Enemy;
         
         [OneTimeSetUp]
         public void MasterSetup()
         {
             // Make Player
-            _player = Object.Instantiate(
+            Player = Object.Instantiate(
                 AssetDatabase.LoadAssetAtPath<GameObject>(
                     "Assets/Characters/Player/Player.prefab"
                 )
             );
             // Make Enemy
-            _enemy = Object.Instantiate(
+            Enemy = Object.Instantiate(
                 AssetDatabase.LoadAssetAtPath<GameObject>(
                     "Assets/Characters/Enemies/Enemy.prefab"
                     )
@@ -37,11 +37,11 @@ namespace Tests
         {
             // Destroy Player
             Object.Destroy(
-                    _player 
+                    Player 
                 );
-            // Make Enemy
+            // Destroy Enemy
             Object.Destroy(
-                    _enemy 
+                    Enemy 
                 );        
         }
     }
@@ -56,12 +56,17 @@ namespace Tests
              * TESTED ATTRIBUTE:
              * - Player Rigidbody Location
              */
+
+            var playerlocation = Master.Player.GetComponent<Rigidbody>().position;
+            var enemylocation = Master.Enemy.GetComponent<Rigidbody>().position;
             
             /*
              * PRE CONDITIONS:
              * - Enemy targeted (in hitbox)
              * - Player attacks
              */
+
+            Master.Player.GetComponent<>();
             
             /*
              * POST CONDITIONS:
