@@ -55,11 +55,15 @@ namespace Finisher.Characters
             }
         }
 
+        #region Invulnerable
+
+        public bool IsDodgeFrame = false;
+
         public bool Invulnerable
         {
             get
             {
-                if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE) ||
+                if (IsDodgeFrame ||
                     animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
                 {
                     return true;
@@ -76,6 +80,8 @@ namespace Finisher.Characters
             AnimConstants.OverrideIndexes.INVULNERABLEACTION_INDEX,
             animClip);
         }
+
+        #endregion
 
         #endregion
 
