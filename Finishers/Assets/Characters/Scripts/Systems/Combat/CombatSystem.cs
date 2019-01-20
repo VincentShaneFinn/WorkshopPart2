@@ -23,6 +23,7 @@ namespace Finisher.Characters.Systems
         [SerializeField] CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
+        public bool DodgingAllowed = true; 
 
         #region Delegates
 
@@ -88,6 +89,7 @@ namespace Finisher.Characters.Systems
             foreach(CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
+                smb.AttackExitListeners += RestoreDodging;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -103,6 +105,7 @@ namespace Finisher.Characters.Systems
             foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners -= DamageEnd;
+                smb.AttackExitListeners -= RestoreDodging;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -143,7 +146,7 @@ namespace Finisher.Characters.Systems
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
-            if (characterState.Uninteruptable || characterState.Dodging)
+            if (characterState.Uninteruptable || characterState.Dodging  || !DodgingAllowed)
             {
                 return;
             }
@@ -184,6 +187,13 @@ namespace Finisher.Characters.Systems
                 CallDamageFrameChangedEvent(true);
                 IsDamageFrame = true;
             }
+
+            DodgingAllowed = false;
+        }
+
+        void RestoreDodging()
+        {
+            DodgingAllowed = true;
         }
 
         void DamageEnd()
