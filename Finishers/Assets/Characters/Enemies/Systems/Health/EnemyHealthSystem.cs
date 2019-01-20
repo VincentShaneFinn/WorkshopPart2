@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 using Finisher.UI;
+using Finisher.UI.Meters;
 using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies.Systems
@@ -10,7 +11,7 @@ namespace Finisher.Characters.Enemies.Systems
     {
         [SerializeField] private EnemyUI enemyCanvas;
 
-        private Image volatilityMeter;
+        private UI_VolatilityMeter volatilityMeter;
         private Image volatilityMask;
 
         protected override void Start()
@@ -25,9 +26,10 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (enemyCanvas)
             {
-                healthBar = GetComponentInChildren<HealthBar>();
-                healthBar.SetHealthBar(enemyCanvas.HealthBar);
-                volatilityMeter = enemyCanvas.VolatilityMeter;
+                healthBar = GetComponentInChildren<UI_HealthMeter>();
+                healthBar.SetMeter(enemyCanvas.HealthBar);
+                volatilityMeter = GetComponentInChildren<UI_VolatilityMeter>();
+                volatilityMeter.SetMeter(enemyCanvas.VolatilityMeter);
                 volatilityMask = enemyCanvas.VolatilityMeterMask;
             }
         }
@@ -61,7 +63,7 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (volatilityMeter)
             {
-                volatilityMeter.fillAmount = GetVolaitilityAsPercent();
+                volatilityMeter.SetFillAmount(GetVolaitilityAsPercent());
             }
         }
 

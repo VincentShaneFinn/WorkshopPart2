@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
@@ -30,8 +31,7 @@ namespace Finisher.Characters.Systems
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected HealthBar healthBar;
-        // protected Image healthBar;
+        protected UI_HealthMeter healthBar;
 
         protected virtual void Start()
         {
