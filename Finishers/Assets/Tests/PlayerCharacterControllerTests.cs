@@ -66,7 +66,7 @@ namespace Tests
              * - Player attacks
              */
 
-            Master.Player.GetComponent<>();
+            // Master.Player.GetComponent<>();
             
             /*
              * POST CONDITIONS:
