@@ -16,7 +16,6 @@ namespace Finisher.Characters.Systems.Strategies
         {
             float newVolatilityDamage = volatilityDamage + ((volatilityDamage / 2) * ((1 - targetHealthSystem.GetHealthAsPercent()) * 2.5f));
             targetHealthSystem.DamageVolatility(newVolatilityDamage);
-            Debug.Log(newVolatilityDamage);
         }
     }
 }
