@@ -292,7 +292,11 @@ namespace Finisher.Characters.Player
             transform.rotation =
                 Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
             // Snap Player around target
-            var newPosition = CombatTarget.transform.position + CombatTarget.forward; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
+            var heading = transform.position - CombatTarget.position;
+            var distancetemp = heading.magnitude;
+            var direction = heading / distancetemp; // This is now the normalized direction.
+
+            var newPosition = CombatTarget.transform.position + direction; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
             var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
             if (distance < attackSnapDistance)
             {
