@@ -20,7 +20,7 @@ namespace Finisher.Characters.Systems
 
         [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
         [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
-        [SerializeField] CombatConfig config;
+        [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
         public bool DodgingAllowed = true; 
@@ -204,9 +204,9 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
         }
 
-        private void attemptRiposte()
+        protected virtual void attemptRiposte()
         {
-            print("check to use a riposte");
+            //TODO: Make abstract and implement in enemy
         }
 
         #endregion

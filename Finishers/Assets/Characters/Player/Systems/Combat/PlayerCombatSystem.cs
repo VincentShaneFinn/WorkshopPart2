@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using Finisher.Core;
 using Finisher.Characters.Systems;
+using System;
 
 namespace Finisher.Characters.Player.Systems
 {
@@ -142,6 +145,45 @@ namespace Finisher.Characters.Player.Systems
 
             animator.GetComponent<Animator>().speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 1;
+        }
+
+        protected override void attemptRiposte()
+        {
+            var enemies = getEnemiesInFront();
+            var enemyToParry = getEnemyToParry(enemies);
+            if (enemyToParry)
+            {
+                characterState.EnterInvulnerableActionState(config.RiposteAnimation);
+                transform.LookAt(enemyToParry.transform);
+                transform.position = enemyToParry.transform.position + enemyToParry.transform.forward;
+                enemyToParry.Kill(config.RiposteKillAnimationToPass);
+            }
+        }
+
+        private List<Collider> getEnemiesInFront()
+        {
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            var enemyColliders = Physics.OverlapSphere(transform.position, 2f, layerMask).ToList();
+
+            enemyColliders = enemyColliders.OrderBy(
+                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
+                ).ToList();
+
+            return enemyColliders;
+        }
+
+        private HealthSystem getEnemyToParry(List<Collider> enemies)
+        {
+            foreach (var enemy in enemies)
+            {
+                CharacterState enemyState = enemy.GetComponent<CharacterState>();
+                if (enemyState && enemyState.Parried)
+                {
+                    return enemy.GetComponent<HealthSystem>();
+                }
+            }
+
+            return null;
         }
 
     }
