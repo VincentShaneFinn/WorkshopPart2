@@ -63,8 +63,8 @@ namespace Finisher.Characters.Weapons
                 }
                 else if (targetState.IsParryFrame)
                 {
-                    characterState.Stun(3f);
-                    print("Parried");
+                    characterState.Stun(3f, wasParry: true);
+
                     return;
                 }
             }
