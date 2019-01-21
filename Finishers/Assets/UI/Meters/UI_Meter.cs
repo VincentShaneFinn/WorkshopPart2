@@ -26,7 +26,8 @@ namespace Finisher.UI.Meters
 
         public void SetFillAmountInstant(float valueAsPercentage)
         {
-            meter.fillAmount = valueAsPercentage;
+            SetFillAmount(valueAsPercentage);
+            meter.fillAmount = newFillAmount;
         }
     }
 }
