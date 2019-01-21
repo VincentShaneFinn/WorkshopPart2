@@ -17,6 +17,7 @@ namespace Finisher.Characters.Player.Systems
         private void setPlayerHealthSlider()
         {
             healthBar = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_HealthMeter>();
+            healthBar.SetMeter(FindObjectOfType<UI.PlayerUIObjects>().HealthBar);
         }
 
         protected override void updateVolatilityUI()

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2434319968621810041}
   - component: {fileID: 7539261265102992649}
   - component: {fileID: 7309813232811926953}
-  - component: {fileID: 3927561428761143088}
   m_Layer: 0
   m_Name: FinisherBar
   m_TagString: Untagged
@@ -89,18 +88,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!114 &3927561428761143088
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198617737192422752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4d2b88dbadef514ba8358d75e925f9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1494010391253946616
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,7 +1592,6 @@ GameObject:
   - component: {fileID: 1286996628550512579}
   - component: {fileID: 1442958175992146098}
   - component: {fileID: 1353948153039309766}
-  - component: {fileID: 7908969824385532788}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -1682,18 +1668,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!114 &7908969824385532788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6922209890841809670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4893cc569e5db942bda3dae5acac2cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6989040462563932315
 GameObject:
   m_ObjectHideFlags: 0

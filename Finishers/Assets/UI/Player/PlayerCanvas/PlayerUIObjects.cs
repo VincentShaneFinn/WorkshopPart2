@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Finisher.UI
@@ -9,6 +11,8 @@ namespace Finisher.UI
         [SerializeField] public GameObject PauseMenuObject;
 
         // todo encapsulate into a bottom left player ui class
+        [SerializeField] public Image HealthBar;
+        [SerializeField] public Image FinisherBar;
         [SerializeField] public Image InFinisherIndicator;
     }
 }
