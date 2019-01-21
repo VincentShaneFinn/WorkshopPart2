@@ -281,6 +281,7 @@ namespace Finisher.Characters.Player
             }
         }
 
+        public float attackSnapDistance = 0.2f;
         private void EngageEnemy()
         {
             var targetRotation = Quaternion.LookRotation(CombatTarget.transform.position - transform.position);
@@ -290,11 +291,15 @@ namespace Finisher.Characters.Player
             // Smoothly rotate towards the target point.
             transform.rotation =
                 Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            // Snap Player around target
             var newPosition = CombatTarget.transform.position + CombatTarget.forward;
             var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
-            if (distance < .5)
+            if (distance < attackSnapDistance)
             {
                 transform.position = newPosition;
+            } else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, newPosition, attackSnapDistance);
             }
         }
 
