@@ -27,9 +27,7 @@ namespace Finisher.Characters.Enemies.Systems
             if (enemyCanvas)
             {
                 healthBar = GetComponentInChildren<UI_HealthMeter>();
-                healthBar.SetMeter(enemyCanvas.HealthBar);
                 volatilityMeter = GetComponentInChildren<UI_VolatilityMeter>();
-                volatilityMeter.SetMeter(enemyCanvas.VolatilityMeter);
                 volatilityMask = enemyCanvas.VolatilityMeterMask;
             }
         }
@@ -70,7 +68,7 @@ namespace Finisher.Characters.Enemies.Systems
         private void toggleVolatiltyMeter(bool enabled)
         {
             currentVolatility = 0;
-            updateVolatilityUI();
+            volatilityMeter.SetFillAmountInstant(currentVolatility);
 
             volatilityMask.gameObject.SetActive(enabled);
         }
