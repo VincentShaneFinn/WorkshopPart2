@@ -281,6 +281,7 @@ namespace Finisher.Characters.Player
             }
         }
 
+        public float attackSnapDistance = 0.2f;
         private void EngageEnemy()
         {
             var targetRotation = Quaternion.LookRotation(CombatTarget.transform.position - transform.position);
@@ -290,6 +291,20 @@ namespace Finisher.Characters.Player
             // Smoothly rotate towards the target point.
             transform.rotation =
                 Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            // Snap Player around target
+            var heading = transform.position - CombatTarget.position;
+            var distanceToTarget = heading.magnitude;
+            var directionTargetToSelf = heading / distanceToTarget; // This is now the normalized direction.
+
+            var newPosition = CombatTarget.transform.position + directionTargetToSelf; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
+            var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
+            if (distance < attackSnapDistance)
+            {
+                transform.position = newPosition;
+            } else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, newPosition, attackSnapDistance);
+            }
         }
 
         #endregion
