@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using Finisher.Characters.Systems.Strategies;
+using System;
 
 namespace Finisher.Characters.Systems
 {
@@ -39,11 +40,11 @@ namespace Finisher.Characters.Systems
 
         public delegate void HitEnemyDelegate(float amount);
         public event HitEnemyDelegate OnHitEnemy;
-        private void CallCombatSystemDealtDamageListeners(CoreCombatDamageSystem coreCombatDamageSystem)
+        private void CallCombatSystemDealtDamageListeners(float amount)
         {
             if (OnHitEnemy != null)
             {
-                OnHitEnemy(coreCombatDamageSystem.FinisherMeterGainAmount);
+                OnHitEnemy(amount);
             }
         }
 
@@ -66,6 +67,7 @@ namespace Finisher.Characters.Systems
 
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
+        private int hitCounter;
 
         [HideInInspector] protected Animator animator;
         private AnimOverrideSetter animOverrideHandler;
@@ -105,6 +107,13 @@ namespace Finisher.Characters.Systems
                 smb.ParryExitListeners += ParryEnd;
             }
 
+            HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+            if (healthSystem)
+            {
+                healthSystem.OnDamageTaken += resetHitCounter;
+            }
+
             IsDamageFrame = false;
         }
 
@@ -120,6 +129,13 @@ namespace Finisher.Characters.Systems
             foreach (DodgeSMB smb in dodgeSMBs)
             {
                 smb.DodgeExitListeners -= DodgeEnd;
+            }
+
+            HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+            if (healthSystem)
+            {
+                healthSystem.OnDamageTaken -= resetHitCounter;
             }
 
             foreach (ParrySMB smb in parrySMBs)
@@ -275,14 +291,43 @@ namespace Finisher.Characters.Systems
         {
             if (CurrentAttackType == AttackType.LightBlade)
             {
+                float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+                
                 lightAttackDamageSystem.HitCharacter(targetHealthSystem);
-                CallCombatSystemDealtDamageListeners(lightAttackDamageSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
             {
+                float finisherMeterGain = heavyAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
                 heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
-                CallCombatSystemDealtDamageListeners(heavyAttackDamageSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
+
+            if (gameObject.tag == "Player")
+            {
+                hitCounter++;
+                hitCounter = Mathf.Clamp(hitCounter, 0, 15);
+            }
+        }
+
+        private float multiplyFinisherMeterGain(float finisherMeterGain)
+        {
+            if (hitCounter > 5)
+            {
+                finisherMeterGain = finisherMeterGain * (1 + (.05f * (hitCounter - 5)));
+            }
+            
+            return finisherMeterGain;
+        }
+
+        private void resetHitCounter()
+        {
+            hitCounter = 0;
         }
 
         #endregion

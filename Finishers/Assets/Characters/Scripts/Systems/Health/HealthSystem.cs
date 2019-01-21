@@ -26,6 +26,15 @@ namespace Finisher.Characters.Systems
                 OnKnockBack();
             }
         }
+        public delegate void TookDamage();
+        public event TookDamage OnDamageTaken;
+        private void CallDamageTakenEvent()
+        {
+            if (OnDamageTaken != null)
+            {
+                OnDamageTaken();
+            }
+        }
 
         #endregion
 
@@ -52,6 +61,7 @@ namespace Finisher.Characters.Systems
             if (characterState.Invulnerable) { return; }
 
             decreaseHealth(damage);
+            CallDamageTakenEvent();
 
             if (currentHealth <= 0)
             {
