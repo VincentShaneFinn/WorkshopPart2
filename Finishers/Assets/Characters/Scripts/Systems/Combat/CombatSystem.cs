@@ -40,7 +40,7 @@ namespace Finisher.Characters.Systems
 
         public delegate void HitEnemyDelegate(float amount);
         public event HitEnemyDelegate OnHitEnemy;
-        private void CallCombatSystemDealtDamageListeners(float amount)
+        public void CallCombatSystemDealtDamageListeners(float amount)
         {
             if (OnHitEnemy != null)
             {

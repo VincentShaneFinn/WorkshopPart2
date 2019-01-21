@@ -64,6 +64,11 @@ namespace Finisher.Characters.Weapons
                 else if (targetState.IsParryFrame)
                 {
                     characterState.Stun(3f, wasParry: true);
+                    CombatSystem targetCombatSystem = targetState.GetComponent<CombatSystem>();
+                    if (targetCombatSystem)
+                    {
+                        targetCombatSystem.CallCombatSystemDealtDamageListeners(10f); //TODO: remove magic number
+                    }
 
                     return;
                 }

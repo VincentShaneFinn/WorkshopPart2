@@ -156,7 +156,6 @@ namespace Finisher.Characters.Player.Systems
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
                 enemyToParry.Kill(config.RiposteKillAnimationToPass);
-
             }
         }
 
@@ -198,6 +197,8 @@ namespace Finisher.Characters.Player.Systems
 
                 yield return null;
             }
+            yield return new WaitForSeconds(.5f); //TODO: this should be called by an animation event on the parry animation
+            CallCombatSystemDealtDamageListeners(10f); //TODO: REMOVE MAGIC NUMBER AND PUT IN CONFIG
         }
 
     }
