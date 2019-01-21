@@ -290,6 +290,12 @@ namespace Finisher.Characters.Player
             // Smoothly rotate towards the target point.
             transform.rotation =
                 Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            var newPosition = CombatTarget.transform.position + CombatTarget.forward;
+            var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
+            if (distance < .5)
+            {
+                transform.position = newPosition;
+            }
         }
 
         #endregion
