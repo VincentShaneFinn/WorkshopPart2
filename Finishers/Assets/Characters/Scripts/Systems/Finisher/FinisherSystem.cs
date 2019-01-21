@@ -75,7 +75,6 @@ namespace Finisher.Characters.Systems {
             toggleWeapon(WeaponToggle.Sword);
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
-            finisherMeter.SetMeter(FindObjectOfType<UI.PlayerUIObjects>().FinisherBar);
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);

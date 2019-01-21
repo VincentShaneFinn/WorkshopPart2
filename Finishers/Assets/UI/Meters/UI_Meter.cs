@@ -8,6 +8,11 @@ namespace Finisher.UI.Meters
         private float newFillAmount;
         protected Image meter;
 
+        void Start()
+        {
+            meter = GetComponent<Image>();
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -19,9 +24,9 @@ namespace Finisher.UI.Meters
             newFillAmount = valueAsPercentage;
         }
 
-        public void SetMeter(Image newMeter)
+        public void SetFillAmountInstant(float valueAsPercentage)
         {
-            meter = newMeter;
+            meter.fillAmount = valueAsPercentage;
         }
     }
 }
