@@ -106,8 +106,8 @@ namespace Finisher.Characters
 
     #region Invulnerable
 
-    public bool IsDodgeFrame = false;
-        public bool IsParryFrame = false;
+        [HideInInspector] public bool IsDodgeFrame = false;
+        [HideInInspector] public bool IsParryFrame = false;
 
         public bool Invulnerable
         {

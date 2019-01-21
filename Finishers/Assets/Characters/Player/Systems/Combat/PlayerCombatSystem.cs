@@ -154,9 +154,9 @@ namespace Finisher.Characters.Player.Systems
             if (enemyToParry)
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
-                transform.LookAt(enemyToParry.transform);
-                transform.position = enemyToParry.transform.position + enemyToParry.transform.forward;
+                StartCoroutine(transformOvertime(enemyToParry.transform));
                 enemyToParry.Kill(config.RiposteKillAnimationToPass);
+
             }
         }
 
@@ -184,6 +184,20 @@ namespace Finisher.Characters.Player.Systems
             }
 
             return null;
+        }
+
+        //TODO: create a linked character animation system
+        IEnumerator transformOvertime(Transform target)
+        {
+            float time = .3f;
+            while(time > 0)
+            {
+                time -= Time.deltaTime;
+                transform.LookAt(target);
+                transform.position = target.position + target.forward;
+
+                yield return null;
+            }
         }
 
     }
