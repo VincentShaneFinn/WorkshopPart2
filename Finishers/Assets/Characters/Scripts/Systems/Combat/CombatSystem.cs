@@ -92,6 +92,7 @@ namespace Finisher.Characters.Systems
             {
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
+                smb.AttackStartListeners += attemptRiposte;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -113,6 +114,7 @@ namespace Finisher.Characters.Systems
             {
                 smb.AttackExitListeners -= DamageEnd;
                 smb.AttackExitListeners -= RestoreDodging;
+                smb.AttackStartListeners -= attemptRiposte;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -200,6 +202,11 @@ namespace Finisher.Characters.Systems
             }
 
             animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
+        }
+
+        private void attemptRiposte()
+        {
+            print("check to use a riposte");
         }
 
         #endregion
