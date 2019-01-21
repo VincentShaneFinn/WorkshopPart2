@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
@@ -25,12 +26,21 @@ namespace Finisher.Characters.Systems
                 OnKnockBack();
             }
         }
+        public delegate void TookDamage();
+        public event TookDamage OnDamageTaken;
+        private void CallDamageTakenEvent()
+        {
+            if (OnDamageTaken != null)
+            {
+                OnDamageTaken();
+            }
+        }
 
         #endregion
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Slider healthSlider;
+        protected UI_HealthMeter healthBar;
 
         protected virtual void Start()
         {
@@ -51,11 +61,7 @@ namespace Finisher.Characters.Systems
             if (characterState.Invulnerable) { return; }
 
             decreaseHealth(damage);
-
-            if (knockbackCount < config.KnockbackLimit)
-            {
-                Knockback();
-            }
+            CallDamageTakenEvent();
 
             if (currentHealth <= 0)
             {
@@ -136,13 +142,15 @@ namespace Finisher.Characters.Systems
         // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
-        public void Knockback()
+        public void Knockback(AnimationClip animClip = null)
         {
-            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
-        }
-        public void Knockback(AnimationClip animClip)
-        {
-            if (characterState.Dying) { return; }
+            //TODO: Add a method to override the knockback limiter
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)];
+            }
 
             enterKnockbackState(animClip);
             CallKnockbackEvent();
@@ -163,13 +171,15 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public void Kill()
-        {
-            Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)]);
-        }
-        public virtual void Kill(AnimationClip animClip)
+        public virtual void Kill(AnimationClip animClip = null)
         {
             if (characterState.Dying) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            }
+
             currentHealth = 0;
             updateHealthUI();
             enterDyingState(animClip);
@@ -198,9 +208,9 @@ namespace Finisher.Characters.Systems
 
         private void updateHealthUI()
         {
-            if (healthSlider)
+            if (healthBar)
             {
-                healthSlider.value = GetHealthAsPercent();
+                healthBar.SetFillAmount(GetHealthAsPercent());
             }
         }
 

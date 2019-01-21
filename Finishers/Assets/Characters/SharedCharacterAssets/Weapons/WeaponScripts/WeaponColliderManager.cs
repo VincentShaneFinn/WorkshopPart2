@@ -7,7 +7,9 @@ namespace Finisher.Characters.Weapons
     [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
-        private CombatSystem combatSystem;
+        FinisherSystem finisherSystem;
+        CombatSystem combatSystem;
+        CharacterState characterState;
         private BoxCollider boxCollider;
 
         void Start()
@@ -20,12 +22,15 @@ namespace Finisher.Characters.Weapons
             boxCollider = GetComponent<BoxCollider>();
             boxCollider.enabled = false;
 
+            combatSystem = GetComponentInParent<CombatSystem>();
+            finisherSystem = GetComponentInParent<FinisherSystem>();
+            characterState = GetComponentInParent<CharacterState>();
+
             subscribeToDelegates();
         }
 
-        void subscribeToDelegates()
+        private void subscribeToDelegates()
         {
-            combatSystem = GetComponentInParent<CombatSystem>();
             combatSystem.OnDamageFrameChanged += ToggleTriggerCollider;
         }
 
@@ -40,16 +45,19 @@ namespace Finisher.Characters.Weapons
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
 
-            DamageCharacter(collider.gameObject.GetComponent<HealthSystem>(), collider.gameObject.GetComponent<CharacterState>());
-        }
+            HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
+            CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
 
-        private void DamageCharacter(HealthSystem targetHealthSystem, CharacterState targetState)
-        {
             if (targetHealthSystem && !targetState.Dying && !targetState.Invulnerable)
             {
-                targetHealthSystem.DamageHealth(combatSystem.CurrentAttackDamage);
-
-                combatSystem.DealtDamage(targetHealthSystem);
+                if (characterState.FinisherModeActive)
+                {
+                    finisherSystem.HitCharacter(targetHealthSystem);
+                }
+                else
+                {
+                    combatSystem.HitCharacter(targetHealthSystem);
+                }
             }
         }
 

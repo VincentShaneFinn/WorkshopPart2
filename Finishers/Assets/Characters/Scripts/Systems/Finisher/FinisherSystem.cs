@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 using Finisher.Cameras;
 using Finisher.Core;
@@ -7,6 +6,8 @@ using Finisher.Characters.Weapons; //TODO: Consider a way to do it via animation
 using Finisher.Characters.Player; //TODO: Consider rewire or player specific, and Enemy Specific Finisher Systems
 using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
+using Finisher.Characters.Systems.Strategies;
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems {
 
@@ -15,48 +16,9 @@ namespace Finisher.Characters.Systems {
 
         #region Class Variables
 
-        public float CurrentVolatilityDamage
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.LightVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.LightVolatilityDamage;
-                    }
-                }
-                else
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.HeavyVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.HeavyVolatilityDamage;
-                    }
-                }
-            }
-        }
-        public float CurrentFinisherGain
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    return config.LightFinisherGain;
-                }
-                else
-                {
-                    return config.HeavyFinisherGain;
-                }
-            }
-        }
+        [SerializeField] private FinisherConfig config;
+        [SerializeField] private FinisherModeDamageSystem lightFinisherAttackDamageSystem;
+        [SerializeField] private FinisherModeDamageSystem heavyFinisherAttackDamageSystem;
 
         #region Delegates
 
@@ -76,7 +38,7 @@ namespace Finisher.Characters.Systems {
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private CameraLookController freeLookCam;
-        private Slider finisherMeter;
+        private UI_FinisherMeter finisherMeter;
 
         private GameObject inFinisherIndicator;
 
@@ -86,8 +48,6 @@ namespace Finisher.Characters.Systems {
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
-
-        [SerializeField] private FinisherConfig config;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
@@ -114,7 +74,7 @@ namespace Finisher.Characters.Systems {
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
 
-            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
+            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
@@ -130,6 +90,8 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
+
+            combatSystem.OnHitEnemy += GainFinisherMeter;
         }
 
         void OnDestroy()
@@ -139,6 +101,8 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack -= ToggleGrabOff;
+
+            combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
 
         void Update()
@@ -362,6 +326,24 @@ namespace Finisher.Characters.Systems {
 
         #endregion
 
+        #region Hit Character
+
+        public void HitCharacter(HealthSystem targetHealthSystem)
+        {
+            StabbedEnemy(targetHealthSystem.gameObject);
+
+            if(combatSystem.CurrentAttackType == AttackType.LightBlade)
+            {
+                lightFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
+            }
+            else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
+            {
+                heavyFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Animation Events
@@ -459,7 +441,7 @@ namespace Finisher.Characters.Systems {
         {
             if (finisherMeter)
             {
-                finisherMeter.value = GetFinisherMeterAsPercent();
+                finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
             }
         }
     }

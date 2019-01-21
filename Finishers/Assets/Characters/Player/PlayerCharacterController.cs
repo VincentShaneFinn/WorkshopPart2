@@ -6,24 +6,22 @@ namespace Finisher.Characters.Player
 {
     public class PlayerCharacterController : CharacterAnimator
     {
-
         #region Class Variables
 
         public Transform CombatTarget { get; private set; }
-        public bool CombatTargetInRange { get; private set; } // tries to look at the set staffing target if true, matches camera rotation if false
 
         //[Header("Player Controller Specific")]
 
-        [Header("Player Combat Target Hitbox Settings")]
-        [SerializeField] private GameObject CombatTargetIndicator;
+        [Header("Player Combat Target Hitbox Settings")] [SerializeField]
+        private GameObject CombatTargetIndicator;
+
         [SerializeField] private float RotateWithCameraSpeed = 10f;
         [SerializeField] private float AutoLockTurnSpeed = 5f;
-        [SerializeField] private float MAXCOMBATTARGETRANGE = 20f;
         [SerializeField] private float MAINRANGE = 3f;
-        [SerializeField] private float EXTRARANGE = 1.5f;
+        [SerializeField] private float SECONDARY_HITBOX_RANGE = 1.5f;
         [SerializeField] private float MAINFOV = 50f;
-        [SerializeField] private float EXTRAFOV = 100f;
-        [SerializeField] private float DIRECTIONALINPUTFOV = 35f;
+        [SerializeField] private float SECONDARY_HITBOX = 100f;
+        [SerializeField] private float DIRECTIONAL_INPUT_HITBOX = 35f;
 
         private bool usingLSInput = false;
         private List<Collider> enemyColliders = null;
@@ -49,9 +47,12 @@ namespace Finisher.Characters.Player
             }
             else
             {
-                Debug.LogWarning("Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.", gameObject);
+                Debug.LogWarning(
+                    "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.",
+                    gameObject);
                 // we use self-relative controls in this case, which probably isn't what the user wants, but hey, we warned them!
             }
+
             return null;
         }
 
@@ -78,23 +79,17 @@ namespace Finisher.Characters.Player
         private void SetCurrentCombatTarget()
         {
             usingLSInput = playerIP.InputMoveDirection != Vector3.zero;
-            if (CombatTarget)
+            if (CombatTarget != null)
             {
                 float distanceFromTarget = Vector3.Distance(CombatTarget.position, transform.position);
                 if (CombatTarget.gameObject.GetComponent<CharacterState>().Dying ||
-                    distanceFromTarget > MAXCOMBATTARGETRANGE)
+                    distanceFromTarget > MAINRANGE)
                 {
                     CombatTarget = null;
-                    CombatTargetInRange = false;
                 }
-                else if (distanceFromTarget > MAINRANGE)
-                {
-                    CombatTargetInRange = false;
-                }
-
             }
-            if ((usingLSInput && characterState.Attacking && animator.IsInTransition(0)) ||
-                !CombatTargetInRange)
+
+            if (!characterState.Attacking || CombatTarget == null || (usingLSInput && characterState.Attacking && animator.IsInTransition(0)))
             {
                 SetNewCombatTarget();
             }
@@ -103,14 +98,11 @@ namespace Finisher.Characters.Player
         private void SetNewCombatTarget()
         {
             var tempCombatTarget = GetPlayerCombatTarget();
-            if (tempCombatTarget)
+            
+            // if a target was found
+            if (tempCombatTarget != null)
             {
-                CombatTargetInRange = true;
-                CombatTarget = tempCombatTarget; // todo forget the current target if out of range
-            }
-            else
-            {
-                CombatTargetInRange = false;
+                CombatTarget = tempCombatTarget; 
             }
         }
 
@@ -118,7 +110,10 @@ namespace Finisher.Characters.Player
         {
             SetClosestEnemyColliders();
 
-            if (enemyColliders.Count <= 0) { return null; }
+            if (enemyColliders.Count <= 0)
+            {
+                return null;
+            }
 
             Transform target = null;
             target = FindPreferredEnemyTarget();
@@ -133,51 +128,62 @@ namespace Finisher.Characters.Player
 
             enemyColliders = enemyColliders.OrderBy(
                 enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
-                ).ToList();
+            ).ToList();
         }
 
         private Transform FindPreferredEnemyTarget()
         {
             Transform target = null;
+            
+            // ORDERED BY DISTANCE, NEAREST -> FARTHEST
             foreach (Collider enemyCollider in enemyColliders)
             {
-
                 var targetState = enemyCollider.gameObject.GetComponent<CharacterState>();
-                if (enemyCollider.gameObject.GetComponent<CharacterMotor>() == null) { continue; }
-                else if (targetState.Dying) { continue; }
+
+                // checks for valid enemy
+                if (enemyCollider.gameObject.GetComponent<CharacterMotor>() == null)
+                {
+                    continue;
+                }
+
+                if (targetState.Dying)
+                {
+                    continue;
+                }
 
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
-
+                float angle = Vector3.Angle(targetDir, transform.forward);
+                
                 if (usingLSInput)
                 {
+                    // gets the angle between the current enemy and the LS stick direction
                     float overrideAngle = Vector3.Angle(targetDir, playerIP.InputMoveDirection);
 
-                    //first check for user directional Input
-                    if (overrideAngle < DIRECTIONALINPUTFOV)
+                    //check that the enemy is in the directional hitbox
+                    if (overrideAngle < DIRECTIONAL_INPUT_HITBOX)
                     {
                         target = enemyCollider.transform;
                         break;
                     }
                 }
 
-                float angle = Vector3.Angle(targetDir, transform.forward);
-
-                // check if the enemy is in your field of vision
+                // check if the enemy is in your main hitbox / camera field of view
                 if (angle < MAINFOV)
                 {
                     target = enemyCollider.transform;
+
                     if (!usingLSInput)
-                    {
                         break;
-                    }
                 }
-                else if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= EXTRARANGE && angle < EXTRAFOV)
+
+                // if the enemy is not in the directional or main hitboxes, and within
+                // range and angle of the secondary of the secondary hitboxes
+                if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
+                    angle < SECONDARY_HITBOX)
                 {
-                    if (target == null) // set the target to the one found in the smaller outer cones
-                    {
-                        target = enemyCollider.transform;
-                    }
+                    if(target == null)
+                    target = enemyCollider.transform;
                 }
             }
 
@@ -200,7 +206,9 @@ namespace Finisher.Characters.Player
                 {
                     currentCombatTargetIndicator.transform.parent = CombatTarget;
                 }
-                currentCombatTargetIndicator.transform.localPosition = new Vector3(0, CombatTarget.GetComponent<CapsuleCollider>().height + .2f, 0);
+
+                currentCombatTargetIndicator.transform.localPosition = new Vector3(0,
+                    CombatTarget.GetComponent<CapsuleCollider>().height + .2f, 0);
             }
             else
             {
@@ -217,7 +225,8 @@ namespace Finisher.Characters.Player
 
         private void SetCharacterRotation()
         {
-            if (characterState.Dying) {
+            if (characterState.Dying)
+            {
                 return;
             }
 
@@ -229,12 +238,13 @@ namespace Finisher.Characters.Player
 
             if (Strafing)
             {
-                if (characterState.Dodging) {
+                if (characterState.Dodging)
+                {
                     RotateWithCamRig();
                 }
-                else if(characterState.Attacking)
+                else if (characterState.Attacking)
                 {
-                    if (CombatTargetInRange)
+                    if (CombatTarget != null)
                     {
                         EngageEnemy();
                     }
@@ -266,7 +276,8 @@ namespace Finisher.Characters.Player
             else
             {
                 // Smoothly rotate towards the target point.
-                transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation, RotateWithCameraSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation,
+                    RotateWithCameraSpeed * Time.deltaTime);
             }
         }
 
@@ -277,7 +288,8 @@ namespace Finisher.Characters.Player
             targetRotation.z = 0;
 
             // Smoothly rotate towards the target point.
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
         }
 
         #endregion
@@ -314,14 +326,14 @@ namespace Finisher.Characters.Player
             Gizmos.color = Color.white;
 
             // local coordinate rotation around the Y axis to the given angle
-            rotation = Quaternion.AngleAxis(EXTRAFOV, Vector3.up);
+            rotation = Quaternion.AngleAxis(SECONDARY_HITBOX, Vector3.up);
             // add the desired distance to the direction
-            addDistanceToDirection = rotation * transform.forward * EXTRARANGE;
+            addDistanceToDirection = rotation * transform.forward * SECONDARY_HITBOX_RANGE;
             destination = transform.position + addDistanceToDirection;
 
-            rotation2 = Quaternion.AngleAxis(-EXTRAFOV, Vector3.up);
+            rotation2 = Quaternion.AngleAxis(-SECONDARY_HITBOX, Vector3.up);
             // add the desired distance to the direction
-            addDistanceToDirection2 = rotation2 * transform.forward * EXTRARANGE;
+            addDistanceToDirection2 = rotation2 * transform.forward * SECONDARY_HITBOX_RANGE;
             destination2 = transform.position + addDistanceToDirection2;
 
             Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
@@ -331,23 +343,20 @@ namespace Finisher.Characters.Player
 
             if (playerIP)
             {
-
                 // local coordinate rotation around the Y axis to the given angle
-                rotation = Quaternion.AngleAxis(DIRECTIONALINPUTFOV, Vector3.up);
+                rotation = Quaternion.AngleAxis(DIRECTIONAL_INPUT_HITBOX, Vector3.up);
                 // add the desired distance to the direction
                 addDistanceToDirection = rotation * playerIP.InputMoveDirection * MAINRANGE;
                 destination = transform.position + addDistanceToDirection;
 
-                rotation2 = Quaternion.AngleAxis(-DIRECTIONALINPUTFOV, Vector3.up);
+                rotation2 = Quaternion.AngleAxis(-DIRECTIONAL_INPUT_HITBOX, Vector3.up);
                 // add the desired distance to the direction
                 addDistanceToDirection2 = rotation2 * playerIP.InputMoveDirection * MAINRANGE;
                 destination2 = transform.position + addDistanceToDirection2;
 
                 Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
                 Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
-
             }
-
         }
     }
 }
