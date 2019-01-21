@@ -19,6 +19,7 @@
             public const string HEAVY_ATTACK1_STATE = "Heavy1";
             public const string HEAVY_ATTACK2_STATE = "Heavy2";
             public const string DODGE_STATE = "Dodge";
+            public const string PARRY_STATE = "Parry";
             public const string DYING_STATE = "Dying";
         }
 
@@ -46,6 +47,7 @@
 
             public const string ATTACK_TRIGGER = "Attack";
             public const string DODGE_TRIGGER = "Dodge";
+            public const string PARRY_TRIGGER = "Parry";
             public const string INVULNERABLEACTION_TRIGGER = "InvulnerableAction";
             public const string KNOCKBACK_TRIGGER = "Knockback";
             public const string RESETFORCEFULLY_TRIGGER = "ResetForcefully";

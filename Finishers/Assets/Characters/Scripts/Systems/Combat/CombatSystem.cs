@@ -21,7 +21,7 @@ namespace Finisher.Characters.Systems
 
         [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
         [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
-        [SerializeField] CombatConfig config;
+        [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
         public bool DodgingAllowed = true; 
@@ -40,7 +40,7 @@ namespace Finisher.Characters.Systems
 
         public delegate void HitEnemyDelegate(float amount);
         public event HitEnemyDelegate OnHitEnemy;
-        private void CallCombatSystemDealtDamageListeners(float amount)
+        public void CallCombatSystemDealtDamageListeners(float amount)
         {
             if (OnHitEnemy != null)
             {
@@ -74,6 +74,7 @@ namespace Finisher.Characters.Systems
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
         private DodgeSMB[] dodgeSMBs;
+        private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
 
         #endregion
@@ -86,17 +87,24 @@ namespace Finisher.Characters.Systems
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
             dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
+            parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
 
             foreach(CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
+                smb.AttackStartListeners += attemptRiposte;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
             {
                 smb.DodgeExitListeners += DodgeEnd;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
             }
 
             HealthSystem healthSystem = GetComponent<HealthSystem>();
@@ -115,6 +123,7 @@ namespace Finisher.Characters.Systems
             {
                 smb.AttackExitListeners -= DamageEnd;
                 smb.AttackExitListeners -= RestoreDodging;
+                smb.AttackStartListeners -= attemptRiposte;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -127,6 +136,11 @@ namespace Finisher.Characters.Systems
             if (healthSystem)
             {
                 healthSystem.OnDamageTaken -= resetHitCounter;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
             }
         }
 
@@ -194,7 +208,28 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
+        #region Parry
+
+        public void Parry()
+        {
+            if (characterState.Uninteruptable || characterState.Parrying)
+            {
+                return;
+            }
+
+            animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
+        }
+
+        protected virtual void attemptRiposte()
+        {
+            //TODO: Make abstract and implement in enemy
+        }
+
+        #endregion
+
         #region Combat Animation Events
+
+        #region Damage
 
         void DamageStart()
         {
@@ -221,6 +256,10 @@ namespace Finisher.Characters.Systems
             }
         }
 
+        #endregion
+
+        #region Dodge
+
         void DodgeStart()
         {
             characterState.IsDodgeFrame = true;
@@ -230,6 +269,22 @@ namespace Finisher.Characters.Systems
         {
             characterState.IsDodgeFrame = false;
         }
+
+        #endregion
+
+        #region Parry
+
+        void ParryStart()
+        {
+            characterState.IsParryFrame = true;
+        }
+
+        void ParryEnd()
+        {
+            characterState.IsParryFrame = false;
+        }
+
+        #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem)

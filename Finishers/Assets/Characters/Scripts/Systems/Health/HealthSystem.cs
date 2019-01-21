@@ -106,7 +106,15 @@ namespace Finisher.Characters.Systems
 
         private void increaseVolatility(float amount)
         {
-            currentVolatility += amount;
+            if (characterState.Grabbed)
+            {
+                currentVolatility += amount * 3;
+            }
+            else
+            {
+                currentVolatility += amount;
+            }
+
             if (currentVolatility > config.MaxVolatility - Mathf.Epsilon)
             {
                 currentVolatility = config.MaxVolatility;
