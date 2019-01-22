@@ -25,7 +25,7 @@ namespace Finisher.Characters.Player.Finishers
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
             if (targetHealthSystem) // hit an enemy
             {
-                flamethrowerDamageSystem.HitCharacter(targetHealthSystem);
+                flamethrowerDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
         }
 

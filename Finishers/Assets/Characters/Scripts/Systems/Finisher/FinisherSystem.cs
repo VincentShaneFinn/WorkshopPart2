@@ -334,11 +334,11 @@ namespace Finisher.Characters.Systems {
 
             if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {
-                lightFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
             else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
             {
-                heavyFinisherAttackDamageSystem.HitCharacter(targetHealthSystem);
+                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
         }
 
