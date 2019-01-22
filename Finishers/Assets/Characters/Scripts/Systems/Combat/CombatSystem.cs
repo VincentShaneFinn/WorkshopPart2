@@ -146,16 +146,12 @@ namespace Finisher.Characters.Systems
 
         #region Attacks
 
-        private float currentKnockback = 0;
-        public float CurrentKnockback { get { return currentKnockback; } }
-        public float KnockbackDuration { get { return config.KnockbackDuration;  } }
         public void LightAttack()
         {
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
-            currentKnockback = config.LightKnockback;
         }
 
         public void HeavyAttack()
@@ -164,7 +160,6 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
-            currentKnockback = config.HeavyKnockback;
         }
 
         IEnumerator DelayedResetAttackTrigger()
@@ -300,7 +295,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
                 
-                lightAttackDamageSystem.HitCharacter(targetHealthSystem);
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
@@ -309,7 +304,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
-                heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 

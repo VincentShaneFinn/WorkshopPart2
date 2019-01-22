@@ -60,7 +60,7 @@ namespace Finisher.Characters.Player.Finishers {
                 var targetHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
                 if (targetHealthSystem)
                 {
-                    throwingWeaponDamageSystem.HitCharacter(targetHealthSystem);
+                    throwingWeaponDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                     if (targetHealthSystem.GetComponent<CharacterState>().Dying)
                     {
                         MakeChild(collision);

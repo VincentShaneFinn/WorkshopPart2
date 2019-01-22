@@ -7,7 +7,7 @@ namespace Finisher.Characters.Systems.Strategies
     {
         [SerializeField] private AnimationClip StandingDeathAnimClip;
 
-        public override void HitCharacter(HealthSystem targetHealthSytem)
+        public override void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
         {
             if (targetHealthSytem.WillDamageKill(baseDamage))
             {
@@ -15,7 +15,7 @@ namespace Finisher.Characters.Systems.Strategies
             }
             else
             {
-                base.HitCharacter(targetHealthSytem);
+                base.HitCharacter(damageSource, targetHealthSytem);
             }
         }
 
