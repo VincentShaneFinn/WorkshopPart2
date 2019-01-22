@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Finisher.Characters.Systems.Strategies {
     public abstract class DamageSystem : ScriptableObject
@@ -6,29 +7,38 @@ namespace Finisher.Characters.Systems.Strategies {
 
         [SerializeField] protected float baseDamage = 10f;
         [SerializeField] private bool dealsKnockback = true;
-        //[SerializeField] private float knockbackRange = 0;
-        //[SerializeField] private ParticleSystem particleSystem = null;
+        [SerializeField] private float knockbackRange = 0.5f;
+        [SerializeField] private float knockbackDuration = 0.05f;
+        [SerializeField] private ParticleEventSystem particleEventSystem = null;
 
-        public virtual void HitCharacter(HealthSystem targetHealthSytem)
+        public virtual void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
         {
             DealDamage(targetHealthSytem);
-            DealKnockback(targetHealthSytem);
+            DealKnockback(damageSource, targetHealthSytem);
+            playParticle(targetHealthSytem);
         }
 
         protected void DealDamage(HealthSystem targetHealthSystem)
         {
             targetHealthSystem.DamageHealth(baseDamage);
+
         }
 
-        protected void DealKnockback(HealthSystem targetHealthSystem)
+        protected void DealKnockback(GameObject damageSource, HealthSystem targetHealthSystem)
         {
-            //TODO: allow health systems knockback to take a movementVector
             if (dealsKnockback)
             {
-                targetHealthSystem.Knockback();
+                //targetHealthSystem.Knockback();
+                targetHealthSystem.Knockback(knockbackRange * damageSource.transform.forward, knockbackDuration);
             }
         }
 
-        //Implement a play particleSystem
+        private void playParticle(HealthSystem targetHealthSystem)
+        {
+            if (particleEventSystem != null)
+            {
+                particleEventSystem.play(targetHealthSystem.transform.TransformPoint(new Vector3(0, 1.2f, 0)), targetHealthSystem.transform.rotation);
+            }
+        }
     }
 }

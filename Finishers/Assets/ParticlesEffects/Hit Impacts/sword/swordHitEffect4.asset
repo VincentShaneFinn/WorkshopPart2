@@ -9,11 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08fb5c0809a786a49b8bdf50b0f89862, type: 3}
-  m_Name: DefaultFinisherCombatHeavyDS
+  m_Script: {fileID: 11500000, guid: 44a0d94eabe2535469cbdfac9ec5a2ae, type: 3}
+  m_Name: swordHitEffect4
   m_EditorClassIdentifier: 
-  baseDamage: 20
-  dealsKnockback: 1
-  knockbackRange: 0
-  knockbackDuration: 0.05
-  volatilityDamage: 10
+  particleObject: {fileID: 3509142333168442719, guid: 59c1bcaad0aabce47a0565d709a81d58,
+    type: 3}
