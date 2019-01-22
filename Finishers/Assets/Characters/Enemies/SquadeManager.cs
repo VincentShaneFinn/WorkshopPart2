@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,8 +10,8 @@ namespace Finisher.Characters.Enemies
     public class SquadeManager : MonoBehaviour
     {
         //private Transform target; // target to aim for
-        private ManagerState managerstate;
-        private List<EnemyAI> enemies = new List<EnemyAI>();
+        [HideInInspector] public ManagerState ManagerState;
+        private EnemyAI[] enemies;
 
         //[SerializeField] GameObject combatTarget = null;
 
@@ -18,21 +19,36 @@ namespace Finisher.Characters.Enemies
 
         void Start()
         {
-            managerstate = ManagerState.Waiting;
+            ManagerState = ManagerState.Waiting;
             setEnemies();
         }
 
         private void setEnemies()
         {
-            enemies = GetComponentsInChildren<EnemyAI>().ToList();
-        }   
+            enemies = GetComponentsInChildren<EnemyAI>();
+        }
 
         public void SendWakeUpCallToEnemies()
         {
-            managerstate = ManagerState.Attacking;
+            ManagerState = ManagerState.Attacking;
+            StartCoroutine(AlertEnemies());
+        }
+
+        IEnumerator AlertEnemies()
+        {
             foreach (EnemyAI enemy in enemies)
             {
+                yield return null;
                 enemy.AttackByManager();
+            }
+        }
+
+        IEnumerator FreeEnemies()
+        {
+            foreach (EnemyAI enemy in enemies)
+            {
+                yield return null;
+                enemy.StopByManager();
             }
         }
 
@@ -45,10 +61,7 @@ namespace Finisher.Characters.Enemies
         {
             if (other.gameObject.tag == "Player")
             {
-                foreach (EnemyAI enemy in enemies)
-                {
-                    enemy.StopByManager();    
-                }
+                StartCoroutine(FreeEnemies());
             }
         }
 

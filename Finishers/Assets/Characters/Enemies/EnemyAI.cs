@@ -87,9 +87,10 @@ namespace Finisher.Characters.Enemies
             if (distanceToPlayer <= attackRadius)
             {
                 //TODO: change to observer
-                if (Manager)
+                if (Manager && Manager.ManagerState == ManagerState.Waiting)
                 {
-                    Manager.SendWakeUpCallToEnemies();
+                    //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
+                    //Manager.SendWakeUpCallToEnemies();
                 }
 
                 state = EnemyState.Attacking;
