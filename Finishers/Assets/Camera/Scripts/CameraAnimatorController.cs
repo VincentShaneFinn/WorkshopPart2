@@ -22,7 +22,7 @@ public class CameraAnimatorController : MonoBehaviour
     {
         bool _isGrabbing = animator.GetBool("isGrabbing");
 
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
         {
             Debug.Log("Is Grabbing: " + !_isGrabbing);
             animator.SetBool("isGrabbing", !_isGrabbing);
