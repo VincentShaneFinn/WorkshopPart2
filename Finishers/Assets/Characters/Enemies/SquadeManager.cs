@@ -13,6 +13,26 @@ namespace Finisher.Characters.Enemies
         [HideInInspector] public ManagerState ManagerState;
         private EnemyAI[] enemies;
 
+        public delegate void EnemiesEngage();
+        public event EnemiesEngage OnEnemiesEngage;
+        public void CallWakeUpListeners()
+        {
+            if (OnEnemiesEngage != null)
+            {
+                OnEnemiesEngage();
+            }
+        }
+
+        public delegate void EnemiesDisengage();
+        public event EnemiesDisengage OnEnemiesDisengage;
+        public void CallReturnHomeListeners()
+        {
+            if (OnEnemiesDisengage != null)
+            {
+                OnEnemiesDisengage();
+            }
+        }
+
         //[SerializeField] GameObject combatTarget = null;
 
         //AICharacterController character;
@@ -31,25 +51,7 @@ namespace Finisher.Characters.Enemies
         public void SendWakeUpCallToEnemies()
         {
             ManagerState = ManagerState.Attacking;
-            StartCoroutine(AlertEnemies());
-        }
-
-        IEnumerator AlertEnemies()
-        {
-            foreach (EnemyAI enemy in enemies)
-            {
-                yield return null;
-                enemy.AttackByManager();
-            }
-        }
-
-        IEnumerator FreeEnemies()
-        {
-            foreach (EnemyAI enemy in enemies)
-            {
-                yield return null;
-                enemy.StopByManager();
-            }
+            CallWakeUpListeners();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -61,7 +63,7 @@ namespace Finisher.Characters.Enemies
         {
             if (other.gameObject.tag == "Player")
             {
-                StartCoroutine(FreeEnemies());
+                CallReturnHomeListeners();
             }
         }
 
