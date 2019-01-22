@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum ManagerState { Null, Attacking }
+    public enum ManagerState { Waiting, Attacking }
 
     public class SquadeManager : MonoBehaviour
     {
         private Transform target; // target to aim for
         public ManagerState managerstate;
-        public List<GameObject> enemies = new List<GameObject>();
+        public List<EnemyAI> enemies = new List<EnemyAI>();
 
         //[SerializeField] GameObject combatTarget = null;
 
@@ -18,22 +18,34 @@ namespace Finisher.Characters.Enemies
 
         void Start()
         {
-            /*if (combatTarget == null)
-            {
-                combatTarget = GameObject.FindGameObjectWithTag("Player");
-            }*/
-            //character = GetComponent<AICharacterController>();
-            managerstate = ManagerState.Null;
+            managerstate = ManagerState.Waiting;
         }
+
+        
 
         public void Startattack()
         {
             managerstate = ManagerState.Attacking;
+            //Debug.Log("Attacking!");
+            foreach (EnemyAI item in enemies)
+            {
+                item.AttackByManager();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
             
+        }
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
+                foreach (EnemyAI item in enemies)
+                {
+                    item.StopByManager();    
+                }
+            }
         }
 
     }

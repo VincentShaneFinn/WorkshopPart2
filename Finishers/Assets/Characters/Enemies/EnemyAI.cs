@@ -20,11 +20,14 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         AICharacterController character;
-        SquadeManager manager;
+        public GameObject manager;
+        SquadeManager Manager;
         private CombatSystem combatSystem;
         public EnemyState state;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
+        private bool outofhome = false;
+        private bool attackorder = false;
 
 
         // Use this for initialization
@@ -32,15 +35,19 @@ namespace Finisher.Characters.Enemies
         {
             homeTargetPosition = transform.position;
             homeTargetRotation = transform.rotation;
-
             if (combatTarget == null)
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
+            if (manager == null)
+            {
+                manager = GameObject.FindGameObjectWithTag("EnemyManager");
+            }
             character = GetComponent<AICharacterController>();
+            Manager = manager.GetComponent<SquadeManager>();
             combatSystem = GetComponent<CombatSystem>();
             state = EnemyState.idle;
-            
+
         }
 
         // Update is called once per frame
@@ -57,12 +64,16 @@ namespace Finisher.Characters.Enemies
         private void pursueNearbyPlayer()
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if (distanceToPlayer <= chaseRadius)
+            if (attackorder)
+            {
+                Application.Quit();
+            }
+            else if (distanceToPlayer <= chaseRadius && !outofhome)
             {
                 character.SetTarget(combatTarget.transform);
                 character.UseOptionalDestination = false;
                 state = EnemyState.Chasing;
-                //manager.Startattack();
+                Manager.Startattack();
             }
             else
             {
@@ -72,6 +83,7 @@ namespace Finisher.Characters.Enemies
                 if(Vector3.Distance(transform.position, homeTargetPosition) <= .26f && transform.rotation != homeTargetRotation)
                 {
                     transform.rotation = homeTargetRotation;
+                    outofhome = false;
                 }
                 state = EnemyState.idle;
             }
@@ -92,6 +104,23 @@ namespace Finisher.Characters.Enemies
                     combatSystem.LightAttack();
                 }
             }
+        }
+
+        public void StopByManager()
+        {
+            character.SetTarget(transform);
+            character.OptionalDestination = homeTargetPosition;
+            character.UseOptionalDestination = true;
+            outofhome = true;
+            attackorder = false;
+        }
+
+        public void AttackByManager()
+        {
+            character.SetTarget(combatTarget.transform);
+            character.UseOptionalDestination = false;
+            state = EnemyState.Chasing;
+            attackorder = true;
         }
     }
 }
