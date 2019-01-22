@@ -16,6 +16,7 @@ namespace Finisher.Characters.Systems.Strategies
 
             if (particlesystems.Length > 0)
             {
+                //TODO: try to put this somewhere so it doesnt flood the hierarchy
                 GameObject particleSystemContainer = new GameObject();
                 float longestDuration = 0;
                 for (int i = 0; i < particlesystems.Length; i++)
