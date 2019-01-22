@@ -8,8 +8,6 @@ namespace Finisher.Characters.Enemies
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
-    [RequireComponent(typeof(SquadeManager))]
-
     public class EnemyAI : MonoBehaviour
     {
 
@@ -20,7 +18,6 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         AICharacterController character;
-        public GameObject manager;
         SquadeManager Manager;
         private CombatSystem combatSystem;
         public EnemyState state;
@@ -39,12 +36,8 @@ namespace Finisher.Characters.Enemies
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
-            if (manager == null)
-            {
-                manager = GameObject.FindGameObjectWithTag("EnemyManager");
-            }
             character = GetComponent<AICharacterController>();
-            Manager = manager.GetComponent<SquadeManager>();
+            Manager = GetComponentInParent<SquadeManager>();
             combatSystem = GetComponent<CombatSystem>();
             state = EnemyState.idle;
 
@@ -73,7 +66,6 @@ namespace Finisher.Characters.Enemies
                 character.SetTarget(combatTarget.transform);
                 character.UseOptionalDestination = false;
                 state = EnemyState.Chasing;
-                Manager.Startattack();
             }
             else
             {
@@ -94,6 +86,12 @@ namespace Finisher.Characters.Enemies
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
+                //TODO: change to observer
+                if (Manager)
+                {
+                    Manager.SendWakeUpCallToEnemies();
+                }
+
                 state = EnemyState.Attacking;
                 if (UnityEngine.Random.Range(0, 2) == 0)
                 {
@@ -106,6 +104,14 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        public void AttackByManager()
+        {
+            character.SetTarget(combatTarget.transform);
+            character.UseOptionalDestination = false;
+            state = EnemyState.Chasing;
+            attackorder = true;
+        }
+
         public void StopByManager()
         {
             character.SetTarget(transform);
@@ -113,14 +119,6 @@ namespace Finisher.Characters.Enemies
             character.UseOptionalDestination = true;
             outofhome = true;
             attackorder = false;
-        }
-
-        public void AttackByManager()
-        {
-            character.SetTarget(combatTarget.transform);
-            character.UseOptionalDestination = false;
-            state = EnemyState.Chasing;
-            attackorder = true;
         }
     }
 }

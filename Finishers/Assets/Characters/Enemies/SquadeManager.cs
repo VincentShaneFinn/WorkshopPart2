@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
@@ -8,9 +8,9 @@ namespace Finisher.Characters.Enemies
 
     public class SquadeManager : MonoBehaviour
     {
-        private Transform target; // target to aim for
-        public ManagerState managerstate;
-        public List<EnemyAI> enemies = new List<EnemyAI>();
+        //private Transform target; // target to aim for
+        private ManagerState managerstate;
+        private List<EnemyAI> enemies = new List<EnemyAI>();
 
         //[SerializeField] GameObject combatTarget = null;
 
@@ -19,17 +19,20 @@ namespace Finisher.Characters.Enemies
         void Start()
         {
             managerstate = ManagerState.Waiting;
+            setEnemies();
         }
 
-        
+        private void setEnemies()
+        {
+            enemies = GetComponentsInChildren<EnemyAI>().ToList();
+        }   
 
-        public void Startattack()
+        public void SendWakeUpCallToEnemies()
         {
             managerstate = ManagerState.Attacking;
-            //Debug.Log("Attacking!");
-            foreach (EnemyAI item in enemies)
+            foreach (EnemyAI enemy in enemies)
             {
-                item.AttackByManager();
+                enemy.AttackByManager();
             }
         }
 
@@ -37,13 +40,14 @@ namespace Finisher.Characters.Enemies
         {
             
         }
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.tag == "Player")
             {
-                foreach (EnemyAI item in enemies)
+                foreach (EnemyAI enemy in enemies)
                 {
-                    item.StopByManager();    
+                    enemy.StopByManager();    
                 }
             }
         }
