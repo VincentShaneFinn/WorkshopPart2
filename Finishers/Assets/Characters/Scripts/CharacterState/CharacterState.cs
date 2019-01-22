@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Finisher.Characters
@@ -42,28 +43,78 @@ namespace Finisher.Characters
 
         public virtual bool Grabbing { get; set; }
 
-        public bool Stunned
-        {
-            get { return animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
+        //todo grab should be different but similar animation state from Stunned
+        private bool grabbed = false;
+        public bool Grabbed {
+            get { return grabbed; }
             set
             {
-                if (!Uninteruptable)
+                if (!grabbed || (grabbed == true && !Uninteruptable))
                 {
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                 }
+
                 animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, value);
+
+                grabbed = value;
             }
         }
 
-        #region Invulnerable
+        public bool Stunned
+        {
+            get { return animator.GetBool(AnimConstants.Parameters.STUNNED_BOOL); }
+        }
 
-        public bool IsDodgeFrame = false;
+        private bool runningRecoverCR = false;
+        private float recoverFromStunTime;
+        public void Stun(float timeStunned, bool wasParry = false)
+        {
+            Systems.HealthSystem healthSystem = GetComponent<Systems.HealthSystem>();
+            if (healthSystem)
+            {
+                healthSystem.Knockback();
+            }
+            else
+            {
+                animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+            }
+
+            Parried = wasParry;
+
+            animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, true);
+            recoverFromStunTime = Time.time + timeStunned;
+            if (!runningRecoverCR) StartCoroutine(RecoverFromStun());
+        }
+
+        IEnumerator RecoverFromStun()
+        {
+            runningRecoverCR = true;
+            yield return new WaitWhile(() => Time.time < recoverFromStunTime);
+            runningRecoverCR = false;
+            Parried = false;
+
+            if (grabbed)
+            {
+                yield break;
+            }
+
+            animator.SetBool(AnimConstants.Parameters.STUNNED_BOOL, false);
+        }
+
+        public bool Parried { get; private set; }
+
+
+    #region Invulnerable
+
+        [HideInInspector] public bool IsDodgeFrame = false;
+        [HideInInspector] public bool IsParryFrame = false;
 
         public bool Invulnerable
         {
             get
             {
                 if (IsDodgeFrame ||
+                    IsParryFrame ||
                     animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
                 {
                     return true;
@@ -97,6 +148,8 @@ namespace Finisher.Characters
         }
 
         public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
+
+        public bool Parrying { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.PARRY_STATE); } }
 
         public bool FinisherModeActive { get { return animator.GetBool(AnimConstants.Parameters.FINISHERMODE_BOOL); } }
 

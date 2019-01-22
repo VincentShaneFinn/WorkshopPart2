@@ -8,7 +8,7 @@ namespace Finisher.UI.Meters
         private float newFillAmount;
         protected Image meter;
 
-        void Start()
+        void Awake()
         {
             meter = GetComponent<Image>();
         }

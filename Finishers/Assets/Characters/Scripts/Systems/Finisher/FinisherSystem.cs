@@ -381,14 +381,14 @@ namespace Finisher.Characters.Systems {
             grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
             characterState.Grabbing = true;
-            grabTarget.GetComponent<CharacterState>().Stunned = true;
+            grabTarget.GetComponent<CharacterState>().Grabbed = true;
         }
 
         private void stopGrab()
         {
             if (grabTarget)
             {
-                grabTarget.GetComponent<CharacterState>().Stunned = false;
+                grabTarget.GetComponent<CharacterState>().Grabbed = false;
             }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;

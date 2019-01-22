@@ -7,6 +7,17 @@ namespace Finisher.Characters
         public delegate void AttackExited();
         public event AttackExited AttackExitListeners;
 
+        public delegate void AttackStarted();
+        public event AttackStarted AttackStartListeners;
+
+        void OnStateEnter()
+        {
+            if (AttackStartListeners != null)
+            {
+                AttackStartListeners();
+            }
+        }
+
         void OnStateExit()
         {
             if (AttackExitListeners != null)

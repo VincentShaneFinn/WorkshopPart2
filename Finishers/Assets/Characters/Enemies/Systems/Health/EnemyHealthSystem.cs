@@ -68,9 +68,9 @@ namespace Finisher.Characters.Enemies.Systems
         private void toggleVolatiltyMeter(bool enabled)
         {
             currentVolatility = 0;
-            volatilityMeter.SetFillAmountInstant(currentVolatility);
 
             volatilityMask.gameObject.SetActive(enabled);
+            volatilityMeter.SetFillAmountInstant(currentVolatility);
         }
 
         private void toggleEnemyCanvas(bool enabled)
