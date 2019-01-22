@@ -12,7 +12,7 @@ namespace Finisher.Characters.Weapons
         CharacterState characterState;
         private BoxCollider boxCollider;
 
-        void Start()
+        void Awake()
         {
             Initialization();
         }

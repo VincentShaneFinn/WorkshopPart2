@@ -18,14 +18,14 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         private AICharacterController character;
-        private SquadeManager Manager;
+        private SquadeManager squadManager;
         private CombatSystem combatSystem;
         private EnemyState state;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
         private bool outofhome = false;
         private bool attackorder = false;
-
+        //TODO: theres a simpler way to handle the order here
 
         // Use this for initialization
         void Start()
@@ -37,10 +37,24 @@ namespace Finisher.Characters.Enemies
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
             character = GetComponent<AICharacterController>();
-            Manager = GetComponentInParent<SquadeManager>();
+            squadManager = GetComponentInParent<SquadeManager>();
             combatSystem = GetComponent<CombatSystem>();
             state = EnemyState.idle;
 
+            if (squadManager)
+            {
+                squadManager.OnEnemiesEngage += AttackByManager;
+                squadManager.OnEnemiesDisengage += StopByManager;      
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (squadManager)
+            {
+                squadManager.OnEnemiesEngage -= AttackByManager;
+                squadManager.OnEnemiesDisengage -= StopByManager;
+            }
         }
 
         // Update is called once per frame
@@ -59,7 +73,6 @@ namespace Finisher.Characters.Enemies
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (attackorder)
             {
-                Application.Quit();
             }
             else if (distanceToPlayer <= chaseRadius && !outofhome)
             {
@@ -87,9 +100,10 @@ namespace Finisher.Characters.Enemies
             if (distanceToPlayer <= attackRadius)
             {
                 //TODO: change to observer
-                if (Manager)
+                if (squadManager && squadManager.ManagerState == ManagerState.Waiting)
                 {
-                    Manager.SendWakeUpCallToEnemies();
+                    //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
+                    squadManager.SendWakeUpCallToEnemies();
                 }
 
                 state = EnemyState.Attacking;
