@@ -295,7 +295,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
                 
-                lightAttackDamageSystem.HitCharacter(targetHealthSystem);
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
@@ -304,7 +304,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
-                heavyAttackDamageSystem.HitCharacter(targetHealthSystem);
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 

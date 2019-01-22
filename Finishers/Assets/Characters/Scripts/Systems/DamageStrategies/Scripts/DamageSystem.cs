@@ -7,13 +7,15 @@ namespace Finisher.Characters.Systems.Strategies {
 
         [SerializeField] protected float baseDamage = 10f;
         [SerializeField] private bool dealsKnockback = true;
-        //[SerializeField] private float knockbackRange = 0;
+        [SerializeField] private float knockbackRange = 0.5f;
+        [SerializeField] private float knockbackDuration = 0.05f;
+        //[SerializeField] private ParticleSystem particleSystem = null;
         [SerializeField] private ParticleEventSystem particleEventSystem = null;
 
-        public virtual void HitCharacter(HealthSystem targetHealthSytem)
+        public virtual void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
         {
             DealDamage(targetHealthSytem);
-            DealKnockback(targetHealthSytem);
+            DealKnockback(damageSource, targetHealthSytem);
             playParticle(targetHealthSytem);
         }
 
@@ -32,13 +34,12 @@ namespace Finisher.Characters.Systems.Strategies {
 
         }
 
-
-        protected void DealKnockback(HealthSystem targetHealthSystem)
+        protected void DealKnockback(GameObject damageSource, HealthSystem targetHealthSystem)
         {
-            //TODO: allow health systems knockback to take a movementVector
             if (dealsKnockback)
             {
-                targetHealthSystem.Knockback();
+                //targetHealthSystem.Knockback();
+                targetHealthSystem.Knockback(knockbackRange * damageSource.transform.forward, knockbackDuration);
             }
         }
 
