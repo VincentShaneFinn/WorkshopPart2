@@ -8,8 +8,6 @@ namespace Finisher.Characters.Systems.Strategies
     {
         [SerializeField] private GameObject particleObject;
 
-        private ParticleSystem[] particlesystems = null;
-
         public void Play(Vector3 pos, Quaternion rot)
         {
             ParticleSystem[] particlesystems = particleObject.GetComponentsInChildren<ParticleSystem>();

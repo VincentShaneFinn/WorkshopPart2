@@ -47,7 +47,7 @@ namespace Finisher.Characters.Systems
             characterState = GetComponent<CharacterState>();
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
 
-            increaseHealth(config.MaxHealth);
+            IncreaseHealth(config.MaxHealth);
             decreaseVolatility(config.MaxVolatility);
         }
 
@@ -69,7 +69,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private void increaseHealth(float healing)
+        public void IncreaseHealth(float healing)
         {
             currentHealth += healing;
             if(currentHealth > config.MaxHealth - Mathf.Epsilon)

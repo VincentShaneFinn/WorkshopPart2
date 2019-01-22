@@ -1,22 +1,27 @@
 fileFormatVersion: 2
-guid: 0bcf368e4da9e0e4e8ea333dea04bf9b
+guid: dfd589f1a60e6144fae3ca931064339f
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Cork_Liquid
-    100002: Glass
-    100004: //RootNode
-    400000: Cork_Liquid
-    400002: Glass
-    400004: //RootNode
+    100000: //RootNode
+    100002: pCylinder1
+    100004: pTorus1
+    400000: //RootNode
+    400002: pCylinder1
+    400004: pTorus1
     2100000: lambert1
-    2300000: Cork_Liquid
-    2300002: Glass
-    3300000: Cork_Liquid
-    3300002: Glass
-    4300000: Glass
-    4300002: Cork_Liquid
-  externalObjects: {}
+    2300000: pCylinder1
+    2300002: pTorus1
+    3300000: pCylinder1
+    3300002: pTorus1
+    4300000: pCylinder1
+    4300002: pTorus1
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert1
+    second: {fileID: 2100000, guid: c337df82eff8eb34192a48921713bf6c, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -50,6 +55,7 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -74,6 +80,9 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
@@ -88,7 +97,6 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
