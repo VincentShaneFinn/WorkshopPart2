@@ -17,10 +17,10 @@ namespace Finisher.Characters.Enemies
         [SerializeField] GameObject combatTarget = null;
         [SerializeField] CharacterStateSO playerState;
 
-        AICharacterController character;
-        SquadeManager Manager;
+        private AICharacterController character;
+        private SquadeManager Manager;
         private CombatSystem combatSystem;
-        public EnemyState state;
+        private EnemyState state;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
         private bool outofhome = false;
