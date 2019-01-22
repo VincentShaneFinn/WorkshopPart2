@@ -8,6 +8,8 @@ namespace Finisher.Characters.Enemies
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
+    [RequireComponent(typeof(SquadeManager))]
+
     public class EnemyAI : MonoBehaviour
     {
 
@@ -18,23 +20,31 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         AICharacterController character;
+        SquadeManager manager;
         private CombatSystem combatSystem;
+        public EnemyState state;
+        private Transform Hometargrt;
+
 
         // Use this for initialization
         void Start()
         {
+            Hometargrt = this.transform;
+            home.transform.position = Hometargrt.position;
             if (combatTarget == null)
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
             character = GetComponent<AICharacterController>();
             combatSystem = GetComponent<CombatSystem>();
+            state = EnemyState.idle;
+            
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            Debug.Log(home.transform.position);
             // todo make a state machine
             pursueNearbyPlayer();
             if (!playerState.DyingState.Dying)
@@ -49,10 +59,14 @@ namespace Finisher.Characters.Enemies
             if (distanceToPlayer <= chaseRadius)
             {
                 character.SetTarget(combatTarget.transform);
+                state = EnemyState.Chasing;
+                //manager.Startattack();
             }
             else
             {
-                character.SetTarget(transform);
+                character.SetTarget(home.transform);
+                //Debug.Log(Hometargrt.transform.position);
+                state = EnemyState.idle;
             }
         }
 
@@ -61,6 +75,7 @@ namespace Finisher.Characters.Enemies
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
+                state = EnemyState.Attacking;
                 if (UnityEngine.Random.Range(0, 2) == 0)
                 {
                     combatSystem.HeavyAttack();
