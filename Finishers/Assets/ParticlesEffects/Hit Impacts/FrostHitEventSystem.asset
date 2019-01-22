@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a0d94eabe2535469cbdfac9ec5a2ae, type: 3}
-  m_Name: hitEffect4
+  m_Script: {fileID: 11500000, guid: 2406cd599d9d8f34f92b026a856e56a0, type: 3}
+  m_Name: FrostHitEventSystem
   m_EditorClassIdentifier: 
-  particleobjects: {fileID: 3509142333168442719, guid: 59c1bcaad0aabce47a0565d709a81d58,
-    type: 3}
+  particleEvent:
+  - {fileID: 11400000, guid: 643ac7e5e17ee7d4494b28f750cbca96, type: 2}

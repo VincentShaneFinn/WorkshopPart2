@@ -6,44 +6,33 @@ namespace Finisher.Characters.Systems.Strategies
     [CreateAssetMenu(menuName = ("Finisher/Systems/Particle/ParticleEvent"))]
     public class ParticleEvent : ScriptableObject
     {
-        [SerializeField] private GameObject particleobjects;
-        public ParticleSystem[] particlesystems=null;
+        [SerializeField] private GameObject particleObject;
 
-        public void play(Transform t) {
-            if (particlesystems == null)
-            {
-                particlesystems = particleobjects.GetComponentsInChildren<ParticleSystem>();
-            }
+        private ParticleSystem[] particlesystems = null;
+
+        public void Play(Vector3 pos, Quaternion rot)
+        {
+            ParticleSystem[] particlesystems = particleObject.GetComponentsInChildren<ParticleSystem>();
+
             if (particlesystems.Length > 0)
             {
-                
-                for (int i=0;i<particlesystems.Length;i++) {
-                    Debug.Log("effect");
-                    ParticleSystem n = Instantiate(particlesystems[i], t);
-                    n.Play();
-                    Destroy(n, particlesystems[i].main.duration);
-                }
-            }
-            
-        }
-        public void play(Vector3 pos,Quaternion rot)
-        {   
-            //if (particlesystems == null)
-            //{
-                particlesystems = particleobjects.GetComponentsInChildren<ParticleSystem>();
-                Debug.Log(particlesystems.Length);
-            //}
-            if (particlesystems.Length > 0)
-            {
+                GameObject particleSystemContainer = new GameObject();
+                float longestDuration = 0;
                 for (int i = 0; i < particlesystems.Length; i++)
                 {
-                    Debug.Log("effect");
-                    ParticleSystem n = Instantiate(particlesystems[i], pos,rot);
-                    n.Play();
-                    Destroy(n, particlesystems[i].main.duration);
+                    ParticleSystem particleSystem = Instantiate(particlesystems[i], pos,rot);
+                    particleSystem.transform.parent = particleSystemContainer.transform;
+
+                    particleSystem.Play();
+                    if (particleSystem.main.duration > longestDuration)
+                    {
+                        longestDuration = particleSystem.main.duration;
+                    }
                 }
+
+                Destroy(particleSystemContainer, longestDuration);
             }
-            
         }
+
     }
 }
