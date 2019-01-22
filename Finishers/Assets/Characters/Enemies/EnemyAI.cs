@@ -23,14 +23,16 @@ namespace Finisher.Characters.Enemies
         SquadeManager manager;
         private CombatSystem combatSystem;
         public EnemyState state;
-        private Transform Hometargrt;
+        private Vector3 homeTargetPosition;
+        private Quaternion homeTargetRotation;
 
 
         // Use this for initialization
         void Start()
         {
-            Hometargrt = this.transform;
-            home.transform.position = Hometargrt.position;
+            homeTargetPosition = transform.position;
+            homeTargetRotation = transform.rotation;
+
             if (combatTarget == null)
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
@@ -44,7 +46,6 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         void Update()
         {
-            Debug.Log(home.transform.position);
             // todo make a state machine
             pursueNearbyPlayer();
             if (!playerState.DyingState.Dying)
@@ -59,13 +60,19 @@ namespace Finisher.Characters.Enemies
             if (distanceToPlayer <= chaseRadius)
             {
                 character.SetTarget(combatTarget.transform);
+                character.UseOptionalDestination = false;
                 state = EnemyState.Chasing;
                 //manager.Startattack();
             }
             else
             {
-                character.SetTarget(home.transform);
-                //Debug.Log(Hometargrt.transform.position);
+                character.SetTarget(transform);
+                character.OptionalDestination = homeTargetPosition;
+                character.UseOptionalDestination = true;
+                if(Vector3.Distance(transform.position, homeTargetPosition) <= .26f && transform.rotation != homeTargetRotation)
+                {
+                    transform.rotation = homeTargetRotation;
+                }
                 state = EnemyState.idle;
             }
         }
