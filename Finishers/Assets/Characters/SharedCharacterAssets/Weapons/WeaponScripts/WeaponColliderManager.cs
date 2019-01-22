@@ -57,6 +57,7 @@ namespace Finisher.Characters.Weapons
                 else
                 {
                     combatSystem.HitCharacter(targetHealthSystem);
+                    targetHealthSystem.Knockback(combatSystem.CurrentKnockback * combatSystem.transform.forward, combatSystem.KnockbackDuration);
                 }
             }
         }

@@ -132,12 +132,16 @@ namespace Finisher.Characters.Systems
 
         #region Attacks
 
+        private float currentKnockback = 0;
+        public float CurrentKnockback { get { return currentKnockback; } }
+        public float KnockbackDuration { get { return config.KnockbackDuration;  } }
         public void LightAttack()
         {
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+            currentKnockback = config.LightKnockback;
         }
 
         public void HeavyAttack()
@@ -146,6 +150,7 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+            currentKnockback = config.HeavyKnockback;
         }
 
         IEnumerator DelayedResetAttackTrigger()
