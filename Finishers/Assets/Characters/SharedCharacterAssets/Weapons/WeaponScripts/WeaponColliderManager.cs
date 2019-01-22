@@ -48,15 +48,29 @@ namespace Finisher.Characters.Weapons
             HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
             CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
 
-            if (targetHealthSystem && !targetState.Dying && !targetState.Invulnerable)
+            if (targetHealthSystem)
             {
-                if (characterState.FinisherModeActive)
+                if(!targetState.Dying && !targetState.Invulnerable)
                 {
-                    finisherSystem.HitCharacter(targetHealthSystem);
+                    if (characterState.FinisherModeActive)
+                    {
+                        finisherSystem.HitCharacter(targetHealthSystem);
+                    }
+                    else
+                    {
+                        combatSystem.HitCharacter(targetHealthSystem);
+                    }
                 }
-                else
+                else if (targetState.IsParryFrame)
                 {
-                    combatSystem.HitCharacter(targetHealthSystem);
+                    characterState.Stun(3f, wasParry: true);
+                    CombatSystem targetCombatSystem = targetState.GetComponent<CombatSystem>();
+                    if (targetCombatSystem)
+                    {
+                        targetCombatSystem.CallCombatSystemDealtDamageListeners(10f); //TODO: remove magic number
+                    }
+
+                    return;
                 }
             }
         }

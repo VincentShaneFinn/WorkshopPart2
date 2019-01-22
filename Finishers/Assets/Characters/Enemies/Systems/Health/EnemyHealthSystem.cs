@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 
 using Finisher.UI;
+using Finisher.UI.Meters;
 using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies.Systems
@@ -10,8 +11,8 @@ namespace Finisher.Characters.Enemies.Systems
     {
         [SerializeField] private EnemyUI enemyCanvas;
 
-        private Slider volatilityMeter;
-
+        private UI_VolatilityMeter volatilityMeter;
+        private Image volatilityMask;
 
         protected override void Start()
         {
@@ -25,16 +26,17 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (enemyCanvas)
             {
-                healthSlider = enemyCanvas.HealthSlider;
-                volatilityMeter = enemyCanvas.VolatilityMeter;
+                healthBar = GetComponentInChildren<UI_HealthMeter>();
+                volatilityMeter = GetComponentInChildren<UI_VolatilityMeter>();
+                volatilityMask = enemyCanvas.VolatilityMeterMask;
             }
         }
 
         private void setupVolatilityMeterToggle()
         {
-            if (volatilityMeter)
+            if (volatilityMask)
             {
-                volatilityMeter.gameObject.SetActive(false);
+                volatilityMask.gameObject.SetActive(false);
                 FinisherSystem playerFinisherSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<FinisherSystem>();
                 if (playerFinisherSystem)
                 {
@@ -59,16 +61,16 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (volatilityMeter)
             {
-                volatilityMeter.value = GetVolaitilityAsPercent();
+                volatilityMeter.SetFillAmount(GetVolaitilityAsPercent());
             }
         }
 
         private void toggleVolatiltyMeter(bool enabled)
         {
             currentVolatility = 0;
-            updateVolatilityUI();
 
-            volatilityMeter.gameObject.SetActive(enabled);
+            volatilityMask.gameObject.SetActive(enabled);
+            volatilityMeter.SetFillAmountInstant(currentVolatility);
         }
 
         private void toggleEnemyCanvas(bool enabled)

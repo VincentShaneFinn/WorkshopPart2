@@ -2015,6 +2015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a557c98f6a79df49a8922d68690ace1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDodgeFrame: 0
   stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &4940009788626016722
 MonoBehaviour:
@@ -2061,12 +2062,12 @@ MonoBehaviour:
     type: 3}
   RotateWithCameraSpeed: 20
   AutoLockTurnSpeed: 5
-  MAXCOMBATTARGETRANGE: 20
-  MAINRANGE: 3
-  EXTRARANGE: 1.5
+  MAINRANGE: 2.6
+  SECONDARY_HITBOX_RANGE: 1.25
   MAINFOV: 50
-  EXTRAFOV: 100
-  DIRECTIONALINPUTFOV: 35
+  SECONDARY_HITBOX: 100
+  DIRECTIONAL_INPUT_HITBOX: 35
+  attackSnapDistance: 0.1
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2096,6 +2097,7 @@ MonoBehaviour:
   heavyAttackDamageSystem: {fileID: 11400000, guid: 824a5ceb6a88e5847afcc119a13b6911,
     type: 2}
   config: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
+  DodgingAllowed: 1
   impactFrameTime: 0.1
 --- !u!114 &7146908285708924571
 MonoBehaviour:
@@ -2231,11 +2233,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3079736053775607216}
     m_Modifications:
-    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
-        type: 3}
-      propertyPath: m_Name
-      value: Knife
-      objectReference: {fileID: 0}
     - target: {fileID: 6624719855217977527, guid: c59eaaa44d8e1f4469b7db18f5763773,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2290,6 +2287,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 255.808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
+        type: 3}
+      propertyPath: m_Name
+      value: Knife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c59eaaa44d8e1f4469b7db18f5763773, type: 3}

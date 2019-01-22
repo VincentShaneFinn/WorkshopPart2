@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
@@ -25,12 +26,21 @@ namespace Finisher.Characters.Systems
                 OnKnockBack();
             }
         }
+        public delegate void TookDamage();
+        public event TookDamage OnDamageTaken;
+        private void CallDamageTakenEvent()
+        {
+            if (OnDamageTaken != null)
+            {
+                OnDamageTaken();
+            }
+        }
 
         #endregion
 
         private CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Slider healthSlider;
+        protected UI_HealthMeter healthBar;
 
         protected virtual void Start()
         {
@@ -51,6 +61,7 @@ namespace Finisher.Characters.Systems
             if (characterState.Invulnerable) { return; }
 
             decreaseHealth(damage);
+            CallDamageTakenEvent();
 
             if (currentHealth <= 0)
             {
@@ -95,7 +106,15 @@ namespace Finisher.Characters.Systems
 
         private void increaseVolatility(float amount)
         {
-            currentVolatility += amount;
+            if (characterState.Grabbed)
+            {
+                currentVolatility += amount * 3;
+            }
+            else
+            {
+                currentVolatility += amount;
+            }
+
             if (currentVolatility > config.MaxVolatility - Mathf.Epsilon)
             {
                 currentVolatility = config.MaxVolatility;
@@ -197,9 +216,9 @@ namespace Finisher.Characters.Systems
 
         private void updateHealthUI()
         {
-            if (healthSlider)
+            if (healthBar)
             {
-                healthSlider.value = GetHealthAsPercent();
+                healthBar.SetFillAmount(GetHealthAsPercent());
             }
         }
 
