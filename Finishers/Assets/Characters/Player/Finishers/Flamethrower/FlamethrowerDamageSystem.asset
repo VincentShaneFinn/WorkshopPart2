@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 15
   dealsKnockback: 1
+  knockbackRange: 0.5
+  knockbackDuration: 0.05
+  particleEventSystem: {fileID: 11400000, guid: dd532addf8fbe994ca7e4edea069aba5,
+    type: 2}
   volatilityDamage: 10
   finisherMeterCost: 10
