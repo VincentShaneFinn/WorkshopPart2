@@ -54,7 +54,7 @@ namespace Finisher.Characters.Systems {
         [Header("Siphoning Settings")]
         [SerializeField] private ThrowingWeapon throwingWeapon;
         [SerializeField] private float distanceFromEnemyBack = .1f;
-        [SerializeField] private Flamethrower flamethrower;
+        [SerializeField] private PulseBlast flamethrower;
         [SerializeField] private FlameAOE flameAOE;
 
         #endregion
