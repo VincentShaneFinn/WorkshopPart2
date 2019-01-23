@@ -5,7 +5,7 @@ using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Player.Finishers
 {
-    public class Flamethrower : MonoBehaviour
+    public class PulseBlast : MonoBehaviour
     {
         [SerializeField] private FinisherSkillsDamageSystem flamethrowerDamageSystem;
         public float FinisherMeterCost { get { return flamethrowerDamageSystem.FinisherMeterCost; } }
