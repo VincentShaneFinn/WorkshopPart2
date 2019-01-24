@@ -70,6 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc646fbd99570847b080a9caebb2592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDodgeFrame: 0
+  IsParryFrame: 0
 --- !u!114 &4163102736935993905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
   capsuleColliderRadius: 0.5
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
+  UseOptionalDestination: 0
+  OptionalDestination: {x: 0, y: 0, z: 0}
   baseOffset: -0.04
   stoppingDistance: 1.3
 --- !u!114 &114527653871411836
@@ -155,11 +159,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7059047519f571448b9bc379b53f89c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightAttackDamageSystem: {fileID: 11400000, guid: 0c2dc33e844d9c5498abc1fa32ec97c8,
+  lightAttackDamageSystem: {fileID: 11400000, guid: 0b4ef5dde89ef494380933dbeb4f7196,
     type: 2}
-  heavyAttackDamageSystem: {fileID: 11400000, guid: 824a5ceb6a88e5847afcc119a13b6911,
+  heavyAttackDamageSystem: {fileID: 11400000, guid: 04a46612c650f8048931e27dbaf38b48,
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
+  DodgingAllowed: 1
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3325,6 +3330,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
