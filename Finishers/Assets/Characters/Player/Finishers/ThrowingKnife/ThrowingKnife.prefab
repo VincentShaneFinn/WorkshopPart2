@@ -999,7 +999,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwingWeaponDamageSystem: {fileID: 11400000, guid: 121451aa07daf4f4fbfec8824f1f886c,
     type: 2}
-  moveSpeed: 35
+  moveSpeed: 50
   xClamp: 0.2
 --- !u!96 &6009776010108904167
 TrailRenderer:
@@ -1107,6 +1107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Soul Spear
+      objectReference: {fileID: 0}
+    - target: {fileID: 6840438944731658304, guid: 396513ea6e310c641a1b0751873ae07c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1783772361478346626, guid: 396513ea6e310c641a1b0751873ae07c,
         type: 3}
@@ -1290,7 +1295,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 96a8d22d3f50b2940b7c36100350a33b, type: 3}
       propertyPath: m_Name
-      value: Soul_Spear_Bolt_1
+      value: Soul_Spear_Bolt
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 96a8d22d3f50b2940b7c36100350a33b, type: 3}
       propertyPath: m_LocalPosition.x
