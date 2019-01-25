@@ -173,6 +173,11 @@ namespace Finisher.Characters.Systems
             StartCoroutine(coroutine);
         }
 
+        public void KnockbackOutwards(GameObject damageSource, float knockbackRange, float knockbackTime = 0.1f, AnimationClip animClip = null)
+        {
+            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip);
+        }
+
         public void Knockback(AnimationClip animClip = null)
         {
             //TODO: Add a method to override the knockback limiter

@@ -7,7 +7,7 @@ using Finisher.Characters.Systems.Strategies;
 namespace Finisher.Characters.Player.Finishers {
     public class FlameAOE : MonoBehaviour
     {
-        [SerializeField] private FinisherSkillsDamageSystem flameAOEDamageSystem;
+        [SerializeField] private FlameAOEDamageSystem flameAOEDamageSystem;
         public float FinisherMeterCost { get { return flameAOEDamageSystem.FinisherMeterCost; } }
 
         [SerializeField] private float destroyInNSeconds = 1f;
