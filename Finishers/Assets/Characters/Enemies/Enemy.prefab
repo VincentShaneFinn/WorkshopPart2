@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114527653871411836}
   - component: {fileID: 2548389234887140761}
   - component: {fileID: 1084891823}
+  - component: {fileID: 7056579838223745693}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Enemy
@@ -70,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc646fbd99570847b080a9caebb2592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDodgeFrame: 0
 --- !u!114 &4163102736935993905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,6 +162,19 @@ MonoBehaviour:
   heavyAttackDamageSystem: {fileID: 11400000, guid: 824a5ceb6a88e5847afcc119a13b6911,
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
+--- !u!114 &7056579838223745693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a7dc5f9c71404cb42e82593358c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 55a163667357ba341ada3e9a496a1d29, type: 2}
 --- !u!1 &8739204254723069441
 GameObject:
   m_ObjectHideFlags: 0
@@ -3204,11 +3219,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
-    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095777, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3314,20 +3324,10 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3834099725927186803, guid: 18d6801d46e6d8f489566842adb22449,
+    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      propertyPath: m_Name
+      value: EnemyCanvas
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d6801d46e6d8f489566842adb22449, type: 3}
