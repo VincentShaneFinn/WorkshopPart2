@@ -483,6 +483,8 @@ namespace Finisher.Characters.Systems {
 
         void FinisherExecutionSlice()
         {
+
+            lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
             grabTarget.GetComponent<HealthSystem>().CutInHalf();
             toggleWeapon(WeaponToggle.Knife);
         }
