@@ -17,24 +17,49 @@ namespace Finisher.Characters.Enemies
         [SerializeField] GameObject combatTarget = null;
         [SerializeField] CharacterStateSO playerState;
 
-        AICharacterController character;
+        private AICharacterController character;
+        private SquadeManager squadManager;
         private CombatSystem combatSystem;
+        private EnemyState state;
+        private Vector3 homeTargetPosition;
+        private Quaternion homeTargetRotation;
+        private bool outofhome = false;
+        private bool attackorder = false;
+        //TODO: theres a simpler way to handle the order here
 
         // Use this for initialization
         void Start()
         {
+            homeTargetPosition = transform.position;
+            homeTargetRotation = transform.rotation;
             if (combatTarget == null)
             {
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
             character = GetComponent<AICharacterController>();
+            squadManager = GetComponentInParent<SquadeManager>();
             combatSystem = GetComponent<CombatSystem>();
+            state = EnemyState.idle;
+
+            if (squadManager)
+            {
+                squadManager.OnEnemiesEngage += AttackByManager;
+                squadManager.OnEnemiesDisengage += StopByManager;      
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (squadManager)
+            {
+                squadManager.OnEnemiesEngage -= AttackByManager;
+                squadManager.OnEnemiesDisengage -= StopByManager;
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
-
             // todo make a state machine
             pursueNearbyPlayer();
             if (!playerState.DyingState.Dying)
@@ -46,13 +71,26 @@ namespace Finisher.Characters.Enemies
         private void pursueNearbyPlayer()
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if (distanceToPlayer <= chaseRadius)
+            if (attackorder)
+            {
+            }
+            else if (distanceToPlayer <= chaseRadius && !outofhome)
             {
                 character.SetTarget(combatTarget.transform);
+                character.UseOptionalDestination = false;
+                state = EnemyState.Chasing;
             }
             else
             {
                 character.SetTarget(transform);
+                character.OptionalDestination = homeTargetPosition;
+                character.UseOptionalDestination = true;
+                if(Vector3.Distance(transform.position, homeTargetPosition) <= .26f && transform.rotation != homeTargetRotation)
+                {
+                    transform.rotation = homeTargetRotation;
+                    outofhome = false;
+                }
+                state = EnemyState.idle;
             }
         }
 
@@ -61,6 +99,14 @@ namespace Finisher.Characters.Enemies
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
+                //TODO: change to observer
+                if (squadManager && squadManager.ManagerState == ManagerState.Waiting)
+                {
+                    //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
+                    squadManager.SendWakeUpCallToEnemies();
+                }
+
+                state = EnemyState.Attacking;
                 if (UnityEngine.Random.Range(0, 2) == 0)
                 {
                     combatSystem.HeavyAttack();
@@ -70,6 +116,23 @@ namespace Finisher.Characters.Enemies
                     combatSystem.LightAttack();
                 }
             }
+        }
+
+        public void AttackByManager()
+        {
+            character.SetTarget(combatTarget.transform);
+            character.UseOptionalDestination = false;
+            state = EnemyState.Chasing;
+            attackorder = true;
+        }
+
+        public void StopByManager()
+        {
+            character.SetTarget(transform);
+            character.OptionalDestination = homeTargetPosition;
+            character.UseOptionalDestination = true;
+            outofhome = true;
+            attackorder = false;
         }
     }
 }

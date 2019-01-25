@@ -29,7 +29,7 @@ namespace Finisher.Characters.Player.Finishers {
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
             if (targetHealthSystem) // hit an enemy
             {
-                flameAOEDamageSystem.HitCharacter(targetHealthSystem);
+                flameAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
         }
 

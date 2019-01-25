@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-
-using Finisher.Characters.Systems;
+﻿using Finisher.Characters.Systems;
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Player.Systems
 {
@@ -17,7 +16,7 @@ namespace Finisher.Characters.Player.Systems
 
         private void setPlayerHealthSlider()
         {
-            healthBar = FindObjectOfType<UI.PlayerUIObjects>().HealthBar;
+            healthBar = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_HealthMeter>();
         }
 
         protected override void updateVolatilityUI()

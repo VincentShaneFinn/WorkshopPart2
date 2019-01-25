@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e166f5317b42c214a94ba9e708523bb3, type: 3}
+  m_Name: ThrowingWeaponDamageSystem
+  m_EditorClassIdentifier: 
+  baseDamage: 40
+  dealsKnockback: 1
+  knockbackRange: 0.5
+  knockbackDuration: 0.05
+  particleEventSystem: {fileID: 11400000, guid: 7f057fe833b9b26478d1772b0c0fd834,
+    type: 2}
+  volatilityDamage: 10
+  finisherMeterCost: 20
+  StandingDeathAnimClip: {fileID: 7400000, guid: 344c5786a7ff34b4fa61c63522e22cca,
+    type: 3}
