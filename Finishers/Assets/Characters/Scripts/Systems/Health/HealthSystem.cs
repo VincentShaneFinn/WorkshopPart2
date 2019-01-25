@@ -147,7 +147,6 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
         public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
@@ -170,6 +169,7 @@ namespace Finisher.Characters.Systems
             // Transform side of knockback
             Vector3 knockbackTarget = transform.position + knockbackVector;
             IEnumerator coroutine = knockbackTowards(knockbackTarget, knockbackTime);
+            characterState.IsDodgeFrame = true;
             StartCoroutine(coroutine);
         }
 
@@ -205,6 +205,7 @@ namespace Finisher.Characters.Systems
                 transform.position = Vector3.MoveTowards(transform.position, knockbackTarget, maxDistance);
                 yield return new WaitForSeconds(delay);
             }
+            characterState.IsDodgeFrame = false;
         }
 
         // todo, make this care about consective hits or building up a resistance?
