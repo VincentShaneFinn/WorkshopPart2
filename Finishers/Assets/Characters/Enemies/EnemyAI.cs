@@ -90,6 +90,8 @@ namespace Finisher.Characters.Enemies
             }
 
             //if (state != currentState) //Only do stuff if it changes
+            //Only thing broken with this now is attack does not do the attack chains since no 
+            //coroutine sequence is setup
             {
                 currentState = state;
             }
@@ -114,6 +116,8 @@ namespace Finisher.Characters.Enemies
             }
             
         }
+
+        #region Helper Checkers
 
         private bool atHomePoint()
         {
@@ -154,6 +158,10 @@ namespace Finisher.Characters.Enemies
                 return false;
             }
         }
+
+        #endregion
+
+        #region State Behaviors
 
         private void idleStance()
         {
@@ -198,6 +206,10 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        #endregion
+
+        #region Delegate Methods
+
         public void ChaseByManager()
         {
             directOrder = EnemyState.Chasing;
@@ -207,5 +219,8 @@ namespace Finisher.Characters.Enemies
         {
             directOrder = EnemyState.ReturningHome;
         }
+
+        #endregion
+
     }
 }
