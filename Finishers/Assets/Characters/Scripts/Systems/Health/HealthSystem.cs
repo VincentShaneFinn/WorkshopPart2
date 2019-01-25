@@ -147,7 +147,6 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
         public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
