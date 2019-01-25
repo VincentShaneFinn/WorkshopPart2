@@ -169,7 +169,6 @@ namespace Finisher.Characters.Systems
             // Transform side of knockback
             Vector3 knockbackTarget = transform.position + knockbackVector;
             IEnumerator coroutine = knockbackTowards(knockbackTarget, knockbackTime);
-            characterState.IsDodgeFrame = true;
             StartCoroutine(coroutine);
         }
 
@@ -205,7 +204,6 @@ namespace Finisher.Characters.Systems
                 transform.position = Vector3.MoveTowards(transform.position, knockbackTarget, maxDistance);
                 yield return new WaitForSeconds(delay);
             }
-            characterState.IsDodgeFrame = false;
         }
 
         // todo, make this care about consective hits or building up a resistance?
