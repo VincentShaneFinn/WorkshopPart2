@@ -12,5 +12,7 @@ namespace Finisher.Characters.Systems
 
         [SerializeField] AnimationClip[] normalDeathAnimations = null; public AnimationClip[] NormalDeathAnimations { get { return normalDeathAnimations; } }
         [SerializeField] AnimationClip[] knockbackAnimations = null; public AnimationClip[] KnockbackAnimations { get { return knockbackAnimations; } }
+        [SerializeField] GameObject topHalf; public GameObject TopHalf { get { return topHalf; } }
+        [SerializeField] GameObject bottomHalf; public GameObject BottomHalf { get { return bottomHalf; } }
     }
 }

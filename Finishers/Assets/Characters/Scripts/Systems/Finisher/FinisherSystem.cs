@@ -120,6 +120,11 @@ namespace Finisher.Characters.Systems {
 
             testInput();
 
+            if(characterState.Grabbing && grabTarget == null)
+            {
+                OnGrabbingTargetToggled(false);
+            }
+            
             finisherInputProcessing();
             aimingHandlerWithGrabTarget();
         }
@@ -159,7 +164,9 @@ namespace Finisher.Characters.Systems {
         private void attemptFinisher()
         {
 
-            if (characterState.Grabbing)
+            if (characterState.Grabbing && 
+                !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_EXECUTE_STATE) && 
+                !animator.IsInTransition(0))
             {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
@@ -167,11 +174,11 @@ namespace Finisher.Characters.Systems {
                     Input.GetButtonDown(InputNames.Finisher) && 
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
-                    grabTarget.GetComponent<HealthSystem>().Kill();
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                     animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
                     //Set the default finisher to play
                     overrideFinisherExecution(flameAOE);
+                    toggleWeapon(WeaponToggle.Sword);
                 }
             }
         }
@@ -473,7 +480,8 @@ namespace Finisher.Characters.Systems {
 
         void FinisherExecutionSlice()
         {
-            print("Cut target in half");
+            grabTarget.GetComponent<HealthSystem>().CutInHalf();
+            toggleWeapon(WeaponToggle.Knife);
         }
 
         void PerformFinisherSkill()
