@@ -38,7 +38,7 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        private CharacterState characterState;
+        protected CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
         protected UI_HealthMeter healthBar;
 
