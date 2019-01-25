@@ -120,11 +120,11 @@ namespace Finisher.Characters.Systems {
 
             testInput();
 
-            if(characterState.Grabbing && grabTarget == null)
+            if (characterState.Grabbing && grabTarget == null)
             {
                 OnGrabbingTargetToggled(false);
             }
-            
+
             finisherInputProcessing();
             aimingHandlerWithGrabTarget();
         }
@@ -135,12 +135,15 @@ namespace Finisher.Characters.Systems {
 
         private void finisherInputProcessing()
         {
-            attemptToggleGrab();
-            attemptFinisher();
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) &&
+                !animator.IsInTransition(0))
+            {
+                attemptToggleGrab();
+                attemptFinisher();
+                setL3AndR3();
+                attemptToggleFinisherMode();
+            }
             attempFinisherSelection();
-
-            setL3AndR3();
-            attemptToggleFinisherMode();
         }
 
         private void attemptToggleGrab()
