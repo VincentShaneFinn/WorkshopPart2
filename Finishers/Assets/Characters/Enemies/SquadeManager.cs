@@ -10,7 +10,7 @@ namespace Finisher.Characters.Enemies
     public class SquadeManager : MonoBehaviour
     {
         //private Transform target; // target to aim for
-        [HideInInspector] public ManagerState ManagerState;
+        [HideInInspector] public ManagerState CurrentManagerState;
         private EnemyAI[] enemies;
 
         public delegate void EnemiesEngage();
@@ -39,7 +39,7 @@ namespace Finisher.Characters.Enemies
 
         void Start()
         {
-            ManagerState = ManagerState.Waiting;
+            CurrentManagerState = ManagerState.Waiting;
             setEnemies();
         }
 
@@ -50,7 +50,7 @@ namespace Finisher.Characters.Enemies
 
         public void SendWakeUpCallToEnemies()
         {
-            ManagerState = ManagerState.Attacking;
+            CurrentManagerState = ManagerState.Attacking;
             CallWakeUpListeners();
         }
 
@@ -64,6 +64,7 @@ namespace Finisher.Characters.Enemies
             if (other.gameObject.tag == "Player")
             {
                 CallReturnHomeListeners();
+                CurrentManagerState = ManagerState.Waiting;
             }
         }
 

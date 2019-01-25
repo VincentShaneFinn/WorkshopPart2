@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 
 using Finisher.Characters.Systems;
+using System;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum EnemyState { idle, Patrolling, Chasing, Attacking }
+    public enum EnemyState { Idle, ReturningHome, Patrolling, Chasing, Attacking }
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
@@ -20,11 +21,10 @@ namespace Finisher.Characters.Enemies
         private AICharacterController character;
         private SquadeManager squadManager;
         private CombatSystem combatSystem;
-        private EnemyState state;
+        private EnemyState currentState;
+        private EnemyState directOrder;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-        private bool outofhome = false;
-        private bool attackorder = false;
         //TODO: theres a simpler way to handle the order here
 
         // Use this for initialization
@@ -39,12 +39,13 @@ namespace Finisher.Characters.Enemies
             character = GetComponent<AICharacterController>();
             squadManager = GetComponentInParent<SquadeManager>();
             combatSystem = GetComponent<CombatSystem>();
-            state = EnemyState.idle;
+            currentState = EnemyState.Idle;
+            directOrder = EnemyState.Idle;
 
             if (squadManager)
             {
-                squadManager.OnEnemiesEngage += AttackByManager;
-                squadManager.OnEnemiesDisengage += StopByManager;      
+                squadManager.OnEnemiesEngage += ChaseByManager;
+                squadManager.OnEnemiesDisengage += StopByManager;
             }
         }
 
@@ -52,7 +53,7 @@ namespace Finisher.Characters.Enemies
         {
             if (squadManager)
             {
-                squadManager.OnEnemiesEngage -= AttackByManager;
+                squadManager.OnEnemiesEngage -= ChaseByManager;
                 squadManager.OnEnemiesDisengage -= StopByManager;
             }
         }
@@ -60,79 +61,151 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         void Update()
         {
-            // todo make a state machine
-            pursueNearbyPlayer();
-            if (!playerState.DyingState.Dying)
-            {
-                attackPlayerIfNear();
-            }    
-        }
 
-        private void pursueNearbyPlayer()
-        {
-            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if (attackorder)
+            EnemyState state;
+
+            if(directOrder == EnemyState.Chasing) //todo whats a better way than these 2 ifs
             {
-            }
-            else if (distanceToPlayer <= chaseRadius && !outofhome)
-            {
-                character.SetTarget(combatTarget.transform);
-                character.UseOptionalDestination = false;
                 state = EnemyState.Chasing;
+            }
+            else if (directOrder == EnemyState.ReturningHome)
+            {
+                state = EnemyState.ReturningHome;
+            }
+            else if (isPlayerInAttackRange())
+            {
+                state = EnemyState.Attacking;
+            }
+            else if (isPlayerInChaseRange())
+            {
+                state = EnemyState.Chasing;
+            }
+            else if (!atHomePoint())
+            {
+                state = EnemyState.ReturningHome;
             }
             else
             {
-                character.SetTarget(transform);
-                character.OptionalDestination = homeTargetPosition;
-                character.UseOptionalDestination = true;
-                if(Vector3.Distance(transform.position, homeTargetPosition) <= .26f && transform.rotation != homeTargetRotation)
-                {
-                    transform.rotation = homeTargetRotation;
-                    outofhome = false;
-                }
-                state = EnemyState.idle;
+                state = EnemyState.Idle;
+            }
+
+            //if (state != currentState) //Only do stuff if it changes
+            {
+                currentState = state;
+            }
+
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    idleStance();
+                    break;
+                case EnemyState.Patrolling:
+                    throw new NotImplementedException();
+                case EnemyState.ReturningHome:
+                    returnHome();
+                    break;
+                case EnemyState.Chasing:
+                    pursuePlayer();
+                    break;
+                case EnemyState.Attacking:
+                    attackPlayer();
+                    break;
+
+            }
+            
+        }
+
+        private bool atHomePoint()
+        {
+            float distanceToHome = Vector3.Distance(transform.position, homeTargetPosition);
+            if (distanceToHome <= .2f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        private void attackPlayerIfNear()
+        private bool isPlayerInChaseRange()
+        {
+            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
+            if(distanceToPlayer <= chaseRadius)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        private bool isPlayerInAttackRange()
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
             if (distanceToPlayer <= attackRadius)
             {
-                //TODO: change to observer
-                if (squadManager && squadManager.ManagerState == ManagerState.Waiting)
-                {
-                    //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
-                    squadManager.SendWakeUpCallToEnemies();
-                }
-
-                state = EnemyState.Attacking;
-                if (UnityEngine.Random.Range(0, 2) == 0)
-                {
-                    combatSystem.HeavyAttack();
-                }
-                else
-                {
-                    combatSystem.LightAttack();
-                }
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public void AttackByManager()
+        private void idleStance()
+        {
+            character.SetTarget(transform);
+            character.UseOptionalDestination = false;
+            transform.rotation = homeTargetRotation;
+        }
+
+        private void pursuePlayer()
         {
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
-            state = EnemyState.Chasing;
-            attackorder = true;
         }
 
-        public void StopByManager()
+        private void attackPlayer()
+        {
+            if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
+            {
+                //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
+                squadManager.SendWakeUpCallToEnemies();
+            }
+
+            if (UnityEngine.Random.Range(0, 2) == 0)
+            {
+                combatSystem.HeavyAttack();
+            }
+            else
+            {
+                combatSystem.LightAttack();
+            }
+
+        }
+
+        private void returnHome()
         {
             character.SetTarget(transform);
             character.OptionalDestination = homeTargetPosition;
             character.UseOptionalDestination = true;
-            outofhome = true;
-            attackorder = false;
+            if (atHomePoint())
+            {
+                directOrder = EnemyState.Idle;
+            }
+        }
+
+        public void ChaseByManager()
+        {
+            directOrder = EnemyState.Chasing;
+        }
+
+        public void StopByManager()
+        {
+            directOrder = EnemyState.ReturningHome;
         }
     }
 }
