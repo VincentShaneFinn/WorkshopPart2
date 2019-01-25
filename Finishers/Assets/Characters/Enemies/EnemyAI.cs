@@ -6,11 +6,15 @@ using System;
 namespace Finisher.Characters.Enemies
 {
     public enum EnemyState { Idle, ReturningHome, Patrolling, Chasing, Attacking }
+    public enum ChaseSubState { Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
+
+        public ChaseSubState currentChaseSubstate; //temporarily make us manually assign their chase method from inspector
+        //TODO: this must be automated and set by the SquadManager
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] float attackRadius = 1.5f;
@@ -19,13 +23,12 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         private AICharacterController character;
-        private SquadeManager squadManager;
+        private SquadManager squadManager;
         private CombatSystem combatSystem;
         private EnemyState currentState;
         private EnemyState directOrder;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-        //TODO: theres a simpler way to handle the order here
 
         // Use this for initialization
         void Start()
@@ -37,7 +40,7 @@ namespace Finisher.Characters.Enemies
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
             character = GetComponent<AICharacterController>();
-            squadManager = GetComponentInParent<SquadeManager>();
+            squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
             currentState = EnemyState.Idle;
             directOrder = EnemyState.Idle;
@@ -107,7 +110,7 @@ namespace Finisher.Characters.Enemies
                     returnHome();
                     break;
                 case EnemyState.Chasing:
-                    pursuePlayer();
+                    pursuePlayer(); //TODO: a substate of chasing would be the 3 methods, DirectChase, ArcedChase, and Surround
                     break;
                 case EnemyState.Attacking:
                     attackPlayer();
@@ -174,6 +177,18 @@ namespace Finisher.Characters.Enemies
         {
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
+
+            character.RestoreStoppingDistance();
+            character.RestoreMovementSpeedMultiplier();
+
+            if (currentChaseSubstate == ChaseSubState.Arced)
+            {
+                character.MovementSpeedMultiplier = .2f;
+            }
+            else if(currentChaseSubstate == ChaseSubState.Surround)
+            {
+                character.SetStoppingDistance(10f);
+            }
         }
 
         private void attackPlayer()

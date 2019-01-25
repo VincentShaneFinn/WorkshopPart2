@@ -7,7 +7,7 @@ namespace Finisher.Characters.Enemies
 {
     public enum ManagerState { Waiting, Attacking }
 
-    public class SquadeManager : MonoBehaviour
+    public class SquadManager : MonoBehaviour
     {
         //private Transform target; // target to aim for
         [HideInInspector] public ManagerState CurrentManagerState;

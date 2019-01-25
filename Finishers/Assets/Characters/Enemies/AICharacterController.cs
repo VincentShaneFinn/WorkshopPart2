@@ -123,7 +123,15 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        public void SetStoppingDistance(float newStoppingDistance)
+        {
+            agent.stoppingDistance = newStoppingDistance;
+        }
 
+        public void RestoreStoppingDistance()
+        {
+            agent.stoppingDistance = stoppingDistance;
+        }
 
         public void SetTarget(Transform target)
         {
