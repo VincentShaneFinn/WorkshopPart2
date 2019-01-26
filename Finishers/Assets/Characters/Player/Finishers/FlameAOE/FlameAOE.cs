@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+
 using UnityEngine;
 
 using Finisher.Characters.Systems;
@@ -7,7 +9,7 @@ using Finisher.Characters.Systems.Strategies;
 namespace Finisher.Characters.Player.Finishers {
     public class FlameAOE : MonoBehaviour
     {
-        [SerializeField] private FinisherSkillsDamageSystem flameAOEDamageSystem;
+        [SerializeField] private FlameAOEDamageSystem flameAOEDamageSystem;
         public float FinisherMeterCost { get { return flameAOEDamageSystem.FinisherMeterCost; } }
 
         [SerializeField] private float destroyInNSeconds = 1f;
@@ -15,6 +17,8 @@ namespace Finisher.Characters.Player.Finishers {
         // todo make configs for Finisher
 
         private CapsuleCollider capsuleCollider;
+
+        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
 
 
         void Start()
@@ -24,9 +28,16 @@ namespace Finisher.Characters.Player.Finishers {
 
         void OnTriggerEnter(Collider col)
         {
-            if (col.gameObject.tag == "Player") { return; } 
+            if (col.gameObject.tag == "Player") { return; }
 
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
+
+            if (hit.Contains(targetHealthSystem))
+            {
+                return;
+            }
+            hit.Add(targetHealthSystem);
+
             if (targetHealthSystem) // hit an enemy
             {
                 flameAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
