@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using Finisher.Characters.Systems;
 
@@ -12,7 +12,7 @@ namespace Finisher.Characters.Weapons
         CharacterState characterState;
         private BoxCollider boxCollider;
 
-        void Start()
+        void Awake()
         {
             Initialization();
         }
@@ -41,10 +41,10 @@ namespace Finisher.Characters.Weapons
 
         void OnTriggerEnter(Collider collider)
         {
-            // Dont hit somethting in the same layer
+            // Dont hit something in the same layer
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
-
+            
             HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
             CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
 

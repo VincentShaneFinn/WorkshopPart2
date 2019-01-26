@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8497985e5cac221418beac90f5a079f4, type: 3}
+  m_Script: {fileID: 11500000, guid: bb8cf9b2222f01442b93f50af474c43c, type: 3}
   m_Name: FlameAOEDamageSystem
   m_EditorClassIdentifier: 
   baseDamage: 40
   dealsKnockback: 1
-  knockbackRange: 0.5
+  knockbackRange: 3
   knockbackDuration: 0.05
   particleEventSystem: {fileID: 11400000, guid: dd532addf8fbe994ca7e4edea069aba5,
     type: 2}

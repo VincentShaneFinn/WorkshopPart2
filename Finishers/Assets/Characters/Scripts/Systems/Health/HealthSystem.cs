@@ -38,7 +38,7 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        private CharacterState characterState;
+        protected CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
         protected UI_HealthMeter healthBar;
 
@@ -47,7 +47,7 @@ namespace Finisher.Characters.Systems
             characterState = GetComponent<CharacterState>();
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
 
-            increaseHealth(config.MaxHealth);
+            IncreaseHealth(config.MaxHealth);
             decreaseVolatility(config.MaxVolatility);
         }
 
@@ -69,7 +69,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private void increaseHealth(float healing)
+        public void IncreaseHealth(float healing)
         {
             currentHealth += healing;
             if(currentHealth > config.MaxHealth - Mathf.Epsilon)
@@ -147,7 +147,6 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
         public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
@@ -171,6 +170,11 @@ namespace Finisher.Characters.Systems
             Vector3 knockbackTarget = transform.position + knockbackVector;
             IEnumerator coroutine = knockbackTowards(knockbackTarget, knockbackTime);
             StartCoroutine(coroutine);
+        }
+
+        public void KnockbackOutwards(GameObject damageSource, float knockbackRange, float knockbackTime = 0.1f, AnimationClip animClip = null)
+        {
+            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip);
         }
 
         public void Knockback(AnimationClip animClip = null)
