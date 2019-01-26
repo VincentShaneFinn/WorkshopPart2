@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+
 using UnityEngine;
 
 using Finisher.Characters.Systems;
@@ -16,6 +18,8 @@ namespace Finisher.Characters.Player.Finishers {
 
         private CapsuleCollider capsuleCollider;
 
+        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
+
 
         void Start()
         {
@@ -24,9 +28,16 @@ namespace Finisher.Characters.Player.Finishers {
 
         void OnTriggerEnter(Collider col)
         {
-            if (col.gameObject.tag == "Player") { return; } 
+            if (col.gameObject.tag == "Player") { return; }
 
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
+
+            if (hit.Contains(targetHealthSystem))
+            {
+                return;
+            }
+            hit.Add(targetHealthSystem);
+
             if (targetHealthSystem) // hit an enemy
             {
                 flameAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
