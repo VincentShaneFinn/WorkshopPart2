@@ -6,9 +6,9 @@ namespace Finisher.Characters.Systems.Strategies {
     {
 
         [SerializeField] protected float baseDamage = 10f;
-        [SerializeField] private bool dealsKnockback = true;
-        [SerializeField] private float knockbackRange = 0.5f;
-        [SerializeField] private float knockbackDuration = 0.05f;
+        [SerializeField] protected bool dealsKnockback = true;
+        [SerializeField] protected float knockbackRange = 0.5f;
+        [SerializeField] protected float knockbackDuration = 0.05f;
         [SerializeField] private ParticleEventSystem particleEventSystem = null;
 
         public virtual void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
@@ -18,13 +18,13 @@ namespace Finisher.Characters.Systems.Strategies {
             playParticle(targetHealthSytem);
         }
 
-        protected void DealDamage(HealthSystem targetHealthSystem)
+        protected virtual void DealDamage(HealthSystem targetHealthSystem)
         {
             targetHealthSystem.DamageHealth(baseDamage);
 
         }
 
-        protected void DealKnockback(GameObject damageSource, HealthSystem targetHealthSystem)
+        protected virtual void DealKnockback(GameObject damageSource, HealthSystem targetHealthSystem)
         {
             if (dealsKnockback)
             {
@@ -33,7 +33,7 @@ namespace Finisher.Characters.Systems.Strategies {
             }
         }
 
-        private void playParticle(HealthSystem targetHealthSystem)
+        protected void playParticle(HealthSystem targetHealthSystem)
         {
             if (particleEventSystem != null)
             {

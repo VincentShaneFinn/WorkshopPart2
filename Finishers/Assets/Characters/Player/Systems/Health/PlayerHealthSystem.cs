@@ -1,5 +1,6 @@
 ﻿using Finisher.Characters.Systems;
 using Finisher.UI.Meters;
+using UnityEngine;
 
 namespace Finisher.Characters.Player.Systems
 {
@@ -12,6 +13,14 @@ namespace Finisher.Characters.Player.Systems
             setPlayerHealthSlider();
 
             base.Start();
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
+            {
+                IncreaseHealth(config.MaxHealth);
+            }
         }
 
         private void setPlayerHealthSlider()
