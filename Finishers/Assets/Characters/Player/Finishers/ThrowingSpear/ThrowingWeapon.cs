@@ -15,6 +15,7 @@ namespace Finisher.Characters.Player.Finishers {
         private bool beginSpecialAttack = false;
         private List<Transform> myEnemies;
         private List<Vector3> savedEnemyPositions;
+        public GameObject AOE;
 
         private BoxCollider boxCollider;
         private Rigidbody rigidBody;
@@ -56,11 +57,13 @@ namespace Finisher.Characters.Player.Finishers {
         {
             if (collision.gameObject.tag == "Enemy") // hit an enemy
             {
+                print("Hit");
                 Physics.IgnoreCollision(collision.collider, boxCollider);
                 var targetHealthSystem = collision.gameObject.GetComponent<HealthSystem>();
                 if (targetHealthSystem)
                 {
                     throwingWeaponDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                    GameObject.Instantiate(AOE).transform.position = transform.position;
                     if (targetHealthSystem.GetComponent<CharacterState>().Dying)
                     {
                         MakeChild(collision);
