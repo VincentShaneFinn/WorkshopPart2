@@ -292,11 +292,10 @@ namespace Finisher.Characters.Systems
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem)
         {
-            if (hit.Contains(targetHealthSystem))
+            if (!hit.Add(targetHealthSystem))
             {
                 return;
             }
-            hit.Add(targetHealthSystem);
             if (CurrentAttackType == AttackType.LightBlade)
             {
                 float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;

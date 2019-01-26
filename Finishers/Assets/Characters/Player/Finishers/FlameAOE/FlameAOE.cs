@@ -18,7 +18,7 @@ namespace Finisher.Characters.Player.Finishers {
 
         private CapsuleCollider capsuleCollider;
 
-        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
+        protected HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
 
 
         void Start()
@@ -31,12 +31,11 @@ namespace Finisher.Characters.Player.Finishers {
             if (col.gameObject.tag == "Player") { return; }
 
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
-
-            if (hit.Contains(targetHealthSystem))
+            
+            if (!hit.Add(targetHealthSystem))
             {
                 return;
             }
-            hit.Add(targetHealthSystem);
 
             if (targetHealthSystem) // hit an enemy
             {

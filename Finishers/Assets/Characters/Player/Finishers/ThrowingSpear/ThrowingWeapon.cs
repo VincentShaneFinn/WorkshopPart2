@@ -63,7 +63,9 @@ namespace Finisher.Characters.Player.Finishers {
                 if (targetHealthSystem)
                 {
                     throwingWeaponDamageSystem.HitCharacter(gameObject, targetHealthSystem);
-                    GameObject.Instantiate(AOE).transform.position = transform.position;
+                    GameObject AOEinstance = GameObject.Instantiate(AOE);
+                    AOEinstance.GetComponent<ThrowingWeaponAOE>().setSource(targetHealthSystem);
+                    AOEinstance.transform.position = transform.position;
                     if (targetHealthSystem.GetComponent<CharacterState>().Dying)
                     {
                         MakeChild(collision);
