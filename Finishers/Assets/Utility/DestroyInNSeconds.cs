@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class DestroyInNSeconds : MonoBehaviour
 {
+    [SerializeField] float NSeconds = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        Destroy(gameObject, NSeconds);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
