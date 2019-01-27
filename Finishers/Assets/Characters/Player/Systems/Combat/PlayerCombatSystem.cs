@@ -16,7 +16,7 @@ namespace Finisher.Characters.Player.Systems
     {
 
         [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
-        [SerializeField] float impactFrameTime = .1f;
+        [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private float chargeTime;
