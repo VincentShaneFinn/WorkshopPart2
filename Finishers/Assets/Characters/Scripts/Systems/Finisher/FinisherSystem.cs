@@ -49,7 +49,8 @@ namespace Finisher.Characters.Systems {
 
         private Sword sword;
         private Knife knife;
-        private enum WeaponToggle { Sword, Knife };
+        private SoulSword soulsword;
+        private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
@@ -80,6 +81,7 @@ namespace Finisher.Characters.Systems {
 
             knife = GetComponentInChildren<Knife>();
             sword = GetComponentInChildren<Sword>();
+            soulsword = GetComponentInChildren<SoulSword>();
             toggleWeapon(WeaponToggle.Sword);
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
@@ -115,6 +117,16 @@ namespace Finisher.Characters.Systems {
 
         void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Alpha9)) {
+                if (soulsword.gameObject.activeInHierarchy)
+                {
+                    toggleWeapon(WeaponToggle.Sword);
+                }
+                else
+                {
+                    toggleWeapon(WeaponToggle.SoulSword);
+                }
+            }
             if (characterState.Dying || GameManager.instance.GamePaused)
             {
                 return;
@@ -529,6 +541,7 @@ namespace Finisher.Characters.Systems {
         {
             knife.gameObject.SetActive(false);
             sword.gameObject.SetActive(false);
+            soulsword.gameObject.SetActive(false);
 
             switch (weaponToggle)
             {
@@ -537,6 +550,9 @@ namespace Finisher.Characters.Systems {
                     break;
                 case WeaponToggle.Knife:
                     knife.gameObject.SetActive(true);
+                    break;
+                case WeaponToggle.SoulSword:
+                    soulsword.gameObject.SetActive(true);
                     break;
             }
         }

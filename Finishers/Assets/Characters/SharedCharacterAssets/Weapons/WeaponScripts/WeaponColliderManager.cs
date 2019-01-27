@@ -7,9 +7,9 @@ namespace Finisher.Characters.Weapons
     [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
-        FinisherSystem finisherSystem;
-        CombatSystem combatSystem;
-        CharacterState characterState;
+        protected FinisherSystem finisherSystem;
+        protected CombatSystem combatSystem;
+        protected CharacterState characterState;
         private BoxCollider boxCollider;
 
         void Awake()
