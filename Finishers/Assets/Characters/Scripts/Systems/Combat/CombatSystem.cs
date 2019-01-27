@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Finisher.Characters.Systems
 {
 
-    public enum AttackType { None, LightBlade, HeavyBlade };
+    public enum AttackType { None, LightBlade, HeavyBlade, LightCharged, HeavyCharged };
     public enum MoveDirection { Forward,Right,Backward,Left };
 
     [DisallowMultipleComponent]
@@ -22,6 +22,8 @@ namespace Finisher.Characters.Systems
 
         [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
         [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] private CoreCombatDamageSystem heavyChargedAttackDamageSystem;
+        [SerializeField] private CoreCombatDamageSystem lightChargedAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
@@ -61,6 +63,14 @@ namespace Finisher.Characters.Systems
                 else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
                 {
                     return AttackType.HeavyBlade;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.CHARGED_LIGHTATTACK_TAG))
+                {
+                    return AttackType.LightCharged;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.CHARGED_HEAVYATTACK_TAG))
+                {
+                    return AttackType.HeavyCharged;
                 }
                 return AttackType.None;
             }
@@ -148,16 +158,36 @@ namespace Finisher.Characters.Systems
 
         #region Attacks
 
+        public void ChargeLightAttack()
+        {
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, true);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+        }
+
         public void LightAttack()
         {
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, false);
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
+        public void ChargeHeavyAttack()
+        {
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, true);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+        }
+
         public void HeavyAttack()
         {
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, false);
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
@@ -313,6 +343,24 @@ namespace Finisher.Characters.Systems
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
                 heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+            else if (CurrentAttackType == AttackType.HeavyCharged)
+            {
+                float finisherMeterGain = heavyChargedAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
+                heavyChargedAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+            else if (CurrentAttackType == AttackType.LightCharged)
+            {
+                float finisherMeterGain = lightChargedAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
+                lightChargedAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 

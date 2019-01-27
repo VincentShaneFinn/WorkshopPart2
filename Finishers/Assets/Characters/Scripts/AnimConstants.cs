@@ -28,6 +28,8 @@
             public const string LOCOMOTION_TAG = "Locomotion";
             public const string LIGHTATTACK_TAG = "LightAttack";
             public const string HEAVYATTACK_TAG = "HeavyAttack";
+            public const string CHARGED_HEAVYATTACK_TAG = "ChargedHeavyAttack";
+            public const string CHARGED_LIGHTATTACK_TAG = "ChargedLightAttack";
             public const string UNINTERUPTABLE_TAG = "Uninteruptable";
         }
 
@@ -41,6 +43,7 @@
             public const string ONGROUND_BOOL = "OnGround";
             public const string STRAFING_BOOL = "Strafing";
             public const string ISHEAVY_BOOL = "IsHeavy";
+            public const string ISCHARGED_BOOL = "IsCharged";
             public const string FINISHERMODE_BOOL = "FinisherMode";
             public const string STUNNED_BOOL = "Stunned";
             public const string DYING_BOOL = "Dying";
