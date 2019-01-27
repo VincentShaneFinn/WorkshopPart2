@@ -46,6 +46,7 @@ namespace Finisher.Characters.Player.Systems
         {
             processAttackInput();
             processDodgeInput();
+            processParryInput();
         }
 
         private void processAttackInput()
@@ -78,6 +79,10 @@ namespace Finisher.Characters.Player.Systems
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
             }
+        }
+
+        private void processParryInput()
+        {
             if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
             {
                 finisherSystem.ToggleGrabOff();

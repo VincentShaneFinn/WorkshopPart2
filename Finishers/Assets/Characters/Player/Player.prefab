@@ -2139,6 +2139,7 @@ MonoBehaviour:
     type: 3}
   soulInfusion: {fileID: 1184932774506233488, guid: 0243abf41c4b22b4c942630a11c71d82,
     type: 3}
+  stunAOE: {fileID: 3515533956619826726, guid: 31fb3d083e55ae64296307193ef49546, type: 3}
 --- !u!1001 &1261069488335191895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2236,11 +2237,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3079736053775607216}
     m_Modifications:
-    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
-        type: 3}
-      propertyPath: m_Name
-      value: Knife
-      objectReference: {fileID: 0}
     - target: {fileID: 6624719855217977527, guid: c59eaaa44d8e1f4469b7db18f5763773,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2295,6 +2291,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 255.808
+      objectReference: {fileID: 0}
+    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
+        type: 3}
+      propertyPath: m_Name
+      value: Knife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c59eaaa44d8e1f4469b7db18f5763773, type: 3}
