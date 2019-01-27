@@ -67,11 +67,7 @@ namespace Finisher.Characters.Enemies
 
             EnemyState state;
 
-            if(directOrder == EnemyState.Chasing) //todo whats a better way than these 2 ifs
-            {
-                state = EnemyState.Chasing;
-            }
-            else if (directOrder == EnemyState.ReturningHome)
+            if (directOrder == EnemyState.ReturningHome)
             {
                 state = EnemyState.ReturningHome;
             }
@@ -79,7 +75,7 @@ namespace Finisher.Characters.Enemies
             {
                 state = EnemyState.Attacking;
             }
-            else if (isPlayerInChaseRange())
+            else if (isPlayerInChaseRange() || directOrder == EnemyState.Chasing)
             {
                 state = EnemyState.Chasing;
             }
