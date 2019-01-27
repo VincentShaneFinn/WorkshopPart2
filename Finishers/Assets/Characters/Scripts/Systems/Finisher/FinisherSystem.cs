@@ -49,7 +49,6 @@ namespace Finisher.Characters.Systems {
 
         private Sword sword;
         private Knife knife;
-        private SoulSword soulsword;
         private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
@@ -64,10 +63,13 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private FlameAOE flameAOE;
         [SerializeField] private SoulInfusion soulInfusion;
         [SerializeField] private StunAOE stunAOE;
+        //
+        private bool isSoulOn = false;
 
         #endregion
 
         #endregion
+
 
         void Start()
         {
@@ -81,7 +83,6 @@ namespace Finisher.Characters.Systems {
 
             knife = GetComponentInChildren<Knife>();
             sword = GetComponentInChildren<Sword>();
-            soulsword = GetComponentInChildren<SoulSword>();
             toggleWeapon(WeaponToggle.Sword);
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
@@ -114,17 +115,26 @@ namespace Finisher.Characters.Systems {
 
             combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
-
+        private void soulOn() {
+            isSoulOn = true;
+            sword.soulOn();
+            knife.soulOn();
+        }
+        private void soulOff() {
+            sword.soulOff();
+            knife.soulOff();
+            isSoulOn = false;
+        }
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                if (soulsword.gameObject.activeInHierarchy)
+                if (isSoulOn)
                 {
-                    toggleWeapon(WeaponToggle.Sword);
+                    soulOn();
                 }
                 else
                 {
-                    toggleWeapon(WeaponToggle.SoulSword);
+                    soulOff();
                 }
             }
             if (characterState.Dying || GameManager.instance.GamePaused)
@@ -448,17 +458,16 @@ namespace Finisher.Characters.Systems {
 
         #region Hit Character
 
-        public void HitCharacter(HealthSystem targetHealthSystem)
+        public void HitCharacter(HealthSystem targetHealthSystem, float soulBonus=0)
         {
             StabbedEnemy(targetHealthSystem.gameObject);
-
             if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {
-                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
             else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
             {
-                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
 
             combatSystem.IncrementHitCounter();
@@ -541,7 +550,6 @@ namespace Finisher.Characters.Systems {
         {
             knife.gameObject.SetActive(false);
             sword.gameObject.SetActive(false);
-            soulsword.gameObject.SetActive(false);
 
             switch (weaponToggle)
             {
@@ -551,9 +559,7 @@ namespace Finisher.Characters.Systems {
                 case WeaponToggle.Knife:
                     knife.gameObject.SetActive(true);
                     break;
-                case WeaponToggle.SoulSword:
-                    soulsword.gameObject.SetActive(true);
-                    break;
+
             }
         }
 

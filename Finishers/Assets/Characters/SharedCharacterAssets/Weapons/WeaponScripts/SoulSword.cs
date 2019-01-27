@@ -9,6 +9,7 @@ namespace Finisher.Characters.Weapons
     public class SoulSword : WeaponColliderManager
     {
         [SerializeField] private CoreCombatDamageSystem soulDamage;
+        [SerializeField] private float soulBonusDamage;
         private GameObject player;
 
         void OnTriggerEnter(Collider collider)
@@ -23,7 +24,8 @@ namespace Finisher.Characters.Weapons
             {
                 if (!targetState.Dying && !targetState.Invulnerable)
                 {
-                    soulDamage.HitCharacter(combatSystem.gameObject,targetHealthSystem);
+                    soulDamage.HitCharacter(combatSystem.gameObject,targetHealthSystem,bonusDamage:soulBonusDamage);
+
                 }
                 else if (targetState.IsParryFrame)
                 {

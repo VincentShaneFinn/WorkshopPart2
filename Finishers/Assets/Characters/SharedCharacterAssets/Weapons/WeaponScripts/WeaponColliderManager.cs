@@ -11,12 +11,15 @@ namespace Finisher.Characters.Weapons
         protected CombatSystem combatSystem;
         protected CharacterState characterState;
         private BoxCollider boxCollider;
+        public float soulBonusDamage;
+        public float currentBonus = 0;
 
         void Awake()
         {
             Initialization();
         }
 
+        
         private void Initialization()
         {
             boxCollider = GetComponent<BoxCollider>();
@@ -52,13 +55,14 @@ namespace Finisher.Characters.Weapons
             {
                 if(!targetState.Dying && !targetState.Invulnerable)
                 {
+
                     if (characterState.FinisherModeActive)
                     {
-                        finisherSystem.HitCharacter(targetHealthSystem);
+                        finisherSystem.HitCharacter(targetHealthSystem,soulBonus:currentBonus);
                     }
                     else
                     {
-                        combatSystem.HitCharacter(targetHealthSystem);
+                        combatSystem.HitCharacter(targetHealthSystem, soulBonus: currentBonus);
                     }
                 }
                 else if (targetState.IsParryFrame)

@@ -2,7 +2,7 @@
 
 namespace Finisher.Characters.Weapons
 {
-    public class Knife : MonoBehaviour
+    public class Knife :Weapon
     {
     }
 }
