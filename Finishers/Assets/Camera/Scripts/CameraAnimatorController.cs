@@ -3,44 +3,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Finisher.Characters.Systems;
+
 public class CameraAnimatorController : MonoBehaviour
 {
     private Animator animator;
+    private FinisherSystem playerFinisherSystem;
 
-    private void Start()
+    void Start()
     {
+        playerFinisherSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<FinisherSystem>();
+
+        if (playerFinisherSystem)
+        {
+            playerFinisherSystem.OnGrabbingTargetToggled += cameraZoomOnGrab;
+        }
+         
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    private void Update()
+    void OnDestroy()
     {
-        CheckForInputs();
+        if (playerFinisherSystem)
+        {
+            playerFinisherSystem.OnGrabbingTargetToggled -= cameraZoomOnGrab;
+        }
     }
 
-    private void CheckForInputs()
+    private void cameraZoomOnGrab(bool isGrabbing)
     {
         var _isGrabbing = animator.GetBool("isGrabbing");
         var _transition_ID = animator.GetInteger("transition_ID");
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+        if (isGrabbing)
         {
             Debug.Log("Is Grabbing: " + !_isGrabbing);
-            animator.SetBool("isGrabbing", !_isGrabbing);
+            animator.SetBool("isGrabbing", true);
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+        else
         {
-            Debug.Log("Current Transition: " + _transition_ID % 2);
-
-            if (_transition_ID != 1)
-            {
-                animator.SetInteger("transition_ID", 1);
-            }
-            else
-            {
-                animator.SetInteger("transition_ID", 2);
-            }
+            Debug.Log("Is Grabbing: " + !_isGrabbing);
+            animator.SetBool("isGrabbing", false);
         }
     }
 }
