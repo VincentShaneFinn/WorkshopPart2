@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Finisher.Characters.Systems.Strategies;
 using System;
@@ -78,6 +79,8 @@ namespace Finisher.Characters.Systems
         private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
         private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
+        private GameObject comboObject;
+        private Text comboText;
 
         #endregion
 
@@ -91,8 +94,10 @@ namespace Finisher.Characters.Systems
             dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
             parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
+            comboObject = FindObjectOfType<UI.PlayerUIObjects>().FinisherComboObject;
+            comboText = FindObjectOfType<UI.PlayerUIObjects>().FinisherComboText;
 
-            foreach(CombatSMB smb in combatSMBs)
+            foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
@@ -321,6 +326,13 @@ namespace Finisher.Characters.Systems
                 hitCounter++;
                 hitCounter = Mathf.Clamp(hitCounter, 0, 15);
             }
+
+            if (hitCounter >= 3)
+            {
+                toggleComboMeter(true);
+            }
+
+            comboText.text = hitCounter.ToString();
         }
 
         private float multiplyFinisherMeterGain(float finisherMeterGain)
@@ -336,6 +348,12 @@ namespace Finisher.Characters.Systems
         private void resetHitCounter()
         {
             hitCounter = 0;
+            toggleComboMeter(false);
+        }
+
+        private void toggleComboMeter(bool enabled)
+        {
+            comboObject.gameObject.SetActive(enabled);
         }
 
         #endregion
