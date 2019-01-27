@@ -384,6 +384,8 @@ namespace Finisher.Characters.Systems {
             {
                 heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
+
+            combatSystem.IncrementHitCounter();
         }
 
         #endregion

@@ -10,7 +10,5 @@ namespace Finisher.UI
 
         // todo encapsulate into a bottom left player ui class
         [SerializeField] public Image InFinisherIndicator;
-        [SerializeField] public GameObject FinisherComboObject;
-        [SerializeField] public Text FinisherComboText;
     }
 }

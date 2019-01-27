@@ -50,6 +50,16 @@ namespace Finisher.Characters.Systems
             }
         }
 
+        public delegate void HitCounterChanged(int value);
+        public event HitCounterChanged OnHitCounterChange;
+        public void CallHitCounterChangedEvent(int value)
+        {
+            if (OnHitCounterChange != null)
+            {
+                OnHitCounterChange(value);
+            }
+        }
+
         #endregion
 
         public AttackType CurrentAttackType {
@@ -79,8 +89,6 @@ namespace Finisher.Characters.Systems
         private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
         private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
-        private GameObject comboObject;
-        private Text comboText;
 
         #endregion
 
@@ -94,8 +102,6 @@ namespace Finisher.Characters.Systems
             dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
             parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
-            comboObject = FindObjectOfType<UI.PlayerUIObjects>().FinisherComboObject;
-            comboText = FindObjectOfType<UI.PlayerUIObjects>().FinisherComboText;
 
             foreach (CombatSMB smb in combatSMBs)
             {
@@ -320,39 +326,40 @@ namespace Finisher.Characters.Systems
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 
+            IncrementHitCounter();
+            
+        }
+
+        public void IncrementHitCounter(bool reset = false)
+        {
             if (gameObject.tag == "Player")
             {
-                hitCounter++;
-                hitCounter = Mathf.Clamp(hitCounter, 0, 15);
+                if (reset)
+                {
+                    hitCounter = 0;
+                }
+                else
+                {
+                    hitCounter++;
+                }
+                CallHitCounterChangedEvent(hitCounter);
             }
+        }
 
-            if (hitCounter >= 3)
-            {
-                toggleComboMeter(true);
-            }
-
-            comboText.text = hitCounter.ToString();
+        private void resetHitCounter()
+        {
+            IncrementHitCounter(reset: true);
         }
 
         private float multiplyFinisherMeterGain(float finisherMeterGain)
         {
             if (hitCounter > 5)
             {
-                finisherMeterGain = finisherMeterGain * (1 + (.05f * (hitCounter - 5)));
+                var counter = Mathf.Clamp(hitCounter, 0, 15);
+                finisherMeterGain = finisherMeterGain * (1 + (.05f * (counter - 5)));
             }
             
             return finisherMeterGain;
-        }
-
-        private void resetHitCounter()
-        {
-            hitCounter = 0;
-            toggleComboMeter(false);
-        }
-
-        private void toggleComboMeter(bool enabled)
-        {
-            comboObject.gameObject.SetActive(enabled);
         }
 
         #endregion
