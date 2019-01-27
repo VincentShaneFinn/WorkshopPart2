@@ -55,5 +55,11 @@ public class AnimOverrideSetter : MonoBehaviour
         animator.SetTrigger(TriggerName);
     }
 
+    //<summary>Use with caution, you should be sure you are not currenetly in this animation state</summary>
+    public void SetOverride(string OverrideIndex, AnimationClip AnimClip)
+    {
+        animOverrideController[OverrideIndex] = AnimClip;
+    }
+
     #endregion
 }
