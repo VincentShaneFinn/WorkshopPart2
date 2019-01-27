@@ -1001,6 +1001,7 @@ MonoBehaviour:
     type: 2}
   moveSpeed: 35
   xClamp: 0.2
+  AOE: {fileID: 1710871262148720, guid: e442cfdb9bdee584d8eee809959825ec, type: 3}
 --- !u!96 &6009776010108904167
 TrailRenderer:
   serializedVersion: 2
@@ -1103,6 +1104,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4268659948991016262}
     m_Modifications:
+    - target: {fileID: 6840438944731658304, guid: 396513ea6e310c641a1b0751873ae07c,
+        type: 3}
+      propertyPath: m_Name
+      value: Soul Spear
+      objectReference: {fileID: 0}
     - target: {fileID: 1783772361478346626, guid: 396513ea6e310c641a1b0751873ae07c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1157,11 +1163,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6840438944731658304, guid: 396513ea6e310c641a1b0751873ae07c,
-        type: 3}
-      propertyPath: m_Name
-      value: Soul Spear
       objectReference: {fileID: 0}
     - target: {fileID: 3498131527196119500, guid: 396513ea6e310c641a1b0751873ae07c,
         type: 3}

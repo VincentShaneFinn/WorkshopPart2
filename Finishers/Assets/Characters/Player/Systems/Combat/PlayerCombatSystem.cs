@@ -155,7 +155,7 @@ namespace Finisher.Characters.Player.Systems
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
-                enemyToParry.Kill(config.RiposteKillAnimationToPass);
+                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
             }
         }
 
@@ -183,6 +183,13 @@ namespace Finisher.Characters.Player.Systems
             }
 
             return null;
+        }
+
+        IEnumerator killOnStab(HealthSystem enemyToParry)
+        {
+            yield return new WaitForSeconds(.75f);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
+            enemyToParry.Kill(config.RiposteKillAnimationToPass);
         }
 
         //TODO: create a linked character animation system

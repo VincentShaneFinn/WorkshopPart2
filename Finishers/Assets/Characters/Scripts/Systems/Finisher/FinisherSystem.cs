@@ -8,6 +8,7 @@ using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
+using System;
 
 namespace Finisher.Characters.Systems {
 
@@ -32,8 +33,10 @@ namespace Finisher.Characters.Systems {
 
         private Transform grabTarget;
         private float currentFinisherMeter = 0;
+        private FinisherExecution currentFinisherExecution;
 
         private Animator animator;
+        private AnimOverrideSetter animOverrideSetter;
         private CharacterState characterState;
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
@@ -56,6 +59,8 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private float distanceFromEnemyBack = .1f;
         [SerializeField] private PulseBlast flamethrower;
         [SerializeField] private FlameAOE flameAOE;
+        [SerializeField] private SoulInfusion soulInfusion;
+
 
         #endregion
 
@@ -64,6 +69,7 @@ namespace Finisher.Characters.Systems {
         void Start()
         {
             animator = GetComponent<Animator>();
+            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             character = GetComponent<PlayerCharacterController>();
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<CameraLookController>();
@@ -114,6 +120,11 @@ namespace Finisher.Characters.Systems {
 
             testInput();
 
+            if (characterState.Grabbing && grabTarget == null)
+            {
+                OnGrabbingTargetToggled(false);
+            }
+
             finisherInputProcessing();
             aimingHandlerWithGrabTarget();
         }
@@ -124,44 +135,15 @@ namespace Finisher.Characters.Systems {
 
         private void finisherInputProcessing()
         {
-            attemptToggleGrab();
-            attemptFinisher();
-
-            setL3AndR3();
-            attemptToggleFinisherMode();
-        }
-
-        private void attemptToggleFinisherMode()
-        {
-            if (L3Pressed && R3Pressed)
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) &&
+                !animator.IsInTransition(0))
             {
-                L3Pressed = false;
-                R3Pressed = false;
-                if (characterState.FinisherModeActive || currentFinisherMeter >= config.MaxFinisherMeter - float.Epsilon)
-                {
-                    OnFinisherModeToggled(!characterState.FinisherModeActive);
-                }
+                attemptToggleGrab();
+                attemptFinisher();
+                setL3AndR3();
+                attemptToggleFinisherMode();
             }
-        }
-
-        private void setL3AndR3()
-        {
-            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
-            {
-                L3Pressed = true;
-            }
-            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
-            {
-                R3Pressed = true;
-            }
-            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
-            {
-                L3Pressed = false;
-            }
-            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
-            {
-                R3Pressed = false;
-            }
+            attempFinisherSelection();
         }
 
         private void attemptToggleGrab()
@@ -185,7 +167,9 @@ namespace Finisher.Characters.Systems {
         private void attemptFinisher()
         {
 
-            if (characterState.Grabbing)
+            if (characterState.Grabbing && 
+                !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_EXECUTE_STATE) && 
+                !animator.IsInTransition(0))
             {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
@@ -193,8 +177,68 @@ namespace Finisher.Characters.Systems {
                     Input.GetButtonDown(InputNames.Finisher) && 
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
-                    grabTarget.GetComponent<HealthSystem>().Kill();
-                    characterState.EnterInvulnerableActionState(flameAOE.AnimationToPlay);
+                    animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                    animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
+                    //Set the default finisher to play
+                    overrideFinisherExecution(flameAOE);
+                    toggleWeapon(WeaponToggle.Sword);
+                }
+            }
+        }
+
+        private void attempFinisherSelection()
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_SELECTION_STATE)) {
+                if(Input.GetButtonDown(InputNames.SelectFinisher1))
+                {
+                    overrideFinisherExecution(flameAOE, true);
+                }
+                else if (Input.GetButtonDown(InputNames.SelectFinisher2))
+                {
+                    overrideFinisherExecution(soulInfusion, true);
+                }
+            }
+        }
+
+        private void overrideFinisherExecution(FinisherExecution finisherExecution, bool performSkill = false)
+        {
+            currentFinisherExecution = finisherExecution;
+            animOverrideSetter.SetOverride(AnimConstants.OverrideIndexes.FINISHER_ACTIVATION_INDEX, currentFinisherExecution.AnimationToPlay);
+            if (performSkill)
+            {
+                animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
+            }
+        }
+
+        private void setL3AndR3()
+        {
+            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
+            {
+                L3Pressed = true;
+            }
+            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
+            {
+                R3Pressed = true;
+            }
+            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
+            {
+                L3Pressed = false;
+            }
+            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
+            {
+                R3Pressed = false;
+            }
+        }
+
+        private void attemptToggleFinisherMode()
+        {
+            if (L3Pressed && R3Pressed)
+            {
+                L3Pressed = false;
+                R3Pressed = false;
+                if (characterState.FinisherModeActive || currentFinisherMeter >= config.MaxFinisherMeter - float.Epsilon)
+                {
+                    OnFinisherModeToggled(!characterState.FinisherModeActive);
                 }
             }
         }
@@ -346,16 +390,6 @@ namespace Finisher.Characters.Systems {
 
         #endregion
 
-        #region Animation Events
-
-        private void PerformFinisherSkill()
-        {
-            decreaseFinisherMeter(50f);
-            Instantiate(flameAOE, transform.position, transform.rotation);
-        }
-
-        #endregion
-
         #region Toggle Grab Delegate Method
 
         public void ToggleGrabOff()
@@ -444,5 +478,28 @@ namespace Finisher.Characters.Systems {
                 finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
             }
         }
+
+        #region Animation Events 
+
+        void FinisherExecutionSlice()
+        {
+
+            lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
+            grabTarget.GetComponent<HealthSystem>().CutInHalf();
+            toggleWeapon(WeaponToggle.Knife);
+        }
+
+        void PerformFinisherSkill()
+        {
+            decreaseFinisherMeter(flameAOE.FinisherMeterCost);
+            Instantiate(currentFinisherExecution, transform.position, transform.rotation);
+        }
+
+        void SoulInfusion()
+        {
+            print("Toggle Infused Weapon");
+        }
+
+        #endregion
     }
 }
