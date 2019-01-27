@@ -37,10 +37,28 @@ namespace Finisher.Characters.Enemies.Systems
             if (volatilityMask)
             {
                 volatilityMask.gameObject.SetActive(false);
-                FinisherSystem playerFinisherSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<FinisherSystem>();
+            }
+
+            GameObject player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
+            if (player)
+            {
+                FinisherSystem playerFinisherSystem = player.GetComponent<FinisherSystem>();
                 if (playerFinisherSystem)
                 {
                     playerFinisherSystem.OnFinisherModeToggled += toggleVolatiltyMeter;
+                }
+            }
+        }
+
+        void OnDestroy()
+        {
+            GameObject player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
+            if (player)
+            {
+                FinisherSystem playerFinisherSystem = player.GetComponent<FinisherSystem>();
+                if (playerFinisherSystem)
+                {
+                    playerFinisherSystem.OnFinisherModeToggled -= toggleVolatiltyMeter;
                 }
             }
         }
@@ -69,8 +87,14 @@ namespace Finisher.Characters.Enemies.Systems
         {
             currentVolatility = 0;
 
-            volatilityMask.gameObject.SetActive(enabled);
-            volatilityMeter.SetFillAmountInstant(currentVolatility);
+            if (volatilityMask)
+            {
+                volatilityMask.gameObject.SetActive(enabled);
+            }
+            if (volatilityMeter)
+            {
+                volatilityMeter.SetFillAmountInstant(currentVolatility);
+            }
         }
 
         private void toggleEnemyCanvas(bool enabled)
