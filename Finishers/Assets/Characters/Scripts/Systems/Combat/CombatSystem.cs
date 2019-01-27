@@ -20,10 +20,10 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
-        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem heavyChargedAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem lightChargedAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyChargedAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightChargedAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
