@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 using Finisher.Characters.Systems.Strategies;
 using System;
+using System.Collections.Generic;
 
 namespace Finisher.Characters.Systems
 {
@@ -19,8 +20,8 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
-        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
@@ -76,6 +77,7 @@ namespace Finisher.Characters.Systems
         private DodgeSMB[] dodgeSMBs;
         private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
+        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
 
         #endregion
 
@@ -249,6 +251,7 @@ namespace Finisher.Characters.Systems
 
         void DamageEnd()
         {
+            hit = new HashSet<HealthSystem>();
             if (IsDamageFrame)
             {
                 CallDamageFrameChangedEvent(false);
@@ -289,6 +292,10 @@ namespace Finisher.Characters.Systems
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem)
         {
+            if (!hit.Add(targetHealthSystem))
+            {
+                return;
+            }
             if (CurrentAttackType == AttackType.LightBlade)
             {
                 float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
