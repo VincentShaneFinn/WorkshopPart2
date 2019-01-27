@@ -232,6 +232,13 @@ namespace Finisher.Characters.Systems
             enterDyingState(animClip);
         }
 
+        public void CutInHalf()
+        {
+            Instantiate(config.TopHalf, transform.position, transform.rotation);
+            Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            Destroy(gameObject);
+        }
+
         private void enterDyingState(AnimationClip animClip)
         {
             characterState.DyingState.Kill();

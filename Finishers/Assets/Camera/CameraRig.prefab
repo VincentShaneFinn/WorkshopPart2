@@ -151,6 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5396163540051251724}
   - component: {fileID: 4528270921938534398}
+  - component: {fileID: 1659407272}
   m_Layer: 0
   m_Name: AnimatedCameraLocation
   m_TagString: Untagged
@@ -181,7 +182,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955245525106492712}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: fe781c57f33d71a48a68410661d10a7a, type: 2}
   m_CullingMode: 0
@@ -192,6 +193,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1659407272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955245525106492712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa928bc3067c3404195576f92b31c964, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3298248469058211840
 GameObject:
   m_ObjectHideFlags: 0
