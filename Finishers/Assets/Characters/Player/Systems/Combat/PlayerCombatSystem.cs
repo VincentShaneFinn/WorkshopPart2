@@ -19,6 +19,10 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
+        private float chargeTime;
+        private float chargeAttackDelay = 0.1f;
+        private bool lightattackInitiated = false;
+        private bool heavyattackInitiated = false;
 
         protected override void Start()
         {
@@ -46,26 +50,60 @@ namespace Finisher.Characters.Player.Systems
         {
             processAttackInput();
             processDodgeInput();
+            processParryInput();
         }
 
         private void processAttackInput()
         {
             if (Input.GetButtonDown(InputNames.LightAttack))
             {
+                chargeTime = Time.time;
+                lightattackInitiated = true;
+            }
+            if (Input.GetButtonUp(InputNames.LightAttack) && Time.time <= chargeTime + chargeAttackDelay && lightattackInitiated)
+            {
                 LightAttack();
+                lightattackInitiated = false;
+            }
+            else if (Time.time > chargeTime + chargeAttackDelay && lightattackInitiated)
+            {
+                ChargeLightAttack();
+                lightattackInitiated = false;
             }
             if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
                 if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
                 {
+                    chargeTime = Time.time;
+                    heavyattackInitiated = true;
+                }
+                if (Input.GetAxisRaw(InputNames.HeavyAttack) <= 0 && Time.time <= chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
                     HeavyAttack();
+                    heavyattackInitiated = false;
+                }
+                else if (Input.GetAxisRaw(InputNames.HeavyAttack) <= 0 && Time.time > chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
+                    ChargeHeavyAttack();
+                    heavyattackInitiated = false;
                 }
             }
             else
             {
                 if (Input.GetButtonDown(InputNames.HeavyAttack))
                 {
+                    chargeTime = Time.time;
+                    heavyattackInitiated = true;
+                }
+                if (Input.GetButtonUp(InputNames.HeavyAttack) && Time.time <= chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
                     HeavyAttack();
+                    heavyattackInitiated = false;
+                }
+                else if (Time.time > chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
+                    ChargeHeavyAttack();
+                    heavyattackInitiated = false;
                 }
             }
         }
@@ -78,6 +116,10 @@ namespace Finisher.Characters.Player.Systems
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
             }
+        }
+
+        private void processParryInput()
+        {
             if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
             {
                 finisherSystem.ToggleGrabOff();
@@ -155,7 +197,7 @@ namespace Finisher.Characters.Player.Systems
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
-                enemyToParry.Kill(config.RiposteKillAnimationToPass);
+                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
             }
         }
 
@@ -185,11 +227,18 @@ namespace Finisher.Characters.Player.Systems
             return null;
         }
 
+        IEnumerator killOnStab(HealthSystem enemyToParry)
+        {
+            yield return new WaitForSeconds(.75f);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
+            enemyToParry.Kill(config.RiposteKillAnimationToPass);
+        }
+
         //TODO: create a linked character animation system
         IEnumerator transformOvertime(Transform target)
         {
             float time = .3f;
-            while(time > 0)
+            while (time > 0)
             {
                 time -= Time.deltaTime;
                 transform.LookAt(target);

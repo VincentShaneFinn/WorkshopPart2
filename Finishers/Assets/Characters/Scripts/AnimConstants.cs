@@ -18,6 +18,9 @@
             public const string LIGHT_ATTACK4_STATE = "Light4";
             public const string HEAVY_ATTACK1_STATE = "Heavy1";
             public const string HEAVY_ATTACK2_STATE = "Heavy2";
+            public const string FINISHER_EXECUTE_STATE = "FinisherExecute";
+            public const string FINISHER_SELECTION_STATE = "FinisherSelection";
+            public const string FINISHER_ACTIVATION_STATE = "FinisherActivation";
             public const string DODGE_STATE = "Dodge";
             public const string PARRY_STATE = "Parry";
             public const string DYING_STATE = "Dying";
@@ -28,7 +31,10 @@
             public const string LOCOMOTION_TAG = "Locomotion";
             public const string LIGHTATTACK_TAG = "LightAttack";
             public const string HEAVYATTACK_TAG = "HeavyAttack";
+            public const string CHARGED_HEAVYATTACK_TAG = "ChargedHeavyAttack";
+            public const string CHARGED_LIGHTATTACK_TAG = "ChargedLightAttack";
             public const string UNINTERUPTABLE_TAG = "Uninteruptable";
+            public const string INVULNERABLE_SEQUENCE_TAG = "InvulnerableSequence";
         }
 
         public class Parameters
@@ -41,11 +47,13 @@
             public const string ONGROUND_BOOL = "OnGround";
             public const string STRAFING_BOOL = "Strafing";
             public const string ISHEAVY_BOOL = "IsHeavy";
+            public const string ISCHARGED_BOOL = "IsCharged";
             public const string FINISHERMODE_BOOL = "FinisherMode";
             public const string STUNNED_BOOL = "Stunned";
             public const string DYING_BOOL = "Dying";
 
             public const string ATTACK_TRIGGER = "Attack";
+            public const string FINISHER_EXECUTION_TRIGGER = "FinisherExecution";
             public const string DODGE_TRIGGER = "Dodge";
             public const string PARRY_TRIGGER = "Parry";
             public const string INVULNERABLEACTION_TRIGGER = "InvulnerableAction";
@@ -63,6 +71,7 @@
             public const string DODGE_INDEX = "DEFAULT_DODGE";
             public const string DEATH_INDEX = "DEFAULT_DEATH";
             public const string INVULNERABLEACTION_INDEX = "DEFAULT_INVULNERABLE_ACTION";
+            public const string FINISHER_ACTIVATION_INDEX = "DEFAULT_FINISHER_ACTIVATION";
         }
     }
 }

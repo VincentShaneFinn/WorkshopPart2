@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 778e8569902053342bddab75231f9506, type: 3}
+  m_Name: DefaultCoreCombatHeavyChargedDS
+  m_EditorClassIdentifier: 
+  baseDamage: 30
+  dealsKnockback: 1
+  knockbackRange: 1.5
+  knockbackDuration: 0.75
+  particleEventSystem: {fileID: 11400000, guid: 04a7a04a3e01f224db248096da566515,
+    type: 2}
+  finisherMeterGainAmount: 12

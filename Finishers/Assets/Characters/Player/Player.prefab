@@ -2016,6 +2016,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
+  IsParryFrame: 0
   stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &4940009788626016722
 MonoBehaviour:
@@ -2136,6 +2137,9 @@ MonoBehaviour:
     type: 3}
   flameAOE: {fileID: 7192056542658797483, guid: 88f86fc037f63c148ac53c88c524cea5,
     type: 3}
+  soulInfusion: {fileID: 1184932774506233488, guid: 0243abf41c4b22b4c942630a11c71d82,
+    type: 3}
+  stunAOE: {fileID: 3515533956619826726, guid: 31fb3d083e55ae64296307193ef49546, type: 3}
 --- !u!1001 &1261069488335191895
 PrefabInstance:
   m_ObjectHideFlags: 0

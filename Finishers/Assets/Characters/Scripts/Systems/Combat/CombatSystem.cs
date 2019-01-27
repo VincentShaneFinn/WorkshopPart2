@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Finisher.Characters.Systems.Strategies;
 using System;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 namespace Finisher.Characters.Systems
 {
 
-    public enum AttackType { None, LightBlade, HeavyBlade };
+    public enum AttackType { None, LightBlade, HeavyBlade, LightCharged, HeavyCharged };
     public enum MoveDirection { Forward,Right,Backward,Left };
 
     [DisallowMultipleComponent]
@@ -20,8 +21,10 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
-        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyChargedAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightChargedAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
@@ -49,6 +52,16 @@ namespace Finisher.Characters.Systems
             }
         }
 
+        public delegate void HitCounterChanged(int value);
+        public event HitCounterChanged OnHitCounterChange;
+        public void CallHitCounterChangedEvent(int value)
+        {
+            if (OnHitCounterChange != null)
+            {
+                OnHitCounterChange(value);
+            }
+        }
+
         #endregion
 
         public AttackType CurrentAttackType {
@@ -61,6 +74,14 @@ namespace Finisher.Characters.Systems
                 else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
                 {
                     return AttackType.HeavyBlade;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.CHARGED_LIGHTATTACK_TAG))
+                {
+                    return AttackType.LightCharged;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.CHARGED_HEAVYATTACK_TAG))
+                {
+                    return AttackType.HeavyCharged;
                 }
                 return AttackType.None;
             }
@@ -92,7 +113,7 @@ namespace Finisher.Characters.Systems
             parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
 
-            foreach(CombatSMB smb in combatSMBs)
+            foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
@@ -148,16 +169,36 @@ namespace Finisher.Characters.Systems
 
         #region Attacks
 
+        public void ChargeLightAttack()
+        {
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, true);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+        }
+
         public void LightAttack()
         {
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, false);
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
             if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
+        public void ChargeHeavyAttack()
+        {
+            animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, true);
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+        }
+
         public void HeavyAttack()
         {
+            animator.SetBool(AnimConstants.Parameters.ISCHARGED_BOOL, false);
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, true);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
@@ -292,11 +333,10 @@ namespace Finisher.Characters.Systems
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem)
         {
-            if (hit.Contains(targetHealthSystem))
+            if (!hit.Add(targetHealthSystem))
             {
                 return;
             }
-            hit.Add(targetHealthSystem);
             if (CurrentAttackType == AttackType.LightBlade)
             {
                 float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
@@ -315,27 +355,59 @@ namespace Finisher.Characters.Systems
                 heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
+            else if (CurrentAttackType == AttackType.HeavyCharged)
+            {
+                float finisherMeterGain = heavyChargedAttackDamageSystem.FinisherMeterGainAmount;
 
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
+                heavyChargedAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+            else if (CurrentAttackType == AttackType.LightCharged)
+            {
+                float finisherMeterGain = lightChargedAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
+                lightChargedAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+
+            IncrementHitCounter();
+            
+        }
+
+        public void IncrementHitCounter(bool reset = false)
+        {
             if (gameObject.tag == "Player")
             {
-                hitCounter++;
-                hitCounter = Mathf.Clamp(hitCounter, 0, 15);
+                if (reset)
+                {
+                    hitCounter = 0;
+                }
+                else
+                {
+                    hitCounter++;
+                }
+                CallHitCounterChangedEvent(hitCounter);
             }
+        }
+
+        private void resetHitCounter()
+        {
+            IncrementHitCounter(reset: true);
         }
 
         private float multiplyFinisherMeterGain(float finisherMeterGain)
         {
             if (hitCounter > 5)
             {
-                finisherMeterGain = finisherMeterGain * (1 + (.05f * (hitCounter - 5)));
+                var counter = Mathf.Clamp(hitCounter, 0, 15);
+                finisherMeterGain = finisherMeterGain * (1 + (.05f * (counter - 5)));
             }
             
             return finisherMeterGain;
-        }
-
-        private void resetHitCounter()
-        {
-            hitCounter = 0;
         }
 
         #endregion
