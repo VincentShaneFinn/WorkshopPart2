@@ -64,8 +64,6 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private SoulInfusion soulInfusion;
         [SerializeField] private StunAOE stunAOE;
         [SerializeField] private float soulSwordTime=10;
-        //
-        private bool isSoulOn = false;
 
         #endregion
 
@@ -117,27 +115,15 @@ namespace Finisher.Characters.Systems {
             combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
         private void soulOn() {
-            isSoulOn = true;
             sword.soulOn();
             knife.soulOn();
         }
         private void soulOff() {
             sword.soulOff();
             knife.soulOff();
-            isSoulOn = false;
         }
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha9)) {
-                if (isSoulOn)
-                {
-                    soulOff();
-                }
-                else
-                {
-                    soulOn();
-                }
-            }
             if (characterState.Dying || GameManager.instance.GamePaused)
             {
                 return;
@@ -588,10 +574,8 @@ namespace Finisher.Characters.Systems {
             Instantiate(currentFinisherExecution, transform.position, transform.rotation);
         }
 
-        private IEnumerator soulTimer;
         void SoulInfusion()
         {
-            print("Toggle Infused Weapon");
             if (soulTimer != null)
             {
                 StopCoroutine(soulTimer);
@@ -600,6 +584,8 @@ namespace Finisher.Characters.Systems {
             soulTimer = stopSoul(soulSwordTime);
             StartCoroutine(soulTimer);
         }
+
+        private IEnumerator soulTimer;
         private IEnumerator stopSoul(float time) {
             yield return new WaitForSeconds(time);
             soulOff();

@@ -12,7 +12,7 @@ namespace Finisher.Characters.Weapons
         protected CharacterState characterState;
         private BoxCollider boxCollider;
         public float soulBonusDamage;
-        public float currentBonus = 0;
+        [HideInInspector] public float currentBonus = 0;
 
         void Awake()
         {
@@ -58,7 +58,7 @@ namespace Finisher.Characters.Weapons
 
                     if (characterState.FinisherModeActive)
                     {
-                        finisherSystem.HitCharacter(targetHealthSystem,soulBonus:currentBonus);
+                        finisherSystem.HitCharacter(targetHealthSystem, soulBonus:currentBonus);
                     }
                     else
                     {

@@ -1,43 +1,44 @@
-﻿using Finisher.Characters.Weapons;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Weapon : MonoBehaviour
+namespace Finisher.Characters.Weapons
 {
-    private WeaponColliderManager colliderManager;
-    // Start is called before the first frame update
-    void Start()
-    {
-        colliderManager = GetComponent<WeaponColliderManager>();
-    }
-
-    // Update is called once per frame
-    void Update()
+    public class Weapon : MonoBehaviour
     {
 
-    }
-    [SerializeField] private GameObject soulEffect;
-    public void toggleSoul()
-    {
-        if (soulEffect.gameObject.activeInHierarchy)
+        [SerializeField] private GameObject soulEffect;
+
+        private WeaponColliderManager colliderManager;
+
+        // Start is called before the first frame update
+        void Start()
         {
-
-            soulEffect.gameObject.SetActive(false);
-            colliderManager.currentBonus = 0;
+            colliderManager = GetComponent<WeaponColliderManager>();
         }
-        else {
+
+        public void ToggleSoul(bool enabled)
+        {
+            if (enabled)
+            {
+                colliderManager.currentBonus = colliderManager.soulBonusDamage;
+            }
+            else
+            {
+                colliderManager.currentBonus = 0;
+            }
+
+            soulEffect.gameObject.SetActive(enabled);
+        }
+
+        public void soulOn()
+        {
             soulEffect.gameObject.SetActive(true);
             colliderManager.currentBonus = colliderManager.soulBonusDamage;
         }
-    }
-    public void soulOn() {
-        soulEffect.gameObject.SetActive(true);
-        colliderManager.currentBonus = colliderManager.soulBonusDamage;
-    }
 
-    public void soulOff() {
-        soulEffect.gameObject.SetActive(false);
-        colliderManager.currentBonus = 0;
+        public void soulOff()
+        {
+            soulEffect.gameObject.SetActive(false);
+            colliderManager.currentBonus = 0;
+        }
     }
 }
