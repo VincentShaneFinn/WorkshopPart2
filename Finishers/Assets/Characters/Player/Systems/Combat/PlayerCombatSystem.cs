@@ -135,9 +135,9 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void HitCharacter(HealthSystem target)
+        public override void HitCharacter(HealthSystem target, float soulBonus = 0)
         {
-            base.HitCharacter(target);
+            base.HitCharacter(target,soulBonus);
             StartCoroutine(ImpactFrames(target));
         }
 

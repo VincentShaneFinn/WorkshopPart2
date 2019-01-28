@@ -301,8 +301,9 @@ namespace Finisher.Characters.Systems
         #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void HitCharacter(HealthSystem targetHealthSystem)
+        public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
         {
+
             if (!hit.Add(targetHealthSystem))
             {
                 return;
@@ -313,7 +314,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
                 
-                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
@@ -322,7 +323,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
-                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 
