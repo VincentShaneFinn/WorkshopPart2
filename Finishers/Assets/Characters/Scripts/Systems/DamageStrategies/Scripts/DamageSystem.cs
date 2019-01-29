@@ -11,16 +11,20 @@ namespace Finisher.Characters.Systems.Strategies {
         [SerializeField] protected float knockbackDuration = 0.05f;
         [SerializeField] private ParticleEventSystem particleEventSystem = null;
 
-        public virtual void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
+
+        public virtual void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem, float damageMultiplier=1, float bonusDamage=0)
+
         {
-            DealDamage(targetHealthSytem);
+
+            DealDamage(targetHealthSytem,damageMultiplier,bonusDamage);
             DealKnockback(damageSource, targetHealthSytem);
             playParticle(targetHealthSytem);
         }
 
-        protected virtual void DealDamage(HealthSystem targetHealthSystem)
+        protected virtual void DealDamage(HealthSystem targetHealthSystem,float damageMultiplier,float bonusDamage)
         {
-            targetHealthSystem.DamageHealth(baseDamage);
+
+            targetHealthSystem.DamageHealth(baseDamage*damageMultiplier+bonusDamage);
 
         }
 

@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 using Finisher.Cameras;
 using Finisher.Core;
@@ -8,7 +11,6 @@ using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
-using System;
 
 namespace Finisher.Characters.Systems {
 
@@ -47,7 +49,7 @@ namespace Finisher.Characters.Systems {
 
         private Sword sword;
         private Knife knife;
-        private enum WeaponToggle { Sword, Knife };
+        private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
@@ -60,11 +62,13 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private PulseBlast flamethrower;
         [SerializeField] private FlameAOE flameAOE;
         [SerializeField] private SoulInfusion soulInfusion;
-
+        [SerializeField] private StunAOE stunAOE;
+        [SerializeField] private float soulSwordTime=10;
 
         #endregion
 
         #endregion
+
 
         void Start()
         {
@@ -110,7 +114,14 @@ namespace Finisher.Characters.Systems {
 
             combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
-
+        private void soulOn() {
+            sword.soulOn();
+            knife.soulOn();
+        }
+        private void soulOff() {
+            sword.soulOff();
+            knife.soulOff();
+        }
         void Update()
         {
             if (characterState.Dying || GameManager.instance.GamePaused)
@@ -140,6 +151,7 @@ namespace Finisher.Characters.Systems {
             {
                 attemptToggleGrab();
                 attemptFinisher();
+                attempQuickFinisher();
                 setL3AndR3();
                 attemptToggleFinisherMode();
             }
@@ -241,6 +253,67 @@ namespace Finisher.Characters.Systems {
                     OnFinisherModeToggled(!characterState.FinisherModeActive);
                 }
             }
+        }
+
+        private bool inQuickFinisher = false; //TODO: must make a better quick finisher system
+        private void attempQuickFinisher()
+        {
+            if (Input.GetButtonDown(InputNames.Finisher) && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
+            {
+                var enemies = getEnemiesInFront();
+                var enemyToFinish = getEnemyToQuickFinish(enemies);
+                if (enemyToFinish)
+                {
+                    currentFinisherExecution = stunAOE;
+                    combatSystem.LightAttack();
+                    inQuickFinisher = true;
+                    StartCoroutine(transformOvertime(enemyToFinish.transform));
+                }
+            }
+        }
+
+        private List<Collider> getEnemiesInFront()
+        {
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            var enemyColliders = Physics.OverlapSphere(transform.position, 2f, layerMask).ToList();
+
+            enemyColliders = enemyColliders.OrderBy(
+                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
+                ).ToList();
+
+            return enemyColliders;
+        }
+
+        private HealthSystem getEnemyToQuickFinish(List<Collider> enemies)
+        {
+            foreach (var enemy in enemies)
+            {
+                EnemyHealthSystem enemyHealthSystem = enemy.GetComponent<EnemyHealthSystem>();
+                if (enemyHealthSystem && enemyHealthSystem.GetVolaitilityAsPercent() >= 1 - Mathf.Epsilon)
+                {
+                    return enemy.GetComponent<HealthSystem>();
+                }
+            }
+
+            return null;
+        }
+
+        //TODO: this is aweful, we must refactor finisher system
+        IEnumerator transformOvertime(Transform target)
+        {
+            float time = .3f;
+            while (time > 0)
+            {
+                time -= Time.deltaTime;
+                transform.LookAt(target);
+                transform.position = target.position + target.forward;
+
+                yield return null;
+            }
+            yield return new WaitForSeconds(.2f);
+            target.GetComponent<HealthSystem>().Kill();
+            PerformFinisherSkill();
+            inQuickFinisher = false;
         }
 
         #endregion
@@ -372,18 +445,19 @@ namespace Finisher.Characters.Systems {
 
         #region Hit Character
 
-        public void HitCharacter(HealthSystem targetHealthSystem)
+        public void HitCharacter(HealthSystem targetHealthSystem, float soulBonus=0)
         {
             StabbedEnemy(targetHealthSystem.gameObject);
-
             if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {
-                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
             else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
             {
-                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
+
+            combatSystem.IncrementHitCounter();
         }
 
         #endregion
@@ -394,7 +468,11 @@ namespace Finisher.Characters.Systems {
 
         public void ToggleGrabOff()
         {
-            OnGrabbingTargetToggled(false);
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) &&
+                !animator.IsInTransition(0))
+            {
+                OnGrabbingTargetToggled(false);
+            }
         }
 
         // subscribed to the OnGrabbingToggled()
@@ -468,6 +546,7 @@ namespace Finisher.Characters.Systems {
                 case WeaponToggle.Knife:
                     knife.gameObject.SetActive(true);
                     break;
+
             }
         }
 
@@ -497,9 +576,22 @@ namespace Finisher.Characters.Systems {
 
         void SoulInfusion()
         {
-            print("Toggle Infused Weapon");
+            if (soulTimer != null)
+            {
+                StopCoroutine(soulTimer);
+            }
+            soulOn();
+            soulTimer = stopSoul(soulSwordTime);
+            StartCoroutine(soulTimer);
         }
 
+        private IEnumerator soulTimer;
+        private IEnumerator stopSoul(float time) {
+            yield return new WaitForSeconds(time);
+            soulOff();
+
+        }
         #endregion
+        
     }
 }
