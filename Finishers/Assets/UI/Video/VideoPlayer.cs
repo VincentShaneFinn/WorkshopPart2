@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class VideoPlayer : MonoBehaviour
 {
-    [SerializeField] UnityEngine.Video.VideoPlayer videoPlayer;
+    private UnityEngine.Video.VideoPlayer videoPlayer;
+    private AudioSource audioSource;
     [SerializeField] Image imageToAppear;
 
     // Start is called before the first frame update
     void Start()
     {
         videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -46,6 +48,7 @@ public class VideoPlayer : MonoBehaviour
 
         //play video clip that starts with a black screen and disable the black image after a second
         videoPlayer.Play();
+        audioSource.Play();
 
         //NOTE: this should actually slowly dim the image
         yield return new WaitForSeconds(.2f);
