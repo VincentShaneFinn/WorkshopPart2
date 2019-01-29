@@ -45,11 +45,15 @@ namespace Finisher.Characters
         [Tooltip("May need to modify to get things like  walking to look right with custom models?")]
         [SerializeField] protected float runCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
         [Tooltip("Used to move faster, using rigibody velocity")]
-        [SerializeField] protected float moveSpeedMultiplier = 1f;
+        [SerializeField] protected float initialMoveSpeedMultiplier = 1f;
         [Tooltip("Used to move faster, using rigibody velocity")]
         [SerializeField] protected float runMoveSpeedMultiplier = 1f;
         [Tooltip("Distance from the ground that we consider ourselves grounded")]
         [SerializeField] protected float groundCheckDistance = 0.3f;
+
+        private float turnSpeedMultiplier = 1f; // protected to stay between 0-5
+        private float moveSpeedMultiplier = 1f;
+
         #endregion
 
         #region Constants
@@ -136,7 +140,7 @@ namespace Finisher.Characters
         #endregion
 
         #region Public Turn Speed Multiplier Getters and Setters
-        float turnSpeedMultiplier = 1f; // protected to stay between 0-5
+
         public float TurnSpeedMultiplier
         {
             get { return turnSpeedMultiplier; }
@@ -165,7 +169,21 @@ namespace Finisher.Characters
 
         #region Public Move Speed Multiplier Getters and Setters
 
-        // todo build and test functionality for this
+        public float MovementSpeedMultiplier
+        {
+            get { return initialMoveSpeedMultiplier * moveSpeedMultiplier; }
+            set
+            {
+                if (value < 0) { moveSpeedMultiplier = 0; }
+                else if (value > 5) { moveSpeedMultiplier = 5; }
+                else { moveSpeedMultiplier = value; }
+            }
+        }
+
+        public void RestoreMovementSpeedMultiplier()
+        {
+            MovementSpeedMultiplier = 1f;
+        }
 
         #endregion
 
