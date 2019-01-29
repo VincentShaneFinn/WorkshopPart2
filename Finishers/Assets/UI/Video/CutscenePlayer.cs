@@ -6,7 +6,7 @@ using UnityEngine.Video;
 
 public class CutscenePlayer : MonoBehaviour
 {
-    [SerializeField] RawImage rawImage;
+    private RawImage rawImage;
     private UnityEngine.Video.VideoPlayer videoPlayer;
     private AudioSource audioSource;
     [SerializeField] Image imageToAppear;
@@ -16,6 +16,7 @@ public class CutscenePlayer : MonoBehaviour
     {
         videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
         audioSource = GetComponent<AudioSource>();
+        rawImage = GetComponent<RawImage>();
     }
 
     // Update is called once per frame
