@@ -51,6 +51,11 @@ namespace Finisher.Characters.Systems
             decreaseVolatility(config.MaxVolatility);
         }
 
+        protected virtual void Update()
+        {
+            IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+        }
+
         #region Public Interface
 
         #region Change Health
