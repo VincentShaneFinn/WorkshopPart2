@@ -6,6 +6,11 @@ namespace Finisher.Characters
     {
         [SerializeField] private CharacterStateSO stateSO;
 
+        void Start()
+        {
+            stateSO.state = this;
+        }
+
         public override DyingState DyingState
         {
             get { return stateSO.DyingState; }

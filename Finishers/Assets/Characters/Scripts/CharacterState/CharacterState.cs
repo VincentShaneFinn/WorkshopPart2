@@ -175,5 +175,13 @@ namespace Finisher.Characters
 
         #endregion
 
+        public bool IsInvulnerableSequence
+        {
+            get
+            {
+                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG);
+            }
+        }
+
     }
 }

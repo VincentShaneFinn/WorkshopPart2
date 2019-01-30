@@ -67,11 +67,20 @@ namespace Finisher.Characters.Enemies
 
             EnemyState state;
 
+            if (playerState.state.IsInvulnerableSequence)
+            {
+                currentChaseSubstate = ChaseSubState.Surround;
+            }
+            else
+            {
+                currentChaseSubstate = ChaseSubState.Direct;
+            }
+
             if (directOrder == EnemyState.ReturningHome)
             {
                 state = EnemyState.ReturningHome;
             }
-            else if (isPlayerInAttackRange())
+            else if (isPlayerInAttackRange() && !playerState.state.IsInvulnerableSequence)
             {
                 state = EnemyState.Attacking;
             }
@@ -183,7 +192,7 @@ namespace Finisher.Characters.Enemies
             }
             else if(currentChaseSubstate == ChaseSubState.Surround)
             {
-                character.SetStoppingDistance(10f);
+                character.SetStoppingDistance(3.5f);
             }
         }
 

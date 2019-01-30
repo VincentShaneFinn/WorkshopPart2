@@ -232,11 +232,11 @@ namespace Finisher.Characters.Systems {
             {
                 R3Pressed = true;
             }
-            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
+            if (Input.GetButtonUp(InputNames.L3))
             {
                 L3Pressed = false;
             }
-            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
+            if (Input.GetButtonUp(InputNames.R3))
             {
                 R3Pressed = false;
             }
