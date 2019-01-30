@@ -55,7 +55,7 @@ namespace Finisher.Characters.Systems
 
         #region Change Health
 
-        public void DamageHealth(float damage)
+        public virtual void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
             if (characterState.Invulnerable) { return; }
@@ -79,7 +79,7 @@ namespace Finisher.Characters.Systems
             updateHealthUI();
         }
 
-        private void decreaseHealth(float damage)
+        protected void decreaseHealth(float damage)
         {
             currentHealth -= damage;
             if(currentHealth < Mathf.Epsilon)
