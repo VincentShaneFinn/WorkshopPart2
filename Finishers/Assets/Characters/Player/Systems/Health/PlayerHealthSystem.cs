@@ -15,8 +15,9 @@ namespace Finisher.Characters.Player.Systems
             base.Start();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
             {
                 IncreaseHealth(config.MaxHealth);
