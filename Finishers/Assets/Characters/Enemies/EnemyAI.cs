@@ -81,6 +81,10 @@ namespace Finisher.Characters.Enemies
             {
                 currentChaseSubstate = ChaseSubState.Surround;
             }
+            else if (!squadManager)
+            {
+                currentChaseSubstate = ChaseSubState.Null;
+            }
 
             if (directOrder == EnemyState.ReturningHome)
             {
