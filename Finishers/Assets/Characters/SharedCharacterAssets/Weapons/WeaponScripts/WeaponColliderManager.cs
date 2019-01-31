@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using Finisher.Characters.Systems;
 
@@ -7,16 +7,19 @@ namespace Finisher.Characters.Weapons
     [DisallowMultipleComponent]
     public class WeaponColliderManager : MonoBehaviour
     {
-        FinisherSystem finisherSystem;
-        CombatSystem combatSystem;
-        CharacterState characterState;
+        protected FinisherSystem finisherSystem;
+        protected CombatSystem combatSystem;
+        protected CharacterState characterState;
         private BoxCollider boxCollider;
+        public float soulBonusDamage;
+        [HideInInspector] public float currentBonus = 0;
 
         void Awake()
         {
             Initialization();
         }
 
+        
         private void Initialization()
         {
             boxCollider = GetComponent<BoxCollider>();
@@ -41,10 +44,10 @@ namespace Finisher.Characters.Weapons
 
         void OnTriggerEnter(Collider collider)
         {
-            // Dont hit somethting in the same layer
+            // Dont hit something in the same layer
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
                 return;
-
+            
             HealthSystem targetHealthSystem = collider.gameObject.GetComponent<HealthSystem>();
             CharacterState targetState = collider.gameObject.GetComponent<CharacterState>();
 
@@ -52,13 +55,14 @@ namespace Finisher.Characters.Weapons
             {
                 if(!targetState.Dying && !targetState.Invulnerable)
                 {
+
                     if (characterState.FinisherModeActive)
                     {
-                        finisherSystem.HitCharacter(targetHealthSystem);
+                        finisherSystem.HitCharacter(targetHealthSystem, soulBonus:currentBonus);
                     }
                     else
                     {
-                        combatSystem.HitCharacter(targetHealthSystem);
+                        combatSystem.HitCharacter(targetHealthSystem, soulBonus: currentBonus);
                     }
                 }
                 else if (targetState.IsParryFrame)
