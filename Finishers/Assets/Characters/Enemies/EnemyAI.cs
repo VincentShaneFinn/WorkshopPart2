@@ -192,8 +192,8 @@ namespace Finisher.Characters.Enemies
             }
             else if(currentChaseSubstate == ChaseSubState.Surround)
             {
-                character.SetStoppingDistance(4f);
                 character.MovementSpeedMultiplier = .4f;
+                character.SetStoppingDistance(5f);
             }
         }
 
