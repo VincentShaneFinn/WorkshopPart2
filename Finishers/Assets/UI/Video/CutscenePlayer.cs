@@ -29,9 +29,14 @@ public class CutscenePlayer : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            StartCoroutine(PlayVideo());
-            audioSource.Play();
+            PlayCutscene();
         }
+    }
+
+    public void PlayCutscene()
+    {
+        StartCoroutine(PlayVideo());
+        audioSource.Play();
     }
 
     IEnumerator PlayVideo()
@@ -65,5 +70,6 @@ public class CutscenePlayer : MonoBehaviour
 
         yield return new WaitForSeconds(.2f);
         imageToAppear.gameObject.SetActive(false);
+        yield return new WaitForSeconds(10f);
     }
 }

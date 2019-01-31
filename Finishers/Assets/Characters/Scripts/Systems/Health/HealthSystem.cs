@@ -28,7 +28,7 @@ namespace Finisher.Characters.Systems
         }
         public delegate void TookDamage();
         public event TookDamage OnDamageTaken;
-        private void CallDamageTakenEvent()
+        protected void CallDamageTakenEvent()
         {
             if (OnDamageTaken != null)
             {
@@ -237,7 +237,7 @@ namespace Finisher.Characters.Systems
             enterDyingState(animClip);
         }
 
-        public void CutInHalf()
+        public virtual void CutInHalf()
         {
             Instantiate(config.TopHalf, transform.position, transform.rotation);
             Instantiate(config.BottomHalf, transform.position, transform.rotation);

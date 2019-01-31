@@ -179,7 +179,11 @@ namespace Finisher.Characters
         {
             get
             {
-                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG);
+                if (animator)
+                {
+                    return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG);
+                }
+                return false;
             }
         }
 
