@@ -20,7 +20,6 @@ namespace Finisher.Characters.Enemies
             if (OnEnemiesEngage != null)
             {
                 OnEnemiesEngage();
-                OnEnemiesSubChase();
             }
         }
 
@@ -58,6 +57,11 @@ namespace Finisher.Characters.Enemies
             
         }
 
+        void Update()
+        {
+            SetEnemiesSubChase();
+        }
+
         public void SendWakeUpCallToEnemies()
         {
             CurrentManagerState = ManagerState.Attacking;
@@ -67,10 +71,9 @@ namespace Finisher.Characters.Enemies
         public void RemoveEnemy(GameObject enemy)
         {
             enemies.Remove(enemy);
-            OnEnemiesSubChase();
         }
 
-        public void OnEnemiesSubChase()
+        public void SetEnemiesSubChase()
         {
             int X = enemies.Count();
             int x = 0;
@@ -81,7 +84,6 @@ namespace Finisher.Characters.Enemies
                 else if (x < 4) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
                 else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
                 x += 1;
-               
             }
         }
 
