@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771f1c90119a8f545b833cbb6071c585, type: 3}
   m_Name: EnemyHealthConfig
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 75
   maxVolatility: 100
   knockbackLimit: 10
   freeKnockbackTime: 0
+  regenPerSecond: 0
   normalDeathAnimations:
   - {fileID: 7400000, guid: a16cbf1e833a9a245959413aaed82913, type: 3}
   - {fileID: 7400000, guid: fc2751fb0a43c35458f29c8359b65583, type: 3}

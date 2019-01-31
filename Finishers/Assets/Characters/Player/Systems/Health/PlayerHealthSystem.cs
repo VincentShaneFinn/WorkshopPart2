@@ -15,11 +15,20 @@ namespace Finisher.Characters.Player.Systems
             base.Start();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
             {
                 IncreaseHealth(config.MaxHealth);
+            }
+        }
+
+        public override void DamageHealth(float damage)
+        {
+            if (GetHealthAsPercent() > .20)
+            {
+                base.DamageHealth(damage);
             }
         }
 

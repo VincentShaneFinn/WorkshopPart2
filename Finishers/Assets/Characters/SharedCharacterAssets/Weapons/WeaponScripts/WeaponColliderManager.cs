@@ -42,7 +42,7 @@ namespace Finisher.Characters.Weapons
             combatSystem.OnDamageFrameChanged -= ToggleTriggerCollider;
         }
 
-        void OnTriggerEnter(Collider collider)
+        void OnTriggerStay(Collider collider)
         {
             // Dont hit something in the same layer
             if (collider.gameObject.layer == combatSystem.gameObject.layer)
