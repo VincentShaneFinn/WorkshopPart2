@@ -23,6 +23,14 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
+        public override void DamageHealth(float damage)
+        {
+            if (GetHealthAsPercent() > .20)
+            {
+                base.DamageHealth(damage);
+            }
+        }
+
         private void setPlayerHealthSlider()
         {
             healthBar = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_HealthMeter>();
