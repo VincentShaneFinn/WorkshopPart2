@@ -10,7 +10,7 @@ namespace Finisher.Characters.Enemies
     public class SquadManager : MonoBehaviour
     {
         //private Transform target; // target to aim for
-        public ManagerState CurrentManagerState;
+        [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
 
         public delegate void EnemiesEngage();
