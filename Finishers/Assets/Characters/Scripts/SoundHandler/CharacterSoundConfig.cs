@@ -6,7 +6,13 @@ using UnityEngine;
 public class CharacterSoundConfig : ScriptableObject
 {
     [SerializeField] private SimpleAudioEvent footStep;
-    [SerializeField] private SimpleAudioEvent swordSwing;
+    [SerializeField] private SimpleAudioEvent swordSwing_1;
+    [SerializeField] private SimpleAudioEvent swordSwing_2;
+    [SerializeField] private SimpleAudioEvent swordSwing_3;
+    [SerializeField] private SimpleAudioEvent swordSwing_4;
     public SimpleAudioEvent FootStep { get { return footStep; } }
-    public SimpleAudioEvent SwordSwing {get { return swordSwing; } }
+    public SimpleAudioEvent SwordSwing_First { get { return swordSwing_1; } }
+    public SimpleAudioEvent SwordSwing_Second { get { return swordSwing_2; } }
+    public SimpleAudioEvent SwordSwing_Third { get { return swordSwing_3; } }
+    public SimpleAudioEvent SwordSwing_Fourth { get { return swordSwing_4; } }
 }

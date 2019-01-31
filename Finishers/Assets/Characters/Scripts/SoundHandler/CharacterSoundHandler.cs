@@ -26,5 +26,25 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FootStep.Play(baseAudioSource);
     }
 
+    void SwordSwing_1()
+    {
+        config.SwordSwing_First.Play(baseAudioSource);
+    }
+
+    void SwordSwing_2()
+    {
+        config.SwordSwing_Second.Play(baseAudioSource);
+    }
+
+    void SwordSwing_3()
+    {
+        config.SwordSwing_Third.Play(baseAudioSource);
+    }
+
+    void SwordSwing_4()
+    {
+        config.SwordSwing_Fourth.Play(baseAudioSource);
+    }
+
     #endregion
 }
