@@ -60,6 +60,7 @@ namespace Finisher.Characters.Enemies
             if (squadManager)
             {
                 characterState.DyingState.UnsubscribeToDeathEvent(removeFromSquad);
+                removeFromSquad();
                 squadManager.OnEnemiesEngage -= chaseByManager;
                 squadManager.OnEnemiesDisengage -= stopByManager;
             }
@@ -187,11 +188,12 @@ namespace Finisher.Characters.Enemies
 
             if (currentChaseSubstate == ChaseSubState.Arced)
             {
-                character.MovementSpeedMultiplier = .2f;
+                character.MovementSpeedMultiplier = .4f;
             }
             else if(currentChaseSubstate == ChaseSubState.Surround)
             {
-                character.SetStoppingDistance(3.5f);
+                character.SetStoppingDistance(4f);
+                character.MovementSpeedMultiplier = .4f;
             }
         }
 

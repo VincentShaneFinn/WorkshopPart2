@@ -12,6 +12,7 @@ namespace Finisher.Characters.Enemies
         //private Transform target; // target to aim for
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
+        private GameObject player;
 
         public delegate void EnemiesEngage();
         public event EnemiesEngage OnEnemiesEngage;
@@ -40,6 +41,7 @@ namespace Finisher.Characters.Enemies
         void Start()
         {
             CurrentManagerState = ManagerState.Waiting;
+            player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
             setEnemies();
         }
 
@@ -53,13 +55,12 @@ namespace Finisher.Characters.Enemies
                     enemies.Add(child.gameObject);
                 }
             }
-            enemies = enemies.OrderBy( x => Vector2.Distance(this.transform.position, x.transform.position) ).ToList();
-            
+            sortEnemyByDistance();
         }
 
         void Update()
         {
-            SetEnemiesSubChase();
+            setEnemiesSubChase();
         }
 
         public void SendWakeUpCallToEnemies()
@@ -73,9 +74,9 @@ namespace Finisher.Characters.Enemies
             enemies.Remove(enemy);
         }
 
-        public void SetEnemiesSubChase()
+        private void setEnemiesSubChase()
         {
-            int X = enemies.Count();
+            sortEnemyByDistance();
             int x = 0;
             foreach (GameObject enemy in enemies)
             {
@@ -83,8 +84,13 @@ namespace Finisher.Characters.Enemies
                 if (x < 2) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
                 else if (x < 4) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
                 else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
-                x += 1;
+                x++;
             }
+        }
+
+        private void sortEnemyByDistance()
+        {
+            enemies = enemies.OrderBy(x => Vector2.Distance(player.transform.position, x.transform.position)).ToList();
         }
 
         private void OnTriggerExit(Collider other)
