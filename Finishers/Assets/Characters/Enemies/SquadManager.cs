@@ -10,8 +10,8 @@ namespace Finisher.Characters.Enemies
     public class SquadManager : MonoBehaviour
     {
         //private Transform target; // target to aim for
-        [HideInInspector] public ManagerState CurrentManagerState;
-        private EnemyAI[] enemies;
+        public ManagerState CurrentManagerState;
+        private List<GameObject> enemies = new List<GameObject>();
 
         public delegate void EnemiesEngage();
         public event EnemiesEngage OnEnemiesEngage;
@@ -20,6 +20,7 @@ namespace Finisher.Characters.Enemies
             if (OnEnemiesEngage != null)
             {
                 OnEnemiesEngage();
+                OnEnemiesSubChase();
             }
         }
 
@@ -45,7 +46,16 @@ namespace Finisher.Characters.Enemies
 
         private void setEnemies()
         {
-            enemies = GetComponentsInChildren<EnemyAI>();
+            //enemies = GetComponentsInChildren<EnemyAI>();
+            foreach (Transform child in transform)
+            {
+                if (child.tag == "Enemy")
+                {
+                    enemies.Add(child.gameObject);
+                }
+            }
+            enemies = enemies.OrderBy( x => Vector2.Distance(this.transform.position, x.transform.position) ).ToList();
+            
         }
 
         public void SendWakeUpCallToEnemies()
@@ -53,10 +63,26 @@ namespace Finisher.Characters.Enemies
             CurrentManagerState = ManagerState.Attacking;
             CallWakeUpListeners();
         }
-
-        private void OnTriggerEnter(Collider other)
+        
+        public void RemoveEnemy(GameObject enemy)
         {
-            
+            enemies.Remove(enemy);
+            OnEnemiesSubChase();
+        }
+
+        public void OnEnemiesSubChase()
+        {
+            int X = enemies.Count();
+            int x = 0;
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAI Ai = enemy.GetComponent<EnemyAI>();
+                if (x < 2) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
+                else if (x < 4) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
+                else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
+                x += 1;
+               
+            }
         }
 
         private void OnTriggerExit(Collider other)

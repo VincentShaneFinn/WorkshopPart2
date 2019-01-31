@@ -6,7 +6,7 @@ using System;
 namespace Finisher.Characters.Enemies
 {
     public enum EnemyState { Idle, ReturningHome, Patrolling, Chasing, Attacking }
-    public enum ChaseSubState { Direct, Arced, Surround }
+    public enum ChaseSubState { Null, Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
@@ -56,6 +56,7 @@ namespace Finisher.Characters.Enemies
         {
             if (squadManager)
             {
+                squadManager.RemoveEnemy(this.gameObject);
                 squadManager.OnEnemiesEngage -= ChaseByManager;
                 squadManager.OnEnemiesDisengage -= StopByManager;
             }
@@ -64,16 +65,15 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         void Update()
         {
-
             EnemyState state;
-
+            
             if (playerState.state.IsInvulnerableSequence)
             {
                 currentChaseSubstate = ChaseSubState.Surround;
             }
-            else
+            else 
             {
-                currentChaseSubstate = ChaseSubState.Direct;
+                squadManager.OnEnemiesSubChase();
             }
 
             if (directOrder == EnemyState.ReturningHome)
@@ -166,7 +166,6 @@ namespace Finisher.Characters.Enemies
                 return false;
             }
         }
-        */
 
         #endregion
 
