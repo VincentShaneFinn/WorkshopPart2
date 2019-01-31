@@ -6,7 +6,7 @@ using System;
 namespace Finisher.Characters.Enemies
 {
     public enum EnemyState { Idle, ReturningHome, Patrolling, Chasing, Attacking }
-    public enum ChaseSubState { Direct, Arced, Surround }
+    public enum ChaseSubState { Null, Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
@@ -23,6 +23,7 @@ namespace Finisher.Characters.Enemies
         [SerializeField] CharacterStateSO playerState;
 
         private AICharacterController character;
+        private CharacterState characterState;
         private SquadManager squadManager;
         private CombatSystem combatSystem;
         private EnemyState currentState;
@@ -40,6 +41,7 @@ namespace Finisher.Characters.Enemies
                 combatTarget = GameObject.FindGameObjectWithTag("Player");
             }
             character = GetComponent<AICharacterController>();
+            characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
             currentState = EnemyState.Idle;
@@ -47,8 +49,9 @@ namespace Finisher.Characters.Enemies
 
             if (squadManager)
             {
-                squadManager.OnEnemiesEngage += ChaseByManager;
-                squadManager.OnEnemiesDisengage += StopByManager;
+                characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
+                squadManager.OnEnemiesEngage += chaseByManager;
+                squadManager.OnEnemiesDisengage += stopByManager;
             }
         }
 
@@ -56,31 +59,28 @@ namespace Finisher.Characters.Enemies
         {
             if (squadManager)
             {
-                squadManager.OnEnemiesEngage -= ChaseByManager;
-                squadManager.OnEnemiesDisengage -= StopByManager;
+                characterState.DyingState.UnsubscribeToDeathEvent(removeFromSquad);
+                removeFromSquad();
+                squadManager.OnEnemiesEngage -= chaseByManager;
+                squadManager.OnEnemiesDisengage -= stopByManager;
             }
         }
 
         // Update is called once per frame
         void Update()
         {
-
             EnemyState state;
-
-            if (playerState.state.IsInvulnerableSequence)
+            
+            if (playerState.state.IsInvulnerableSequence || playerState.Grabbing)
             {
                 currentChaseSubstate = ChaseSubState.Surround;
-            }
-            else
-            {
-                currentChaseSubstate = ChaseSubState.Direct;
             }
 
             if (directOrder == EnemyState.ReturningHome)
             {
                 state = EnemyState.ReturningHome;
             }
-            else if (isPlayerInAttackRange() && !playerState.state.IsInvulnerableSequence)
+            else if (isPlayerInAttackRange() && !(playerState.state.IsInvulnerableSequence || playerState.Grabbing))
             {
                 state = EnemyState.Attacking;
             }
@@ -188,10 +188,11 @@ namespace Finisher.Characters.Enemies
 
             if (currentChaseSubstate == ChaseSubState.Arced)
             {
-                character.MovementSpeedMultiplier = .2f;
+                character.MovementSpeedMultiplier = .4f;
             }
             else if(currentChaseSubstate == ChaseSubState.Surround)
             {
+                character.MovementSpeedMultiplier = .4f;
                 character.SetStoppingDistance(5f);
             }
         }
@@ -230,14 +231,19 @@ namespace Finisher.Characters.Enemies
 
         #region Delegate Methods
 
-        public void ChaseByManager()
+        private void chaseByManager()
         {
             directOrder = EnemyState.Chasing;
         }
 
-        public void StopByManager()
+        private void stopByManager()
         {
             directOrder = EnemyState.ReturningHome;
+        }
+
+        private void removeFromSquad()
+        {
+            squadManager.RemoveEnemy(this.gameObject);
         }
 
         #endregion
