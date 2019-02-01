@@ -70,6 +70,8 @@ public class CutscenePlayer : MonoBehaviour
 
         yield return new WaitForSeconds(.2f);
         imageToAppear.gameObject.SetActive(false);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
+        print("Quit Game");
+        Application.Quit();
     }
 }
