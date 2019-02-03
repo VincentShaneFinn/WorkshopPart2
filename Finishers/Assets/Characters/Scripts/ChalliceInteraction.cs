@@ -18,7 +18,7 @@ public class ChalliceInteraction : MonoBehaviour
         {
             GameObject obj = Instantiate(effect);
             obj.transform.position = transform.position;
-            obj.transform.position += new Vector3(0, 1, 0);
+            obj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             interactable = false;
         }
     }

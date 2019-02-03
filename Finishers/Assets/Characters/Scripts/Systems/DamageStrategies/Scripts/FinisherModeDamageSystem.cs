@@ -6,9 +6,9 @@ namespace Finisher.Characters.Systems.Strategies
     {
         [SerializeField] private float volatilityDamage = 5f;
 
-        public override void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem)
+        public override void HitCharacter(GameObject damageSource, HealthSystem targetHealthSytem, float damageMultiplier = 1, float bonusDamage = 0)
         {
-            base.HitCharacter(damageSource, targetHealthSytem);
+            base.HitCharacter(damageSource, targetHealthSytem,bonusDamage:bonusDamage);
             DealVolatilityDamage(targetHealthSytem);
         }
 

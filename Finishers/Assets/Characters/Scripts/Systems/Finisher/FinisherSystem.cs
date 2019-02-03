@@ -49,7 +49,7 @@ namespace Finisher.Characters.Systems {
 
         private Sword sword;
         private Knife knife;
-        private enum WeaponToggle { Sword, Knife };
+        private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
@@ -63,10 +63,12 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private FlameAOE flameAOE;
         [SerializeField] private SoulInfusion soulInfusion;
         [SerializeField] private StunAOE stunAOE;
+        [SerializeField] private float soulSwordTime=10;
 
         #endregion
 
         #endregion
+
 
         void Start()
         {
@@ -112,7 +114,14 @@ namespace Finisher.Characters.Systems {
 
             combatSystem.OnHitEnemy -= GainFinisherMeter;
         }
-
+        private void soulOn() {
+            sword.soulOn();
+            knife.soulOn();
+        }
+        private void soulOff() {
+            sword.soulOff();
+            knife.soulOff();
+        }
         void Update()
         {
             if (characterState.Dying || GameManager.instance.GamePaused)
@@ -213,29 +222,43 @@ namespace Finisher.Characters.Systems {
             }
         }
 
+        private bool pressedBoth = false;
+
         private void setL3AndR3()
         {
-            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
+            if (Input.GetButtonDown(InputNames.L3))
             {
                 L3Pressed = true;
             }
-            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
+            if (Input.GetButtonDown(InputNames.R3))
             {
                 R3Pressed = true;
             }
-            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
+            if (L3Pressed)
             {
-                L3Pressed = false;
+                StartCoroutine(freeL3());
             }
-            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
+            if (R3Pressed)
             {
-                R3Pressed = false;
+                StartCoroutine(freeR3());
             }
+        }
+
+        IEnumerator freeL3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
+        }
+
+        IEnumerator freeR3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
         }
 
         private void attemptToggleFinisherMode()
         {
-            if (L3Pressed && R3Pressed)
+            if (L3Pressed && R3Pressed && !pressedBoth)
             {
                 L3Pressed = false;
                 R3Pressed = false;
@@ -436,17 +459,16 @@ namespace Finisher.Characters.Systems {
 
         #region Hit Character
 
-        public void HitCharacter(HealthSystem targetHealthSystem)
+        public void HitCharacter(HealthSystem targetHealthSystem, float soulBonus=0)
         {
             StabbedEnemy(targetHealthSystem.gameObject);
-
             if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {
-                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
             else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
             {
-                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
             }
 
             combatSystem.IncrementHitCounter();
@@ -538,6 +560,7 @@ namespace Finisher.Characters.Systems {
                 case WeaponToggle.Knife:
                     knife.gameObject.SetActive(true);
                     break;
+
             }
         }
 
@@ -567,9 +590,22 @@ namespace Finisher.Characters.Systems {
 
         void SoulInfusion()
         {
-            print("Toggle Infused Weapon");
+            if (soulTimer != null)
+            {
+                StopCoroutine(soulTimer);
+            }
+            soulOn();
+            soulTimer = stopSoul(soulSwordTime);
+            StartCoroutine(soulTimer);
         }
 
+        private IEnumerator soulTimer;
+        private IEnumerator stopSoul(float time) {
+            yield return new WaitForSeconds(time);
+            soulOff();
+
+        }
         #endregion
+        
     }
 }
