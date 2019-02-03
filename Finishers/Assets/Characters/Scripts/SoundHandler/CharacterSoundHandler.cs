@@ -8,22 +8,35 @@ public class CharacterSoundHandler : MonoBehaviour
     [SerializeField] CharacterSoundConfig config;
 
     private AudioSource baseAudioSource;
+    private Rigidbody rigidBody;
+    private const float CHECK_IF_MOVING = .3f;
 
     void Awake()
     {
         baseAudioSource = gameObject.AddComponent<AudioSource>();
     }
 
+    void Start()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+    }
+
     #region Movement Animation Events
 
     void FootL()
     {
-        config.FootStep.Play(baseAudioSource);
+        if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
+        {
+            config.FootStep.Play(baseAudioSource);
+        }
     }
 
     void FootR()
     {
-        config.FootStep.Play(baseAudioSource);
+        if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
+        {
+            config.FootStep.Play(baseAudioSource);
+        }
     }
 
     void SwordSwing_1()
