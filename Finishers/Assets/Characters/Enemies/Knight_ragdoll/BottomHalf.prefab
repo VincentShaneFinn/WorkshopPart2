@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2982274308742236594}
   - component: {fileID: 6220628718466951414}
   - component: {fileID: 1159706601257134972}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BottomHalf
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679531b0eed64d240af40be159c8d066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 200
 --- !u!1001 &6900488649487036465
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,6 +101,30 @@ PrefabInstance:
     - target: {fileID: 100006, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
       propertyPath: m_Name
       value: lower_static
+      objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 100004, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 100010, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: a68ccbc70bb52204db66e13d3309a27d, type: 3}
       propertyPath: m_LocalPosition.x

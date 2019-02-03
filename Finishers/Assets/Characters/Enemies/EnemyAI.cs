@@ -69,11 +69,21 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         void Update()
         {
+
+            if (!combatTarget)
+            {
+                return;
+            }
+
             EnemyState state;
             
             if (playerState.state.IsInvulnerableSequence || playerState.Grabbing)
             {
                 currentChaseSubstate = ChaseSubState.Surround;
+            }
+            else if (!squadManager)
+            {
+                currentChaseSubstate = ChaseSubState.Null;
             }
 
             if (directOrder == EnemyState.ReturningHome)

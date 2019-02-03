@@ -42,5 +42,12 @@ namespace Finisher.Characters.Player.Systems
             return;
         }
 
+        public override void CutInHalf()
+        {
+            Instantiate(config.TopHalf, transform.position, transform.rotation);
+            Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            gameObject.SetActive(false);
+        }
+
     }
 }

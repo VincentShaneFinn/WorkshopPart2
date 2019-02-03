@@ -222,29 +222,43 @@ namespace Finisher.Characters.Systems {
             }
         }
 
+        private bool pressedBoth = false;
+
         private void setL3AndR3()
         {
-            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
+            if (Input.GetButtonDown(InputNames.L3))
             {
                 L3Pressed = true;
             }
-            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
+            if (Input.GetButtonDown(InputNames.R3))
             {
                 R3Pressed = true;
             }
-            if (Input.GetButtonUp(InputNames.L3))
+            if (L3Pressed)
             {
-                L3Pressed = false;
+                StartCoroutine(freeL3());
             }
-            if (Input.GetButtonUp(InputNames.R3))
+            if (R3Pressed)
             {
-                R3Pressed = false;
+                StartCoroutine(freeR3());
             }
+        }
+
+        IEnumerator freeL3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
+        }
+
+        IEnumerator freeR3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
         }
 
         private void attemptToggleFinisherMode()
         {
-            if (L3Pressed && R3Pressed)
+            if (L3Pressed && R3Pressed && !pressedBoth)
             {
                 L3Pressed = false;
                 R3Pressed = false;
