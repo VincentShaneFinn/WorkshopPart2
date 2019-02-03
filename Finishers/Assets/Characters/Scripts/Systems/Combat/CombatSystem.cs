@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Finisher.Characters.Systems.Strategies;
 using System;
@@ -20,8 +21,8 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
-        [SerializeField] private CoreCombatDamageSystem lightAttackDamageSystem;
-        [SerializeField] private CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
@@ -46,6 +47,16 @@ namespace Finisher.Characters.Systems
             if (OnHitEnemy != null)
             {
                 OnHitEnemy(amount);
+            }
+        }
+
+        public delegate void HitCounterChanged(int value);
+        public event HitCounterChanged OnHitCounterChange;
+        public void CallHitCounterChangedEvent(int value)
+        {
+            if (OnHitCounterChange != null)
+            {
+                OnHitCounterChange(value);
             }
         }
 
@@ -92,7 +103,7 @@ namespace Finisher.Characters.Systems
             parrySMBs = animator.GetBehaviours<ParrySMB>();
             finisherSystem = GetComponent<FinisherSystem>();
 
-            foreach(CombatSMB smb in combatSMBs)
+            foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
@@ -290,20 +301,20 @@ namespace Finisher.Characters.Systems
         #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void HitCharacter(HealthSystem targetHealthSystem)
+        public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
         {
-            if (hit.Contains(targetHealthSystem))
+
+            if (!hit.Add(targetHealthSystem))
             {
                 return;
             }
-            hit.Add(targetHealthSystem);
             if (CurrentAttackType == AttackType.LightBlade)
             {
                 float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
                 
-                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
@@ -312,30 +323,44 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
-                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 
+            IncrementHitCounter();
+            
+        }
+
+        public void IncrementHitCounter(bool reset = false)
+        {
             if (gameObject.tag == "Player")
             {
-                hitCounter++;
-                hitCounter = Mathf.Clamp(hitCounter, 0, 15);
+                if (reset)
+                {
+                    hitCounter = 0;
+                }
+                else
+                {
+                    hitCounter++;
+                }
+                CallHitCounterChangedEvent(hitCounter);
             }
+        }
+
+        private void resetHitCounter()
+        {
+            IncrementHitCounter(reset: true);
         }
 
         private float multiplyFinisherMeterGain(float finisherMeterGain)
         {
             if (hitCounter > 5)
             {
-                finisherMeterGain = finisherMeterGain * (1 + (.05f * (hitCounter - 5)));
+                var counter = Mathf.Clamp(hitCounter, 0, 15);
+                finisherMeterGain = finisherMeterGain * (1 + (.05f * (counter - 5)));
             }
             
             return finisherMeterGain;
-        }
-
-        private void resetHitCounter()
-        {
-            hitCounter = 0;
         }
 
         #endregion

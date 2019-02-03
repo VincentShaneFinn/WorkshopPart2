@@ -46,6 +46,7 @@ namespace Finisher.Characters.Player.Systems
         {
             processAttackInput();
             processDodgeInput();
+            processParryInput();
         }
 
         private void processAttackInput()
@@ -78,6 +79,10 @@ namespace Finisher.Characters.Player.Systems
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
             }
+        }
+
+        private void processParryInput()
+        {
             if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
             {
                 finisherSystem.ToggleGrabOff();
@@ -130,9 +135,9 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void HitCharacter(HealthSystem target)
+        public override void HitCharacter(HealthSystem target, float soulBonus = 0)
         {
-            base.HitCharacter(target);
+            base.HitCharacter(target,soulBonus);
             StartCoroutine(ImpactFrames(target));
         }
 
@@ -155,7 +160,7 @@ namespace Finisher.Characters.Player.Systems
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
-                enemyToParry.Kill(config.RiposteKillAnimationToPass);
+                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
             }
         }
 
@@ -183,6 +188,13 @@ namespace Finisher.Characters.Player.Systems
             }
 
             return null;
+        }
+
+        IEnumerator killOnStab(HealthSystem enemyToParry)
+        {
+            yield return new WaitForSeconds(.75f);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
+            enemyToParry.Kill(config.RiposteKillAnimationToPass);
         }
 
         //TODO: create a linked character animation system

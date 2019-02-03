@@ -125,7 +125,7 @@ namespace Finisher.Characters
                 }
                 else
                 {
-                    v = (animator.deltaPosition * moveSpeedMultiplier) / Time.deltaTime;
+                    v = (animator.deltaPosition * MovementSpeedMultiplier) / Time.deltaTime;
                 }
                 // we preserve the existing y part of the current velocity.
                 v.y = rigidBody.velocity.y;

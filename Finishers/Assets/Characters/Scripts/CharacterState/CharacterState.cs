@@ -115,7 +115,8 @@ namespace Finisher.Characters
             {
                 if (IsDodgeFrame ||
                     IsParryFrame ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE))
+                    animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE) ||
+                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG))
                 {
                     return true;
                 }
@@ -158,6 +159,7 @@ namespace Finisher.Characters
             get
             {
                 if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.UNINTERUPTABLE_TAG) ||
+                animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) ||
                 animator.GetAnimatorTransitionInfo(0).anyState ||
                 Stunned ||
                 Grabbing)
@@ -172,6 +174,18 @@ namespace Finisher.Characters
         }
 
         #endregion
+
+        public bool IsInvulnerableSequence
+        {
+            get
+            {
+                if (animator)
+                {
+                    return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG);
+                }
+                return false;
+            }
+        }
 
     }
 }
