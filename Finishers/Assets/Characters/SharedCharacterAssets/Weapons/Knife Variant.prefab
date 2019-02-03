@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulEffect: {fileID: 8806726374134371497}
+  trailEffect: {fileID: 4094259449170254147}
 --- !u!1001 &6976893862068700657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -132,6 +133,12 @@ GameObject:
 --- !u!1 &8806726374134371497 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1938006868888818008, guid: f4c8e89ffc7985540b621b4a637a5756,
+    type: 3}
+  m_PrefabInstance: {fileID: 6976893862068700657}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &4094259449170254147 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6342004261624290482, guid: f4c8e89ffc7985540b621b4a637a5756,
     type: 3}
   m_PrefabInstance: {fileID: 6976893862068700657}
   m_PrefabAsset: {fileID: 0}
