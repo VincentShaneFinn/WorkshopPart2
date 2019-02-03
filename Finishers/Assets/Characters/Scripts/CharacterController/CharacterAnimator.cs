@@ -49,6 +49,10 @@ namespace Finisher.Characters
             // update the animator parameters
             animator.SetFloat(AnimConstants.Parameters.FORWARD_FLOAT, forwardAmount, 0.1f, Time.deltaTime);
             animator.SetFloat(AnimConstants.Parameters.TURN_FLOAT, turnAmount, 0.1f, Time.deltaTime);
+            if (characterState.Grabbing)
+            {
+                isGrounded = true;
+            }
             animator.SetBool(AnimConstants.Parameters.ONGROUND_BOOL, isGrounded);
             animator.SetBool(AnimConstants.Parameters.STRAFING_BOOL, Strafing);
             if (!isGrounded)
