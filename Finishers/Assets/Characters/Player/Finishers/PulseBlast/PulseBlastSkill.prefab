@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1093737200344093038}
   - component: {fileID: 7579821129059997249}
   m_Layer: 0
-  m_Name: FlamethrowerSkill
+  m_Name: PulseBlastSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493352516291640}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -145,6 +145,101 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938061, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938060, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938060, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 3931435117497938060, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_ApplyActiveColorSpace
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: moveWithTransform
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: InitialModule.startRotationX.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: InitialModule.startRotationY.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: InitialModule.startRotation.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3931435117497938059, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: InitialModule.startRotation.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1341196638461201527, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 4498026790552208}
+    - target: {fileID: 467176153461456021, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 4498026790552208}
+    - target: {fileID: 5536006941490943641, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 4498026790552208}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048ad4efe7882b043a543b7cdfe27bf5, type: 3}
 --- !u!4 &7557685457774827574 stripped
