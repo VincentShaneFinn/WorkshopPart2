@@ -28,7 +28,7 @@ namespace Finisher.Characters.Systems
         }
         public delegate void TookDamage();
         public event TookDamage OnDamageTaken;
-        private void CallDamageTakenEvent()
+        protected void CallDamageTakenEvent()
         {
             if (OnDamageTaken != null)
             {
@@ -51,11 +51,16 @@ namespace Finisher.Characters.Systems
             decreaseVolatility(config.MaxVolatility);
         }
 
+        protected virtual void Update()
+        {
+            IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+        }
+
         #region Public Interface
 
         #region Change Health
 
-        public void DamageHealth(float damage)
+        public virtual void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
             if (characterState.Invulnerable) { return; }
@@ -79,7 +84,7 @@ namespace Finisher.Characters.Systems
             updateHealthUI();
         }
 
-        private void decreaseHealth(float damage)
+        protected void decreaseHealth(float damage)
         {
             currentHealth -= damage;
             if(currentHealth < Mathf.Epsilon)
@@ -232,7 +237,7 @@ namespace Finisher.Characters.Systems
             enterDyingState(animClip);
         }
 
-        public void CutInHalf()
+        public virtual void CutInHalf()
         {
             Instantiate(config.TopHalf, transform.position, transform.rotation);
             Instantiate(config.BottomHalf, transform.position, transform.rotation);

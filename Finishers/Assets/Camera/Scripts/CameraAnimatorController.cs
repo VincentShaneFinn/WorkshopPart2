@@ -33,16 +33,13 @@ public class CameraAnimatorController : MonoBehaviour
     private void cameraZoomOnGrab(bool isGrabbing)
     {
         var _isGrabbing = animator.GetBool("isGrabbing");
-        var _transition_ID = animator.GetInteger("transition_ID");
 
         if (isGrabbing)
         {
-            Debug.Log("Is Grabbing: " + !_isGrabbing);
             animator.SetBool("isGrabbing", true);
         }
         else
         {
-            Debug.Log("Is Grabbing: " + !_isGrabbing);
             animator.SetBool("isGrabbing", false);
         }
     }
