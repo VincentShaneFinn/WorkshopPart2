@@ -2139,6 +2139,9 @@ MonoBehaviour:
     type: 3}
   flameAOE: {fileID: 7192056542658797483, guid: 88f86fc037f63c148ac53c88c524cea5,
     type: 3}
+  soulInfusion: {fileID: 0}
+  stunAOE: {fileID: 0}
+  soulSwordTime: 10
 --- !u!114 &951410941
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2151,11 +2154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417a7dc5f9c71404cb42e82593358c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 55a163667357ba341ada3e9a496a1d29, type: 2}
-  soulInfusion: {fileID: 1184932774506233488, guid: 0243abf41c4b22b4c942630a11c71d82,
-    type: 3}
-  stunAOE: {fileID: 3515533956619826726, guid: 31fb3d083e55ae64296307193ef49546, type: 3}
-  soulSwordTime: 10
+  config: {fileID: 11400000, guid: 9c11f81faaa436046b257414b4542922, type: 2}
 --- !u!82 &8562311998577778097
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2349,6 +2348,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3079736053775607216}
     m_Modifications:
+    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
+        type: 3}
+      propertyPath: m_Name
+      value: Knife
+      objectReference: {fileID: 0}
     - target: {fileID: 6624719855217977527, guid: c59eaaa44d8e1f4469b7db18f5763773,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2403,11 +2407,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 255.808
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
-        type: 3}
-      propertyPath: m_Name
-      value: Knife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c59eaaa44d8e1f4469b7db18f5763773, type: 3}

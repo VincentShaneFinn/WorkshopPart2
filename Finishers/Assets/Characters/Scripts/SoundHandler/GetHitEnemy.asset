@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a9f940313d06d4caed9863bf024ebf, type: 3}
+  m_Name: GetHitEnemy
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: b258f7a5d4def90498c83420e16b42b7, type: 3}
+  - {fileID: 8300000, guid: cc167a62bcbe5f446b7b2be91d58cf69, type: 3}
+  - {fileID: 8300000, guid: f7af85035a230d04f90e969424408bb3, type: 3}
+  volume:
+    minValue: 0.25
+    maxValue: 0.39583334
+  pitch:
+    minValue: 0.8333333
+    maxValue: 1.1666666
