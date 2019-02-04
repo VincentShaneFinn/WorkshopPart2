@@ -204,9 +204,27 @@ namespace Finisher.Cameras
             transform.position = Vector3.Lerp(transform.position, targetToUse.position, deltaTime * moveSpeed);
         }
 
+        //Test
+        Transform combatTarget;
+
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
         {
+
+            if (!followTarget)
+            {
+                return;
+            }
+
+            if (character.CombatTarget)
+            {
+                combatTarget = character.CombatTarget;
+            }
+            if (combatTarget && combatTarget.GetComponent<CharacterState>().Dying)
+            {
+                combatTarget = null;
+            }
+
             // initialise some vars, we'll be modifying these in a moment
             var targetForward = followTarget.forward;
             var targetUp = followTarget.up;
@@ -246,9 +264,9 @@ namespace Finisher.Cameras
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }
-            else if (character.CombatTarget != null)
+            else if (combatTarget != null)
             {
-                Quaternion rotationToTarget = Quaternion.LookRotation(character.CombatTarget.transform.position - transform.position);
+                Quaternion rotationToTarget = Quaternion.LookRotation(combatTarget.transform.position - transform.position);
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }
