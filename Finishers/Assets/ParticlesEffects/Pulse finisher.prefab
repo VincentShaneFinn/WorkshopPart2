@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3931435116445818886}
   - component: {fileID: 3931435116445818884}
+  - component: {fileID: 5536006941490943641}
   - component: {fileID: 3931435116445818885}
   m_Layer: 0
   m_Name: Particle System
@@ -4636,6 +4637,20 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &5536006941490943641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931435116445818887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae282482f5593e04e81217f27f341d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 3931435116445818884}
+  parent: {fileID: 3931435117293036120}
 --- !u!199 &3931435116445818885
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4708,6 +4723,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3931435117064686808}
   - component: {fileID: 3931435117064686806}
+  - component: {fileID: 1341196638461201527}
   - component: {fileID: 3931435117064686807}
   m_Layer: 0
   m_Name: Embers (1)
@@ -9370,6 +9386,20 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1341196638461201527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931435117064686809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae282482f5593e04e81217f27f341d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 3931435117064686806}
+  parent: {fileID: 3931435117293036120}
 --- !u!199 &3931435117064686807
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9874,7 +9904,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -9927,7 +9957,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -9980,7 +10010,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotation:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 6.283185
       minScalar: 0
       maxCurve:
@@ -14210,6 +14240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3931435117497938061}
   - component: {fileID: 3931435117497938059}
+  - component: {fileID: 467176153461456021}
   - component: {fileID: 3931435117497938060}
   m_Layer: 0
   m_Name: Particle System (1)
@@ -14642,7 +14673,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -14695,7 +14726,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -14748,7 +14779,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotation:
       serializedVersion: 2
-      minMaxState: 3
+      minMaxState: 0
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -18872,6 +18903,20 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &467176153461456021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931435117497938062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae282482f5593e04e81217f27f341d6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 3931435117497938059}
+  parent: {fileID: 3931435117293036120}
 --- !u!199 &3931435117497938060
 ParticleSystemRenderer:
   serializedVersion: 6
