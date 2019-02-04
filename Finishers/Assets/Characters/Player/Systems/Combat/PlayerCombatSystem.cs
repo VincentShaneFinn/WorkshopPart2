@@ -19,6 +19,10 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
+        private float chargeTime;
+        private float chargeAttackDelay = 0.1f;
+        private bool lightattackInitiated = false;
+        private bool heavyattackInitiated = false;
 
         protected override void Start()
         {
@@ -53,20 +57,53 @@ namespace Finisher.Characters.Player.Systems
         {
             if (Input.GetButtonDown(InputNames.LightAttack))
             {
+                chargeTime = Time.time;
+                lightattackInitiated = true;
+            }
+            if (Input.GetButtonUp(InputNames.LightAttack) && Time.time <= chargeTime + chargeAttackDelay && lightattackInitiated)
+            {
                 LightAttack();
+                lightattackInitiated = false;
+            }
+            else if (Time.time > chargeTime + chargeAttackDelay && lightattackInitiated)
+            {
+                ChargeLightAttack();
+                lightattackInitiated = false;
             }
             if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
                 if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
                 {
+                    chargeTime = Time.time;
+                    heavyattackInitiated = true;
+                }
+                if (Input.GetAxisRaw(InputNames.HeavyAttack) <= 0 && Time.time <= chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
                     HeavyAttack();
+                    heavyattackInitiated = false;
+                }
+                else if (Input.GetAxisRaw(InputNames.HeavyAttack) <= 0 && Time.time > chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
+                    ChargeHeavyAttack();
+                    heavyattackInitiated = false;
                 }
             }
             else
             {
                 if (Input.GetButtonDown(InputNames.HeavyAttack))
                 {
+                    chargeTime = Time.time;
+                    heavyattackInitiated = true;
+                }
+                if (Input.GetButtonUp(InputNames.HeavyAttack) && Time.time <= chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
                     HeavyAttack();
+                    heavyattackInitiated = false;
+                }
+                else if (Time.time > chargeTime + chargeAttackDelay && heavyattackInitiated)
+                {
+                    ChargeHeavyAttack();
+                    heavyattackInitiated = false;
                 }
             }
         }
@@ -201,7 +238,7 @@ namespace Finisher.Characters.Player.Systems
         IEnumerator transformOvertime(Transform target)
         {
             float time = .3f;
-            while(time > 0)
+            while (time > 0)
             {
                 time -= Time.deltaTime;
                 transform.LookAt(target);
