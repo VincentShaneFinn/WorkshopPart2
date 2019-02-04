@@ -210,6 +210,12 @@ namespace Finisher.Cameras
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
         {
+
+            if (!followTarget)
+            {
+                return;
+            }
+
             if (character.CombatTarget)
             {
                 combatTarget = character.CombatTarget;
@@ -218,7 +224,6 @@ namespace Finisher.Cameras
             {
                 combatTarget = null;
             }
-
 
             // initialise some vars, we'll be modifying these in a moment
             var targetForward = followTarget.forward;
