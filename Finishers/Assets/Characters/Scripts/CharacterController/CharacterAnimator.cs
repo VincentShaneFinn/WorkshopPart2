@@ -139,19 +139,5 @@ namespace Finisher.Characters
 
         #endregion
 
-        #region Movement Animation Events
-
-        void FootL()
-        {
-            //play left foot sound
-        }
-
-        void FootR()
-        {
-            //play right foot sound
-        }
-
-        #endregion
-
     }
 }
