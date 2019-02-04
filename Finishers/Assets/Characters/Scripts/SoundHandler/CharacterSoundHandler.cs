@@ -85,5 +85,39 @@ public class CharacterSoundHandler : MonoBehaviour
         config.SwordSwing_Fourth.Play(baseAudioSource);
     }
 
+    void HeavySwing_1()
+    {
+        config.HeavySwordSwing_First.Play(baseAudioSource);
+    }
+
+    void HeavySwing_2()
+    {
+        config.HeavySwordSwing_Second.Play(baseAudioSource);
+    }
+
+    void Dagger_Light()
+    {
+        config.DaggerLight.Play(baseAudioSource);
+    }
+
+    void Dagger_Heavy()
+    {
+        config.DaggerHeavy.Play(baseAudioSource);
+    }
+
     #endregion
+
+    void FinisherSlice()
+    {
+        config.FinisherSlice.Play(baseAudioSource);
+    }
+
+    //TODO move this to the prefab
+    void Finisher_AOE_Blast()
+    {
+        AudioSource audioSourceToKill = gameObject.AddComponent<AudioSource>();
+        config.FinisherAOEBlast.Play(audioSourceToKill);
+        Destroy(audioSourceToKill, audioSourceToKill.clip.length);
+    }
+    
 }
