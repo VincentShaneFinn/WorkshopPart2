@@ -684,6 +684,7 @@ GameObject:
   - component: {fileID: 2284178928400837276}
   - component: {fileID: 67491212784503597}
   - component: {fileID: 4216138815818108376}
+  - component: {fileID: 4728689035381766452}
   m_Layer: 13
   m_Name: BossEnemy
   m_TagString: Enemy
@@ -835,6 +836,19 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
   enemyCanvas: {fileID: 5563752524858628117}
   combatConfig: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
+--- !u!114 &4728689035381766452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 882163659345858344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a7dc5f9c71404cb42e82593358c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: b4124821a0a093a44b914ded11da912d, type: 2}
 --- !u!1 &1153268964182828816
 GameObject:
   m_ObjectHideFlags: 0

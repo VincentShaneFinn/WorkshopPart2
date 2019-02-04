@@ -115,6 +115,7 @@ namespace Finisher.Characters
             {
                 if (IsDodgeFrame ||
                     IsParryFrame ||
+                    Grabbing ||
                     animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.INVULNERABLEACTION_STATE) ||
                     animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG))
                 {

@@ -88,7 +88,7 @@ namespace Finisher.Characters.Systems
         private DodgeSMB[] dodgeSMBs;
         private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
-        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
+        public HashSet<HealthSystem> Hit = new HashSet<HealthSystem>();
 
         #endregion
 
@@ -262,7 +262,7 @@ namespace Finisher.Characters.Systems
 
         void DamageEnd()
         {
-            hit = new HashSet<HealthSystem>();
+            Hit = new HashSet<HealthSystem>();
             if (IsDamageFrame)
             {
                 CallDamageFrameChangedEvent(false);
@@ -304,7 +304,7 @@ namespace Finisher.Characters.Systems
         public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
         {
 
-            if (!hit.Add(targetHealthSystem))
+            if (!Hit.Add(targetHealthSystem))
             {
                 return;
             }
