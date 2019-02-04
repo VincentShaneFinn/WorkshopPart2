@@ -21,7 +21,7 @@ public class ChalliceInteraction : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKey(KeyCode.E) && interactable)
+        if (Input.GetButton("Interact") && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(lightTorchSequence());
