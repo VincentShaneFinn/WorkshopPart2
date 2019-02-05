@@ -6,6 +6,8 @@ public class ParticleRotation : MonoBehaviour
 {
     [SerializeField] private ParticleSystem particle;
     [SerializeField] private Transform parent;
+    [SerializeField] private float offset=0;
+    [SerializeField] private float offrate = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +18,8 @@ public class ParticleRotation : MonoBehaviour
         var rot = particle.main.startRotation;
         float y = parent.rotation.eulerAngles.y;
         rot.mode = ParticleSystemCurveMode.Constant;
-        rot.constant = y*Mathf.Deg2Rad*-1;
+        rot.constant = (y+offset)*Mathf.Deg2Rad*-1*offrate;
+        Debug.Log(rot.constant*Mathf.Rad2Deg);
         main.startRotation = rot;
     }
 }
