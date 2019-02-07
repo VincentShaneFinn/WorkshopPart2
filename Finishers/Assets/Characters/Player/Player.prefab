@@ -1962,6 +1962,8 @@ GameObject:
   - component: {fileID: 7070460760452883848}
   - component: {fileID: 7146908285708924571}
   - component: {fileID: 4620075608317267798}
+  - component: {fileID: 951410941}
+  - component: {fileID: 8562311998577778097}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -2015,6 +2017,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a557c98f6a79df49a8922d68690ace1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDodgeFrame: 0
+  IsParryFrame: 0
   stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &4940009788626016722
 MonoBehaviour:
@@ -2048,7 +2052,7 @@ MonoBehaviour:
   stationaryTurnSpeed: 1000
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
-  moveSpeedMultiplier: 1
+  initialMoveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
   collisionDetectionMode: 2
@@ -2061,12 +2065,12 @@ MonoBehaviour:
     type: 3}
   RotateWithCameraSpeed: 20
   AutoLockTurnSpeed: 5
-  MAXCOMBATTARGETRANGE: 20
-  MAINRANGE: 3
-  EXTRARANGE: 1.5
+  MAINRANGE: 2.6
+  SECONDARY_HITBOX_RANGE: 1.25
   MAINFOV: 50
-  EXTRAFOV: 100
-  DIRECTIONALINPUTFOV: 35
+  SECONDARY_HITBOX: 100
+  DIRECTIONAL_INPUT_HITBOX: 35
+  attackSnapDistance: 0.1
 --- !u!114 &3079736054807551835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2091,9 +2095,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd70edd967335ec4b8da63f269c76bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightAttackDamageSystem: {fileID: 11400000, guid: 0c2dc33e844d9c5498abc1fa32ec97c8,
+    type: 2}
+  heavyAttackDamageSystem: {fileID: 11400000, guid: 824a5ceb6a88e5847afcc119a13b6911,
+    type: 2}
   config: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
-  timeToClearAttackInputQue: 0.5
-  attackAnimSpeed: 0.9
+  DodgingAllowed: 1
   impactFrameTime: 0.1
 --- !u!114 &7146908285708924571
 MonoBehaviour:
@@ -2121,6 +2128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 898a7ca54e9bee74ca092bdb412c4a91, type: 2}
+  lightFinisherAttackDamageSystem: {fileID: 11400000, guid: f29a4e5a6a9b5924787660cc6747c33a,
+    type: 2}
+  heavyFinisherAttackDamageSystem: {fileID: 11400000, guid: 06b4b80ac0e6a4843a4c4dd7a8041efb,
+    type: 2}
   throwingWeapon: {fileID: 6683639795073119639, guid: 92a4a3abc826a4e4eba407339f7b9c47,
     type: 3}
   distanceFromEnemyBack: 0.1
@@ -2128,6 +2139,119 @@ MonoBehaviour:
     type: 3}
   flameAOE: {fileID: 7192056542658797483, guid: 88f86fc037f63c148ac53c88c524cea5,
     type: 3}
+  soulInfusion: {fileID: 1184932774506233488, guid: 0243abf41c4b22b4c942630a11c71d82,
+    type: 3}
+  stunAOE: {fileID: 3515533956619826726, guid: 31fb3d083e55ae64296307193ef49546, type: 3}
+  soulSwordTime: 10
+--- !u!114 &951410941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a7dc5f9c71404cb42e82593358c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: 9c11f81faaa436046b257414b4542922, type: 2}
+--- !u!82 &8562311998577778097
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3079736054807551833}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: fe3c258193772854a86a15bd1df8439a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.25
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &1261069488335191895
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2229,11 +2353,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Knife
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6624719855217977527, guid: c59eaaa44d8e1f4469b7db18f5763773,
         type: 3}

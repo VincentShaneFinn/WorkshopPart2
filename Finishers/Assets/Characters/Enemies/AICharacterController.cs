@@ -4,8 +4,9 @@ namespace Finisher.Characters.Enemies
 {
     public class AICharacterController : CharacterAnimator
     {
+        public bool UseOptionalDestination = false;
+        public Vector3 OptionalDestination = Vector3.zero;
 
-        private UnityEngine.AI.NavMeshAgent agent; // the navmesh agent required for the path finding
         private Transform target; // target to aim for
 
         [Header("AI Specific Attributes")]
@@ -50,6 +51,8 @@ namespace Finisher.Characters.Enemies
 
         #endregion
 
+        private UnityEngine.AI.NavMeshAgent agent; // the navmesh agent required for the path finding
+
         protected override void Start()
         {
             base.Start();
@@ -88,7 +91,7 @@ namespace Finisher.Characters.Enemies
             {
                 if (target)
                 {
-                    agent.SetDestination(target.position);
+                    setAgentDestination();
 
                     if (agent.remainingDistance > agent.stoppingDistance && CanMove)
                     {
@@ -120,11 +123,33 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        public void SetStoppingDistance(float newStoppingDistance)
+        {
+            agent.stoppingDistance = newStoppingDistance;
+        }
 
+        public void RestoreStoppingDistance()
+        {
+            agent.stoppingDistance = stoppingDistance;
+        }
 
         public void SetTarget(Transform target)
         {
             this.target = target;
+        }
+
+        private void setAgentDestination()
+        {
+            if (UseOptionalDestination)
+            {
+                agent.SetDestination(OptionalDestination);
+                agent.stoppingDistance = .25f;
+            }
+            else if (target)
+            {
+                agent.SetDestination(target.position);
+                agent.stoppingDistance = stoppingDistance;
+            }
         }
 
 

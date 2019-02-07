@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
+
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
@@ -25,37 +26,47 @@ namespace Finisher.Characters.Systems
                 OnKnockBack();
             }
         }
+        public delegate void TookDamage();
+        public event TookDamage OnDamageTaken;
+        protected void CallDamageTakenEvent()
+        {
+            if (OnDamageTaken != null)
+            {
+                OnDamageTaken();
+            }
+        }
 
         #endregion
 
-        private CharacterState characterState;
+        protected CharacterState characterState;
         private AnimOverrideSetter animOverrideHandler;
-        protected Slider healthSlider;
+        protected UI_HealthMeter healthBar;
 
         protected virtual void Start()
         {
             characterState = GetComponent<CharacterState>();
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
 
-            increaseHealth(config.MaxHealth);
+            IncreaseHealth(config.MaxHealth);
             decreaseVolatility(config.MaxVolatility);
+        }
+
+        protected virtual void Update()
+        {
+            IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
         }
 
         #region Public Interface
 
         #region Change Health
 
-        public void DamageHealth(float damage)
+        public virtual void DamageHealth(float damage)
         {
             //Dont deal damage if dodging
             if (characterState.Invulnerable) { return; }
 
             decreaseHealth(damage);
-
-            if (knockbackCount < config.KnockbackLimit)
-            {
-                Knockback();
-            }
+            CallDamageTakenEvent();
 
             if (currentHealth <= 0)
             {
@@ -63,7 +74,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private void increaseHealth(float healing)
+        public void IncreaseHealth(float healing)
         {
             currentHealth += healing;
             if(currentHealth > config.MaxHealth - Mathf.Epsilon)
@@ -73,7 +84,7 @@ namespace Finisher.Characters.Systems
             updateHealthUI();
         }
 
-        private void decreaseHealth(float damage)
+        protected void decreaseHealth(float damage)
         {
             currentHealth -= damage;
             if(currentHealth < Mathf.Epsilon)
@@ -100,7 +111,15 @@ namespace Finisher.Characters.Systems
 
         private void increaseVolatility(float amount)
         {
-            currentVolatility += amount;
+            if (characterState.Grabbed)
+            {
+                currentVolatility += amount * 3;
+            }
+            else
+            {
+                currentVolatility += amount;
+            }
+
             if (currentVolatility > config.MaxVolatility - Mathf.Epsilon)
             {
                 currentVolatility = config.MaxVolatility;
@@ -133,16 +152,45 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        // todo knockback is currently really a stagger, and we need to add a knockback with a movement vector
         #region Knockback And Kill
 
-        public void Knockback()
+        public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
         {
-            Knockback(config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)]);
+            //TODO: Add a method to override the knockback limiter
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+
+            if (animClip == null)
+            {
+                animClip = config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)];
+            }
+
+            enterKnockbackState(animClip);
+            CallKnockbackEvent();
+
+            knockbackCount++;
+
+            StartCoroutine(releaseCountAfterDelay());
+
+            // Transform side of knockback
+            Vector3 knockbackTarget = transform.position + knockbackVector;
+            IEnumerator coroutine = knockbackTowards(knockbackTarget, knockbackTime);
+            StartCoroutine(coroutine);
         }
-        public void Knockback(AnimationClip animClip)
+
+        public void KnockbackOutwards(GameObject damageSource, float knockbackRange, float knockbackTime = 0.1f, AnimationClip animClip = null)
         {
-            if (characterState.Dying) { return; }
+            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip);
+        }
+
+        public void Knockback(AnimationClip animClip = null)
+        {
+            //TODO: Add a method to override the knockback limiter
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)];
+            }
 
             enterKnockbackState(animClip);
             CallKnockbackEvent();
@@ -156,6 +204,18 @@ namespace Finisher.Characters.Systems
             animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.KNOCKBACK_TRIGGER, AnimConstants.OverrideIndexes.KNOCKBACK_INDEX, animClip);
         }
 
+        private IEnumerator knockbackTowards(Vector3 knockbackTarget, float knockbackTime)
+        {
+            float delay = 0.01f;
+            float moveTimes = knockbackTime / delay;
+            float maxDistance = Vector3.Distance(transform.position, knockbackTarget) / moveTimes;
+            for (int i = 0; i < moveTimes; i++)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, knockbackTarget, maxDistance);
+                yield return new WaitForSeconds(delay);
+            }
+        }
+
         // todo, make this care about consective hits or building up a resistance?
         private IEnumerator releaseCountAfterDelay()
         {
@@ -163,16 +223,25 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public void Kill()
-        {
-            Kill(config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)]);
-        }
-        public virtual void Kill(AnimationClip animClip)
+        public virtual void Kill(AnimationClip animClip = null)
         {
             if (characterState.Dying) { return; }
+
+            if(animClip == null)
+            {
+                animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            }
+
             currentHealth = 0;
             updateHealthUI();
             enterDyingState(animClip);
+        }
+
+        public virtual void CutInHalf()
+        {
+            Instantiate(config.TopHalf, transform.position, transform.rotation);
+            Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
 
         private void enterDyingState(AnimationClip animClip)
@@ -198,9 +267,9 @@ namespace Finisher.Characters.Systems
 
         private void updateHealthUI()
         {
-            if (healthSlider)
+            if (healthBar)
             {
-                healthSlider.value = GetHealthAsPercent();
+                healthBar.SetFillAmount(GetHealthAsPercent());
             }
         }
 

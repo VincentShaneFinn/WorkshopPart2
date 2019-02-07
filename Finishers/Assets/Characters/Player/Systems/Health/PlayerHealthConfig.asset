@@ -16,7 +16,11 @@ MonoBehaviour:
   maxVolatility: 100
   knockbackLimit: 2
   freeKnockbackTime: 2
+  regenPerSecond: 3
   normalDeathAnimations:
   - {fileID: 7400000, guid: 9a26352c93a81e947b73b8e47cc931bb, type: 3}
   knockbackAnimations:
   - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}
+  topHalf: {fileID: 4939632194541006179, guid: 65e8b138fb96f3644819b625c8ecf6e8, type: 3}
+  bottomHalf: {fileID: 4939632194541006179, guid: 376cb5875463b17469089e1c5dc10e7e,
+    type: 3}

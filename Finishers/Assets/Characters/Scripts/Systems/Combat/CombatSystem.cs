@@ -1,5 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+
+using Finisher.Characters.Systems.Strategies;
+using System;
+using System.Collections.Generic;
 
 namespace Finisher.Characters.Systems
 {
@@ -16,16 +21,46 @@ namespace Finisher.Characters.Systems
 
         #region Class Variables
 
-        [SerializeField] CombatConfig config;
+        [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+        [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
+        [SerializeField] protected CombatConfig config;
 
         public bool IsDamageFrame { get; private set; }
+        public bool DodgingAllowed = true; 
+
+        #region Delegates
 
         public delegate void DamageFrameChanged(bool isDamageFrame);
         public event DamageFrameChanged OnDamageFrameChanged;
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
         {
-            OnDamageFrameChanged(isDamageFrame);
+            if (OnDamageFrameChanged != null)
+            {
+                OnDamageFrameChanged(isDamageFrame);
+            }
         }
+
+        public delegate void HitEnemyDelegate(float amount);
+        public event HitEnemyDelegate OnHitEnemy;
+        public void CallCombatSystemDealtDamageListeners(float amount)
+        {
+            if (OnHitEnemy != null)
+            {
+                OnHitEnemy(amount);
+            }
+        }
+
+        public delegate void HitCounterChanged(int value);
+        public event HitCounterChanged OnHitCounterChange;
+        public void CallHitCounterChangedEvent(int value)
+        {
+            if (OnHitCounterChange != null)
+            {
+                OnHitCounterChange(value);
+            }
+        }
+
+        #endregion
 
         public AttackType CurrentAttackType {
             get
@@ -41,27 +76,19 @@ namespace Finisher.Characters.Systems
                 return AttackType.None;
             }
         }
-        public float CurrentAttackDamage {
-            get
-            {
-                switch (CurrentAttackType)
-                {
-                    case AttackType.LightBlade:
-                        return config.LightAttackDamage;
-                    case AttackType.HeavyBlade:
-                        return config.HeavyAttackDamage;
-                    default:
-                        return 0;
-                }
-            }
-        }
+
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
+        private int hitCounter;
 
         [HideInInspector] protected Animator animator;
         private AnimOverrideSetter animOverrideHandler;
         protected CharacterState characterState;
         private CombatSMB[] combatSMBs;
+        private DodgeSMB[] dodgeSMBs;
+        private ParrySMB[] parrySMBs;
+        protected FinisherSystem finisherSystem;
+        public HashSet<HealthSystem> Hit = new HashSet<HealthSystem>();
 
         #endregion
 
@@ -72,10 +99,32 @@ namespace Finisher.Characters.Systems
             animator.SetFloat(AnimConstants.Parameters.ATTACK_SPEED_MULTIPLIER, config.AttackAnimSpeed);
             animOverrideHandler = GetComponent<AnimOverrideSetter>();
             combatSMBs = animator.GetBehaviours<CombatSMB>();
+            dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
+            parrySMBs = animator.GetBehaviours<ParrySMB>();
+            finisherSystem = GetComponent<FinisherSystem>();
 
-            foreach(CombatSMB smb in combatSMBs)
+            foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners += DamageEnd;
+                smb.AttackExitListeners += RestoreDodging;
+                smb.AttackStartListeners += attemptRiposte;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners += DodgeEnd;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
+            }
+
+            HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+            if (healthSystem)
+            {
+                healthSystem.OnDamageTaken += resetHitCounter;
             }
 
             IsDamageFrame = false;
@@ -86,6 +135,25 @@ namespace Finisher.Characters.Systems
             foreach (CombatSMB smb in combatSMBs)
             {
                 smb.AttackExitListeners -= DamageEnd;
+                smb.AttackExitListeners -= RestoreDodging;
+                smb.AttackStartListeners -= attemptRiposte;
+            }
+
+            foreach (DodgeSMB smb in dodgeSMBs)
+            {
+                smb.DodgeExitListeners -= DodgeEnd;
+            }
+
+            HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+            if (healthSystem)
+            {
+                healthSystem.OnDamageTaken -= resetHitCounter;
+            }
+
+            foreach (ParrySMB smb in parrySMBs)
+            {
+                smb.ParryExitListeners += ParryEnd;
             }
         }
 
@@ -121,7 +189,7 @@ namespace Finisher.Characters.Systems
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
-            if (characterState.Uninteruptable || characterState.Dodging)
+            if (characterState.Uninteruptable || characterState.Dodging  || !DodgingAllowed)
             {
                 return;
             }
@@ -153,7 +221,28 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
+        #region Parry
+
+        public void Parry()
+        {
+            if (characterState.Uninteruptable || characterState.Parrying)
+            {
+                return;
+            }
+
+            animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
+        }
+
+        protected virtual void attemptRiposte()
+        {
+            //TODO: Make abstract and implement in enemy
+        }
+
+        #endregion
+
         #region Combat Animation Events
+
+        #region Damage
 
         void DamageStart()
         {
@@ -162,10 +251,18 @@ namespace Finisher.Characters.Systems
                 CallDamageFrameChangedEvent(true);
                 IsDamageFrame = true;
             }
+
+            DodgingAllowed = false;
+        }
+
+        void RestoreDodging()
+        {
+            DodgingAllowed = true;
         }
 
         void DamageEnd()
         {
+            Hit = new HashSet<HealthSystem>();
             if (IsDamageFrame)
             {
                 CallDamageFrameChangedEvent(false);
@@ -173,10 +270,97 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        // todo make this and the class abstract when we add an enemy combat system
-        public virtual void DealtDamage(HealthSystem target)
+        #endregion
+
+        #region Dodge
+
+        void DodgeStart()
         {
-            return;
+            characterState.IsDodgeFrame = true;
+        }
+
+        void DodgeEnd()
+        {
+            characterState.IsDodgeFrame = false;
+        }
+
+        #endregion
+
+        #region Parry
+
+        void ParryStart()
+        {
+            characterState.IsParryFrame = true;
+        }
+
+        void ParryEnd()
+        {
+            characterState.IsParryFrame = false;
+        }
+
+        #endregion
+
+        // todo make this and the class abstract when we add an enemy combat system
+        public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
+        {
+
+            if (!Hit.Add(targetHealthSystem))
+            {
+                return;
+            }
+            if (CurrentAttackType == AttackType.LightBlade)
+            {
+                float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+                
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+            else if (CurrentAttackType == AttackType.HeavyBlade)
+            {
+                float finisherMeterGain = heavyAttackDamageSystem.FinisherMeterGainAmount;
+
+                finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
+
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
+                CallCombatSystemDealtDamageListeners(finisherMeterGain);
+            }
+
+            IncrementHitCounter();
+            
+        }
+
+        public void IncrementHitCounter(bool reset = false)
+        {
+            if (gameObject.tag == "Player")
+            {
+                if (reset)
+                {
+                    hitCounter = 0;
+                }
+                else
+                {
+                    hitCounter++;
+                }
+                CallHitCounterChangedEvent(hitCounter);
+            }
+        }
+
+        private void resetHitCounter()
+        {
+            IncrementHitCounter(reset: true);
+        }
+
+        private float multiplyFinisherMeterGain(float finisherMeterGain)
+        {
+            if (hitCounter > 5)
+            {
+                var counter = Mathf.Clamp(hitCounter, 0, 15);
+                finisherMeterGain = finisherMeterGain * (1 + (.05f * (counter - 5)));
+            }
+            
+            return finisherMeterGain;
         }
 
         #endregion

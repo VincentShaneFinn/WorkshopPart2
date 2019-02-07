@@ -1,8 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using Finisher.Core;
 using Finisher.Characters.Systems;
+using System;
 
 namespace Finisher.Characters.Player.Systems
 {
@@ -16,7 +19,6 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        private FinisherSystem finisherSystem;
 
         protected override void Start()
         {
@@ -44,6 +46,7 @@ namespace Finisher.Characters.Player.Systems
         {
             processAttackInput();
             processDodgeInput();
+            processParryInput();
         }
 
         private void processAttackInput()
@@ -72,10 +75,18 @@ namespace Finisher.Characters.Player.Systems
         {
             if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
-
                 finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
+            }
+        }
+
+        private void processParryInput()
+        {
+            if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
+            {
+                finisherSystem.ToggleGrabOff();
+                Parry();
             }
         }
 
@@ -124,24 +135,9 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void DealtDamage(HealthSystem target)
+        public override void HitCharacter(HealthSystem target, float soulBonus = 0)
         {
-            if (finisherSystem)
-            {
-                if (characterState.FinisherModeActive)
-                {
-                    finisherSystem.StabbedEnemy(target.gameObject);
-                    target.DamageVolatility(finisherSystem.CurrentVolatilityDamage);
-                }
-                else
-                {
-                    if (!characterState.FinisherModeActive)
-                    {
-                        finisherSystem.GainFinisherMeter(finisherSystem.CurrentFinisherGain);
-                    }
-                }
-            }
-
+            base.HitCharacter(target,soulBonus);
             StartCoroutine(ImpactFrames(target));
         }
 
@@ -154,6 +150,67 @@ namespace Finisher.Characters.Player.Systems
 
             animator.GetComponent<Animator>().speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 1;
+        }
+
+        protected override void attemptRiposte()
+        {
+            var enemies = getEnemiesInFront();
+            var enemyToParry = getEnemyToParry(enemies);
+            if (enemyToParry)
+            {
+                characterState.EnterInvulnerableActionState(config.RiposteAnimation);
+                StartCoroutine(transformOvertime(enemyToParry.transform));
+                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
+            }
+        }
+
+        private List<Collider> getEnemiesInFront()
+        {
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            var enemyColliders = Physics.OverlapSphere(transform.position, 2f, layerMask).ToList();
+
+            enemyColliders = enemyColliders.OrderBy(
+                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
+                ).ToList();
+
+            return enemyColliders;
+        }
+
+        private HealthSystem getEnemyToParry(List<Collider> enemies)
+        {
+            foreach (var enemy in enemies)
+            {
+                CharacterState enemyState = enemy.GetComponent<CharacterState>();
+                if (enemyState && enemyState.Parried)
+                {
+                    return enemy.GetComponent<HealthSystem>();
+                }
+            }
+
+            return null;
+        }
+
+        IEnumerator killOnStab(HealthSystem enemyToParry)
+        {
+            yield return new WaitForSeconds(.75f);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
+            enemyToParry.Kill(config.RiposteKillAnimationToPass);
+        }
+
+        //TODO: create a linked character animation system
+        IEnumerator transformOvertime(Transform target)
+        {
+            float time = .3f;
+            while(time > 0)
+            {
+                time -= Time.deltaTime;
+                transform.LookAt(target);
+                transform.position = target.position + target.forward;
+
+                yield return null;
+            }
+            yield return new WaitForSeconds(.5f); //TODO: this should be called by an animation event on the parry animation
+            CallCombatSystemDealtDamageListeners(10f); //TODO: REMOVE MAGIC NUMBER AND PUT IN CONFIG
         }
 
     }

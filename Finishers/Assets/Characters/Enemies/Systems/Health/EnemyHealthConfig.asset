@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 771f1c90119a8f545b833cbb6071c585, type: 3}
   m_Name: EnemyHealthConfig
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 75
   maxVolatility: 100
-  knockbackLimit: 2
+  knockbackLimit: 10
   freeKnockbackTime: 0
+  regenPerSecond: 0
   normalDeathAnimations:
   - {fileID: 7400000, guid: a16cbf1e833a9a245959413aaed82913, type: 3}
   - {fileID: 7400000, guid: fc2751fb0a43c35458f29c8359b65583, type: 3}
@@ -24,3 +25,6 @@ MonoBehaviour:
   - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}
   - {fileID: 7400000, guid: 64f13fda454b3084d8047d3cfefef410, type: 3}
   - {fileID: 7400000, guid: be27eac04bde68040994c827068530ee, type: 3}
+  topHalf: {fileID: 4939632194541006179, guid: f762de62376428e418744361f80cd08e, type: 3}
+  bottomHalf: {fileID: 4939632194541006179, guid: a0a91290a0917294681cd79ed8ac71bd,
+    type: 3}

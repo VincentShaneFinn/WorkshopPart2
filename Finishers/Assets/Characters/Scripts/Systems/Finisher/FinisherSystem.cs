@@ -1,5 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 using Finisher.Cameras;
 using Finisher.Core;
@@ -7,6 +9,8 @@ using Finisher.Characters.Weapons; //TODO: Consider a way to do it via animation
 using Finisher.Characters.Player; //TODO: Consider rewire or player specific, and Enemy Specific Finisher Systems
 using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
+using Finisher.Characters.Systems.Strategies;
+using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems {
 
@@ -15,48 +19,9 @@ namespace Finisher.Characters.Systems {
 
         #region Class Variables
 
-        public float CurrentVolatilityDamage
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.LightVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.LightVolatilityDamage;
-                    }
-                }
-                else
-                {
-                    if (characterState.Grabbing)
-                    {
-                        return config.HeavyVolatilityDamage * 3;
-                    }
-                    else
-                    {
-                        return config.HeavyVolatilityDamage;
-                    }
-                }
-            }
-        }
-        public float CurrentFinisherGain
-        {
-            get
-            {
-                if (combatSystem.CurrentAttackType == AttackType.LightBlade)
-                {
-                    return config.LightFinisherGain;
-                }
-                else
-                {
-                    return config.HeavyFinisherGain;
-                }
-            }
-        }
+        [SerializeField] private FinisherConfig config;
+        [SerializeField] private FinisherModeDamageSystem lightFinisherAttackDamageSystem;
+        [SerializeField] private FinisherModeDamageSystem heavyFinisherAttackDamageSystem;
 
         #region Delegates
 
@@ -70,40 +35,45 @@ namespace Finisher.Characters.Systems {
 
         private Transform grabTarget;
         private float currentFinisherMeter = 0;
+        private FinisherExecution currentFinisherExecution;
 
         private Animator animator;
+        private AnimOverrideSetter animOverrideSetter;
         private CharacterState characterState;
         private PlayerCharacterController character;
         private CombatSystem combatSystem;
         private CameraLookController freeLookCam;
-        private Slider finisherMeter;
+        private UI_FinisherMeter finisherMeter;
 
         private GameObject inFinisherIndicator;
 
         private Sword sword;
         private Knife knife;
-        private enum WeaponToggle { Sword, Knife };
+        private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
-
-        [SerializeField] private FinisherConfig config;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
         [Header("Siphoning Settings")]
         [SerializeField] private ThrowingWeapon throwingWeapon;
         [SerializeField] private float distanceFromEnemyBack = .1f;
-        [SerializeField] private Flamethrower flamethrower;
+        [SerializeField] private PulseBlast flamethrower;
         [SerializeField] private FlameAOE flameAOE;
+        [SerializeField] private SoulInfusion soulInfusion;
+        [SerializeField] private StunAOE stunAOE;
+        [SerializeField] private float soulSwordTime=10;
 
         #endregion
 
         #endregion
+
 
         void Start()
         {
             animator = GetComponent<Animator>();
+            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             character = GetComponent<PlayerCharacterController>();
             combatSystem = GetComponent<CombatSystem>();
             freeLookCam = FindObjectOfType<CameraLookController>();
@@ -114,7 +84,7 @@ namespace Finisher.Characters.Systems {
             sword = GetComponentInChildren<Sword>();
             toggleWeapon(WeaponToggle.Sword);
 
-            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().FinisherSlider;
+            finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
@@ -130,6 +100,8 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled += toggleGrab;
             OnFinisherModeToggled += toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack += ToggleGrabOff;
+
+            combatSystem.OnHitEnemy += GainFinisherMeter;
         }
 
         void OnDestroy()
@@ -139,8 +111,17 @@ namespace Finisher.Characters.Systems {
             OnGrabbingTargetToggled -= toggleGrab;
             OnFinisherModeToggled -= toggleFinisherMode;
             GetComponent<HealthSystem>().OnKnockBack -= ToggleGrabOff;
-        }
 
+            combatSystem.OnHitEnemy -= GainFinisherMeter;
+        }
+        private void soulOn() {
+            sword.soulOn();
+            knife.soulOn();
+        }
+        private void soulOff() {
+            sword.soulOff();
+            knife.soulOff();
+        }
         void Update()
         {
             if (characterState.Dying || GameManager.instance.GamePaused)
@@ -149,6 +130,11 @@ namespace Finisher.Characters.Systems {
             }
 
             testInput();
+
+            if (characterState.Grabbing && grabTarget == null)
+            {
+                OnGrabbingTargetToggled(false);
+            }
 
             finisherInputProcessing();
             aimingHandlerWithGrabTarget();
@@ -160,44 +146,16 @@ namespace Finisher.Characters.Systems {
 
         private void finisherInputProcessing()
         {
-            attemptToggleGrab();
-            attemptFinisher();
-
-            setL3AndR3();
-            attemptToggleFinisherMode();
-        }
-
-        private void attemptToggleFinisherMode()
-        {
-            if (L3Pressed && R3Pressed)
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) &&
+                !animator.IsInTransition(0))
             {
-                L3Pressed = false;
-                R3Pressed = false;
-                if (characterState.FinisherModeActive || currentFinisherMeter >= config.MaxFinisherMeter - float.Epsilon)
-                {
-                    OnFinisherModeToggled(!characterState.FinisherModeActive);
-                }
+                attemptToggleGrab();
+                attemptFinisher();
+                attempQuickFinisher();
+                setL3AndR3();
+                attemptToggleFinisherMode();
             }
-        }
-
-        private void setL3AndR3()
-        {
-            if (!L3Pressed && Input.GetButtonDown(InputNames.L3))
-            {
-                L3Pressed = true;
-            }
-            if (!R3Pressed && Input.GetButtonDown(InputNames.R3))
-            {
-                R3Pressed = true;
-            }
-            if (L3Pressed && Input.GetButtonUp(InputNames.L3))
-            {
-                L3Pressed = false;
-            }
-            if (R3Pressed && Input.GetButtonUp(InputNames.R3))
-            {
-                R3Pressed = false;
-            }
+            attempFinisherSelection();
         }
 
         private void attemptToggleGrab()
@@ -221,7 +179,9 @@ namespace Finisher.Characters.Systems {
         private void attemptFinisher()
         {
 
-            if (characterState.Grabbing)
+            if (characterState.Grabbing && 
+                !animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_EXECUTE_STATE) && 
+                !animator.IsInTransition(0))
             {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
@@ -229,10 +189,145 @@ namespace Finisher.Characters.Systems {
                     Input.GetButtonDown(InputNames.Finisher) && 
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
-                    grabTarget.GetComponent<HealthSystem>().Kill();
-                    characterState.EnterInvulnerableActionState(flameAOE.AnimationToPlay);
+                    animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
+                    animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
+                    //Set the default finisher to play
+                    overrideFinisherExecution(flameAOE);
+                    toggleWeapon(WeaponToggle.Sword);
                 }
             }
+        }
+
+        private void attempFinisherSelection()
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_SELECTION_STATE)) {
+                if(Input.GetButtonDown(InputNames.SelectFinisher1))
+                {
+                    overrideFinisherExecution(flameAOE, true);
+                }
+                else if (Input.GetButtonDown(InputNames.SelectFinisher2))
+                {
+                    overrideFinisherExecution(soulInfusion, true);
+                }
+            }
+        }
+
+        private void overrideFinisherExecution(FinisherExecution finisherExecution, bool performSkill = false)
+        {
+            currentFinisherExecution = finisherExecution;
+            animOverrideSetter.SetOverride(AnimConstants.OverrideIndexes.FINISHER_ACTIVATION_INDEX, currentFinisherExecution.AnimationToPlay);
+            if (performSkill)
+            {
+                animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
+            }
+        }
+
+        private bool pressedBoth = false;
+
+        private void setL3AndR3()
+        {
+            if (Input.GetButtonDown(InputNames.L3))
+            {
+                L3Pressed = true;
+            }
+            if (Input.GetButtonDown(InputNames.R3))
+            {
+                R3Pressed = true;
+            }
+            if (L3Pressed)
+            {
+                StartCoroutine(freeL3());
+            }
+            if (R3Pressed)
+            {
+                StartCoroutine(freeR3());
+            }
+        }
+
+        IEnumerator freeL3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
+        }
+
+        IEnumerator freeR3()
+        {
+            yield return new WaitForSeconds(.2f);
+            L3Pressed = false;
+        }
+
+        private void attemptToggleFinisherMode()
+        {
+            if (L3Pressed && R3Pressed && !pressedBoth)
+            {
+                L3Pressed = false;
+                R3Pressed = false;
+                if (characterState.FinisherModeActive || currentFinisherMeter >= config.MaxFinisherMeter - float.Epsilon)
+                {
+                    OnFinisherModeToggled(!characterState.FinisherModeActive);
+                }
+            }
+        }
+
+        private bool inQuickFinisher = false; //TODO: must make a better quick finisher system
+        private void attempQuickFinisher()
+        {
+            if (Input.GetButtonDown(InputNames.Finisher) && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
+            {
+                var enemies = getEnemiesInFront();
+                var enemyToFinish = getEnemyToQuickFinish(enemies);
+                if (enemyToFinish)
+                {
+                    currentFinisherExecution = stunAOE;
+                    combatSystem.LightAttack();
+                    inQuickFinisher = true;
+                    StartCoroutine(transformOvertime(enemyToFinish.transform));
+                }
+            }
+        }
+
+        private List<Collider> getEnemiesInFront()
+        {
+            int layerMask = 1 << LayerNames.EnemyLayer;
+            var enemyColliders = Physics.OverlapSphere(transform.position, 2f, layerMask).ToList();
+
+            enemyColliders = enemyColliders.OrderBy(
+                enemy => Vector2.Distance(this.transform.position, enemy.transform.position)
+                ).ToList();
+
+            return enemyColliders;
+        }
+
+        private HealthSystem getEnemyToQuickFinish(List<Collider> enemies)
+        {
+            foreach (var enemy in enemies)
+            {
+                EnemyHealthSystem enemyHealthSystem = enemy.GetComponent<EnemyHealthSystem>();
+                if (enemyHealthSystem && enemyHealthSystem.GetVolaitilityAsPercent() >= 1 - Mathf.Epsilon)
+                {
+                    return enemy.GetComponent<HealthSystem>();
+                }
+            }
+
+            return null;
+        }
+
+        //TODO: this is aweful, we must refactor finisher system
+        IEnumerator transformOvertime(Transform target)
+        {
+            float time = .3f;
+            while (time > 0)
+            {
+                time -= Time.deltaTime;
+                transform.LookAt(target);
+                transform.position = target.position + target.forward;
+
+                yield return null;
+            }
+            yield return new WaitForSeconds(.2f);
+            target.GetComponent<HealthSystem>().Kill();
+            PerformFinisherSkill();
+            inQuickFinisher = false;
         }
 
         #endregion
@@ -362,15 +457,29 @@ namespace Finisher.Characters.Systems {
 
         #endregion
 
-        #endregion
+        #region Hit Character
 
-        #region Animation Events
-
-        private void PerformFinisherSkill()
+        public void HitCharacter(HealthSystem targetHealthSystem, float soulBonus=0)
         {
-            decreaseFinisherMeter(50f);
-            Instantiate(flameAOE, transform.position, transform.rotation);
+            if (!combatSystem.Hit.Add(targetHealthSystem))
+            {
+                return;
+            }
+
+            StabbedEnemy(targetHealthSystem.gameObject);
+            if(combatSystem.CurrentAttackType == AttackType.LightBlade)
+            {
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
+            }
+            else if(combatSystem.CurrentAttackType == AttackType.HeavyBlade)
+            {
+                heavyFinisherAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem,bonusDamage:soulBonus);
+            }
+
+            combatSystem.IncrementHitCounter();
         }
+
+        #endregion
 
         #endregion
 
@@ -378,7 +487,11 @@ namespace Finisher.Characters.Systems {
 
         public void ToggleGrabOff()
         {
-            OnGrabbingTargetToggled(false);
+            if (!animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.INVULNERABLE_SEQUENCE_TAG) &&
+                !animator.IsInTransition(0))
+            {
+                OnGrabbingTargetToggled(false);
+            }
         }
 
         // subscribed to the OnGrabbingToggled()
@@ -399,14 +512,14 @@ namespace Finisher.Characters.Systems {
             grabTarget = character.CombatTarget;
             freeLookCam.NewFollowTarget = grabTarget;
             characterState.Grabbing = true;
-            grabTarget.GetComponent<CharacterState>().Stunned = true;
+            grabTarget.GetComponent<CharacterState>().Grabbed = true;
         }
 
         private void stopGrab()
         {
             if (grabTarget)
             {
-                grabTarget.GetComponent<CharacterState>().Stunned = false;
+                grabTarget.GetComponent<CharacterState>().Grabbed = false;
             }
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
@@ -452,6 +565,7 @@ namespace Finisher.Characters.Systems {
                 case WeaponToggle.Knife:
                     knife.gameObject.SetActive(true);
                     break;
+
             }
         }
 
@@ -459,8 +573,44 @@ namespace Finisher.Characters.Systems {
         {
             if (finisherMeter)
             {
-                finisherMeter.value = GetFinisherMeterAsPercent();
+                finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
             }
         }
+
+        #region Animation Events 
+
+        void FinisherExecutionSlice()
+        {
+
+            lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
+            grabTarget.GetComponent<HealthSystem>().CutInHalf();
+            toggleWeapon(WeaponToggle.Knife);
+        }
+
+        void PerformFinisherSkill()
+        {
+            decreaseFinisherMeter(flameAOE.FinisherMeterCost);
+            Instantiate(currentFinisherExecution, transform.position, transform.rotation);
+        }
+
+        void SoulInfusion()
+        {
+            if (soulTimer != null)
+            {
+                StopCoroutine(soulTimer);
+            }
+            soulOn();
+            soulTimer = stopSoul(soulSwordTime);
+            StartCoroutine(soulTimer);
+        }
+
+        private IEnumerator soulTimer;
+        private IEnumerator stopSoul(float time) {
+            yield return new WaitForSeconds(time);
+            soulOff();
+
+        }
+        #endregion
+        
     }
 }
