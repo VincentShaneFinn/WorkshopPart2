@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 114527653871411836}
   - component: {fileID: 2548389234887140761}
   - component: {fileID: 1084891823}
+  - component: {fileID: 7056579838223745693}
   m_Layer: 13
   m_Name: Enemy
   m_TagString: Enemy
@@ -104,9 +105,9 @@ MonoBehaviour:
   stationaryTurnSpeed: 720
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
-  moveSpeedMultiplier: 1
+  initialMoveSpeedMultiplier: 0.8
   runMoveSpeedMultiplier: 1
-  groundCheckDistance: 0.3
+  groundCheckDistance: 1
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 1, z: 0}
   capsuleColliderHeight: 2
@@ -129,6 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 700084e80f92b1f4e9f57f880b808ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentChaseSubstate: 0
   chaseRadius: 7
   attackRadius: 1.3
   combatTarget: {fileID: 0}
@@ -165,6 +167,19 @@ MonoBehaviour:
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
   DodgingAllowed: 1
+--- !u!114 &7056579838223745693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1297612759035436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 417a7dc5f9c71404cb42e82593358c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: b4124821a0a093a44b914ded11da912d, type: 2}
 --- !u!1001 &432192210692260303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -310,11 +325,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
-    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095777, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -420,30 +430,35 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3834099725927186803, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3288169217578228905, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18d6801d46e6d8f489566842adb22449, type: 3}

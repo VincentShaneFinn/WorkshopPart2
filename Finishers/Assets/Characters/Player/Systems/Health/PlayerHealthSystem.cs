@@ -15,11 +15,20 @@ namespace Finisher.Characters.Player.Systems
             base.Start();
         }
 
-        void Update()
+        protected override void Update()
         {
+            base.Update();
             if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
             {
                 IncreaseHealth(config.MaxHealth);
+            }
+        }
+
+        public override void DamageHealth(float damage)
+        {
+            if (GetHealthAsPercent() > .20)
+            {
+                base.DamageHealth(damage);
             }
         }
 
@@ -31,6 +40,15 @@ namespace Finisher.Characters.Player.Systems
         protected override void updateVolatilityUI()
         {
             return;
+        }
+
+        public override void CutInHalf()
+        {
+            Instantiate(config.TopHalf, transform.position, transform.rotation);
+            Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            Kill();
+            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
     }

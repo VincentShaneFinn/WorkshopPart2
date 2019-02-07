@@ -2,7 +2,8 @@
 
 namespace Finisher.Characters.Weapons
 {
-    public class Sword : MonoBehaviour
+    public class Sword :Weapon
     {
+
     }
 }

@@ -88,7 +88,7 @@ namespace Finisher.Characters.Systems
         private DodgeSMB[] dodgeSMBs;
         private ParrySMB[] parrySMBs;
         protected FinisherSystem finisherSystem;
-        private HashSet<HealthSystem> hit = new HashSet<HealthSystem>();
+        public HashSet<HealthSystem> Hit = new HashSet<HealthSystem>();
 
         #endregion
 
@@ -262,7 +262,7 @@ namespace Finisher.Characters.Systems
 
         void DamageEnd()
         {
-            hit = new HashSet<HealthSystem>();
+            Hit = new HashSet<HealthSystem>();
             if (IsDamageFrame)
             {
                 CallDamageFrameChangedEvent(false);
@@ -301,9 +301,10 @@ namespace Finisher.Characters.Systems
         #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void HitCharacter(HealthSystem targetHealthSystem)
+        public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
         {
-            if (!hit.Add(targetHealthSystem))
+
+            if (!Hit.Add(targetHealthSystem))
             {
                 return;
             }
@@ -313,7 +314,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
                 
-                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade)
@@ -322,7 +323,7 @@ namespace Finisher.Characters.Systems
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
 
-                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
 
