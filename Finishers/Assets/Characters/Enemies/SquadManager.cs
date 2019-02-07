@@ -60,6 +60,8 @@ namespace Finisher.Characters.Enemies
 
         void Update()
         {
+            if (!player) { return; }
+
             setEnemiesSubChase();
         }
 
