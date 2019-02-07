@@ -4651,6 +4651,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 3931435116445818884}
   parent: {fileID: 3931435117293036120}
+  offset: -90
+  offrate: -1
 --- !u!199 &3931435116445818885
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -9400,6 +9402,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 3931435117064686806}
   parent: {fileID: 3931435117293036120}
+  offset: 0
+  offrate: 1
 --- !u!199 &3931435117064686807
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -18917,6 +18921,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particle: {fileID: 3931435117497938059}
   parent: {fileID: 3931435117293036120}
+  offset: 0
+  offrate: 1
 --- !u!199 &3931435117497938060
 ParticleSystemRenderer:
   serializedVersion: 6
