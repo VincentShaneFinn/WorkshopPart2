@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
@@ -6,6 +7,7 @@ namespace Finisher.Characters.Enemies
     {
         public bool UseOptionalDestination = false;
         public Vector3 OptionalDestination = Vector3.zero;
+        private bool manualControl = false; 
 
         private Transform target; // target to aim for
 
@@ -71,18 +73,41 @@ namespace Finisher.Characters.Enemies
 
         private void Update()
         {
+            if (manualControl)
+            {
+                return;
+            }
+
             if (agent.isActiveAndEnabled)
             {
                 if(characterState.Dying) {
                     agent.SetDestination(transform.position);
                     return;
                 }
-                 AttemptMoveToTarget();
+                AttemptMoveToTarget();
             }
             else
             {
                 MoveCharacter(Vector3.zero); // todo allow movement when the agent is inactive via another control method
             }
+        }
+
+        public void ManualyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
+        {
+            if (CanMove)
+            {
+                manualControl = true;
+                agent.enabled = false;
+                Strafing = strafing;
+                MoveCharacter(manualMoveDirection);
+            }
+        }
+
+        public void StopManualMovement()
+        {
+            manualControl = false;
+            agent.enabled = true;
+            Strafing = false;
         }
 
         private void AttemptMoveToTarget()
@@ -116,10 +141,15 @@ namespace Finisher.Characters.Enemies
             MoveCharacter(Vector3.zero);
             if (CanRotate)
             {
-                if (target)
-                {
-                    transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
-                }
+                LookAtTarget(target);
+            }
+        }
+
+        public void LookAtTarget(Transform _target)
+        {
+            if (_target)
+            {
+                transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
             }
         }
 

@@ -69,6 +69,39 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         void Update()
         {
+            //Test Manual Movement
+            var straffing = true;
+
+            //   I
+            // J K L to move all enemies 
+            if (Input.GetKey(KeyCode.I))
+            {
+                character.ManualyMoveCharacter(transform.forward, straffing);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.L))
+            {
+                character.ManualyMoveCharacter(transform.right, straffing);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.K))
+            {
+                character.ManualyMoveCharacter(-transform.forward, straffing);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.J))
+            {
+                character.ManualyMoveCharacter(-transform.right, straffing);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else
+            {
+                character.StopManualMovement();
+            }
+            //NOTE: right now you must let the character know you have stopped manually controlling it
+            //TODO: refactor so it optionally uses input a little better
+            //TODO: LookAtTarget should be centralized so we can guarantee only one thing is setting it, but right now its good
+            //Done Testing
 
             if (!combatTarget)
             {
