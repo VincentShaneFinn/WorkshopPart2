@@ -77,7 +77,7 @@ namespace Finisher.Characters.Enemies
 
             EnemyState state;
             
-            if (playerState.state.IsInvulnerableSequence || playerState.Grabbing)
+            if (playerState.IsFinishing || playerState.IsGrabbing)
             {
                 currentChaseSubstate = ChaseSubState.Surround;
             }
@@ -90,7 +90,7 @@ namespace Finisher.Characters.Enemies
             {
                 state = EnemyState.ReturningHome;
             }
-            else if (isPlayerInAttackRange() && !(playerState.state.IsInvulnerableSequence || playerState.Grabbing))
+            else if (isPlayerInAttackRange() && !(playerState.IsFinishing || playerState.IsGrabbing))
             {
                 state = EnemyState.Attacking;
             }

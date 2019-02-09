@@ -30,6 +30,8 @@ namespace Finisher.Characters.Player
         private PlayerMoveInputProcessor playerIP;
         private Transform camRig = null;
 
+        [SerializeField] CharacterStateSO playerState;
+
         #endregion
 
         #region Public Interface
@@ -92,6 +94,15 @@ namespace Finisher.Characters.Player
             if (!characterState.Attacking || CombatTarget == null || (usingLSInput && characterState.Attacking && animator.IsInTransition(0)))
             {
                 SetNewCombatTarget();
+            }
+
+            if (CombatTarget)
+            {
+                playerState.CombatTarget = CombatTarget.GetComponent<Characters.Systems.HealthSystem>();
+            }
+            else
+            {
+                playerState.CombatTarget = null;
             }
         }
 
