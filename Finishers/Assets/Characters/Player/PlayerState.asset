@@ -12,4 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30b479b698a5ee4c96c05744eda03ab, type: 3}
   m_Name: PlayerState
   m_EditorClassIdentifier: 
-  Grabbing: 1
+  CombatTarget: {fileID: 0}
+  isDyingInspectable: 0
+  useDyingInspectable: 0
+  isGrabbingInspectable: 0
+  useGrabbingInspectable: 0
+  isFinishingInspectable: 0
+  useFinishingInspectable: 0
+  isInvulnerableInspectable: 0
+  useInvulnerableInspectable: 0
+  isInvulnerableSequenceInspectable: 0
+  useInvulnerableSequenceInspectable: 0
+  isAttackingInspectable: 0
+  useAttackingInspectable: 0
+  isParryingInspectable: 0
+  useParryingInspectable: 0
+  isDodgingInspectable: 0
+  useDodgingInspectable: 0
+  isFinisherModeActiveInspectable: 0
+  useFinisherModeActiveInspectable: 0
+  currentHealthPercentInspectable: 0.5
+  useCurentHealthPercentInspectable: 0
+  finisherMeterPercentInspectable: 0.5
+  useFinisherMeterPercentInspectable: 0
+  combatTargetVolatilityPercent: 0.5
+  useCombatTargetVolatilityPercent: 0

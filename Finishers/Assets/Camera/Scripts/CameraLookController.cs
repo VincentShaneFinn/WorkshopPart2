@@ -77,7 +77,7 @@ namespace Finisher.Cameras
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
-            if (playerState.Grabbing)
+            if (playerState.IsGrabbing)
             {
                 usingAutoCam = false;
             }

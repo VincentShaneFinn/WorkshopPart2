@@ -13,6 +13,7 @@ namespace Finisher.Characters.Enemies
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
+        private CharacterStateSO playerState;
 
         public delegate void EnemiesEngage();
         public event EnemiesEngage OnEnemiesEngage;
@@ -42,6 +43,11 @@ namespace Finisher.Characters.Enemies
         {
             CurrentManagerState = ManagerState.Waiting;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
+
+            if (player) {
+                playerState = player.GetComponent<CharacterStateFromSO>().stateSO;
+            }
+
             setEnemies();
         }
 
@@ -63,6 +69,7 @@ namespace Finisher.Characters.Enemies
             if (!player) { return; }
 
             setEnemiesSubChase();
+
         }
 
         public void SendWakeUpCallToEnemies()
