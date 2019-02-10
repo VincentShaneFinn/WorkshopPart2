@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+
+using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
@@ -12,6 +12,8 @@ namespace Finisher.Characters.Enemies
 
         private bool useRushAttack = false;
         private const float RUSH_ATTACK_RADIUS = 6f;
+
+        private bool tempinvokedSetup = false; 
         
         protected override void Start()
         {
@@ -19,13 +21,24 @@ namespace Finisher.Characters.Enemies
 
             savedNormalAttackRadius = attackRadius;
 
-            setContext();
         }
 
         private void setContext()
         {
             attackRadius = RUSH_ATTACK_RADIUS;
             useRushAttack = true;
+
+            tempinvokedSetup = false;
+        }
+
+        protected override void makeAttackDecision()
+        {
+            if (!tempinvokedSetup)
+            {
+                Invoke("setContext", Random.Range(0, 10));
+
+                tempinvokedSetup = true;
+            }
         }
 
         protected override void attackPlayer()
@@ -44,44 +57,74 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator RushAttackSequence()
         {
-            GetComponent<Animator>().SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
-            GetComponent<Animator>().SetInteger("SpecialAttackIndex", 1);
 
+            //Setup ---------------------------------
+
+            Animator animator = GetComponent<Animator>();
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            animator.SetInteger("SpecialAttackIndex", 1);
             yield return null;
 
-            yield return new WaitUntil(() => !GetComponent<Animator>().IsInTransition(0));
+            animator.SetInteger("SpecialAttackIndex", 0); //Reset back to normal
 
-            GetComponent<Animator>().SetInteger("SpecialAttackIndex", 0);
+            yield return new WaitUntil(() => !animator.IsInTransition(0));
 
-            while (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("RushSetup"))
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("RushSetup") && !animator.IsInTransition(0))
             {
                 yield return null;
             }
 
-            print("Setup Over");
+            if(combatSystem.CurrentAttackType != AttackType.Special)
+            {
+                resetRushing();
+                yield break;
+            }
+
+
+
+            //Rushing -----------------------------------
+            var startingPoint = transform.position;
+            character.LookAtTarget(combatTarget.transform);
+
+            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
 
             yield return new WaitUntil(() => !GetComponent<Animator>().IsInTransition(0));
 
-            while (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Rushing"))
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("Rushing") && 
+                !animator.IsInTransition(0) &&
+                Vector3.Distance(startingPoint,transform.position) <= RUSH_ATTACK_RADIUS)
             {
-                if (isPlayerInAttackRange(3f))
+                if (isPlayerInAttackRange(savedNormalAttackRadius))
                 {
                     break;
                 }
                 yield return null;
             }
 
-            print("Rushing Over");
-            GetComponent<Animator>().SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+            if (combatSystem.CurrentAttackType != AttackType.Special)
+            {
+                resetRushing();
+                yield break;
+            }
 
-            yield return new WaitUntil(() => !GetComponent<Animator>().IsInTransition(0));
+            //Final Attack ---------------------------------
 
-            while (GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("RushAttack"))
+            animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
+
+            yield return new WaitUntil(() => !animator.IsInTransition(0));
+
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("RushAttack") && animator.IsInTransition(0))
             {
                 yield return null;
             }
 
-            print("Sequence Over");
+            //Do something at the end
+            resetRushing();
+        }
+
+        private void resetRushing()
+        {
+            //do something when you have left the rushing state
         }
 
     }

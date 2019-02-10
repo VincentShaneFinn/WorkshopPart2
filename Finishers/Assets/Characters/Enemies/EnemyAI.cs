@@ -20,12 +20,12 @@ namespace Finisher.Characters.Enemies
         [SerializeField] protected float attackRadius = 1.5f;
         [SerializeField] CharacterStateSO playerState;
 
-        GameObject combatTarget = null;
+        protected GameObject combatTarget = null;
 
-        private AICharacterController character;
-        private CharacterState characterState;
+        protected AICharacterController character;
+        protected CharacterState characterState;
         private SquadManager squadManager;
-        private CombatSystem combatSystem;
+        protected CombatSystem combatSystem;
         private EnemyState currentState;
         private EnemyState directOrder;
         private Vector3 homeTargetPosition;
@@ -147,6 +147,8 @@ namespace Finisher.Characters.Enemies
                 currentState = state;
             }
 
+            makeAttackDecision();
+
             switch (currentState)
             {
                 case EnemyState.Idle:
@@ -223,6 +225,11 @@ namespace Finisher.Characters.Enemies
         }
 
         #endregion
+
+        protected virtual void makeAttackDecision()
+        {
+            
+        }
 
         #region State Behaviors
 

@@ -178,7 +178,6 @@ namespace Finisher.Characters.Enemies
             else if (target)
             {
                 agent.SetDestination(target.position);
-                agent.stoppingDistance = stoppingDistance;
             }
         }
 
