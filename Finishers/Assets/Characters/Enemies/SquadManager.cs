@@ -35,10 +35,6 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        //[SerializeField] GameObject combatTarget = null;
-
-        //AICharacterController character;
-
         void Start()
         {
             CurrentManagerState = ManagerState.Waiting;
@@ -53,7 +49,6 @@ namespace Finisher.Characters.Enemies
 
         private void setEnemies()
         {
-            //enemies = GetComponentsInChildren<EnemyAI>();
             foreach (Transform child in transform)
             {
                 if (child.tag == "Enemy")

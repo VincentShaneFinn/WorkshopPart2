@@ -19,7 +19,6 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        private float timer;
 
         protected override void Start()
         {
@@ -52,8 +51,6 @@ namespace Finisher.Characters.Player.Systems
                     timer = 0;
                 }
             }
-
-            Debug.Log(timer);
         }
 
         private void processCombatInput()

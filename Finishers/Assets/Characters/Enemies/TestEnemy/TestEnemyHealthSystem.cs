@@ -14,7 +14,6 @@ namespace Finisher.Characters.Enemies.Systems
         [SerializeField] private CombatConfig combatConfig;
 
         private Animator animator;
-        private CombatSystem combatSystem;
         private CameraAnimatorController cameraAnimatorController;
         private CameraLookController cameraLookController;
         //Override get hit to play parry animation and stun the player, then riposte after a fiew
@@ -23,7 +22,6 @@ namespace Finisher.Characters.Enemies.Systems
             base.Start();
             OnDamageTaken += parry;
             animator = GetComponent<Animator>();
-            combatSystem = GetComponent<CombatSystem>();
             cameraAnimatorController = GameObject.FindObjectOfType<CameraAnimatorController>();
             cameraLookController = GameObject.FindObjectOfType<CameraLookController>();
         }
