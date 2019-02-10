@@ -19,6 +19,7 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
+        private float timer;
 
         protected override void Start()
         {
@@ -40,6 +41,19 @@ namespace Finisher.Characters.Player.Systems
             }
 
             testingInputZone();
+
+            if (hitCounter > 0)
+            {
+                timer += Time.deltaTime;
+
+                if (timer >= config.TimeToKeepCombo)
+                {
+                    resetHitCounter();
+                    timer = 0;
+                }
+            }
+
+            Debug.Log(timer);
         }
 
         private void processCombatInput()
