@@ -33,11 +33,19 @@ namespace Finisher.Characters.Enemies
 
         protected override void makeAttackDecision()
         {
-            if (!tempinvokedSetup)
+            if (!(currentState == EnemyState.Idle || currentState == EnemyState.ReturningHome))
             {
-                Invoke("setContext", Random.Range(0, 10));
+                if (!tempinvokedSetup)
+                {
+                    Invoke("setContext", Random.Range(3, 5));
 
-                tempinvokedSetup = true;
+                    tempinvokedSetup = true;
+                }
+            }
+            else
+            {
+                attackRadius = savedNormalAttackRadius;
+                useRushAttack = false;
             }
         }
 
@@ -55,6 +63,8 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        //TODO: move this to an offshoot of the combatSytem
+        //TODO: can we make a clean way to disable the nav mesh
         IEnumerator RushAttackSequence()
         {
 

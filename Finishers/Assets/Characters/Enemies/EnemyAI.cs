@@ -26,7 +26,7 @@ namespace Finisher.Characters.Enemies
         protected CharacterState characterState;
         private SquadManager squadManager;
         protected CombatSystem combatSystem;
-        private EnemyState currentState;
+        protected EnemyState currentState;
         private EnemyState directOrder;
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
