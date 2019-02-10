@@ -17,10 +17,10 @@ namespace Finisher.Characters.Enemies
         //TODO: this must be automated and set by the SquadManager
 
         [SerializeField] float chaseRadius = 5f;
-        [SerializeField] float attackRadius = 1.5f;
-        [Tooltip("Will use player as the default Combat Target")]
-        [SerializeField] GameObject combatTarget = null;
+        [SerializeField] protected float attackRadius = 1.5f;
         [SerializeField] CharacterStateSO playerState;
+
+        GameObject combatTarget = null;
 
         private AICharacterController character;
         private CharacterState characterState;
@@ -32,7 +32,7 @@ namespace Finisher.Characters.Enemies
         private Quaternion homeTargetRotation;
 
         // Use this for initialization
-        void Start()
+        protected virtual void Start()
         {
             homeTargetPosition = transform.position;
             homeTargetRotation = transform.rotation;
@@ -161,6 +161,11 @@ namespace Finisher.Characters.Enemies
                     pursuePlayer(); //TODO: a substate of chasing would be the 3 methods, DirectChase, ArcedChase, and Surround
                     break;
                 case EnemyState.Attacking:
+                    if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
+                    {
+                        //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
+                        squadManager.SendWakeUpCallToEnemies();
+                    }
                     attackPlayer();
                     break;
 
@@ -197,10 +202,17 @@ namespace Finisher.Characters.Enemies
         }
 
 
-        private bool isPlayerInAttackRange()
+        protected bool isPlayerInAttackRange(float customRadius = -1)
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if (distanceToPlayer <= attackRadius)
+
+            float radius = attackRadius;
+            if(customRadius >= 0)
+            {
+                radius = customRadius;
+            }
+
+            if (distanceToPlayer <= radius)
             {
                 return true;
             }
@@ -239,14 +251,8 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        private void attackPlayer()
+        protected virtual void attackPlayer()
         {
-            if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
-            {
-                //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
-                squadManager.SendWakeUpCallToEnemies();
-            }
-
             if (UnityEngine.Random.Range(0, 2) == 0)
             {
                 combatSystem.HeavyAttack();
