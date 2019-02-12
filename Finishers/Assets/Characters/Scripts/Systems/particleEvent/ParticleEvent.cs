@@ -29,7 +29,7 @@ namespace Finisher.Characters.Systems.Strategies
                     }
                 }
 
-                Destroy(particleSystemContainer, longestDuration);
+                //Destroy(particleSystemContainer, longestDuration);
             }
         }
 
