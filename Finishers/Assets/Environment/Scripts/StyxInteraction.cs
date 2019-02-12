@@ -16,7 +16,7 @@ public class StyxInteraction : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetButton("Interact") && interactable)
+        if (FinisherInput.Interact() && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(pickupItem());
