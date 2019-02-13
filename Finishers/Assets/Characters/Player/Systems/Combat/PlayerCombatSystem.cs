@@ -53,7 +53,7 @@ namespace Finisher.Characters.Player.Systems
                 }
             }
 
-            Debug.Log(timer);
+//            Debug.Log(timer);
         }
 
         private void processCombatInput()
