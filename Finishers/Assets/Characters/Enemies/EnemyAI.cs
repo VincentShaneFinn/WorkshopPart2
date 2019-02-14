@@ -199,6 +199,11 @@ namespace Finisher.Characters.Enemies
                     StartCoroutine(returnHome());
                 }
             }
+            else
+            {
+                currentState = EnemyState.Idle;
+                directOrder = EnemyState.Idle;
+            }
         }
 
         IEnumerator behaviorTreeLoop()
@@ -258,6 +263,24 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        protected virtual void attackPlayer()
+        {
+            if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
+            {
+                squadManager.SendWakeUpCallToEnemies();
+            }
+
+            if (UnityEngine.Random.Range(0, 2) == 0)
+            {
+                combatSystem.HeavyAttack();
+            }
+            else
+            {
+                combatSystem.LightAttack();
+            }
+
+        }
+
         #region Helper Checkers
 
         private bool atHomePoint()
@@ -281,8 +304,7 @@ namespace Finisher.Characters.Enemies
             }
 
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if(distanceToPlayer <= chaseRadius ||
-                (squadManager && squadManager.CurrentManagerState == ManagerState.Attacking))
+            if(distanceToPlayer <= chaseRadius || directOrder == EnemyState.EngagePlayer)
             {
                 return true;
             }
@@ -300,24 +322,6 @@ namespace Finisher.Characters.Enemies
         }
 
         #region State Behaviors
-
-        protected virtual void attackPlayer()
-        {
-            if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
-            {
-                squadManager.SendWakeUpCallToEnemies();
-            }
-
-            if (UnityEngine.Random.Range(0, 2) == 0)
-            {
-                combatSystem.HeavyAttack();
-            }
-            else
-            {
-                combatSystem.LightAttack();
-            }
-
-        }
 
         IEnumerator returnHome()
         {
@@ -345,7 +349,7 @@ namespace Finisher.Characters.Enemies
 
         private void chaseByManager()
         {
-
+            directOrder = EnemyState.EngagePlayer;
         }
 
         private void stopByManager()
