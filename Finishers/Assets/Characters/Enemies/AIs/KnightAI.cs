@@ -33,20 +33,20 @@ namespace Finisher.Characters.Enemies
 
         protected override void makeAttackDecision()
         {
-            if (!(currentState == EnemyState.Idle || currentState == EnemyState.ReturningHome))
-            {
-                if (!tempinvokedSetup)
-                {
-                    Invoke("setContext", Random.Range(3, 5));
+            //if (!(currentState == EnemyState.Idle || currentState == EnemyState.ReturningHome))
+            //{
+            //    if (!tempinvokedSetup)
+            //    {
+            //        Invoke("setContext", Random.Range(3, 5));
 
-                    tempinvokedSetup = true;
-                }
-            }
-            else
-            {
-                attackRadius = savedNormalAttackRadius;
-                useRushAttack = false;
-            }
+            //        tempinvokedSetup = true;
+            //    }
+            //}
+            //else
+            //{
+            //    attackRadius = savedNormalAttackRadius;
+            //    useRushAttack = false;
+            //}
         }
 
         protected override void attackPlayer()
