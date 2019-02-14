@@ -5,7 +5,7 @@ using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
-    public class EnemyKnightAI : EnemyAI
+    public class KnightAI : EnemyAI
     {
 
         private float savedNormalAttackRadius;
