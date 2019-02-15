@@ -17,6 +17,7 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             knightCombatSystem = GetComponent<KnightCombatSystem>();
+            Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
         }
 
         private void setContext()
@@ -29,8 +30,14 @@ namespace Finisher.Characters.Enemies
         {
             if (Input.GetKeyDown(KeyCode.T))
             {
-                knightCombatSystem.RushAttack(combatTarget.transform);
+                //Invoke("test", Random.Range(3,5));
+                test();
             }
+        }
+
+        private void test()
+        {
+            knightCombatSystem.RushAttack(combatTarget.transform);
         }
 
         protected override void attackPlayer()
