@@ -14,6 +14,10 @@ namespace Finisher.Characters.Enemies
     public class EnemyAI : MonoBehaviour
     {
 
+        private bool engagingPlayer = false;
+        private enum OOCState { Null, ReturningHome, Idle };
+        private OOCState currentOOCState = OOCState.Null;
+
         public ChaseSubState currentChaseSubstate; //temporarily make us manually assign their chase method from inspector
         //TODO: this must be automated and set by the SquadManager
 
@@ -48,8 +52,7 @@ namespace Finisher.Characters.Enemies
             squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
             currentState = EnemyState.Null;
-            directOrder = EnemyState.Null;
-            
+            directOrder = EnemyState.Null;     
 
             if (squadManager)
             {
@@ -184,7 +187,10 @@ namespace Finisher.Characters.Enemies
 
             if (canChasePlayer())
             {
-                StartBehavior(engagePlayerSequence());
+                if (!engagingPlayer)
+                {
+                    StartBehavior(engagePlayerSequence());
+                }
             }
             else
             {
@@ -195,33 +201,14 @@ namespace Finisher.Characters.Enemies
 
         private void StartBehavior(IEnumerator coroutine)
         {
-            if (currentCoroutine != coroutine)
+            if (currentCoroutine != null)
             {
-                if (currentCoroutine != null)
-                {
-                    gracefullyStopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
-                    
-                }
-                print(coroutine == engagePlayerSequence());
-                currentCoroutine = coroutine;
-                StartCoroutine(currentCoroutine);
+                StopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
+                ((IDisposable)currentCoroutine).Dispose();   
             }
-        }
-
-        private void gracefullyStopCoroutine(IEnumerator coroutine)
-        {
-            if (coroutine == engagePlayerSequence())
-            {
-                print("Left engage Coroutine");
-            }
-            else if (coroutine == returnHomeNode())
-            {
-                print("left return home coroutine");
-            }
-            else if (coroutine == idleStanceNode())
-            {
-                print("left idle stance coroutine");
-            }
+            currentCoroutine = coroutine;
+            StartCoroutine(currentCoroutine);
+            
         }
 
         private void outOfCombatSelector()
@@ -229,11 +216,17 @@ namespace Finisher.Characters.Enemies
             //return home sequence
             if (!atHomePoint())
             {
-                StartBehavior(returnHomeNode());
+                if (currentOOCState != OOCState.ReturningHome)
+                {
+                    StartBehavior(returnHomeNode());
+                }
             }
             else
             {
-                StartBehavior(idleStanceNode());
+                if (currentOOCState != OOCState.Idle)
+                {
+                    StartBehavior(idleStanceNode());
+                }
             }
         }
 
@@ -301,12 +294,23 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator engagePlayerSequence()
         {
-            while (!isPlayerInAttackRange())
+            engagingPlayer = true;
+
+            try
             {
-                pursuePlayer();
-                yield return null;
+                while (!isPlayerInAttackRange())
+                {
+                    pursuePlayer();
+                    yield return null;
+                }
+                attackPlayer();
             }
-            attackPlayer();
+            finally
+            {
+                character.RestoreStoppingDistance();
+                character.RestoreMovementSpeedMultiplier();
+                engagingPlayer = false;
+            }
         }
 
         private void pursuePlayer()
@@ -347,32 +351,43 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator returnHomeNode()
         {
-            if (atHomePoint())
-            {
-                yield break;
-            }
-            character.SetTarget(transform);
-            character.OptionalDestination = homeTargetPosition;
-            character.UseOptionalDestination = true;
-            character.RestoreStoppingDistance();
-            character.RestoreMovementSpeedMultiplier();
-            yield return new WaitUntil(() => atHomePoint());
-            yield return null; //FrameSpacer
-            idleStanceNode();
+            currentOOCState = OOCState.ReturningHome;
 
-            currentState = EnemyState.Null;
+            try
+            {
+                character.SetTarget(transform);
+                character.OptionalDestination = homeTargetPosition;
+                character.UseOptionalDestination = true;
+                character.RestoreStoppingDistance();
+                character.RestoreMovementSpeedMultiplier();
+                yield return new WaitUntil(() => atHomePoint());
+                yield return null; //FrameSpacer
+            }
+            finally
+            {
+                currentOOCState = OOCState.Null;
+            }
         }
 
         IEnumerator idleStanceNode()
         {
-            if (transform.rotation != homeTargetRotation)
+            currentOOCState = OOCState.Idle;
+
+            try
             {
-                character.SetTarget(transform);
-                character.UseOptionalDestination = false;
-                transform.rotation = homeTargetRotation;
-                directOrder = EnemyState.Null;
+                if (transform.rotation != homeTargetRotation)
+                {
+                    character.SetTarget(transform);
+                    character.UseOptionalDestination = false;
+                    transform.rotation = homeTargetRotation;
+                    directOrder = EnemyState.Null;
+                }
+                yield return null;
             }
-            yield return null;
+            finally
+            {
+                currentOOCState = OOCState.Null;
+            }
         }
 
         #endregion
