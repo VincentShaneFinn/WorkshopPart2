@@ -203,25 +203,31 @@ namespace Finisher.Characters.Enemies
             else if (currentChaseSubstate == ChaseSubState.Surround)
             {
                 character.SetStoppingDistance(3.75f);
-                if (Input.GetKey(KeyCode.I)){
-                    character.ManualyMoveCharacter(transform.forward, strafing: true);
-                    character.LookAtTarget(combatTarget.transform);
-                }
-                else if (Input.GetKey(KeyCode.L))
-                {
-                    character.ManualyMoveCharacter(transform.right, strafing: true);
-                    character.LookAtTarget(combatTarget.transform);
-                }
-                else if (Input.GetKey(KeyCode.K))
-                {
-                    character.ManualyMoveCharacter(-transform.forward, strafing: true);
-                    character.LookAtTarget(combatTarget.transform);
-                }
-                else if (Input.GetKey(KeyCode.J))
-                {
-                    character.ManualyMoveCharacter(-transform.right, strafing: true);
-                    character.LookAtTarget(combatTarget.transform);
-                }
+                surroundMovement();
+            }
+        }
+
+        private void surroundMovement()
+        {
+            if (Input.GetKey(KeyCode.I))
+            {
+                character.ManualyMoveCharacter(transform.forward, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.L))
+            {
+                character.ManualyMoveCharacter(transform.right, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.K))
+            {
+                character.ManualyMoveCharacter(-transform.forward, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
+            }
+            else if (Input.GetKey(KeyCode.J))
+            {
+                character.ManualyMoveCharacter(-transform.right, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
             }
         }
 
