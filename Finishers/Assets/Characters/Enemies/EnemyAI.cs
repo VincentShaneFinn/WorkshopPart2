@@ -7,7 +7,6 @@ using Finisher.Characters.Systems;
 namespace Finisher.Characters.Enemies
 {
     public enum DirectOrders { Null, EngagePlayer, ReturnHome, }
-    public enum EngagementState { Null, EngagePlayer, OutOfCombat }
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
@@ -16,7 +15,6 @@ namespace Finisher.Characters.Enemies
     {
 
         private IEnumerator currentCoroutine;
-        protected EngagementState currentEngagementState;
         private DirectOrders directOrder;
 
         private bool engagingPlayer = false;
@@ -51,7 +49,6 @@ namespace Finisher.Characters.Enemies
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
-            currentEngagementState = EngagementState.Null;
             directOrder = DirectOrders.Null;     
 
             if (squadManager)
@@ -246,7 +243,6 @@ namespace Finisher.Characters.Enemies
         IEnumerator returnHomeNode()
         {
             currentOOCState = OOCState.ReturningHome;
-            directOrder = DirectOrders.Null;
 
             try
             {
@@ -266,6 +262,7 @@ namespace Finisher.Characters.Enemies
         IEnumerator idleStanceNode()
         {
             currentOOCState = OOCState.Idle;
+            directOrder = DirectOrders.Null;
 
             try
             {
