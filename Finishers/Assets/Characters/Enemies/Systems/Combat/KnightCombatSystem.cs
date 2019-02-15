@@ -10,6 +10,8 @@ namespace Finisher.Characters.Systems
     public class KnightCombatSystem : CombatSystem
     {
 
+        public bool IsPerformingSpecialAttack;
+
         AICharacterController character;
         EnemyAI enemyAI;
         Transform target;
@@ -31,12 +33,10 @@ namespace Finisher.Characters.Systems
         {
             this.target = target;
             animator.SetTrigger("SpecialAttack");
-            enemyAI.ForcedSequenceRunning = true;
         }
 
         public IEnumerator RushingCoroutine()
         {
-            var startingPoint = transform.position;
             GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
             character.LookAtTarget(target);
 
@@ -54,7 +54,6 @@ namespace Finisher.Characters.Systems
         {
             //do something when you have left the rushing state
             GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
-            enemyAI.ForcedSequenceRunning = false;
         }
 
     }

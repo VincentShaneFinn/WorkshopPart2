@@ -26,8 +26,16 @@ namespace Finisher.Characters.Enemies
             tempinvokedSetup = false;
         }
 
-        void LateUpdate()
+        protected override void Update()
         {
+            if (knightCombatSystem.IsPerformingSpecialAttack)
+            {
+                StopCurrentCoroutine();
+                return;
+            }
+
+            base.Update();
+
             if (Input.GetKeyDown(KeyCode.T))
             {
                 //Invoke("test", Random.Range(3,5));

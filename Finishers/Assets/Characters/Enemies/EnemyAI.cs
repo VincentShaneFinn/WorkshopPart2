@@ -65,13 +65,8 @@ namespace Finisher.Characters.Enemies
         }
 
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
-            if(ForcedSequenceRunning)
-            {
-                StopCurrentCoroutine();
-                return;
-            }
 
             if (canChasePlayer())
             {
@@ -94,7 +89,7 @@ namespace Finisher.Characters.Enemies
             StartCoroutine(currentCoroutine);
         }
 
-        private void StopCurrentCoroutine()
+        protected void StopCurrentCoroutine()
         {
             if (currentCoroutine != null)
             {
