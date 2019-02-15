@@ -6,7 +6,7 @@ using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum EnemyState { EngagePlayer, ReturnHome, Idle }
+    public enum EnemyState { Null, EngagePlayer, OutOfCombat }
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
@@ -32,6 +32,8 @@ namespace Finisher.Characters.Enemies
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
 
+        private IEnumerator currentCoroutine;
+
         // Use this for initialization
         protected virtual void Start()
         {
@@ -45,8 +47,8 @@ namespace Finisher.Characters.Enemies
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
-            currentState = EnemyState.Idle;
-            directOrder = EnemyState.Idle;
+            currentState = EnemyState.Null;
+            directOrder = EnemyState.Null;
             
 
             if (squadManager)
@@ -180,48 +182,91 @@ namespace Finisher.Characters.Enemies
             //}
             #endregion
 
-            //Enter Combat Behavior
-            if (!playerState.IsDying && canChasePlayer())
+            if (canChasePlayer())
             {
-                if (currentState != EnemyState.EngagePlayer)
-                {
-                    currentState = EnemyState.EngagePlayer;
-                    StopAllCoroutines();
-                    StartCoroutine(behaviorTreeLoop());
-                }
-            }
-            else if (!atHomePoint())
-            {
-                if (currentState != EnemyState.ReturnHome)
-                {
-                    currentState = EnemyState.ReturnHome;
-                    StopAllCoroutines();
-                    StartCoroutine(returnHome());
-                }
+                StartBehavior(engagePlayerSequence());
             }
             else
             {
-                currentState = EnemyState.Idle;
-                directOrder = EnemyState.Idle;
+                outOfCombatSelector();
+            }
+
+        }
+
+        private void StartBehavior(IEnumerator coroutine)
+        {
+            if (currentCoroutine != coroutine)
+            {
+                if (currentCoroutine != null)
+                {
+                    gracefullyStopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
+                    
+                }
+                print(coroutine == engagePlayerSequence());
+                currentCoroutine = coroutine;
+                StartCoroutine(currentCoroutine);
             }
         }
 
-        IEnumerator behaviorTreeLoop()
+        private void gracefullyStopCoroutine(IEnumerator coroutine)
         {
-            while(!playerState.IsDying)
+            if (coroutine == engagePlayerSequence())
             {
-                yield return StartCoroutine(Chase());
-                attackPlayer();
-                yield return null;
+                print("Left engage Coroutine");
+            }
+            else if (coroutine == returnHomeNode())
+            {
+                print("left return home coroutine");
+            }
+            else if (coroutine == idleStanceNode())
+            {
+                print("left idle stance coroutine");
             }
         }
 
-        IEnumerator Chase()
+        private void outOfCombatSelector()
         {
-            while(!isPlayerInAttackRange())
+            //return home sequence
+            if (!atHomePoint())
             {
-                pursuePlayer();
-                yield return null;
+                StartBehavior(returnHomeNode());
+            }
+            else
+            {
+                StartBehavior(idleStanceNode());
+            }
+        }
+
+        #region Helper Checkers
+
+        private bool atHomePoint()
+        {
+            float distanceToHome = Vector3.Distance(transform.position, homeTargetPosition);
+            if (distanceToHome <= .2f)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool canChasePlayer()
+        {
+            if(directOrder == EnemyState.OutOfCombat)
+            {
+                return false;
+            }
+
+            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
+            if(distanceToPlayer <= chaseRadius || directOrder == EnemyState.EngagePlayer)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -245,6 +290,25 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        #endregion
+
+        protected virtual void makeAttackDecision()
+        {
+            
+        }
+
+        #region State Behaviors
+
+        IEnumerator engagePlayerSequence()
+        {
+            while (!isPlayerInAttackRange())
+            {
+                pursuePlayer();
+                yield return null;
+            }
+            attackPlayer();
+        }
+
         private void pursuePlayer()
         {
             character.SetTarget(combatTarget.transform);
@@ -255,7 +319,7 @@ namespace Finisher.Characters.Enemies
 
             if (currentChaseSubstate == ChaseSubState.Arced)
             {
-                character.MovementSpeedMultiplier = .4f;
+                character.MovementSpeedMultiplier = .2f;
             }
             else if (currentChaseSubstate == ChaseSubState.Surround)
             {
@@ -281,66 +345,34 @@ namespace Finisher.Characters.Enemies
 
         }
 
-        #region Helper Checkers
-
-        private bool atHomePoint()
+        IEnumerator returnHomeNode()
         {
-            float distanceToHome = Vector3.Distance(transform.position, homeTargetPosition);
-            if (distanceToHome <= .2f)
+            if (atHomePoint())
             {
-                return true;
+                yield break;
             }
-            else
-            {
-                return false;
-            }
-        }
-
-        private bool canChasePlayer()
-        {
-            if(directOrder == EnemyState.ReturnHome)
-            {
-                return false;
-            }
-
-            float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if(distanceToPlayer <= chaseRadius || directOrder == EnemyState.EngagePlayer)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        #endregion
-
-        protected virtual void makeAttackDecision()
-        {
-            
-        }
-
-        #region State Behaviors
-
-        IEnumerator returnHome()
-        {
             character.SetTarget(transform);
             character.OptionalDestination = homeTargetPosition;
             character.UseOptionalDestination = true;
             character.RestoreStoppingDistance();
             character.RestoreMovementSpeedMultiplier();
             yield return new WaitUntil(() => atHomePoint());
-            idleStance();
+            yield return null; //FrameSpacer
+            idleStanceNode();
+
+            currentState = EnemyState.Null;
         }
 
-        private void idleStance()
+        IEnumerator idleStanceNode()
         {
-            character.SetTarget(transform);
-            character.UseOptionalDestination = false;
-            transform.rotation = homeTargetRotation;
-            currentState = EnemyState.Idle;
-            directOrder = EnemyState.Idle;
+            if (transform.rotation != homeTargetRotation)
+            {
+                character.SetTarget(transform);
+                character.UseOptionalDestination = false;
+                transform.rotation = homeTargetRotation;
+                directOrder = EnemyState.Null;
+            }
+            yield return null;
         }
 
         #endregion
@@ -354,7 +386,7 @@ namespace Finisher.Characters.Enemies
 
         private void stopByManager()
         {
-            directOrder = EnemyState.ReturnHome;
+            directOrder = EnemyState.OutOfCombat;
         }
 
         private void removeFromSquad()
