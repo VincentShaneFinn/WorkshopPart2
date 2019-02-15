@@ -16,7 +16,7 @@ namespace Finisher.Characters.Systems
 
         override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            if (stateInfo.IsName("Rushing"))
+            if (stateInfo.IsName(AnimConstants.States.RUSHING_STATE))
             {
                 KnightCombatSystem.StartCoroutine(KnightCombatSystem.RushingCoroutine());
             }
@@ -29,7 +29,7 @@ namespace Finisher.Characters.Systems
 
         IEnumerator leftStateMachine(Animator animator)
         {
-            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsTag("SpecialAttack"));//AnimConstants.Tags.)
+            yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.SPECIAL_ATTACK_SEQUENCE_TAG));
             KnightCombatSystem.ResetRushing();
         }
 
