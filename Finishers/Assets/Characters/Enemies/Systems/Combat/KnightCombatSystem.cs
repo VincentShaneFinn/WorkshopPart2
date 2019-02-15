@@ -47,7 +47,6 @@ namespace Finisher.Characters.Systems
             }
 
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
-            ResetRushing();
         }
 
         public void ResetRushing()
@@ -56,5 +55,17 @@ namespace Finisher.Characters.Systems
             GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         }
 
+        public IEnumerator MonitorSpecialAttackStatus()
+        {
+            IsPerformingSpecialAttack = true;
+
+            yield return new WaitForSeconds(.26f);
+
+            yield return new WaitUntil(() => !animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.SPECIAL_ATTACK_SEQUENCE_TAG));
+
+            ResetRushing();
+            IsPerformingSpecialAttack = false;
+            StopAllCoroutines();
+        }
     }
 }

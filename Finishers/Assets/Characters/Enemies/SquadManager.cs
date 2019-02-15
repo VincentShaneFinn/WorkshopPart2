@@ -35,6 +35,7 @@ namespace Finisher.Characters.Enemies
             }
 
             setEnemies();
+            StartCoroutine(assignEnemyRoles());
         }
 
         private void setEnemies()
@@ -49,12 +50,13 @@ namespace Finisher.Characters.Enemies
             sortEnemyByDistance();
         }
 
-        void Update()
+        IEnumerator assignEnemyRoles()
         {
-            if (!player) { return; }
-
-            setEnemiesSubChase();
-
+            while (player)
+            {
+                setEnemiesSubChase();
+                yield return new WaitForSeconds(1f);
+            }
         }
 
         public void SendWakeUpCallToEnemies()

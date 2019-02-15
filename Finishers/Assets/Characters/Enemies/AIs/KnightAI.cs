@@ -17,7 +17,6 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             knightCombatSystem = GetComponent<KnightCombatSystem>();
-            Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
         }
 
         private void setContext()

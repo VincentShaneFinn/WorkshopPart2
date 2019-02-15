@@ -53,6 +53,8 @@ namespace Finisher.Characters.Enemies
             {
                 characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
             }
+
+            Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
         }
 
         void OnDestroy()
@@ -96,24 +98,6 @@ namespace Finisher.Characters.Enemies
                 StopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
                 ((IDisposable)currentCoroutine).Dispose();
                 currentCoroutine = null;
-            }
-        }
-
-        private void outOfCombatSelector()
-        {
-            if (!atHomePoint())
-            {
-                if (currentOOCState != OOCState.ReturningHome)
-                {
-                    startBehavior(returnHomeNode());
-                }
-            }
-            else
-            {
-                if (currentOOCState != OOCState.Idle)
-                {
-                    startBehavior(idleStanceNode());
-                }
             }
         }
 
@@ -199,6 +183,7 @@ namespace Finisher.Characters.Enemies
                 character.RestoreStoppingDistance();
                 character.RestoreMovementSpeedMultiplier();
                 engagingPlayer = false;
+                character.StopManualMovement();
             }
         }
 
@@ -209,6 +194,7 @@ namespace Finisher.Characters.Enemies
 
             character.RestoreStoppingDistance();
             character.RestoreMovementSpeedMultiplier();
+            character.StopManualMovement();
 
             if (currentChaseSubstate == ChaseSubState.Arced)
             {
@@ -217,6 +203,25 @@ namespace Finisher.Characters.Enemies
             else if (currentChaseSubstate == ChaseSubState.Surround)
             {
                 character.SetStoppingDistance(3.75f);
+                if (Input.GetKey(KeyCode.I)){
+                    character.ManualyMoveCharacter(transform.forward, strafing: true);
+                    character.LookAtTarget(combatTarget.transform);
+                }
+                else if (Input.GetKey(KeyCode.L))
+                {
+                    character.ManualyMoveCharacter(transform.right, strafing: true);
+                    character.LookAtTarget(combatTarget.transform);
+                }
+                else if (Input.GetKey(KeyCode.K))
+                {
+                    character.ManualyMoveCharacter(-transform.forward, strafing: true);
+                    character.LookAtTarget(combatTarget.transform);
+                }
+                else if (Input.GetKey(KeyCode.J))
+                {
+                    character.ManualyMoveCharacter(-transform.right, strafing: true);
+                    character.LookAtTarget(combatTarget.transform);
+                }
             }
         }
 
@@ -239,6 +244,24 @@ namespace Finisher.Characters.Enemies
         }
 
         #endregion
+
+        private void outOfCombatSelector()
+        {
+            if (!atHomePoint())
+            {
+                if (currentOOCState != OOCState.ReturningHome)
+                {
+                    startBehavior(returnHomeNode());
+                }
+            }
+            else
+            {
+                if (currentOOCState != OOCState.Idle)
+                {
+                    startBehavior(idleStanceNode());
+                }
+            }
+        }
 
         IEnumerator returnHomeNode()
         {
