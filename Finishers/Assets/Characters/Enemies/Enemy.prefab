@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 114825973488843026}
   - component: {fileID: 5879619664824611128}
   - component: {fileID: 2548389234887140761}
-  - component: {fileID: 1084891823}
+  - component: {fileID: 4272811459655557066}
   - component: {fileID: 7056579838223745693}
   m_Layer: 13
   m_Name: Enemy
@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
   enemyCanvas: {fileID: 8309976212981156009}
---- !u!114 &1084891823
+--- !u!114 &4272811459655557066
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +157,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297612759035436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7059047519f571448b9bc379b53f89c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 389bfd781751262489c42ff62caa417d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lightAttackDamageSystem: {fileID: 11400000, guid: 0b4ef5dde89ef494380933dbeb4f7196,

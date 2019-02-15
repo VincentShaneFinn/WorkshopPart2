@@ -6,16 +6,15 @@ using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum DirectOrders { Null, EngagePlayer, ReturnHome, }
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
+        public bool ForcedSequenceRunning = false;
 
         private IEnumerator currentCoroutine;
-        private DirectOrders directOrder;
 
         private bool engagingPlayer = false;
         private enum OOCState { Null, ReturningHome, Idle };
@@ -49,13 +48,10 @@ namespace Finisher.Characters.Enemies
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
             combatSystem = GetComponent<CombatSystem>();
-            directOrder = DirectOrders.Null;     
 
             if (squadManager)
             {
                 characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
-                squadManager.OnEnemiesEngage += chaseByManager;
-                squadManager.OnEnemiesDisengage += stopByManager;
             }
         }
 
@@ -65,14 +61,17 @@ namespace Finisher.Characters.Enemies
             {
                 characterState.DyingState.UnsubscribeToDeathEvent(removeFromSquad);
                 removeFromSquad();
-                squadManager.OnEnemiesEngage -= chaseByManager;
-                squadManager.OnEnemiesDisengage -= stopByManager;
             }
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(ForcedSequenceRunning)
+            {
+                StopCurrentCoroutine();
+                return;
+            }
 
             if (canChasePlayer())
             {
@@ -90,13 +89,19 @@ namespace Finisher.Characters.Enemies
 
         private void startBehavior(IEnumerator coroutine)
         {
+            StopCurrentCoroutine();
+            currentCoroutine = coroutine;
+            StartCoroutine(currentCoroutine);
+        }
+
+        private void StopCurrentCoroutine()
+        {
             if (currentCoroutine != null)
             {
                 StopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
-                ((IDisposable)currentCoroutine).Dispose();   
+                ((IDisposable)currentCoroutine).Dispose();
+                currentCoroutine = null;
             }
-            currentCoroutine = coroutine;
-            StartCoroutine(currentCoroutine);           
         }
 
         private void outOfCombatSelector()
@@ -134,13 +139,18 @@ namespace Finisher.Characters.Enemies
 
         private bool canChasePlayer()
         {
-            if(directOrder == DirectOrders.ReturnHome)
+            ManagerState squadState = ManagerState.Waiting;
+            if (squadManager)
+            {
+                squadState = squadManager.CurrentManagerState;
+            }
+            if(squadState == ManagerState.ReturnHome)
             {
                 return false;
             }
 
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if(distanceToPlayer <= chaseRadius || directOrder == DirectOrders.EngagePlayer)
+            if(distanceToPlayer <= chaseRadius || squadState == ManagerState.Attacking)
             {
                 return true;
             }
@@ -150,7 +160,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        protected bool isPlayerInAttackRange(float customRadius = -1)
+        public bool isPlayerInAttackRange(float customRadius = -1)
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
 
@@ -171,11 +181,6 @@ namespace Finisher.Characters.Enemies
         }
 
         #endregion
-
-        protected virtual void makeAttackDecision()
-        {
-            
-        }
 
         #region State Behaviors
 
@@ -262,7 +267,6 @@ namespace Finisher.Characters.Enemies
         IEnumerator idleStanceNode()
         {
             currentOOCState = OOCState.Idle;
-            directOrder = DirectOrders.Null;
 
             try
             {
@@ -287,12 +291,12 @@ namespace Finisher.Characters.Enemies
 
         private void chaseByManager()
         {
-            directOrder = DirectOrders.EngagePlayer;
+            
         }
 
         private void stopByManager()
         {
-            directOrder = DirectOrders.ReturnHome;
+
         }
 
         private void removeFromSquad()

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum ManagerState { Waiting, Attacking }
+    public enum ManagerState { Waiting, Attacking, ReturnHome }
 
     public class SquadManager : MonoBehaviour
     {
@@ -15,29 +15,19 @@ namespace Finisher.Characters.Enemies
         private GameObject player;
         private CharacterStateSO playerState;
 
-        public delegate void EnemiesEngage();
-        public event EnemiesEngage OnEnemiesEngage;
-        public void CallWakeUpListeners()
-        {
-            if (OnEnemiesEngage != null)
-            {
-                OnEnemiesEngage();
-            }
-        }
-
-        public delegate void EnemiesDisengage();
-        public event EnemiesDisengage OnEnemiesDisengage;
-        public void CallReturnHomeListeners()
-        {
-            if (OnEnemiesDisengage != null)
-            {
-                OnEnemiesDisengage();
-            }
-        }
+        //public delegate void EnemiesEngage();
+        //public event EnemiesEngage OnEnemiesEngage;
+        //public void CallWakeUpListeners()
+        //{
+        //    if (OnEnemiesEngage != null)
+        //    {
+        //        OnEnemiesEngage();
+        //    }
+        //}
 
         void Start()
         {
-            CurrentManagerState = ManagerState.Waiting;
+            CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
 
             if (player) {
@@ -70,7 +60,6 @@ namespace Finisher.Characters.Enemies
         public void SendWakeUpCallToEnemies()
         {
             CurrentManagerState = ManagerState.Attacking;
-            CallWakeUpListeners();
         }
         
         public void RemoveEnemy(GameObject enemy)
@@ -101,7 +90,14 @@ namespace Finisher.Characters.Enemies
         {
             if (other.gameObject.tag == "Player")
             {
-                CallReturnHomeListeners();
+                CurrentManagerState = ManagerState.ReturnHome;
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
                 CurrentManagerState = ManagerState.Waiting;
             }
         }
