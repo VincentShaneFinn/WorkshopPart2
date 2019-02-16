@@ -55,13 +55,12 @@ namespace Finisher.Characters.Enemies
 
         private UnityEngine.AI.NavMeshAgent agent; // the navmesh agent required for the path finding
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
-            //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             agent.baseOffset = baseOffset;
             agent.stoppingDistance = stoppingDistance;
             agent.speed = 1;
@@ -178,7 +177,6 @@ namespace Finisher.Characters.Enemies
             else if (target)
             {
                 agent.SetDestination(target.position);
-                agent.stoppingDistance = stoppingDistance;
             }
         }
 

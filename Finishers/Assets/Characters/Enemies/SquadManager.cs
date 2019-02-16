@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum ManagerState { Waiting, Attacking }
+    public enum ManagerState { Waiting, Attacking, ReturnHome }
 
     public class SquadManager : MonoBehaviour
     {
@@ -15,33 +15,19 @@ namespace Finisher.Characters.Enemies
         private GameObject player;
         private CharacterStateSO playerState;
 
-        public delegate void EnemiesEngage();
-        public event EnemiesEngage OnEnemiesEngage;
-        public void CallWakeUpListeners()
-        {
-            if (OnEnemiesEngage != null)
-            {
-                OnEnemiesEngage();
-            }
-        }
-
-        public delegate void EnemiesDisengage();
-        public event EnemiesDisengage OnEnemiesDisengage;
-        public void CallReturnHomeListeners()
-        {
-            if (OnEnemiesDisengage != null)
-            {
-                OnEnemiesDisengage();
-            }
-        }
-
-        //[SerializeField] GameObject combatTarget = null;
-
-        //AICharacterController character;
+        //public delegate void EnemiesEngage();
+        //public event EnemiesEngage OnEnemiesEngage;
+        //public void CallWakeUpListeners()
+        //{
+        //    if (OnEnemiesEngage != null)
+        //    {
+        //        OnEnemiesEngage();
+        //    }
+        //}
 
         void Start()
         {
-            CurrentManagerState = ManagerState.Waiting;
+            CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
 
             if (player) {
@@ -49,11 +35,11 @@ namespace Finisher.Characters.Enemies
             }
 
             setEnemies();
+            StartCoroutine(assignEnemyRoles());
         }
 
         private void setEnemies()
         {
-            //enemies = GetComponentsInChildren<EnemyAI>();
             foreach (Transform child in transform)
             {
                 if (child.tag == "Enemy")
@@ -64,18 +50,18 @@ namespace Finisher.Characters.Enemies
             sortEnemyByDistance();
         }
 
-        void Update()
+        IEnumerator assignEnemyRoles()
         {
-            if (!player) { return; }
-
-            setEnemiesSubChase();
-
+            while (player)
+            {
+                setEnemiesSubChase();
+                yield return new WaitForSeconds(1f);
+            }
         }
 
         public void SendWakeUpCallToEnemies()
         {
             CurrentManagerState = ManagerState.Attacking;
-            CallWakeUpListeners();
         }
         
         public void RemoveEnemy(GameObject enemy)
@@ -106,7 +92,14 @@ namespace Finisher.Characters.Enemies
         {
             if (other.gameObject.tag == "Player")
             {
-                CallReturnHomeListeners();
+                CurrentManagerState = ManagerState.ReturnHome;
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
                 CurrentManagerState = ManagerState.Waiting;
             }
         }

@@ -18,6 +18,9 @@
             public const string LIGHT_ATTACK4_STATE = "Light4";
             public const string HEAVY_ATTACK1_STATE = "Heavy1";
             public const string HEAVY_ATTACK2_STATE = "Heavy2";
+            public const string RUSHING_SETUP_STATE = "RushSetup";
+            public const string RUSHING_STATE = "Rushing";
+            public const string RUSHING_ATTACK_STATE = "RushAttack";
             public const string FINISHER_EXECUTE_STATE = "FinisherExecute";
             public const string FINISHER_SELECTION_STATE = "FinisherSelection";
             public const string FINISHER_ACTIVATION_STATE = "FinisherActivation";
@@ -33,6 +36,7 @@
             public const string HEAVYATTACK_TAG = "HeavyAttack";
             public const string UNINTERUPTABLE_TAG = "Uninteruptable";
             public const string INVULNERABLE_SEQUENCE_TAG = "InvulnerableSequence";
+            public const string SPECIAL_ATTACK_SEQUENCE_TAG = "SpecialAttack";
         }
 
         public class Parameters
