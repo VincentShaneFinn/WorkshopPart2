@@ -122,14 +122,25 @@ namespace Finisher.Characters.Enemies
         private void setEnemiesSubChase()
         {
             sortEnemiesByDistance();
-            int index = 0;
+            var directAttackersCount = directAttackers;
+            var indirectAttackersCount = indirectAttackers;
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
-                if (index < directAttackers) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
-                else if (index < indirectAttackers + directAttackers) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
+                if(Ai is KnightLeaderAI)
+                {
+                    Ai.currentChaseSubstate = ChaseSubState.Surround;
+                    continue;
+                }
+                if (directAttackersCount > 0) {
+                    Ai.currentChaseSubstate = ChaseSubState.Direct;
+                    directAttackersCount--;
+                }
+                else if (indirectAttackersCount > 0) {
+                    Ai.currentChaseSubstate = ChaseSubState.Arced;
+                    indirectAttackersCount--;
+                }
                 else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
-                index++;
             }
         }
 

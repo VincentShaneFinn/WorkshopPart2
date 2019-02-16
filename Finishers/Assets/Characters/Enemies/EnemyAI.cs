@@ -8,7 +8,6 @@ namespace Finisher.Characters.Enemies
 {
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {

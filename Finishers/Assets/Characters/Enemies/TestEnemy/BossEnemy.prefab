@@ -681,9 +681,9 @@ GameObject:
   - component: {fileID: 5501913984483000180}
   - component: {fileID: 7947276606294265880}
   - component: {fileID: 1224661278084801733}
-  - component: {fileID: 2284178928400837276}
+  - component: {fileID: 5113284399382986808}
   - component: {fileID: 67491212784503597}
-  - component: {fileID: 4216138815818108376}
+  - component: {fileID: 1101014001581218257}
   - component: {fileID: 4728689035381766452}
   m_Layer: 13
   m_Name: BossEnemy
@@ -786,7 +786,7 @@ MonoBehaviour:
   OptionalDestination: {x: 0, y: 0, z: 0}
   baseOffset: -0.04
   stoppingDistance: 1.3
---- !u!114 &2284178928400837276
+--- !u!114 &5113284399382986808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -795,13 +795,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 882163659345858344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 700084e80f92b1f4e9f57f880b808ca2, type: 3}
+  m_Script: {fileID: 11500000, guid: 08e733770872f1b4b970a0ee1a679c39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ForcedSequenceRunning: 0
   currentChaseSubstate: 0
   chaseRadius: 7
-  attackRadius: 1.3
-  combatTarget: {fileID: 0}
+  attackRadius: 1.5
   playerState: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &67491212784503597
 MonoBehaviour:
@@ -821,7 +821,7 @@ MonoBehaviour:
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
   DodgingAllowed: 1
---- !u!114 &4216138815818108376
+--- !u!114 &1101014001581218257
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -830,12 +830,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 882163659345858344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30f32bcf215356d46b582c68d2076961, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b42a32f5667ae44a1013f24708b7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
   enemyCanvas: {fileID: 5563752524858628117}
-  combatConfig: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
 --- !u!114 &4728689035381766452
 MonoBehaviour:
   m_ObjectHideFlags: 0
