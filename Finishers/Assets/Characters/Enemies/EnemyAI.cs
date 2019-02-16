@@ -31,6 +31,8 @@ namespace Finisher.Characters.Enemies
         protected AICharacterController character;
         protected CharacterState characterState;
         protected SquadManager squadManager;
+        protected Animator animator;
+        protected AnimOverrideSetter animOverrideSetter;
         protected CombatSystem combatSystem;
         [SerializeField] CharacterStateSO playerState;
 
@@ -46,6 +48,8 @@ namespace Finisher.Characters.Enemies
             character = GetComponent<AICharacterController>();
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
+            animator = GetComponent<Animator>();
+            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             combatSystem = GetComponent<CombatSystem>();
 
             if (squadManager)

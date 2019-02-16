@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
@@ -7,7 +8,9 @@ namespace Finisher.Characters.Enemies
     {
         public bool UseOptionalDestination = false;
         public Vector3 OptionalDestination = Vector3.zero;
-        private bool manualControl = false; 
+        private bool manualControl = false;
+
+        private float lockLookAtDuration = 0;
 
         private Transform target; // target to aim for
 
@@ -144,12 +147,25 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void LookAtTarget(Transform _target)
+        public void LookAtTarget(Transform _target, float duration = 0)
         {
+            if(lockLookAtDuration > 0) { return; }
+            if (duration > 0)
+            {
+                lockLookAtDuration = duration;
+                StartCoroutine(lockLookAtDurationTimer());
+            }
+
             if (_target)
             {
                 transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
             }
+        }
+
+        IEnumerator lockLookAtDurationTimer()
+        {
+            yield return new WaitForSeconds(lockLookAtDuration);
+            lockLookAtDuration = 0;
         }
 
         public void SetStoppingDistance(float newStoppingDistance)

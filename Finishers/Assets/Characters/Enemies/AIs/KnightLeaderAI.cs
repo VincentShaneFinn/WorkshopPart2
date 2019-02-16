@@ -3,12 +3,14 @@ using UnityEngine;
 using System.Collections.Generic;
 
 using Finisher.Characters.Systems;
+using System;
 
 namespace Finisher.Characters.Enemies
 {
     public class KnightLeaderAI : EnemyAI
     {
 
+        [SerializeField] AnimationClip pointClip;
         bool startTeamRushThinking = false;
         IEnumerator teamRushCoroutine;
 
@@ -50,20 +52,24 @@ namespace Finisher.Characters.Enemies
         {
             enemiesThatRushed = new List<KnightAI>();
 
-            print("Start Team Rush");
-
             int numberOfRushers = 3;
 
             while (numberOfRushers > 0)
             {
                 KnightAI knight = getAIForRushAttack();
-                print(knight);
                 if (!knight) { yield break; }
+                pointToKnight(knight.transform);
                 knight.PerformRushAttack();
                 enemiesThatRushed.Add(knight);
                 numberOfRushers--;
                 yield return new WaitForSeconds(1.5f);
             }
+        }
+
+        private void pointToKnight(Transform knight)
+        {
+            animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, pointClip);
+            character.LookAtTarget(knight, pointClip.length);
         }
 
         private KnightAI getAIForRushAttack()
