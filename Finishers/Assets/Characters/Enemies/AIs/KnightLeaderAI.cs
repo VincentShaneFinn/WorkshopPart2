@@ -43,7 +43,7 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator issueTeamRushAttack()
         {
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(UnityEngine.Random.Range(5,10));
             yield return StartCoroutine(teamRushAttackSequence());
             StartCoroutine(issueTeamRushAttack());
         }
@@ -83,7 +83,7 @@ namespace Finisher.Characters.Enemies
                 var knight = enemies[i].GetComponent<KnightAI>();
                 if (knight)
                 {
-                    if (enemiesThatRushed.Contains(knight))
+                    if (enemiesThatRushed.Contains(knight) || noClearPathToTarget(knight.gameObject,combatTarget))
                     {
                         continue;
                     }
@@ -93,5 +93,25 @@ namespace Finisher.Characters.Enemies
             return null;
         }
 
+        private bool noClearPathToTarget(GameObject knight, GameObject combatTarget)
+        {
+
+            int enemyLayerMask = 1 << LayerNames.EnemyLayer;
+
+            enemyLayerMask = ~enemyLayerMask;
+
+            RaycastHit hit;
+            var heading = combatTarget.transform.position - knight.transform.position;
+
+            // Does the ray intersect any objects excluding the player layer
+            if (Physics.Raycast(knight.transform.position + knight.transform.up, heading, out hit, Mathf.Infinity, enemyLayerMask))
+            {
+                if (hit.transform.tag != TagNames.PlayerTag)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
