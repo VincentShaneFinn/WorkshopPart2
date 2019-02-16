@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,11 +10,15 @@ namespace Finisher.Characters.Enemies
 
     public class SquadManager : MonoBehaviour
     {
-        //private Transform target; // target to aim for
+        [SerializeField] private int directAttackers = 1;
+        [SerializeField] private int indirectAttackers = 1;
+
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
         private CharacterStateSO playerState;
+
+        private List<KnightAI> enemiesThatRushed = new List<KnightAI>();
 
         //public delegate void EnemiesEngage();
         //public event EnemiesEngage OnEnemiesEngage;
@@ -35,7 +40,6 @@ namespace Finisher.Characters.Enemies
             }
 
             setEnemies();
-            StartCoroutine(assignEnemyRoles());
         }
 
         private void setEnemies()
@@ -47,7 +51,7 @@ namespace Finisher.Characters.Enemies
                     enemies.Add(child.gameObject);
                 }
             }
-            sortEnemyByDistance();
+            sortEnemiesByDistance();
         }
 
         IEnumerator assignEnemyRoles()
@@ -59,9 +63,55 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        IEnumerator issueTeamRushAttack()
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(3, 5));
+            yield return StartCoroutine(teamRushAttackSequence());
+            StartCoroutine(issueTeamRushAttack());
+        }
+
+        IEnumerator teamRushAttackSequence()
+        {
+            enemiesThatRushed = new List<KnightAI>();
+
+            int numberOfRushers = 3;
+
+            while(numberOfRushers > 0)
+            {
+                KnightAI knight = getAIForRushAttack();
+                if (!knight) { yield break; }
+                enemiesThatRushed.Add(knight);
+                knight.PerformRushAttack();
+                numberOfRushers--;
+                yield return new WaitForSeconds(1.5f);
+            }
+        }
+
+        private KnightAI getAIForRushAttack()
+        {
+            if (enemies.Count <= directAttackers + indirectAttackers) { return null; }
+
+            sortEnemiesByDistance();
+
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                var knight = enemies[enemies.Count - 1].GetComponent<KnightAI>();
+                if (knight)
+                {
+                    return knight;
+                }
+            }
+            return null;
+        }
+
         public void SendWakeUpCallToEnemies()
         {
-            CurrentManagerState = ManagerState.Attacking;
+            if (CurrentManagerState != ManagerState.Attacking)
+            {
+                CurrentManagerState = ManagerState.Attacking;
+                StartCoroutine(issueTeamRushAttack());
+                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
+            }
         }
         
         public void RemoveEnemy(GameObject enemy)
@@ -71,19 +121,19 @@ namespace Finisher.Characters.Enemies
 
         private void setEnemiesSubChase()
         {
-            sortEnemyByDistance();
-            int x = 0;
+            sortEnemiesByDistance();
+            int index = 0;
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
-                if (x < 2) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
-                else if (x < 4) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
+                if (index < directAttackers) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
+                else if (index < indirectAttackers + directAttackers) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
                 else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
-                x++;
+                index++;
             }
         }
 
-        private void sortEnemyByDistance()
+        private void sortEnemiesByDistance()
         {
             enemies = enemies.OrderBy(x => Vector2.Distance(player.transform.position, x.transform.position)).ToList();
         }
@@ -93,6 +143,7 @@ namespace Finisher.Characters.Enemies
             if (other.gameObject.tag == "Player")
             {
                 CurrentManagerState = ManagerState.ReturnHome;
+                StopAllCoroutines();
             }
         }
 

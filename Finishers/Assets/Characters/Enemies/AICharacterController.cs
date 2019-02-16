@@ -96,7 +96,7 @@ namespace Finisher.Characters.Enemies
             if (CanMove)
             {
                 manualControl = true;
-                agent.enabled = false;
+                toggleAgent(false);
                 Strafing = strafing;
                 MoveCharacter(manualMoveDirection);
             }
@@ -105,7 +105,7 @@ namespace Finisher.Characters.Enemies
         public void StopManualMovement()
         {
             manualControl = false;
-            agent.enabled = true;
+            toggleAgent(true);
             Strafing = false;
         }
 
@@ -165,6 +165,11 @@ namespace Finisher.Characters.Enemies
         public void SetTarget(Transform target)
         {
             this.target = target;
+        }
+
+        public void toggleAgent(bool enabled)
+        {
+            agent.enabled = enabled;
         }
 
         private void setAgentDestination()

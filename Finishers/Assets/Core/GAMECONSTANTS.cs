@@ -37,6 +37,8 @@ public static class TagNames
 
 public static class LayerNames
 {
+    public const int WalkableLayer = 9;
+    public const int ObstacleLayer = 10;
     public const int PlayerLayer = 12;
     public const int EnemyLayer = 13;
     public const int WeaponLayer = 14;
