@@ -72,7 +72,9 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         protected virtual void Update()
         {
-            if (characterState.Dying)
+            if (characterState.Dying ||
+                playerState.IsDying ||
+                characterState.Uninteruptable)
             {
                 StopCurrentCoroutine();
             }
