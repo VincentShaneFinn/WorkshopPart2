@@ -11,14 +11,14 @@ namespace Finisher.Characters.Enemies
     public class SquadManager : MonoBehaviour
     {
         [SerializeField] private int directAttackers = 1;
+        [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
         [SerializeField] private int indirectAttackers = 1;
+        [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
         private CharacterStateSO playerState;
-
-        private List<KnightAI> enemiesThatRushed = new List<KnightAI>();
 
         //public delegate void EnemiesEngage();
         //public event EnemiesEngage OnEnemiesEngage;
@@ -51,7 +51,7 @@ namespace Finisher.Characters.Enemies
                     enemies.Add(child.gameObject);
                 }
             }
-            sortEnemiesByDistance();
+            SortEnemiesByDistance();
         }
 
         IEnumerator assignEnemyRoles()
@@ -63,45 +63,9 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        IEnumerator issueTeamRushAttack()
+        public List<GameObject> GetEnemies()
         {
-            yield return new WaitForSeconds(UnityEngine.Random.Range(3, 5));
-            yield return StartCoroutine(teamRushAttackSequence());
-            StartCoroutine(issueTeamRushAttack());
-        }
-
-        IEnumerator teamRushAttackSequence()
-        {
-            enemiesThatRushed = new List<KnightAI>();
-
-            int numberOfRushers = 3;
-
-            while(numberOfRushers > 0)
-            {
-                KnightAI knight = getAIForRushAttack();
-                if (!knight) { yield break; }
-                enemiesThatRushed.Add(knight);
-                knight.PerformRushAttack();
-                numberOfRushers--;
-                yield return new WaitForSeconds(1.5f);
-            }
-        }
-
-        private KnightAI getAIForRushAttack()
-        {
-            if (enemies.Count <= directAttackers + indirectAttackers) { return null; }
-
-            sortEnemiesByDistance();
-
-            for (int i = enemies.Count - 1; i >= 0; i--)
-            {
-                var knight = enemies[enemies.Count - 1].GetComponent<KnightAI>();
-                if (knight)
-                {
-                    return knight;
-                }
-            }
-            return null;
+            return enemies;
         }
 
         public void SendWakeUpCallToEnemies()
@@ -109,7 +73,6 @@ namespace Finisher.Characters.Enemies
             if (CurrentManagerState != ManagerState.Attacking)
             {
                 CurrentManagerState = ManagerState.Attacking;
-                StartCoroutine(issueTeamRushAttack());
                 StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
@@ -121,7 +84,7 @@ namespace Finisher.Characters.Enemies
 
         private void setEnemiesSubChase()
         {
-            sortEnemiesByDistance();
+            SortEnemiesByDistance();
             var directAttackersCount = directAttackers;
             var indirectAttackersCount = indirectAttackers;
             foreach (GameObject enemy in enemies)
@@ -132,6 +95,7 @@ namespace Finisher.Characters.Enemies
                     Ai.currentChaseSubstate = ChaseSubState.Surround;
                     continue;
                 }
+
                 if (directAttackersCount > 0) {
                     Ai.currentChaseSubstate = ChaseSubState.Direct;
                     directAttackersCount--;
@@ -144,7 +108,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        private void sortEnemiesByDistance()
+        public void SortEnemiesByDistance()
         {
             enemies = enemies.OrderBy(x => Vector2.Distance(player.transform.position, x.transform.position)).ToList();
         }

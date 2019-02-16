@@ -30,7 +30,7 @@ namespace Finisher.Characters.Enemies
 
         protected AICharacterController character;
         protected CharacterState characterState;
-        private SquadManager squadManager;
+        protected SquadManager squadManager;
         protected CombatSystem combatSystem;
         [SerializeField] CharacterStateSO playerState;
 
@@ -68,8 +68,11 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         protected virtual void Update()
         {
-
-            if (canChasePlayer())
+            if (characterState.Dying)
+            {
+                StopCurrentCoroutine();
+            }
+            else if (canChasePlayer())
             {
                 if (!engagingPlayer)
                 {
@@ -179,14 +182,19 @@ namespace Finisher.Characters.Enemies
             }
             finally
             {
-                character.RestoreStoppingDistance();
-                character.RestoreMovementSpeedMultiplier();
-                engagingPlayer = false;
-                character.StopManualMovement();
+                endEngagePlayerSequence();
             }
         }
 
-        private void pursuePlayer()
+        protected virtual void endEngagePlayerSequence()
+        {
+            character.RestoreStoppingDistance();
+            character.RestoreMovementSpeedMultiplier();
+            engagingPlayer = false;
+            character.StopManualMovement();
+        }
+
+        protected virtual void pursuePlayer()
         {
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
@@ -311,16 +319,6 @@ namespace Finisher.Characters.Enemies
         #endregion
 
         #region Delegate Methods
-
-        private void chaseByManager()
-        {
-            
-        }
-
-        private void stopByManager()
-        {
-
-        }
 
         private void removeFromSquad()
         {

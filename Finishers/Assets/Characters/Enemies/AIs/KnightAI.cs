@@ -25,12 +25,6 @@ namespace Finisher.Characters.Enemies
             }
 
             base.Update();
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                //Invoke("test", Random.Range(3,5));
-                PerformRushAttack();
-            }
         }
 
         public void PerformRushAttack()

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 using Finisher.Characters.Systems;
 
@@ -7,6 +8,84 @@ namespace Finisher.Characters.Enemies
 {
     public class KnightLeaderAI : EnemyAI
     {
+
+        bool startTeamRushThinking = false;
+        IEnumerator teamRushCoroutine;
+
+        protected override void pursuePlayer()
+        {
+            base.pursuePlayer();
+            if (!startTeamRushThinking)
+            {
+                startTeamRushThinking = true;
+                teamRushCoroutine = issueTeamRushAttack();
+                StartCoroutine(teamRushCoroutine);
+            }
+        }
+
+        protected override void endEngagePlayerSequence()
+        {
+            base.endEngagePlayerSequence();
+            StopCoroutine(teamRushCoroutine);
+            startTeamRushThinking = false;
+        }
+
+        private List<GameObject> enemies
+        {
+            get
+            {
+                return squadManager.GetEnemies();
+            }
+        }
+        private List<KnightAI> enemiesThatRushed = new List<KnightAI>();
+
+        IEnumerator issueTeamRushAttack()
+        {
+            yield return new WaitForSeconds(3f);
+            yield return StartCoroutine(teamRushAttackSequence());
+            StartCoroutine(issueTeamRushAttack());
+        }
+
+        IEnumerator teamRushAttackSequence()
+        {
+            enemiesThatRushed = new List<KnightAI>();
+
+            print("Start Team Rush");
+
+            int numberOfRushers = 3;
+
+            while (numberOfRushers > 0)
+            {
+                KnightAI knight = getAIForRushAttack();
+                print(knight);
+                if (!knight) { yield break; }
+                knight.PerformRushAttack();
+                enemiesThatRushed.Add(knight);
+                numberOfRushers--;
+                yield return new WaitForSeconds(1.5f);
+            }
+        }
+
+        private KnightAI getAIForRushAttack()
+        {
+            if (enemies.Count <= squadManager.DirectAttackers + squadManager.IndirectAttackers) { return null; }
+
+            squadManager.SortEnemiesByDistance();
+
+            for (int i = enemies.Count - 1; i >= 0; i--)
+            {
+                var knight = enemies[i].GetComponent<KnightAI>();
+                if (knight)
+                {
+                    if (enemiesThatRushed.Contains(knight))
+                    {
+                        continue;
+                    }
+                    return knight;
+                }
+            }
+            return null;
+        }
 
     }
 }
