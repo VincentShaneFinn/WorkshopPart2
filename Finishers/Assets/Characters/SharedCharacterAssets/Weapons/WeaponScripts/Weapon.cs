@@ -36,14 +36,16 @@ namespace Finisher.Characters.Weapons
             }
         }
 
-        private void ToggleTrailingEffect(bool fuck)
+        private void ToggleTrailingEffect(bool _enabled)
         {
-            print(fuck);
-            if (fuck)
+            if (_enabled)
             {
                 trailEffect.Play();
                 time = Time.time;
-                StartCoroutine(stopPlayer());
+                if (gameObject.activeSelf)
+                {
+                    StartCoroutine(stopPlayer());
+                }
             }
             else
             {
