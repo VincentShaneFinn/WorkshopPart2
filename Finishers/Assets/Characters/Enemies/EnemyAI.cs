@@ -22,6 +22,9 @@ namespace Finisher.Characters.Enemies
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] protected float attackRadius = 1.5f;
+        [SerializeField] float ARC_ANGLE = 45f;
+        [SerializeField] float ENGAGE_DISTANCE = 3f;
+
         protected GameObject combatTarget = null;
 
         private Vector3 homeTargetPosition;
@@ -202,6 +205,7 @@ namespace Finisher.Characters.Enemies
 
         protected virtual void pursuePlayer()
         {
+            // resets all variables to default behavior
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
 
@@ -209,14 +213,17 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
-            if (currentChaseSubstate == ChaseSubState.Arced)
-            {
-                character.MovementSpeedMultiplier = .2f;
-            }
-            else if (currentChaseSubstate == ChaseSubState.Surround)
-            {
-                character.SetStoppingDistance(6f);
-                surroundMovement();
+            // modifies behavior based on variables
+            switch(currentChaseSubstate) {
+                case ChaseSubState.Arced:
+                    var targetPoint = GetArcRunDirection(character.transform.position, combatTarget.transform.position, ARC_ANGLE, ENGAGE_DISTANCE);
+                    var direction = targetPoint - character.transform.position;
+                    character.ManuallyMoveCharacter(direction);
+                    break;
+                case ChaseSubState.Surround:
+                    character.SetStoppingDistance(6f);
+                    surroundMovement();
+                    break;
             }
         }
 
@@ -224,22 +231,22 @@ namespace Finisher.Characters.Enemies
         {
             if (Input.GetKey(KeyCode.I))
             {
-                character.ManualyMoveCharacter(transform.forward, strafing: true);
+                character.ManuallyMoveCharacter(transform.forward, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.L))
             {
-                character.ManualyMoveCharacter(transform.right, strafing: true);
+                character.ManuallyMoveCharacter(transform.right, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.K))
             {
-                character.ManualyMoveCharacter(-transform.forward, strafing: true);
+                character.ManuallyMoveCharacter(-transform.forward, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.J))
             {
-                character.ManualyMoveCharacter(-transform.right, strafing: true);
+                character.ManuallyMoveCharacter(-transform.right, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
         }
@@ -333,5 +340,23 @@ namespace Finisher.Characters.Enemies
 
         #endregion
 
+        public Vector3 GetArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle, float engageDistance)
+        {
+            if (arcAngle < 0 || arcAngle > 360) {
+                throw new Exception("Invalid ArcAngle for GetArcRunDirection in Assets/Characters/Enemies/EnemyAI.cs");
+            }
+
+            var distance = Vector3.Distance(currPos, tarPos);
+            Vector3 midpoint = (currPos + tarPos) / 2f;
+            float x = midpoint.x + (currPos.x - midpoint.x) * Mathf.Cos(arcAngle) - (currPos.z - midpoint.z) * Mathf.Sin(arcAngle);
+            float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
+
+            var moveTarget = new Vector3(x, transform.position.y, z);
+            Debug.DrawLine(currPos, moveTarget);
+            if (distance < engageDistance)
+                return tarPos - currPos;
+
+            return moveTarget;
+        }
     }
 }
