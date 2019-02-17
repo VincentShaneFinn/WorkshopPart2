@@ -318,8 +318,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
-      minScalar: 2.5
+      scalar: 2.5
+      minScalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4739,6 +4739,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1521589107353817000}
     m_Modifications:
+    - target: {fileID: 1681505693281167674, guid: 7aca36a8d92a0de44992ff7308b1aa1e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 889407440460271365, guid: 7aca36a8d92a0de44992ff7308b1aa1e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4833,11 +4838,6 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.maxNumParticles
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1681505693281167674, guid: 7aca36a8d92a0de44992ff7308b1aa1e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7aca36a8d92a0de44992ff7308b1aa1e, type: 3}
