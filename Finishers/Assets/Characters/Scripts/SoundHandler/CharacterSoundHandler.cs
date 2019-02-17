@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Finisher.Characters.Systems;
+using System;
 
 public class CharacterSoundHandler : MonoBehaviour
 {
 
     [SerializeField] CharacterSoundConfig config;
+
+    [SerializeField] private float checkTerrainDistance;
 
     protected HealthSystem healthSystem;
 
@@ -43,19 +46,34 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void FootL()
     {
-        if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
-        {
-            config.FootStep.Play(baseAudioSource);
-        }
+        Footstep();
     }
 
     void FootR()
     {
+        Footstep();
+    }
+
+    void Footstep()
+    {
+        RaycastHit hit;
+
         if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
         {
-            config.FootStep.Play(baseAudioSource);
+            if (Physics.Raycast(transform.position + Vector3.up, transform.position + Vector3.down, out hit, checkTerrainDistance))
+            {
+                if (hit.collider.gameObject.tag == "SandFloor")
+                {
+                    config.FootStepSand.Play(baseAudioSource);
+                }
+                else if (hit.collider.gameObject.tag == "Floor")
+                {
+                    config.FootStepDefault.Play(baseAudioSource);
+                }
+            }
         }
     }
+
     #endregion
 
     #region Combat Animation Events
@@ -119,5 +137,9 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherAOEBlast.Play(audioSourceToKill);
         Destroy(audioSourceToKill, audioSourceToKill.clip.length);
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.down * checkTerrainDistance);
+    }
 }
