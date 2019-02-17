@@ -96,6 +96,31 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.27714697
       objectReference: {fileID: 0}
+    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.133
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.194
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.23726334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599581485481047705, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: soulBonusDamage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1938006868888818008, guid: f4c8e89ffc7985540b621b4a637a5756,
         type: 3}
       propertyPath: m_IsActive
@@ -115,11 +140,6 @@ PrefabInstance:
         type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 130
-      objectReference: {fileID: 0}
-    - target: {fileID: 1599581485481047705, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: soulBonusDamage
-      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5068545775141108805, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
