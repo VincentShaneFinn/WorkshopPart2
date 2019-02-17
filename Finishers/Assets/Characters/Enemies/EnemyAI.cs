@@ -22,8 +22,8 @@ namespace Finisher.Characters.Enemies
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] protected float attackRadius = 1.5f;
-        [SerializeField] float ARC_ANGLE = 45f;
-        [SerializeField] float ENGAGE_DISTANCE = 3f;
+        public float ArcAngle = 45;
+        [SerializeField] float DIRECT_ENGAGE_DISTANCE = 2.1f;
 
         protected GameObject combatTarget = null;
 
@@ -216,9 +216,13 @@ namespace Finisher.Characters.Enemies
             // modifies behavior based on variables
             switch(currentChaseSubstate) {
                 case ChaseSubState.Arced:
-                    var targetPoint = GetArcRunDirection(character.transform.position, combatTarget.transform.position, ARC_ANGLE, ENGAGE_DISTANCE);
-                    var direction = targetPoint - character.transform.position;
-                    character.ManuallyMoveCharacter(direction);
+                    character.MovementSpeedMultiplier = .9f;
+                    var INDIRECT_ENGAGE_DISTANCE = 10f;
+                    var distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
+                        var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
+                        character.ManuallyMoveCharacter(direction);
+                    }
                     break;
                 case ChaseSubState.Surround:
                     character.SetStoppingDistance(6f);
@@ -340,11 +344,8 @@ namespace Finisher.Characters.Enemies
 
         #endregion
 
-        public Vector3 GetArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle, float engageDistance)
+        private Vector3 getArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle)
         {
-            if (arcAngle < 0 || arcAngle > 360) {
-                throw new Exception("Invalid ArcAngle for GetArcRunDirection in Assets/Characters/Enemies/EnemyAI.cs");
-            }
 
             var distance = Vector3.Distance(currPos, tarPos);
             Vector3 midpoint = (currPos + tarPos) / 2f;
@@ -352,11 +353,9 @@ namespace Finisher.Characters.Enemies
             float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
 
             var moveTarget = new Vector3(x, transform.position.y, z);
-            Debug.DrawLine(currPos, moveTarget);
-            if (distance < engageDistance)
-                return tarPos - currPos;
-
-            return moveTarget;
+            var moveDirection = moveTarget - transform.position;
+            return moveDirection;
         }
+
     }
 }

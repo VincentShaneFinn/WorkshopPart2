@@ -10,9 +10,9 @@ namespace Finisher.Characters.Enemies
 
     public class SquadManager : MonoBehaviour
     {
-        [SerializeField] private int directAttackers = 1;
+        private int directAttackers = 1;
         [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
-        [SerializeField] private int indirectAttackers = 1;
+        private int indirectAttackers = 2;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
@@ -73,7 +73,6 @@ namespace Finisher.Characters.Enemies
             if (CurrentManagerState != ManagerState.Attacking)
             {
                 CurrentManagerState = ManagerState.Attacking;
-                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
         
@@ -101,6 +100,18 @@ namespace Finisher.Characters.Enemies
                     directAttackersCount--;
                 }
                 else if (indirectAttackersCount > 0) {
+                    if (Ai.currentChaseSubstate != ChaseSubState.Arced)
+                    {
+                        var positive = UnityEngine.Random.value > 0.5f;
+                        if (positive)
+                        {
+                            Ai.ArcAngle = UnityEngine.Random.Range(40, 50);
+                        }
+                        else
+                        {
+                            Ai.ArcAngle = UnityEngine.Random.Range(-50, -40);
+                        }
+                    }
                     Ai.currentChaseSubstate = ChaseSubState.Arced;
                     indirectAttackersCount--;
                 }
@@ -127,6 +138,7 @@ namespace Finisher.Characters.Enemies
             if (other.gameObject.tag == "Player")
             {
                 CurrentManagerState = ManagerState.Waiting;
+                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
 
