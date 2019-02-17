@@ -37,10 +37,12 @@ namespace Finisher.Characters.Systems
 
         public IEnumerator RushingCoroutine()
         {
-            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            yield return null; // need to wait a frame for EnemyAI to shut itself down
+
+            GetComponent<AICharacterController>().toggleAgent(false);
             character.LookAtTarget(target);
 
-            while (!enemyAI.isPlayerInAttackRange())
+            while (!enemyAI.isPlayerInAttackRange() && !obstacleAhead())
             {
                 character.LookAtTarget(target);
                 yield return null;
@@ -49,17 +51,36 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
         }
 
+        private bool obstacleAhead()
+        {
+            var distance = 1;
+            Vector3 fwd = transform.TransformDirection(Vector3.forward);
+            int walkableLayerMask = 1 << LayerNames.WalkableLayer;
+            int obstacleLayerMask = 1 << LayerNames.ObstacleLayer;
+
+
+            if (Physics.Raycast(transform.position, fwd, distance, walkableLayerMask) ||
+                Physics.Raycast(transform.position, fwd, distance, obstacleLayerMask) )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void ResetRushing()
         {
             //do something when you have left the rushing state
-            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            GetComponent<AICharacterController>().toggleAgent(true);
         }
 
         public IEnumerator MonitorSpecialAttackStatus()
         {
             IsPerformingSpecialAttack = true;
 
-            yield return new WaitForSeconds(.26f);
+            yield return new WaitUntil(() => !animator.IsInTransition(0));
+
+            yield return null;
 
             yield return new WaitUntil(() => !animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.SPECIAL_ATTACK_SEQUENCE_TAG));
 
@@ -67,5 +88,6 @@ namespace Finisher.Characters.Systems
             IsPerformingSpecialAttack = false;
             StopAllCoroutines();
         }
+
     }
 }

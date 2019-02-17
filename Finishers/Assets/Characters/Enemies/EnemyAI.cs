@@ -8,7 +8,6 @@ namespace Finisher.Characters.Enemies
 {
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
@@ -31,7 +30,9 @@ namespace Finisher.Characters.Enemies
 
         protected AICharacterController character;
         protected CharacterState characterState;
-        private SquadManager squadManager;
+        protected SquadManager squadManager;
+        protected Animator animator;
+        protected AnimOverrideSetter animOverrideSetter;
         protected CombatSystem combatSystem;
         [SerializeField] CharacterStateSO playerState;
 
@@ -47,6 +48,8 @@ namespace Finisher.Characters.Enemies
             character = GetComponent<AICharacterController>();
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
+            animator = GetComponent<Animator>();
+            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             combatSystem = GetComponent<CombatSystem>();
 
             if (squadManager)
@@ -69,8 +72,13 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         protected virtual void Update()
         {
-
-            if (canChasePlayer())
+            if (characterState.Dying ||
+                playerState.IsDying ||
+                characterState.Uninteruptable)
+            {
+                StopCurrentCoroutine();
+            }
+            else if (canChasePlayer())
             {
                 if (!engagingPlayer)
                 {
@@ -180,14 +188,19 @@ namespace Finisher.Characters.Enemies
             }
             finally
             {
-                character.RestoreStoppingDistance();
-                character.RestoreMovementSpeedMultiplier();
-                engagingPlayer = false;
-                character.StopManualMovement();
+                endEngagePlayerSequence();
             }
         }
 
-        private void pursuePlayer()
+        protected virtual void endEngagePlayerSequence()
+        {
+            character.RestoreStoppingDistance();
+            character.RestoreMovementSpeedMultiplier();
+            engagingPlayer = false;
+            character.StopManualMovement();
+        }
+
+        protected virtual void pursuePlayer()
         {
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
@@ -202,7 +215,7 @@ namespace Finisher.Characters.Enemies
             }
             else if (currentChaseSubstate == ChaseSubState.Surround)
             {
-                character.SetStoppingDistance(3.75f);
+                character.SetStoppingDistance(6f);
                 surroundMovement();
             }
         }
@@ -312,16 +325,6 @@ namespace Finisher.Characters.Enemies
         #endregion
 
         #region Delegate Methods
-
-        private void chaseByManager()
-        {
-            
-        }
-
-        private void stopByManager()
-        {
-
-        }
 
         private void removeFromSquad()
         {
