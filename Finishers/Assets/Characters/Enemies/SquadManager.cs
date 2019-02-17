@@ -10,9 +10,9 @@ namespace Finisher.Characters.Enemies
 
     public class SquadManager : MonoBehaviour
     {
-        private int directAttackers = 1;
+        [SerializeField] private int directAttackers = 1;
         [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
-        private int indirectAttackers = 2;
+        [SerializeField] private int indirectAttackers = 2;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
