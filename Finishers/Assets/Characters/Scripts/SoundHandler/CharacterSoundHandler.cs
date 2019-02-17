@@ -10,13 +10,13 @@ public class CharacterSoundHandler : MonoBehaviour
 
     [SerializeField] CharacterSoundConfig config;
 
-    [SerializeField] private float checkTerrainDistance;
-
     protected HealthSystem healthSystem;
 
     private AudioSource baseAudioSource;
     private Rigidbody rigidBody;
     private const float CHECK_IF_MOVING = .3f;
+
+    private string terrainType;
 
     void Awake()
     {
@@ -60,16 +60,13 @@ public class CharacterSoundHandler : MonoBehaviour
 
         if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
         {
-            if (Physics.Raycast(transform.position + Vector3.up, transform.position + Vector3.down, out hit, checkTerrainDistance))
+            if (terrainType == "SandFloor")
             {
-                if (hit.collider.gameObject.tag == "SandFloor")
-                {
-                    config.FootStepSand.Play(baseAudioSource);
-                }
-                else if (hit.collider.gameObject.tag == "Floor")
-                {
-                    config.FootStepDefault.Play(baseAudioSource);
-                }
+                config.FootStepSand.Play(baseAudioSource);
+            }
+            else if (terrainType == "Floor")
+            {
+                config.FootStepDefault.Play(baseAudioSource);
             }
         }
     }
@@ -138,8 +135,8 @@ public class CharacterSoundHandler : MonoBehaviour
         Destroy(audioSourceToKill, audioSourceToKill.clip.length);
     }
 
-    private void OnDrawGizmos()
+    void OnCollisionStay(Collision collision)
     {
-        Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.down * checkTerrainDistance);
+        terrainType = collision.gameObject.tag;
     }
 }
