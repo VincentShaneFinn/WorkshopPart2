@@ -461,6 +461,11 @@ namespace Finisher.Characters.Systems {
 
         public void HitCharacter(HealthSystem targetHealthSystem, float soulBonus=0)
         {
+            if (!combatSystem.Hit.Add(targetHealthSystem))
+            {
+                return;
+            }
+
             StabbedEnemy(targetHealthSystem.gameObject);
             if(combatSystem.CurrentAttackType == AttackType.LightBlade)
             {

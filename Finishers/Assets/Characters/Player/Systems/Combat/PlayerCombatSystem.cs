@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,6 +40,17 @@ namespace Finisher.Characters.Player.Systems
             }
 
             testingInputZone();
+
+            if (hitCounter > 0)
+            {
+                timer += Time.deltaTime;
+
+                if (timer >= config.TimeToKeepCombo)
+                {
+                    resetHitCounter();
+                    timer = 0;
+                }
+            }
         }
 
         private void processCombatInput()

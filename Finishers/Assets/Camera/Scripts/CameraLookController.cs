@@ -20,6 +20,7 @@ namespace Finisher.Cameras
         public Transform OptionalAutoLookTarget = null; // set what the autocamera will look at
         public bool ForceAutoLook = false; // force it to use the auto camera
         public Transform NewFollowTarget = null; // used to switch follow target to enemy during grab
+        private Transform combatTarget;
 
         [SerializeField] private float moveSpeed = 10f;
         [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
@@ -76,7 +77,7 @@ namespace Finisher.Cameras
             inputY = Input.GetAxis("Mouse Y");
             
             SetUsingAutoCam();
-            if (playerState.Grabbing)
+            if (playerState.IsGrabbing)
             {
                 usingAutoCam = false;
             }
@@ -207,6 +208,21 @@ namespace Finisher.Cameras
         // automatically rotate camera to face player if no input for some time [timeUntilAutoCam]
         private void AutoRotateCamera(float deltaTime)
         {
+
+            if (!followTarget)
+            {
+                return;
+            }
+
+            if (character.CombatTarget)
+            {
+                combatTarget = character.CombatTarget;
+            }
+            if (combatTarget && combatTarget.GetComponent<CharacterState>().Dying)
+            {
+                combatTarget = null;
+            }
+
             // initialise some vars, we'll be modifying these in a moment
             var targetForward = followTarget.forward;
             var targetUp = followTarget.up;
@@ -246,9 +262,9 @@ namespace Finisher.Cameras
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }
-            else if (character.CombatTarget != null)
+            else if (combatTarget != null)
             {
-                Quaternion rotationToTarget = Quaternion.LookRotation(character.CombatTarget.transform.position - transform.position);
+                Quaternion rotationToTarget = Quaternion.LookRotation(combatTarget.transform.position - transform.position);
                 desiredLookRotation = new Quaternion(0, rotationToTarget.y, 0, rotationToTarget.w);
                 desiredTiltRotation = new Quaternion(rotationToTarget.x, 0, 0, rotationToTarget.w);
             }

@@ -46,6 +46,8 @@ namespace Finisher.Characters.Player.Systems
         {
             Instantiate(config.TopHalf, transform.position, transform.rotation);
             Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            Kill();
+            Destroy(gameObject);
             gameObject.SetActive(false);
         }
 

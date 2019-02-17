@@ -1,53 +1,49 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum ManagerState { Waiting, Attacking }
+    public enum ManagerState { Waiting, Attacking, ReturnHome }
 
     public class SquadManager : MonoBehaviour
     {
-        //private Transform target; // target to aim for
+        [SerializeField] private int directAttackers = 1;
+        [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
+        [SerializeField] private int indirectAttackers = 1;
+        [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
+
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
+        private CharacterStateSO playerState;
 
-        public delegate void EnemiesEngage();
-        public event EnemiesEngage OnEnemiesEngage;
-        public void CallWakeUpListeners()
-        {
-            if (OnEnemiesEngage != null)
-            {
-                OnEnemiesEngage();
-            }
-        }
-
-        public delegate void EnemiesDisengage();
-        public event EnemiesDisengage OnEnemiesDisengage;
-        public void CallReturnHomeListeners()
-        {
-            if (OnEnemiesDisengage != null)
-            {
-                OnEnemiesDisengage();
-            }
-        }
-
-        //[SerializeField] GameObject combatTarget = null;
-
-        //AICharacterController character;
+        //public delegate void EnemiesEngage();
+        //public event EnemiesEngage OnEnemiesEngage;
+        //public void CallWakeUpListeners()
+        //{
+        //    if (OnEnemiesEngage != null)
+        //    {
+        //        OnEnemiesEngage();
+        //    }
+        //}
 
         void Start()
         {
-            CurrentManagerState = ManagerState.Waiting;
+            CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
+
+            if (player) {
+                playerState = player.GetComponent<CharacterStateFromSO>().stateSO;
+            }
+
             setEnemies();
         }
 
         private void setEnemies()
         {
-            //enemies = GetComponentsInChildren<EnemyAI>();
             foreach (Transform child in transform)
             {
                 if (child.tag == "Enemy")
@@ -55,18 +51,30 @@ namespace Finisher.Characters.Enemies
                     enemies.Add(child.gameObject);
                 }
             }
-            sortEnemyByDistance();
+            SortEnemiesByDistance();
         }
 
-        void Update()
+        IEnumerator assignEnemyRoles()
         {
-            setEnemiesSubChase();
+            while (player)
+            {
+                setEnemiesSubChase();
+                yield return new WaitForSeconds(1f);
+            }
+        }
+
+        public List<GameObject> GetEnemies()
+        {
+            return enemies;
         }
 
         public void SendWakeUpCallToEnemies()
         {
-            CurrentManagerState = ManagerState.Attacking;
-            CallWakeUpListeners();
+            if (CurrentManagerState != ManagerState.Attacking)
+            {
+                CurrentManagerState = ManagerState.Attacking;
+                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
+            }
         }
         
         public void RemoveEnemy(GameObject enemy)
@@ -76,19 +84,31 @@ namespace Finisher.Characters.Enemies
 
         private void setEnemiesSubChase()
         {
-            sortEnemyByDistance();
-            int x = 0;
+            SortEnemiesByDistance();
+            var directAttackersCount = directAttackers;
+            var indirectAttackersCount = indirectAttackers;
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
-                if (x < 2) { Ai.currentChaseSubstate = ChaseSubState.Direct; }
-                else if (x < 4) { Ai.currentChaseSubstate = ChaseSubState.Arced; }
+                if(Ai is KnightLeaderAI)
+                {
+                    Ai.currentChaseSubstate = ChaseSubState.Surround;
+                    continue;
+                }
+
+                if (directAttackersCount > 0) {
+                    Ai.currentChaseSubstate = ChaseSubState.Direct;
+                    directAttackersCount--;
+                }
+                else if (indirectAttackersCount > 0) {
+                    Ai.currentChaseSubstate = ChaseSubState.Arced;
+                    indirectAttackersCount--;
+                }
                 else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
-                x++;
             }
         }
 
-        private void sortEnemyByDistance()
+        public void SortEnemiesByDistance()
         {
             enemies = enemies.OrderBy(x => Vector2.Distance(player.transform.position, x.transform.position)).ToList();
         }
@@ -97,7 +117,15 @@ namespace Finisher.Characters.Enemies
         {
             if (other.gameObject.tag == "Player")
             {
-                CallReturnHomeListeners();
+                CurrentManagerState = ManagerState.ReturnHome;
+                StopAllCoroutines();
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.tag == "Player")
+            {
                 CurrentManagerState = ManagerState.Waiting;
             }
         }
