@@ -42,22 +42,15 @@ namespace Finisher.Characters.Weapons
             {
                 trailEffect.Play();
                 time = Time.time;
-                if (gameObject.activeSelf)
-                {
-                    StartCoroutine(stopPlayer());
-                }
             }
             else
             {
-                //StartCoroutine(stopPlayer());
+                if (gameObject.activeSelf)
+                {
+                    trailEffect.Stop();
+                }
             }
 
-        }
-
-        IEnumerator stopPlayer()
-        {
-            yield return new WaitForSeconds(.01f);
-            trailEffect.Stop();
         }
 
         public void ToggleSoul(bool enabled)
