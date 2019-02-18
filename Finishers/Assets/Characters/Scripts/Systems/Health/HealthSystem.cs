@@ -5,7 +5,6 @@ using Finisher.UI.Meters;
 
 namespace Finisher.Characters.Systems
 {
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
     public abstract class HealthSystem : MonoBehaviour
     {

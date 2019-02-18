@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Finisher.Characters.Systems
 {
 
-    public enum AttackType { None, LightBlade, HeavyBlade };
+    public enum AttackType { None, LightBlade, HeavyBlade, Special };
     public enum MoveDirection { Forward, Right, Backward, Left };
 
     [DisallowMultipleComponent]
@@ -76,6 +76,10 @@ namespace Finisher.Characters.Systems
                 else if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG))
                 {
                     return AttackType.HeavyBlade;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag("SpecialAttack")) //TODO: make an AnimConstant and note below it is being used the same way heavy attack is
+                {
+                    return AttackType.Special;
                 }
                 return AttackType.None;
             }
@@ -320,7 +324,7 @@ namespace Finisher.Characters.Systems
                 lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
-            else if (CurrentAttackType == AttackType.HeavyBlade)
+            else if (CurrentAttackType == AttackType.HeavyBlade || CurrentAttackType == AttackType.Special)
             {
                 float finisherMeterGain = heavyAttackDamageSystem.FinisherMeterGainAmount;
 
