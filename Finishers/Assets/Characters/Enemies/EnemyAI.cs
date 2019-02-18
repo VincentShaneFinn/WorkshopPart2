@@ -26,7 +26,9 @@ namespace Finisher.Characters.Enemies
 
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-
+        private Vector3 surroundTarget;
+        private float range = 6f; //public surround range just for testing
+        private float angle;
 
         protected AICharacterController character;
         protected CharacterState characterState;
@@ -58,6 +60,15 @@ namespace Finisher.Characters.Enemies
             }
 
             Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
+
+            Vector3 targetDir = transform.position - combatTarget.transform.position;
+            angle = Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg;
+            surroundTarget = combatTarget.transform.position;
+            float X, Z;
+            X = range * Mathf.Cos(angle * Mathf.Deg2Rad);
+            Z = range * Mathf.Sin(angle * Mathf.Deg2Rad);
+            surroundTarget.x += X;
+            surroundTarget.z += Z;
         }
 
         void OnDestroy()
@@ -218,6 +229,24 @@ namespace Finisher.Characters.Enemies
                 character.SetStoppingDistance(6f);
                 surroundMovement();
             }
+        }
+
+        //do the calculation of the circle path around the player
+        //return the position of next move
+        private Vector3 surroundPathfind()
+        {
+            if (angle > 360)
+            {
+                angle -= 360;
+            }
+            surroundTarget = combatTarget.transform.position;
+            float X, Z;
+            X = range * Mathf.Cos(angle * Mathf.Deg2Rad);
+            Z = range * Mathf.Sin(angle * Mathf.Deg2Rad);
+            surroundTarget.x += X;
+            surroundTarget.z += Z;
+
+            return surroundTarget;
         }
 
         private void surroundMovement()
