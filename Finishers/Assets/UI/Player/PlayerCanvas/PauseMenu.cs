@@ -22,7 +22,7 @@ namespace Finisher.UI
             ControlMenuObject.SetActive(false);
             LeftUpperObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
             LeftUpperObject.SetActive(true);
-            LeftLowerObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
+            LeftLowerObject = GetComponent<PlayerUIObjects>().LeftLowerObject;
             LeftLowerObject.SetActive(true);
 
             // Lock or unlock the cursor.
@@ -65,19 +65,35 @@ namespace Finisher.UI
 
         public void ToggleControlMenu()
         {
-            ControlMenuObject.SetActive(true);
-            PauseMenuObject.SetActive(false);
-            LeftUpperObject.SetActive(false);
-            LeftLowerObject.SetActive(false);
+            var controlOpen = GameManager.instance.GamePaused;
+
+            if (controlOpen)
+            {
+                ControlMenuObject.SetActive(true);
+                PauseMenuObject.SetActive(false);
+                LeftUpperObject.SetActive(false);
+                LeftLowerObject.SetActive(false);
+            }
+            else
+            {
+                ControlMenuObject.SetActive(false);
+                PauseMenuObject.SetActive(false);
+                LeftUpperObject.SetActive(true);
+                LeftLowerObject.SetActive(true);
+            }
+
+            PauseMenuObject.SetActive(controlOpen);
+            Cursor.visible = controlOpen;
+
         }
 
-        public void TogglePCControl()
+        public void TogglePrimaryControl()
         {
-            Debug.Log("Pc selected");
+            Debug.Log("Primary controls selected");
         }
-        public void ToggleContollerControl()
+        public void ToggleFinsiherControl()
         {
-            Debug.Log("Controller selected");
+            Debug.Log("Finisher Controls selected");
         }
 
         public void Restart()
