@@ -9,12 +9,21 @@ namespace Finisher.UI
     {
 
         private GameObject PauseMenuObject;
+        private GameObject ControlMenuObject;
+        private GameObject LeftUpperObject;
+        private GameObject LeftLowerObject;
 
         // Start is called before the first frame update
         void Start()
         {
             PauseMenuObject = GetComponent<PlayerUIObjects>().PauseMenuObject;
             PauseMenuObject.SetActive(false);
+            ControlMenuObject = GetComponent<PlayerUIObjects>().ControlMenuObject;
+            ControlMenuObject.SetActive(false);
+            LeftUpperObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
+            LeftUpperObject.SetActive(true);
+            LeftLowerObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
+            LeftLowerObject.SetActive(true);
 
             // Lock or unlock the cursor.
             Cursor.lockState = CursorLockMode.Locked;
@@ -47,10 +56,30 @@ namespace Finisher.UI
             {
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
+                LeftUpperObject.SetActive(true);
+                LeftLowerObject.SetActive(true);
             }
 
             PauseMenuObject.SetActive(paused);
+            ControlMenuObject.SetActive(false);
             Cursor.visible = paused;
+        }
+
+        public void ToggleControlMenu()
+        {
+            ControlMenuObject.SetActive(true);
+            PauseMenuObject.SetActive(false);
+            LeftUpperObject.SetActive(false);
+            LeftLowerObject.SetActive(false);
+        }
+
+        public void TogglePCControl()
+        {
+
+        }
+        public void ToggleContollerControl()
+        {
+
         }
 
         public void Restart()
