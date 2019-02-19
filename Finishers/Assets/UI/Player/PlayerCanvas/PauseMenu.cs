@@ -56,8 +56,6 @@ namespace Finisher.UI
             {
                 Time.timeScale = 1;
                 Cursor.lockState = CursorLockMode.Locked;
-                LeftUpperObject.SetActive(true);
-                LeftLowerObject.SetActive(true);
             }
 
             PauseMenuObject.SetActive(paused);
@@ -75,11 +73,11 @@ namespace Finisher.UI
 
         public void TogglePCControl()
         {
-
+            Debug.Log("Pc selected");
         }
         public void ToggleContollerControl()
         {
-
+            Debug.Log("Controller selected");
         }
 
         public void Restart()
