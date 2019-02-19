@@ -50,7 +50,9 @@ namespace Finisher.Cameras
         private bool usingAutoCam = false;
         float inputX;
         float inputY;
-
+        [SerializeField] float rotationDisabledAngle = 20f;
+        [SerializeField] float rotationReEnableAngle = 3f;
+        bool rotateUntilClose = false;
         #endregion
 
         protected override void Awake()
@@ -75,7 +77,7 @@ namespace Finisher.Cameras
             // Read the user input
             inputX = Input.GetAxis("Mouse X");
             inputY = Input.GetAxis("Mouse Y");
-            
+        
             SetUsingAutoCam();
             if (playerState.IsGrabbing)
             {
@@ -115,14 +117,29 @@ namespace Finisher.Cameras
             {
                 if (countUntilAutoCam >= timeUntilAutoCam) // start using autocam
                 {
-                    ChangeCameraMode(true);
-                    return;
+                    float angleToTarget = 360;
+                    if (playerState.CombatTarget != null)
+                    {
+                        Vector3 relativePos = playerState.CombatTarget.transform.position - transform.position;
+
+                        // the second argument, upwards, defaults to Vector3.up
+                        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+                        angleToTarget = Quaternion.Angle(transform.rotation, rotation);
+                    }
+                    if (!(angleToTarget < rotationDisabledAngle && angleToTarget > rotationDisabledAngle * -1) ||
+                    (rotateUntilClose && !(angleToTarget < rotationReEnableAngle && angleToTarget > rotationReEnableAngle * -1)))
+                    {
+                        ChangeCameraMode(true);
+                        rotateUntilClose = true;
+                        return;
+                    }
                 }
             }
 
             countUntilAutoCam += Time.deltaTime;
 
             ChangeCameraMode(false);
+            rotateUntilClose = false;
         }
 
         private void ChangeCameraMode(bool switchToAutoCam)

@@ -65,12 +65,14 @@ namespace Finisher.Characters.Player.Systems
             if (Input.GetButtonDown(InputNames.LightAttack))
             {
                 LightAttack();
+                characterState.Attacking = true;
             }
             if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
                 if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
                 {
                     HeavyAttack();
+                    characterState.Attacking = true;
                 }
             }
             else
@@ -78,6 +80,7 @@ namespace Finisher.Characters.Player.Systems
                 if (Input.GetButtonDown(InputNames.HeavyAttack))
                 {
                     HeavyAttack();
+                    characterState.Attacking = true;
                 }
             }
         }

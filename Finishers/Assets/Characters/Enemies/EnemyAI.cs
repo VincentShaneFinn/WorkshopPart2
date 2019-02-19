@@ -22,6 +22,9 @@ namespace Finisher.Characters.Enemies
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] protected float attackRadius = 1.5f;
+        public float ArcAngle = 45;
+        [SerializeField] float DIRECT_ENGAGE_DISTANCE = 2.1f;
+
         protected GameObject combatTarget = null;
 
         private Vector3 homeTargetPosition;
@@ -202,6 +205,7 @@ namespace Finisher.Characters.Enemies
 
         protected virtual void pursuePlayer()
         {
+            // resets all variables to default behavior
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
 
@@ -209,14 +213,21 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
-            if (currentChaseSubstate == ChaseSubState.Arced)
-            {
-                character.MovementSpeedMultiplier = .2f;
-            }
-            else if (currentChaseSubstate == ChaseSubState.Surround)
-            {
-                character.SetStoppingDistance(6f);
-                surroundMovement();
+            // modifies behavior based on variables
+            switch(currentChaseSubstate) {
+                case ChaseSubState.Arced:
+                    character.MovementSpeedMultiplier = .9f;
+                    var INDIRECT_ENGAGE_DISTANCE = 10f;
+                    var distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
+                        var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
+                        character.ManuallyMoveCharacter(direction);
+                    }
+                    break;
+                case ChaseSubState.Surround:
+                    character.SetStoppingDistance(6f);
+                    surroundMovement();
+                    break;
             }
         }
 
@@ -224,22 +235,22 @@ namespace Finisher.Characters.Enemies
         {
             if (Input.GetKey(KeyCode.I))
             {
-                character.ManualyMoveCharacter(transform.forward, strafing: true);
+                character.ManuallyMoveCharacter(transform.forward, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.L))
             {
-                character.ManualyMoveCharacter(transform.right, strafing: true);
+                character.ManuallyMoveCharacter(transform.right, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.K))
             {
-                character.ManualyMoveCharacter(-transform.forward, strafing: true);
+                character.ManuallyMoveCharacter(-transform.forward, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
             else if (Input.GetKey(KeyCode.J))
             {
-                character.ManualyMoveCharacter(-transform.right, strafing: true);
+                character.ManuallyMoveCharacter(-transform.right, strafing: true);
                 character.LookAtTarget(combatTarget.transform);
             }
         }
@@ -332,6 +343,19 @@ namespace Finisher.Characters.Enemies
         }
 
         #endregion
+
+        private Vector3 getArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle)
+        {
+
+            var distance = Vector3.Distance(currPos, tarPos);
+            Vector3 midpoint = (currPos + tarPos) / 2f;
+            float x = midpoint.x + (currPos.x - midpoint.x) * Mathf.Cos(arcAngle) - (currPos.z - midpoint.z) * Mathf.Sin(arcAngle);
+            float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
+
+            var moveTarget = new Vector3(x, transform.position.y, z);
+            var moveDirection = moveTarget - transform.position;
+            return moveDirection;
+        }
 
     }
 }
