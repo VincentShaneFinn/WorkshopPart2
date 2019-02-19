@@ -799,7 +799,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3816523488526915844}
-        m_MethodName: TogglePauseMenu
+        m_MethodName: ToggleControlMenuOff
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -927,7 +927,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3816523488526915844}
-        m_MethodName: ToggleControlMenu
+        m_MethodName: ToggleControlMenuOn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1055,7 +1055,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3816523488526915844}
-        m_MethodName: ToggleContollerControl
+        m_MethodName: ToggleFinisherControl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2765,7 +2765,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 3816523488526915844}
-        m_MethodName: TogglePCControl
+        m_MethodName: TogglePrimaryControl
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

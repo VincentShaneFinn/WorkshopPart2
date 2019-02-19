@@ -63,35 +63,30 @@ namespace Finisher.UI
             Cursor.visible = paused;
         }
 
-        public void ToggleControlMenu()
+        public void ToggleControlMenuOn()
         {
-            var controlOpen = GameManager.instance.GamePaused;
+            ControlMenuObject.SetActive(true);
+            PauseMenuObject.SetActive(false);
+            LeftUpperObject.SetActive(false);
+            LeftLowerObject.SetActive(false);
 
-            if (controlOpen)
-            {
-                ControlMenuObject.SetActive(true);
-                PauseMenuObject.SetActive(false);
-                LeftUpperObject.SetActive(false);
-                LeftLowerObject.SetActive(false);
-            }
-            else
-            {
-                ControlMenuObject.SetActive(false);
-                PauseMenuObject.SetActive(false);
-                LeftUpperObject.SetActive(true);
-                LeftLowerObject.SetActive(true);
-            }
+            Cursor.visible = true;
+        }
+        public void ToggleControlMenuOff()
+        {
+            ControlMenuObject.SetActive(false);
+            LeftUpperObject.SetActive(true);
+            LeftLowerObject.SetActive(true);
 
-            PauseMenuObject.SetActive(controlOpen);
-            Cursor.visible = controlOpen;
-
+            Time.timeScale = 1;
+            Cursor.visible = false;
         }
 
         public void TogglePrimaryControl()
         {
             Debug.Log("Primary controls selected");
         }
-        public void ToggleFinsiherControl()
+        public void ToggleFinisherControl()
         {
             Debug.Log("Finisher Controls selected");
         }
