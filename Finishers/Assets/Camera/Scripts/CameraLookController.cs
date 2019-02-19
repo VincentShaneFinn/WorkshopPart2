@@ -71,31 +71,23 @@ namespace Finisher.Cameras
             {
                 return;
             }
-            float angleToTarget = 360;
-            if (playerState.CombatTarget != null)
-            {
-                angleToTarget = Quaternion.Angle(pivot.rotation, playerState.CombatTarget.transform.rotation) - 180;
-            }
-            if (!(angleToTarget < rotationDisabledAngle && angleToTarget > rotationDisabledAngle * -1))
-            {
 
-                // Read the user input
-                inputX = Input.GetAxis("Mouse X");
-                inputY = Input.GetAxis("Mouse Y");
-            
-                SetUsingAutoCam();
-                if (playerState.IsGrabbing)
-                {
-                    usingAutoCam = false;
-                }
-                if (!usingAutoCam)
-                {
-                    HandleRotationMovement();
-                }
-                if (usingAutoCam)
-                {
-                    AutoRotateCamera(Time.deltaTime);
-                }
+            // Read the user input
+            inputX = Input.GetAxis("Mouse X");
+            inputY = Input.GetAxis("Mouse Y");
+        
+            SetUsingAutoCam();
+            if (playerState.IsGrabbing)
+            {
+                usingAutoCam = false;
+            }
+            if (!usingAutoCam)
+            {
+                HandleRotationMovement();
+            }
+            if (usingAutoCam)
+            {
+                AutoRotateCamera(Time.deltaTime);
             }
         }
 
@@ -123,8 +115,16 @@ namespace Finisher.Cameras
             {
                 if (countUntilAutoCam >= timeUntilAutoCam) // start using autocam
                 {
-                    ChangeCameraMode(true);
-                    return;
+                    float angleToTarget = 360;
+                    if (playerState.CombatTarget != null)
+                    {
+                        angleToTarget = Quaternion.Angle(pivot.rotation, playerState.CombatTarget.transform.rotation) - 180;
+                    }
+                    if (!(angleToTarget < rotationDisabledAngle && angleToTarget > rotationDisabledAngle * -1))
+                    {
+                        ChangeCameraMode(true);
+                        return;
+                    }
                 }
             }
 
