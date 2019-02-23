@@ -73,6 +73,7 @@ namespace Finisher.Characters.Enemies
             if (CurrentManagerState != ManagerState.Attacking)
             {
                 CurrentManagerState = ManagerState.Attacking;
+                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
         
@@ -130,6 +131,16 @@ namespace Finisher.Characters.Enemies
             {
                 CurrentManagerState = ManagerState.ReturnHome;
                 StopAllCoroutines();
+                resetEnemiesChaseSubstates();
+            }
+        }
+
+        private void resetEnemiesChaseSubstates()
+        {
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAI Ai = enemy.GetComponent<EnemyAI>();
+                Ai.currentChaseSubstate = ChaseSubState.Direct;
             }
         }
 
@@ -138,7 +149,6 @@ namespace Finisher.Characters.Enemies
             if (other.gameObject.tag == "Player")
             {
                 CurrentManagerState = ManagerState.Waiting;
-                StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
 

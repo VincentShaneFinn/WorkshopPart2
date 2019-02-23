@@ -59,8 +59,8 @@ namespace Finisher.Characters.Systems
             int obstacleLayerMask = 1 << LayerNames.ObstacleLayer;
 
 
-            if (Physics.Raycast(transform.position, fwd, distance, walkableLayerMask) ||
-                Physics.Raycast(transform.position, fwd, distance, obstacleLayerMask) )
+            if (Physics.Raycast(transform.position + Vector3.up, fwd, distance, walkableLayerMask) ||
+                Physics.Raycast(transform.position + Vector3.up, fwd, distance, obstacleLayerMask) )
             {
                 return true;
             }
