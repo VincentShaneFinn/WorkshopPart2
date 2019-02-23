@@ -21,10 +21,10 @@ namespace Finisher.Characters.Systems.Strategies {
             playParticle(targetHealthSytem);
         }
 
-        protected virtual void DealDamage(HealthSystem targetHealthSystem,float damageMultiplier,float bonusDamage)
+        protected virtual void DealDamage(HealthSystem targetHealthSystem, float damageMultiplier, float bonusDamage)
         {
 
-            targetHealthSystem.DamageHealth(baseDamage*damageMultiplier+bonusDamage);
+            targetHealthSystem.DamageHealth(baseDamage*damageMultiplier + bonusDamage, this);
 
         }
 
