@@ -27,9 +27,9 @@ namespace Finisher.Characters.Enemies
             base.Update();
         }
 
-        public void PerformRushAttack()
+        public void PerformRushAttack(bool useFeint)
         {
-            knightCombatSystem.RushAttack(combatTarget.transform);
+            knightCombatSystem.RushAttack(combatTarget.transform, useFeint);
         }
 
     }

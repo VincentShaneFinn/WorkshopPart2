@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Finisher.Characters.Systems;
 using System;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Enemies
 {
@@ -11,6 +12,8 @@ namespace Finisher.Characters.Enemies
     {
 
         [SerializeField] AnimationClip pointClip;
+        [SerializeField] ParticleEvent feingOrder;
+        [SerializeField] Transform orderHand;
         bool startTeamRushThinking = false;
         IEnumerator teamRushCoroutine;
 
@@ -59,7 +62,15 @@ namespace Finisher.Characters.Enemies
                 KnightAI knight = getAIForRushAttack();
                 if (!knight) { yield break; }
                 pointToKnight(knight.transform);
-                knight.PerformRushAttack();
+
+                float fientChance = .4f;
+                bool useFeint = UnityEngine.Random.Range(0, 1f) <= fientChance;
+                if (useFeint)
+                {
+                    feingOrder.Play(orderHand.position, orderHand.rotation);
+                }
+                knight.PerformRushAttack(useFeint);
+
                 enemiesThatRushed.Add(knight);
                 numberOfRushers--;
                 yield return new WaitForSeconds(1.5f);
@@ -74,8 +85,6 @@ namespace Finisher.Characters.Enemies
 
         private KnightAI getAIForRushAttack()
         {
-            if (enemies.Count <= squadManager.DirectAttackers + squadManager.IndirectAttackers) { return null; }
-
             squadManager.SortEnemiesByDistance();
 
             for (int i = enemies.Count - 1; i >= 0; i--)

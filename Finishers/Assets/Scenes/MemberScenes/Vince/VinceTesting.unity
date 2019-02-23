@@ -125,11 +125,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BossEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 882163659345858344, guid: 913eb768011504244b9e9e484c712b83,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7548122116635908273, guid: 913eb768011504244b9e9e484c712b83,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,21 +179,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548122116635908273, guid: 913eb768011504244b9e9e484c712b83,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7548122116635908273, guid: 913eb768011504244b9e9e484c712b83,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 67491212784503597, guid: 913eb768011504244b9e9e484c712b83,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 913eb768011504244b9e9e484c712b83, type: 3}
@@ -1763,6 +1743,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27bf25d336a815e48a45bc76dc790cce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directAttackers: 1
+  indirectAttackers: 2
   CurrentManagerState: 0
 --- !u!65 &1559226950
 BoxCollider:
