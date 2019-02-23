@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Finisher.Characters.Enemies.Systems;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Finisher.Characters.Enemies
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
         private CharacterStateSO playerState;
+        private KnightLeaderAI leader;
 
         //public delegate void EnemiesEngage();
         //public event EnemiesEngage OnEnemiesEngage;
@@ -49,6 +51,11 @@ namespace Finisher.Characters.Enemies
                 if (child.tag == "Enemy")
                 {
                     enemies.Add(child.gameObject);
+                    var knightLeader = child.gameObject.GetComponent<KnightLeaderAI>();
+                    if (knightLeader)
+                    {
+                        leader = knightLeader;
+                    }
                 }
             }
             SortEnemiesByDistance();
@@ -86,6 +93,14 @@ namespace Finisher.Characters.Enemies
         {
             SortEnemiesByDistance();
             var directAttackersCount = directAttackers;
+            if (leader)
+            {
+                var healthSystem = leader.GetComponent<EnemyLeaderHealthSystem>();
+                if (healthSystem && healthSystem.GetHealthAsPercent() <= .3f)
+                {
+                    directAttackersCount++;
+                }
+            }
             var indirectAttackersCount = indirectAttackers;
             foreach (GameObject enemy in enemies)
             {
