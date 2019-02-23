@@ -38,6 +38,12 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger("SpecialAttack");
         }
 
+        private IEnumerator resetSpecialAttackTrigger()
+        {
+            yield return new WaitForSeconds(.5f);
+            animator.ResetTrigger("SpecialAttack");
+        }
+
         public IEnumerator RushingCoroutine()
         {
             yield return null; // need to wait a frame for EnemyAI to shut itself down

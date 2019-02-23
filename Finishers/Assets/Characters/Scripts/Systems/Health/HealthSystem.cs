@@ -2,6 +2,7 @@
 using UnityEngine;
 
 using Finisher.UI.Meters;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Systems
 {
@@ -59,7 +60,7 @@ namespace Finisher.Characters.Systems
 
         #region Change Health
 
-        public virtual void DamageHealth(float damage)
+        public virtual void DamageHealth(float damage, DamageSystem damageSource)
         {
             //Dont deal damage if dodging
             if (characterState.Invulnerable) { return; }

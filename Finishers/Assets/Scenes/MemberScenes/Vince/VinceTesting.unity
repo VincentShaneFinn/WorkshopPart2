@@ -123,7 +123,7 @@ PrefabInstance:
     - target: {fileID: 882163659345858344, guid: 913eb768011504244b9e9e484c712b83,
         type: 3}
       propertyPath: m_Name
-      value: BossEnemy
+      value: Animancer
       objectReference: {fileID: 0}
     - target: {fileID: 7548122116635908273, guid: 913eb768011504244b9e9e484c712b83,
         type: 3}
@@ -1154,6 +1154,10 @@ PrefabInstance:
     - target: {fileID: 1297612759035436, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1297612759035436, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114527653871411836, guid: e21cfa9ed9cef4d48b913d1e16c6bc8e,
         type: 3}
