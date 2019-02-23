@@ -11,6 +11,8 @@ namespace Finisher.Characters.Systems
     {
 
         public bool IsPerformingSpecialAttack;
+        [SerializeField] private float feintTime = .25f;
+        private bool useFeint = false;
 
         AICharacterController character;
         EnemyAI enemyAI;
@@ -29,9 +31,10 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        public void RushAttack(Transform target)
+        public void RushAttack(Transform target, bool feint)
         {
             this.target = target;
+            useFeint = feint;
             animator.SetTrigger("SpecialAttack");
         }
 
@@ -87,6 +90,36 @@ namespace Finisher.Characters.Systems
             ResetRushing();
             IsPerformingSpecialAttack = false;
             StopAllCoroutines();
+        }
+
+        void FientPeriod()
+        {
+            if(useFeint) { 
+                StartCoroutine(fient());
+            }
+        }
+
+        IEnumerator fient()
+        {
+            var count = feintTime;
+
+            while (count > 0)
+            {
+                animator.speed = (float)(count / feintTime) / 4;
+                count -= Time.deltaTime;
+                yield return null;
+            }
+
+            count = feintTime;
+
+            while (count > 0)
+            {
+                animator.speed = (1 - ((float)(count / feintTime) / 4));
+                count -= Time.deltaTime;
+                yield return null;
+            }
+
+            animator.speed = 1f;
         }
 
     }
