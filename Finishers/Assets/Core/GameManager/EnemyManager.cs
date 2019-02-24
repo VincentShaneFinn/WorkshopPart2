@@ -17,6 +17,20 @@ namespace Finisher.Core {
             }
         }
 
+        public bool InCombat
+        {
+            get
+            {
+                if (squadsInCombat.Count > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         List<SquadManager> squadsInCombat = new List<SquadManager>();
 
         public void AddCombatSquad(SquadManager squad)
