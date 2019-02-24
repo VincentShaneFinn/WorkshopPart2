@@ -5,13 +5,15 @@ using Finisher.Core;
 
 namespace Finisher.UI
 {
-    public class PauseMenu : MonoBehaviour
+    public class ControlMenu : MonoBehaviour
     {
 
         private GameObject PauseMenuObject;
         private GameObject ControlMenuObject;
         private GameObject LeftUpperObject;
         private GameObject LeftLowerObject;
+
+        private bool controlMenuOpen;
 
         // Start is called before the first frame update
         void Start()
@@ -24,22 +26,36 @@ namespace Finisher.UI
             LeftUpperObject.SetActive(true);
             LeftLowerObject = GetComponent<PlayerUIObjects>().LeftLowerObject;
             LeftLowerObject.SetActive(true);
-
-            // Lock or unlock the cursor.
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            GameManager.instance.GamePaused = false;
-            Time.timeScale = 1;
+            controlMenuOpen = false;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void ToggleControlMenu()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            controlMenuOpen = !controlMenuOpen;
+
+            if (controlMenuOpen)
             {
-                TogglePauseMenu();
+
+                PauseMenuObject.SetActive(false);
+                LeftUpperObject.SetActive(false);
+                LeftLowerObject.SetActive(false);
             }
+            else
+            {
+                LeftUpperObject.SetActive(true);
+                LeftLowerObject.SetActive(true);
+            }
+
+            ControlMenuObject.SetActive(controlMenuOpen);
+        }
+
+        public void TogglePrimaryControl()
+        {
+            Debug.Log("Primary controls selected");
+        }
+        public void ToggleFinisherControl()
+        {
+            Debug.Log("Finisher Controls selected");
         }
 
         public void TogglePauseMenu()
@@ -59,19 +75,7 @@ namespace Finisher.UI
             }
 
             PauseMenuObject.SetActive(paused);
-            ControlMenuObject.SetActive(false);
             Cursor.visible = paused;
-        }
-
-        public void Restart()
-        {
-            SceneManager.LoadScene(0);
-        }
-
-        public void Quit()
-        {
-            Debug.Log("Quit Game");
-            Application.Quit();
         }
     }
 }
