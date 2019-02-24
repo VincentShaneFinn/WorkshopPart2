@@ -40,6 +40,7 @@ namespace Finisher.Cameras
 
         private PlayerCharacterController character;
         [SerializeField] private CharacterStateSO playerState;
+        private EnemyManager enemyManager;
 
         private float lookAngle;                    // The rig's y axis rotation.
         private float tiltAngle;                    // The pivot's x axis rotation.
@@ -64,6 +65,7 @@ namespace Finisher.Cameras
 	        pivotTargetRot = pivot.transform.localRotation;
 			transformTargetRot = transform.localRotation;
             character = FindObjectOfType<PlayerCharacterController>();
+            enemyManager = FindObjectOfType<EnemyManager>();
         }
 
         protected void Update()
@@ -235,7 +237,8 @@ namespace Finisher.Cameras
             {
                 combatTarget = character.CombatTarget;
             }
-            if (combatTarget && combatTarget.GetComponent<CharacterState>().Dying)
+            if ((combatTarget && combatTarget.GetComponent<CharacterState>().Dying) ||
+                !enemyManager.InCombat)
             {
                 combatTarget = null;
             }
