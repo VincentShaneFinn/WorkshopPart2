@@ -8,10 +8,10 @@ public class KillBox : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-
         if(col.gameObject.tag == TagNames.PlayerTag)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+
 }
