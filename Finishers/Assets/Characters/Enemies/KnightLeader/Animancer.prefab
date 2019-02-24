@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 7943966854874956346}
   - component: {fileID: 4728689035381766452}
   m_Layer: 13
-  m_Name: BossVersion
+  m_Name: Animancer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,9 +838,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f32bcf215356d46b582c68d2076961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
+  config: {fileID: 11400000, guid: 1ca79b7ae7e568d4eb5caad178493a23, type: 2}
   enemyCanvas: {fileID: 5563752524858628117}
-  combatConfig: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
+  hitsUntilRetaliation: 2
+  timeToResetHitsTaken: 2
 --- !u!114 &4728689035381766452
 MonoBehaviour:
   m_ObjectHideFlags: 0
