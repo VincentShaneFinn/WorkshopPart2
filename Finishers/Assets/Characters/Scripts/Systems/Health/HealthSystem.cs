@@ -53,7 +53,10 @@ namespace Finisher.Characters.Systems
 
         protected virtual void Update()
         {
-            IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+            if (!characterState.Dying)
+            {
+                IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+            }
         }
 
         #region Public Interface

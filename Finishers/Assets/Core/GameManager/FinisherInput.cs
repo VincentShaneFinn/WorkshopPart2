@@ -91,27 +91,67 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
+    static float previousHealDPadX = 0;
     //Heal Cheat
     public static bool HealCheat()
     {
         bool rv = false;
+        float DPadX = Input.GetAxis("DPadX");
+        if (DPadX == 1 && previousHealDPadX == 0)
+        {
+            previousHealDPadX = DPadX;
+            return true;
+        }
+        previousHealDPadX = DPadX;
         rv = Input.GetKeyDown(KeyCode.Alpha3);
         return rv;
     }
 
+    static float previousFinisherDPadX = 0;
     //Finisher Meter Cheat
     public static bool FinisherMeterCheat()
     {
         bool rv = false;
+        float DPadX = Input.GetAxis("DPadX");
+        if (DPadX == -1 && previousFinisherDPadX == 0)
+        {
+            previousFinisherDPadX = DPadX;
+            return true;
+        }
+        previousFinisherDPadX = DPadX;
         rv = Input.GetKeyDown(KeyCode.Alpha1);
         return rv;
     }
 
+    static float previousvolDPadY = 0;
     //Volatility Cheat
     public static bool VolatilityCheat()
     {
         bool rv = false;
+        float DPadY = Input.GetAxis("DPadY");
+        if (DPadY == 1 && previousvolDPadY == 0)
+        {
+            previousvolDPadY = DPadY;
+            return true;
+        }
+        previousvolDPadY = DPadY;
         rv = Input.GetKeyDown(KeyCode.Alpha2);
+        return rv;
+    }
+
+    static float previousinvDPadY = 0;
+    //Invulnerability Cheat
+    public static bool InvulnerabilityCheat()
+    {
+        bool rv = false;
+        float DPadY = Input.GetAxisRaw("DPadY");
+        if (DPadY == -1 && previousinvDPadY == 0)
+        {
+            previousinvDPadY = DPadY;
+            return true;
+        }
+        previousinvDPadY = DPadY;
+        rv = Input.GetKeyDown(KeyCode.I);
         return rv;
     }
 

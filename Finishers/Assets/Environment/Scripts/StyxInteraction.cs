@@ -24,7 +24,10 @@ public class StyxInteraction : MonoBehaviour
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(pickupItem());
             interactable = false;
-            vialUI.GetComponent<Image>().sprite = fullVial;
+            if (vialUI != null)
+            {
+                vialUI.GetComponent<Image>().sprite = fullVial;
+            }
         }
     }
 

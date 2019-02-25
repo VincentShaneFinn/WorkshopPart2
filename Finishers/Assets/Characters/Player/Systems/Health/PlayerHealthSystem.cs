@@ -25,13 +25,13 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        //public override void DamageHealth(float damage, DamageSystem damageSource)
-        //{
-        //    if (GetHealthAsPercent() > .20)
-        //    {
-        //        base.DamageHealth(damage);
-        //    }
-        //}
+        /*public override void DamageHealth(float damage, DamageSystem damageSource)
+        {
+            if (GetHealthAsPercent() > .20)
+            {
+                base.DamageHealth(damage, damageSource);
+            }
+        }*/
 
         private void setPlayerHealthSlider()
         {
