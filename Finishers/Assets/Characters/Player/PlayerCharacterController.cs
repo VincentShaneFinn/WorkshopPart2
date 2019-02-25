@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Finisher.Characters.Player
 {
@@ -67,6 +68,10 @@ namespace Finisher.Characters.Player
             Strafing = true;
             playerIP = GetComponent<PlayerMoveInputProcessor>();
             camRig = GetMainCameraTransform();
+            if (characterState.spawnConfig == null)
+            {
+                characterState.spawnConfig = new SpawnConfig(transform);
+            }
         }
 
         void Update()
@@ -74,6 +79,11 @@ namespace Finisher.Characters.Player
             SetCurrentCombatTarget();
             UpdateCombatTargetIndicator();
             SetCharacterRotation();
+
+            if (characterState.Dying && Input.anyKey || Input.GetKeyDown(KeyCode.Y))
+            {
+                characterState.spawnConfig.runConfig();
+            }
         }
 
         #region SetCombatTarget
