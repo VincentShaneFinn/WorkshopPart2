@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 using Finisher.Core;
 
@@ -14,6 +15,9 @@ namespace Finisher.UI
         private GameObject LeftLowerObject;
 
         private bool controlMenuOpen;
+
+        public GameObject ControlMenuPrimary;
+        public GameObject ControlMenuFinisher;
 
         // Start is called before the first frame update
         void Start()
@@ -35,7 +39,6 @@ namespace Finisher.UI
 
             if (controlMenuOpen)
             {
-
                 PauseMenuObject.SetActive(false);
                 LeftUpperObject.SetActive(false);
                 LeftLowerObject.SetActive(false);
@@ -51,31 +54,14 @@ namespace Finisher.UI
 
         public void TogglePrimaryControl()
         {
-            Debug.Log("Primary controls selected");
+            ControlMenuPrimary.SetActive(true);
+            ControlMenuFinisher.SetActive(false);
         }
         public void ToggleFinisherControl()
         {
-            Debug.Log("Finisher Controls selected");
-        }
+        ControlMenuPrimary.SetActive(false);
+        ControlMenuFinisher.SetActive(true);
+}
 
-        public void TogglePauseMenu()
-        {
-            var paused = !GameManager.instance.GamePaused;
-            GameManager.instance.GamePaused = paused;
-
-            if (paused)
-            {
-                Time.timeScale = 0;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Time.timeScale = 1;
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-
-            PauseMenuObject.SetActive(paused);
-            Cursor.visible = paused;
-        }
     }
 }
