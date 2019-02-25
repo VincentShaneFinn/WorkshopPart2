@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,7 +19,6 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        private float timer;
 
         protected override void Start()
         {
@@ -66,11 +65,13 @@ namespace Finisher.Characters.Player.Systems
             if (FinisherInput.LightAttack())
             {
                 LightAttack();
+                characterState.Attacking = true;
             }
 
             if (FinisherInput.HeavyAttack())
             {
                 HeavyAttack();
+                    characterState.Attacking = true;
             }
         }
 

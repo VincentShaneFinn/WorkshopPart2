@@ -1,4 +1,5 @@
 ﻿using Finisher.Characters.Systems;
+using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
 using UnityEngine;
 
@@ -24,13 +25,13 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void DamageHealth(float damage)
-        {
-            if (GetHealthAsPercent() > .20)
-            {
-                base.DamageHealth(damage);
-            }
-        }
+        //public override void DamageHealth(float damage, DamageSystem damageSource)
+        //{
+        //    if (GetHealthAsPercent() > .20)
+        //    {
+        //        base.DamageHealth(damage);
+        //    }
+        //}
 
         private void setPlayerHealthSlider()
         {
