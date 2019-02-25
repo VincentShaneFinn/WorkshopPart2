@@ -29,9 +29,7 @@ namespace Finisher.Characters.Enemies
 
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-        private Vector3 surroundTarget;
         private float range = 10f; //public surround range just for testing
-        private float angle;
         private bool isSurrounding = false;
         private bool surroundRight = true;
         private float surroundSpeed = 1f;
@@ -66,10 +64,6 @@ namespace Finisher.Characters.Enemies
             }
 
             Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
-
-            Vector3 targetDir = transform.position - combatTarget.transform.position;
-            angle = Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg;
-            surroundTarget = surroundPathfind();
         }
 
         void OnDestroy()
@@ -222,19 +216,20 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
+            float distance;
             // modifies behavior based on variables
-            switch(currentChaseSubstate) {
+            switch (currentChaseSubstate) {
                 case ChaseSubState.Arced:
                     character.MovementSpeedMultiplier = .9f;
                     var INDIRECT_ENGAGE_DISTANCE = 10f;
-                    var distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    distance = Vector3.Distance(transform.position, combatTarget.transform.position);
                     if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
                         var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
                         character.ManuallyMoveCharacter(direction);
                     }
                     break;
                 case ChaseSubState.Surround:
-                    float distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
+                    distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
 
                     if(distance > 8f)
                     {
@@ -322,7 +317,7 @@ namespace Finisher.Characters.Enemies
             Vector3 moveDirection = transform.right * moveXDirection + forwardMovement;
 
 
-            character.ManualyMoveCharacter(moveDirection, strafing: true);
+            character.ManuallyMoveCharacter(moveDirection, strafing: true);
             character.LookAtTarget(combatTarget.transform);
             character.MovementSpeedMultiplier = surroundSpeed;
         }
