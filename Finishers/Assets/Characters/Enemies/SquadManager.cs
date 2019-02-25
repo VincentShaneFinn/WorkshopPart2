@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Finisher.Characters.Enemies.Systems;
+using Finisher.Core;
+
 namespace Finisher.Characters.Enemies
 {
     public enum ManagerState { Waiting, Attacking, ReturnHome }
@@ -12,13 +15,15 @@ namespace Finisher.Characters.Enemies
     {
         [SerializeField] private int directAttackers = 1;
         [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
-        [SerializeField] private int indirectAttackers = 1;
+        [SerializeField] private int indirectAttackers = 2;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
+        private EnemyManager enemyManager;
         private CharacterStateSO playerState;
+        private KnightLeaderAI leader;
 
         //public delegate void EnemiesEngage();
         //public event EnemiesEngage OnEnemiesEngage;
@@ -38,6 +43,7 @@ namespace Finisher.Characters.Enemies
             if (player) {
                 playerState = player.GetComponent<CharacterStateFromSO>().stateSO;
             }
+            enemyManager = FindObjectOfType<EnemyManager>();
 
             setEnemies();
         }
@@ -49,6 +55,11 @@ namespace Finisher.Characters.Enemies
                 if (child.tag == "Enemy")
                 {
                     enemies.Add(child.gameObject);
+                    var knightLeader = child.gameObject.GetComponent<KnightLeaderAI>();
+                    if (knightLeader)
+                    {
+                        leader = knightLeader;
+                    }
                 }
             }
             SortEnemiesByDistance();
@@ -59,7 +70,7 @@ namespace Finisher.Characters.Enemies
             while (player)
             {
                 setEnemiesSubChase();
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -73,6 +84,7 @@ namespace Finisher.Characters.Enemies
             if (CurrentManagerState != ManagerState.Attacking)
             {
                 CurrentManagerState = ManagerState.Attacking;
+                enemyManager.AddCombatSquad(this);
                 StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
@@ -80,12 +92,24 @@ namespace Finisher.Characters.Enemies
         public void RemoveEnemy(GameObject enemy)
         {
             enemies.Remove(enemy);
+            if(enemies.Count <= 0)
+            {
+                enemyManager.RemoveCombatSquad(this);
+            }
         }
 
         private void setEnemiesSubChase()
         {
             SortEnemiesByDistance();
             var directAttackersCount = directAttackers;
+            if (leader)
+            {
+                var healthSystem = leader.GetComponent<EnemyLeaderHealthSystem>();
+                if (healthSystem && healthSystem.GetHealthAsPercent() <= .3f)
+                {
+                    directAttackersCount++;
+                }
+            }
             var indirectAttackersCount = indirectAttackers;
             foreach (GameObject enemy in enemies)
             {
@@ -101,6 +125,18 @@ namespace Finisher.Characters.Enemies
                     directAttackersCount--;
                 }
                 else if (indirectAttackersCount > 0) {
+                    if (Ai.currentChaseSubstate != ChaseSubState.Arced)
+                    {
+                        var positive = UnityEngine.Random.value > 0.5f;
+                        if (positive)
+                        {
+                            Ai.ArcAngle = UnityEngine.Random.Range(40, 50);
+                        }
+                        else
+                        {
+                            Ai.ArcAngle = UnityEngine.Random.Range(-50, -40);
+                        }
+                    }
                     Ai.currentChaseSubstate = ChaseSubState.Arced;
                     indirectAttackersCount--;
                 }
@@ -119,6 +155,17 @@ namespace Finisher.Characters.Enemies
             {
                 CurrentManagerState = ManagerState.ReturnHome;
                 StopAllCoroutines();
+                resetEnemiesChaseSubstates();
+                enemyManager.RemoveCombatSquad(this);
+            }
+        }
+
+        private void resetEnemiesChaseSubstates()
+        {
+            foreach (GameObject enemy in enemies)
+            {
+                EnemyAI Ai = enemy.GetComponent<EnemyAI>();
+                Ai.currentChaseSubstate = ChaseSubState.Direct;
             }
         }
 

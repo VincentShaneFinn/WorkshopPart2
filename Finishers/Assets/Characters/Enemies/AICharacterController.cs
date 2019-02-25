@@ -94,7 +94,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void ManualyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
+        public void ManuallyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
         {
             if (CanMove)
             {
@@ -135,7 +135,7 @@ namespace Finisher.Characters.Enemies
                 agent.SetDestination(transform.position);
                 MoveCharacter(Vector3.zero);
             }
-            
+
         }
 
         private void StationaryLookAt()

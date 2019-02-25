@@ -22,6 +22,9 @@ namespace Finisher.Characters.Enemies
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] protected float attackRadius = 1.5f;
+        public float ArcAngle = 45;
+        [SerializeField] float DIRECT_ENGAGE_DISTANCE = 2.1f;
+
         protected GameObject combatTarget = null;
 
         private Vector3 homeTargetPosition;
@@ -211,6 +214,7 @@ namespace Finisher.Characters.Enemies
 
         protected virtual void pursuePlayer()
         {
+            // resets all variables to default behavior
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
 
@@ -218,50 +222,39 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
-            if (currentChaseSubstate == ChaseSubState.Arced)
-            {
-                character.MovementSpeedMultiplier = .2f;
-            }
-            else if (currentChaseSubstate == ChaseSubState.Surround)
-            {
-                float distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
-
-                if(distance > 8f)
-                {
-                    isSurrounding = false;
-                }
-                else if (distance <= 6f)
-                {
-                    if(!isSurrounding)
-                    {
-                        surroundRight = UnityEngine.Random.Range(0, 2) == 0;
-                        surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
+            // modifies behavior based on variables
+            switch(currentChaseSubstate) {
+                case ChaseSubState.Arced:
+                    character.MovementSpeedMultiplier = .9f;
+                    var INDIRECT_ENGAGE_DISTANCE = 10f;
+                    var distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
+                        var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
+                        character.ManuallyMoveCharacter(direction);
                     }
-                    isSurrounding = true;
-                }
-                if (isSurrounding)
-                {
-                    surroundMovement(distance);
-                }
-            }
-        }
+                    break;
+                case ChaseSubState.Surround:
+                    float distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
 
-        //do the calculation of the circle path around the player
-        //return the position of next move
-        private Vector3 surroundPathfind()
-        {
-            surroundTarget = combatTarget.transform.position;
-            if (angle > 360)
-            {
-                angle -= 360;
+                    if(distance > 8f)
+                    {
+                        isSurrounding = false;
+                    }
+                    else if (distance <= 6f)
+                    {
+                        if(!isSurrounding)
+                        {
+                            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
+                            surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
+                        }
+                        isSurrounding = true;
+                    }
+                    if (isSurrounding)
+                    {
+                        surroundMovement(distance);
+                    }
+                    break;
             }
-            float X, Z;
-            X = range * Mathf.Cos(angle * Mathf.Deg2Rad);
-            Z = range * Mathf.Sin(angle * Mathf.Deg2Rad);
-            surroundTarget.x += X;
-            surroundTarget.z += Z;
-
-            return surroundTarget;
         }
 
         private void surroundMovement(float distance)
@@ -422,6 +415,19 @@ namespace Finisher.Characters.Enemies
         }
 
         #endregion
+
+        private Vector3 getArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle)
+        {
+
+            var distance = Vector3.Distance(currPos, tarPos);
+            Vector3 midpoint = (currPos + tarPos) / 2f;
+            float x = midpoint.x + (currPos.x - midpoint.x) * Mathf.Cos(arcAngle) - (currPos.z - midpoint.z) * Mathf.Sin(arcAngle);
+            float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
+
+            var moveTarget = new Vector3(x, transform.position.y, z);
+            var moveDirection = moveTarget - transform.position;
+            return moveDirection;
+        }
 
     }
 }

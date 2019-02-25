@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 using Finisher.Characters.Systems;
 using System;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Enemies
 {
@@ -11,7 +12,11 @@ namespace Finisher.Characters.Enemies
     {
 
         [SerializeField] AnimationClip pointClip;
+        [SerializeField] ParticleEvent feingOrder;
+        [SerializeField] Transform orderHand;
         bool startTeamRushThinking = false;
+        enum SpecialMoveState { Null, RushAttack, Retaliation }
+        SpecialMoveState currentSpecialMoveState;
         IEnumerator teamRushCoroutine;
 
         protected override void pursuePlayer()
@@ -50,32 +55,47 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator teamRushAttackSequence()
         {
+            if(currentSpecialMoveState != SpecialMoveState.Null) { yield break; }
+            else { currentSpecialMoveState = SpecialMoveState.RushAttack; }
+
             enemiesThatRushed = new List<KnightAI>();
 
             int numberOfRushers = 3;
 
             while (numberOfRushers > 0)
             {
-                KnightAI knight = getAIForRushAttack();
+                KnightAI knight = getAIForRushAttack(enemiesThatRushed);
                 if (!knight) { yield break; }
                 pointToKnight(knight.transform);
-                knight.PerformRushAttack();
+
+                float fientChance = .4f;
+                bool useFeint = UnityEngine.Random.Range(0, 1f) <= fientChance;
+                if (useFeint)
+                {
+                    feingOrder.Play(orderHand.position, orderHand.rotation);
+                }
+                knight.PerformRushAttack(useFeint);
+
                 enemiesThatRushed.Add(knight);
                 numberOfRushers--;
                 yield return new WaitForSeconds(1.5f);
             }
+
+            //Finally
+            currentSpecialMoveState = SpecialMoveState.Null;
         }
 
         private void pointToKnight(Transform knight)
         {
             animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, pointClip);
-            character.LookAtTarget(knight, pointClip.length);
+            if (knight)
+            {
+                character.LookAtTarget(knight, pointClip.length);
+            }
         }
 
-        private KnightAI getAIForRushAttack()
+        private KnightAI getAIForRushAttack(List<KnightAI> alreadyRushedList)
         {
-            if (enemies.Count <= squadManager.DirectAttackers + squadManager.IndirectAttackers) { return null; }
-
             squadManager.SortEnemiesByDistance();
 
             for (int i = enemies.Count - 1; i >= 0; i--)
@@ -83,7 +103,7 @@ namespace Finisher.Characters.Enemies
                 var knight = enemies[i].GetComponent<KnightAI>();
                 if (knight)
                 {
-                    if (enemiesThatRushed.Contains(knight) || noClearPathToTarget(knight.gameObject,combatTarget))
+                    if (alreadyRushedList.Contains(knight) || noClearPathToTarget(knight.gameObject,combatTarget))
                     {
                         continue;
                     }
@@ -91,6 +111,33 @@ namespace Finisher.Characters.Enemies
                 }
             }
             return null;
+        }
+
+        public void RetaliationRushAttackOrder()
+        {
+            if(currentSpecialMoveState != SpecialMoveState.Null) { return; }
+
+            var tempEnemyList = new List<KnightAI>();
+
+            int numberOfRushers = 2;
+            while (numberOfRushers > 0)
+            {
+                KnightAI knight = getAIForRushAttack(tempEnemyList);
+                if (!knight) { break; }
+
+                float fientChance = .4f;
+                bool useFeint = UnityEngine.Random.Range(0, 1f) <= fientChance;
+                if (useFeint)
+                {
+                    feingOrder.Play(orderHand.position, orderHand.rotation);
+                }
+                knight.PerformRushAttack(useFeint);
+
+                tempEnemyList.Add(knight);
+                numberOfRushers--;
+            }
+
+            pointToKnight(null);
         }
 
         private bool noClearPathToTarget(GameObject knight, GameObject combatTarget)
