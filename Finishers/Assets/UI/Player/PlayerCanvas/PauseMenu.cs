@@ -63,34 +63,6 @@ namespace Finisher.UI
             Cursor.visible = paused;
         }
 
-        public void ToggleControlMenuOn()
-        {
-            ControlMenuObject.SetActive(true);
-            PauseMenuObject.SetActive(false);
-            LeftUpperObject.SetActive(false);
-            LeftLowerObject.SetActive(false);
-
-            Cursor.visible = true;
-        }
-        public void ToggleControlMenuOff()
-        {
-            ControlMenuObject.SetActive(false);
-            LeftUpperObject.SetActive(true);
-            LeftLowerObject.SetActive(true);
-
-            Time.timeScale = 1;
-            Cursor.visible = false;
-        }
-
-        public void TogglePrimaryControl()
-        {
-            Debug.Log("Primary controls selected");
-        }
-        public void ToggleFinisherControl()
-        {
-            Debug.Log("Finisher Controls selected");
-        }
-
         public void Restart()
         {
             SceneManager.LoadScene(0);
