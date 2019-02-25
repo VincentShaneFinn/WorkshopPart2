@@ -29,7 +29,9 @@ namespace Finisher.Characters.Enemies
         private Vector3 surroundTarget;
         private float range = 10f; //public surround range just for testing
         private float angle;
-        private int sur_direction = 0;
+        private bool isSurrounding = false;
+        private bool surroundRight = true;
+        private float surroundSpeed = 1f;
 
         protected AICharacterController character;
         protected CharacterState characterState;
@@ -222,11 +224,24 @@ namespace Finisher.Characters.Enemies
             }
             else if (currentChaseSubstate == ChaseSubState.Surround)
             {
-                float distan = Vector3.Distance(combatTarget.transform.position, this.transform.position);
+                float distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
 
-                if (distan <= 6f)
+                if(distance > 8f)
                 {
-                    surroundMovement();
+                    isSurrounding = false;
+                }
+                else if (distance <= 6f)
+                {
+                    if(!isSurrounding)
+                    {
+                        surroundRight = UnityEngine.Random.Range(0, 2) == 0;
+                        surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
+                    }
+                    isSurrounding = true;
+                }
+                if (isSurrounding)
+                {
+                    surroundMovement(distance);
                 }
             }
         }
@@ -249,66 +264,74 @@ namespace Finisher.Characters.Enemies
             return surroundTarget;
         }
 
-        private void surroundMovement()
+        private void surroundMovement(float distance)
         {
-            if (sur_direction == 0)
+            var moveXDirection = 1;
+            if (!surroundRight)
             {
-                if (UnityEngine.Random.Range(0, 2) == 0)
-                {
-                    sur_direction = -1;
-                }
-                else
-                {
-                    sur_direction = 1;
-                }
-            }
-            Collider[] C = Physics.OverlapSphere(transform.position, 2.50f);
-            foreach (Collider col in C)
-            {
-                if (col.tag.Equals("Enemy"))
-                {
-                    if (!col.transform.Equals(transform))
-                    {   
-                        Vector3 targetDir = transform.position - col.transform.position;
-                        if ((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg > 180 && sur_direction == 1)
-                            ||(Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg < 180 && sur_direction == -1))
-                        {
-                            character.MovementSpeedMultiplier = .3f;
-                        }
-                        //this part have a problem
-                        if (Vector3.Distance(col.transform.position, this.transform.position) < 1f)
-                        {
-                            sur_direction = sur_direction * -1;
-                        }
-                    }
-                }
-
+                moveXDirection = -1;
             }
 
-            character.ManualyMoveCharacter(transform.right * sur_direction, strafing: true);
+            #region Keep Away From each other, needs work
+            //bool enemyLeft = false;
+            //bool enemyRight = false;
+            //Collider[] C = Physics.OverlapSphere(transform.position, 2.50f);
+            //foreach (Collider col in C)
+            //{
+            //    if (col.tag.Equals("Enemy"))
+            //    {
+            //        if (!col.transform.Equals(transform))
+            //        {
+            //            Vector3 targetDir = transform.position - col.transform.position;
+            //            if ((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg > 180 && moveXDirection == -1))
+            //            {
+            //                //character.MovementSpeedMultiplier = .3f;
+            //                enemyLeft = true;
+            //            }
+            //            if((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg < 180 && moveXDirection == 1))
+            //            {
+            //                enemyRight = true;
+            //            }
+            //            //this part have a problem
+            //            if (Vector3.Distance(col.transform.position, this.transform.position) < .2f)
+            //            { 
+            //                if(!(enemyLeft && enemyRight))
+            //                {
+            //                    if (enemyLeft && !enemyRight)
+            //                    {
+            //                        moveXDirection = -1;
+            //                    }
+            //                    else if (enemyRight && !enemyLeft)
+            //                    {
+            //                        moveXDirection = 1;
+            //                    }
+            //                    else
+            //                    {
+            //                        moveXDirection = 0;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //}
+            #endregion
+
+            Vector3 forwardMovement = Vector3.zero;
+            if(distance < 6.75)
+            {
+                forwardMovement = -transform.forward;
+            }
+            else if (distance > 7.25)
+            {
+                forwardMovement = transform.forward;
+            }
+            Vector3 moveDirection = transform.right * moveXDirection + forwardMovement;
+
+
+            character.ManualyMoveCharacter(moveDirection, strafing: true);
             character.LookAtTarget(combatTarget.transform);
-            /*
-            if (Input.GetKey(KeyCode.I))
-            {
-                character.ManualyMoveCharacter(transform.forward, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
-            }
-            else if (Input.GetKey(KeyCode.L))
-            {
-                character.ManualyMoveCharacter(transform.right, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
-            }
-            else if (Input.GetKey(KeyCode.K))
-            {
-                character.ManualyMoveCharacter(-transform.forward, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
-            }
-            else if (Input.GetKey(KeyCode.J))
-            {
-                character.ManualyMoveCharacter(-transform.right, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
-            }*/
-
+            character.MovementSpeedMultiplier = surroundSpeed;
         }
 
         protected virtual void attackPlayer()
