@@ -6,9 +6,10 @@ using UnityEngine;
 public class collisionBreak : MonoBehaviour
 {
     // Start is called before the first frame update
+    private HealthSystem c = null;
     void Start()
     {
-        HealthSystem c=null;
+        c=null;
         Transform t=transform;
         while (c == null && t.parent != null) {
             c=t.gameObject.GetComponentInParent<HealthSystem>();
@@ -30,6 +31,7 @@ public class collisionBreak : MonoBehaviour
         GameObject g= Instantiate(gameObject,transform.position,transform.rotation);
         g.transform.SetParent(null);
         g.AddComponent<Rigidbody>();
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        c.OnDamageTaken -= detach;
     }
 }
