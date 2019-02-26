@@ -10,8 +10,10 @@ namespace Finisher.Characters
     public class CharacterState : MonoBehaviour
     {
         [HideInInspector] private Animator animator;
-
+        
         private AnimOverrideSetter animOverrideHandler;
+
+        public SpawnConfig spawnConfig;
 
         void Awake()
         {
