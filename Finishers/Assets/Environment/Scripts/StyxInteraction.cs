@@ -19,12 +19,15 @@ public class StyxInteraction : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetButton("Interact") && interactable)
+        if (FinisherInput.Interact() && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(pickupItem());
             interactable = false;
-            vialUI.GetComponent<Image>().sprite = fullVial;
+            if (vialUI != null)
+            {
+                vialUI.GetComponent<Image>().sprite = fullVial;
+            }
         }
     }
 

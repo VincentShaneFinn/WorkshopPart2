@@ -36,7 +36,7 @@ namespace Finisher.UI
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (FinisherInput.Pause())
             {
                 TogglePauseMenu();
             }

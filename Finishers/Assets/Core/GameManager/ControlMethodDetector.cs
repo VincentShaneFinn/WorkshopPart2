@@ -6,41 +6,23 @@ public class ControlMethodDetector : MonoBehaviour {
 
     private static ControlType currentControlType; public static ControlType GetCurrentControlType() { return currentControlType; }
 
-    private int Xbox_One_Controller = 0;
-    private int PS4_Controller = 0;
-
     void Update()
     {
         string[] names = Input.GetJoystickNames();
-        PS4_Controller = 0;
-        Xbox_One_Controller = 0;
         for (int x = 0; x < names.Length; x++)
         {
             if (names[x].Length == 19)
             {
-                PS4_Controller = 1;
-                Xbox_One_Controller = 0;
+                currentControlType = ControlType.PS4;
             }
-            if (names[x].Length == 33)
+            else if (names[x].Length == 33)
             {
-                //set a controller bool to true
-                PS4_Controller = 0;
-                Xbox_One_Controller = 1;
-
+                currentControlType = ControlType.Xbox;
             }
-        }
-
-        if (Xbox_One_Controller == 1)
-        {
-            currentControlType = ControlType.Xbox;
-        }
-        else if (PS4_Controller == 1)
-        {
-            currentControlType = ControlType.PS4;
-        }
-        else
-        {
-            currentControlType = ControlType.PC; 
+            else
+            {
+                currentControlType = ControlType.PC;
+            }
         }
     }
 }

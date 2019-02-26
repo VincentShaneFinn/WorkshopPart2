@@ -19,19 +19,19 @@ namespace Finisher.Characters.Player.Systems
         protected override void Update()
         {
             base.Update();
-            if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
+            if (FinisherInput.HealCheat() && !characterState.Dying)
             {
                 IncreaseHealth(config.MaxHealth);
             }
         }
 
-        //public override void DamageHealth(float damage, DamageSystem damageSource)
-        //{
-        //    if (GetHealthAsPercent() > .20)
-        //    {
-        //        base.DamageHealth(damage);
-        //    }
-        //}
+        /*public override void DamageHealth(float damage, DamageSystem damageSource)
+        {
+            if (GetHealthAsPercent() > .20)
+            {
+                base.DamageHealth(damage, damageSource);
+            }
+        }*/
 
         private void setPlayerHealthSlider()
         {
