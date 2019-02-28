@@ -2019,6 +2019,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
   IsParryFrame: 0
+  invulnerableCheat: 0
   stateSO: {fileID: 11400000, guid: 43b93ce2e35466f48ad78dcc698b5479, type: 2}
 --- !u!114 &4940009788626016722
 MonoBehaviour:
@@ -2334,6 +2335,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.63586
+      objectReference: {fileID: 0}
+    - target: {fileID: 877261307200454203, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 877261307200454203, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 877261307200454203, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 1.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
