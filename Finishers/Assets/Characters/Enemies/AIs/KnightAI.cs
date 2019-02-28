@@ -7,6 +7,9 @@ namespace Finisher.Characters.Enemies
 {
     public class KnightAI : EnemyAI
     {
+        private bool useRushAttack = false;
+        private bool tempinvokedSetup = false;
+
         KnightCombatSystem knightCombatSystem;
 
         protected override void Start()
@@ -14,6 +17,12 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             knightCombatSystem = GetComponent<KnightCombatSystem>();
+        }
+
+        private void setContext()
+        {
+            useRushAttack = true;
+            tempinvokedSetup = false;
         }
 
         protected override void Update()
@@ -25,11 +34,30 @@ namespace Finisher.Characters.Enemies
             }
 
             base.Update();
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                //Invoke("test", Random.Range(3,5));
+                test();
+            }
         }
 
-        public void PerformRushAttack(bool useFeint)
+        private void test()
         {
-            knightCombatSystem.RushAttack(combatTarget.transform, useFeint);
+            knightCombatSystem.RushAttack(combatTarget.transform);
+        }
+
+        protected override void attackPlayer()
+        {
+            if (useRushAttack)
+            {
+                useRushAttack = false;
+                knightCombatSystem.RushAttack(combatTarget.transform);
+            }
+            else
+            {
+                base.attackPlayer();
+            }
         }
 
     }

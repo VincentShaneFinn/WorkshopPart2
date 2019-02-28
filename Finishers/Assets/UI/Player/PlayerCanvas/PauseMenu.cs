@@ -9,21 +9,12 @@ namespace Finisher.UI
     {
 
         private GameObject PauseMenuObject;
-        private GameObject ControlMenuObject;
-        private GameObject LeftUpperObject;
-        private GameObject LeftLowerObject;
 
         // Start is called before the first frame update
         void Start()
         {
             PauseMenuObject = GetComponent<PlayerUIObjects>().PauseMenuObject;
             PauseMenuObject.SetActive(false);
-            ControlMenuObject = GetComponent<PlayerUIObjects>().ControlMenuObject;
-            ControlMenuObject.SetActive(false);
-            LeftUpperObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
-            LeftUpperObject.SetActive(true);
-            LeftLowerObject = GetComponent<PlayerUIObjects>().LeftLowerObject;
-            LeftLowerObject.SetActive(true);
 
             // Lock or unlock the cursor.
             Cursor.lockState = CursorLockMode.Locked;
@@ -36,7 +27,7 @@ namespace Finisher.UI
         // Update is called once per frame
         void Update()
         {
-            if (FinisherInput.Pause())
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
                 TogglePauseMenu();
             }
@@ -59,7 +50,6 @@ namespace Finisher.UI
             }
 
             PauseMenuObject.SetActive(paused);
-            ControlMenuObject.SetActive(false);
             Cursor.visible = paused;
         }
 

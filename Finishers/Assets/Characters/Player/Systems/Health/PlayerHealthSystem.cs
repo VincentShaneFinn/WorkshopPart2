@@ -1,5 +1,4 @@
 ﻿using Finisher.Characters.Systems;
-using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
 using UnityEngine;
 
@@ -19,19 +18,19 @@ namespace Finisher.Characters.Player.Systems
         protected override void Update()
         {
             base.Update();
-            if (FinisherInput.HealCheat() && !characterState.Dying)
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !characterState.Dying)
             {
                 IncreaseHealth(config.MaxHealth);
             }
         }
 
-        /*public override void DamageHealth(float damage, DamageSystem damageSource)
+        public override void DamageHealth(float damage)
         {
             if (GetHealthAsPercent() > .20)
             {
-                base.DamageHealth(damage, damageSource);
+                base.DamageHealth(damage);
             }
-        }*/
+        }
 
         private void setPlayerHealthSlider()
         {

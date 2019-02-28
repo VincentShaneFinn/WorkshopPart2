@@ -15,15 +15,15 @@ namespace Finisher.Characters.Systems
             
             if (stateInfo.IsName(AnimConstants.States.RUSHING_SETUP_STATE))
             {
-                KnightCombatSystem.StartCoroutine(KnightCombatSystem.MonitorSpecialAttackStatus());
                 coroutine = KnightCombatSystem.RushingCoroutine();
                 KnightCombatSystem.StartCoroutine(coroutine);
+                KnightCombatSystem.StartCoroutine(KnightCombatSystem.MonitorSpecialAttackStatus());
             }
-            //if (stateInfo.IsName(AnimConstants.States.RUSHING_STATE))
-            //{
-            //    KnightCombatSystem.StopCoroutine(coroutine);
-            //    KnightCombatSystem.StartCoroutine(coroutine);
-            //}
+            if (stateInfo.IsName(AnimConstants.States.RUSHING_STATE))
+            {
+                KnightCombatSystem.StopCoroutine(coroutine);
+                KnightCombatSystem.StartCoroutine(coroutine);
+            }
 
         }
         

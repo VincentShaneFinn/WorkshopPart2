@@ -162,7 +162,7 @@ namespace Finisher.Characters.Systems {
         {
             if (characterState.FinisherModeActive)
             {
-                if (FinisherInput.Grab())
+                if (Input.GetButtonDown(InputNames.Grab))
                 {
                     if (grabTarget)
                     {
@@ -186,7 +186,7 @@ namespace Finisher.Characters.Systems {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
                 if (grabHealthSystem &&
-                    FinisherInput.Finisher() && 
+                    Input.GetButtonDown(InputNames.Finisher) && 
                     grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
                 {
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
@@ -201,11 +201,11 @@ namespace Finisher.Characters.Systems {
         private void attempFinisherSelection()
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_SELECTION_STATE)) {
-                if(FinisherInput.Finisher1())
+                if(Input.GetButtonDown(InputNames.SelectFinisher1))
                 {
                     overrideFinisherExecution(flameAOE, true);
                 }
-                else if (FinisherInput.Finisher2())
+                else if (Input.GetButtonDown(InputNames.SelectFinisher2))
                 {
                     overrideFinisherExecution(soulInfusion, true);
                 }
@@ -272,7 +272,7 @@ namespace Finisher.Characters.Systems {
         private bool inQuickFinisher = false; //TODO: must make a better quick finisher system
         private void attempQuickFinisher()
         {
-            if (FinisherInput.Finisher() && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
+            if (Input.GetButtonDown(InputNames.Finisher) && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
             {
                 var enemies = getEnemiesInFront();
                 var enemyToFinish = getEnemyToQuickFinish(enemies);
@@ -353,11 +353,11 @@ namespace Finisher.Characters.Systems {
 
         private void testInput()
         {
-            if (FinisherInput.FinisherMeterCheat())
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 increaseFinisherMeter(config.MaxFinisherMeter);
             }
-            if (FinisherInput.VolatilityCheat() && grabTarget)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && grabTarget)
             {
                 grabTarget.GetComponent<EnemyHealthSystem>().DamageVolatility(100f);
             }

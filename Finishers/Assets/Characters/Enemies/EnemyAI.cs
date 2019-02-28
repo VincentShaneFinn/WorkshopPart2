@@ -8,6 +8,7 @@ namespace Finisher.Characters.Enemies
 {
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
@@ -22,23 +23,15 @@ namespace Finisher.Characters.Enemies
 
         [SerializeField] float chaseRadius = 5f;
         [SerializeField] protected float attackRadius = 1.5f;
-        public float ArcAngle = 45;
-        [SerializeField] float DIRECT_ENGAGE_DISTANCE = 2.1f;
-
         protected GameObject combatTarget = null;
 
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-        private float range = 10f; //public surround range just for testing
-        private bool isSurrounding = false;
-        private bool surroundRight = true;
-        private float surroundSpeed = 1f;
+
 
         protected AICharacterController character;
         protected CharacterState characterState;
-        protected SquadManager squadManager;
-        protected Animator animator;
-        protected AnimOverrideSetter animOverrideSetter;
+        private SquadManager squadManager;
         protected CombatSystem combatSystem;
         [SerializeField] CharacterStateSO playerState;
 
@@ -54,8 +47,6 @@ namespace Finisher.Characters.Enemies
             character = GetComponent<AICharacterController>();
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
-            animator = GetComponent<Animator>();
-            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             combatSystem = GetComponent<CombatSystem>();
 
             if (squadManager)
@@ -78,13 +69,8 @@ namespace Finisher.Characters.Enemies
         // Update is called once per frame
         protected virtual void Update()
         {
-            if (characterState.Dying ||
-                playerState.IsDying ||
-                characterState.Uninteruptable)
-            {
-                StopCurrentCoroutine();
-            }
-            else if (canChasePlayer())
+
+            if (canChasePlayer())
             {
                 if (!engagingPlayer)
                 {
@@ -194,21 +180,15 @@ namespace Finisher.Characters.Enemies
             }
             finally
             {
-                endEngagePlayerSequence();
+                character.RestoreStoppingDistance();
+                character.RestoreMovementSpeedMultiplier();
+                engagingPlayer = false;
+                character.StopManualMovement();
             }
         }
 
-        protected virtual void endEngagePlayerSequence()
+        private void pursuePlayer()
         {
-            character.RestoreStoppingDistance();
-            character.RestoreMovementSpeedMultiplier();
-            engagingPlayer = false;
-            character.StopManualMovement();
-        }
-
-        protected virtual void pursuePlayer()
-        {
-            // resets all variables to default behavior
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
 
@@ -216,110 +196,39 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
-            float distance;
-            // modifies behavior based on variables
-            switch (currentChaseSubstate) {
-                case ChaseSubState.Arced:
-                    character.MovementSpeedMultiplier = .9f;
-                    var INDIRECT_ENGAGE_DISTANCE = 10f;
-                    distance = Vector3.Distance(transform.position, combatTarget.transform.position);
-                    if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
-                        var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
-                        character.ManuallyMoveCharacter(direction);
-                    }
-                    break;
-                case ChaseSubState.Surround:
-                    distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
-
-                    if(distance > 8f)
-                    {
-                        isSurrounding = false;
-                    }
-                    else if (distance <= 6f)
-                    {
-                        if(!isSurrounding)
-                        {
-                            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
-                            surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
-                        }
-                        isSurrounding = true;
-                    }
-                    if (isSurrounding)
-                    {
-                        surroundMovement(distance);
-                    }
-                    break;
+            if (currentChaseSubstate == ChaseSubState.Arced)
+            {
+                character.MovementSpeedMultiplier = .2f;
+            }
+            else if (currentChaseSubstate == ChaseSubState.Surround)
+            {
+                character.SetStoppingDistance(3.75f);
+                surroundMovement();
             }
         }
 
-        private void surroundMovement(float distance)
+        private void surroundMovement()
         {
-            var moveXDirection = 1;
-            if (!surroundRight)
+            if (Input.GetKey(KeyCode.I))
             {
-                moveXDirection = -1;
+                character.ManualyMoveCharacter(transform.forward, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
             }
-
-            #region Keep Away From each other, needs work
-            //bool enemyLeft = false;
-            //bool enemyRight = false;
-            //Collider[] C = Physics.OverlapSphere(transform.position, 2.50f);
-            //foreach (Collider col in C)
-            //{
-            //    if (col.tag.Equals("Enemy"))
-            //    {
-            //        if (!col.transform.Equals(transform))
-            //        {
-            //            Vector3 targetDir = transform.position - col.transform.position;
-            //            if ((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg > 180 && moveXDirection == -1))
-            //            {
-            //                //character.MovementSpeedMultiplier = .3f;
-            //                enemyLeft = true;
-            //            }
-            //            if((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg < 180 && moveXDirection == 1))
-            //            {
-            //                enemyRight = true;
-            //            }
-            //            //this part have a problem
-            //            if (Vector3.Distance(col.transform.position, this.transform.position) < .2f)
-            //            { 
-            //                if(!(enemyLeft && enemyRight))
-            //                {
-            //                    if (enemyLeft && !enemyRight)
-            //                    {
-            //                        moveXDirection = -1;
-            //                    }
-            //                    else if (enemyRight && !enemyLeft)
-            //                    {
-            //                        moveXDirection = 1;
-            //                    }
-            //                    else
-            //                    {
-            //                        moveXDirection = 0;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-
-            //}
-            #endregion
-
-            Vector3 forwardMovement = Vector3.zero;
-            if(distance < 6.75)
+            else if (Input.GetKey(KeyCode.L))
             {
-                forwardMovement = -transform.forward;
+                character.ManualyMoveCharacter(transform.right, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
             }
-            else if (distance > 7.25)
+            else if (Input.GetKey(KeyCode.K))
             {
-                forwardMovement = transform.forward;
+                character.ManualyMoveCharacter(-transform.forward, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
             }
-            Vector3 moveDirection = transform.right * moveXDirection + forwardMovement;
-
-
-            character.ManuallyMoveCharacter(moveDirection, strafing: true);
-            character.LookAtTarget(combatTarget.transform);
-            character.MovementSpeedMultiplier = surroundSpeed;
+            else if (Input.GetKey(KeyCode.J))
+            {
+                character.ManualyMoveCharacter(-transform.right, strafing: true);
+                character.LookAtTarget(combatTarget.transform);
+            }
         }
 
         protected virtual void attackPlayer()
@@ -404,25 +313,22 @@ namespace Finisher.Characters.Enemies
 
         #region Delegate Methods
 
+        private void chaseByManager()
+        {
+            
+        }
+
+        private void stopByManager()
+        {
+
+        }
+
         private void removeFromSquad()
         {
             squadManager.RemoveEnemy(this.gameObject);
         }
 
         #endregion
-
-        private Vector3 getArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle)
-        {
-
-            var distance = Vector3.Distance(currPos, tarPos);
-            Vector3 midpoint = (currPos + tarPos) / 2f;
-            float x = midpoint.x + (currPos.x - midpoint.x) * Mathf.Cos(arcAngle) - (currPos.z - midpoint.z) * Mathf.Sin(arcAngle);
-            float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
-
-            var moveTarget = new Vector3(x, transform.position.y, z);
-            var moveDirection = moveTarget - transform.position;
-            return moveDirection;
-        }
 
     }
 }

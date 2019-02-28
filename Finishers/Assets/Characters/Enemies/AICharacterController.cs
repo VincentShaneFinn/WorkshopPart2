@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
@@ -8,9 +7,7 @@ namespace Finisher.Characters.Enemies
     {
         public bool UseOptionalDestination = false;
         public Vector3 OptionalDestination = Vector3.zero;
-        private bool manualControl = false;
-
-        private float lockLookAtDuration = 0;
+        private bool manualControl = false; 
 
         private Transform target; // target to aim for
 
@@ -94,12 +91,12 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void ManuallyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
+        public void ManualyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
         {
             if (CanMove)
             {
                 manualControl = true;
-                toggleAgent(false);
+                agent.enabled = false;
                 Strafing = strafing;
                 MoveCharacter(manualMoveDirection);
             }
@@ -108,7 +105,7 @@ namespace Finisher.Characters.Enemies
         public void StopManualMovement()
         {
             manualControl = false;
-            toggleAgent(true);
+            agent.enabled = true;
             Strafing = false;
         }
 
@@ -135,7 +132,7 @@ namespace Finisher.Characters.Enemies
                 agent.SetDestination(transform.position);
                 MoveCharacter(Vector3.zero);
             }
-
+            
         }
 
         private void StationaryLookAt()
@@ -147,25 +144,12 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void LookAtTarget(Transform _target, float duration = 0)
+        public void LookAtTarget(Transform _target)
         {
-            if(lockLookAtDuration > 0) { return; }
-            if (duration > 0)
-            {
-                lockLookAtDuration = duration;
-                StartCoroutine(lockLookAtDurationTimer());
-            }
-
             if (_target)
             {
                 transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
             }
-        }
-
-        IEnumerator lockLookAtDurationTimer()
-        {
-            yield return new WaitForSeconds(lockLookAtDuration);
-            lockLookAtDuration = 0;
         }
 
         public void SetStoppingDistance(float newStoppingDistance)
@@ -181,11 +165,6 @@ namespace Finisher.Characters.Enemies
         public void SetTarget(Transform target)
         {
             this.target = target;
-        }
-
-        public void toggleAgent(bool enabled)
-        {
-            agent.enabled = enabled;
         }
 
         private void setAgentDestination()

@@ -9,7 +9,7 @@ public class PressEnterToBegin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (FinisherInput.ReloadScene())
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene(1);
         }

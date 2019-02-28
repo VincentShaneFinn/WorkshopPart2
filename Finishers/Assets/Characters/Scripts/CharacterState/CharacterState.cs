@@ -10,10 +10,8 @@ namespace Finisher.Characters
     public class CharacterState : MonoBehaviour
     {
         [HideInInspector] private Animator animator;
-        
-        private AnimOverrideSetter animOverrideHandler;
 
-        public SpawnConfig spawnConfig;
+        private AnimOverrideSetter animOverrideHandler;
 
         void Awake()
         {
@@ -31,25 +29,6 @@ namespace Finisher.Characters
             Grabbing = false;
         }
 
-        bool attackStarted = false;
-        public void Update()
-        {
-            if (!attackStarted && attacking && (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG)))
-            {
-                attackStarted = true;
-            }
-            if (attackStarted && !(animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
-                    animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG)))
-            {
-                attacking = false;
-                attackStarted = false;
-            }
-            if (FinisherInput.InvulnerabilityCheat())
-            {
-                invulnerableCheat = !invulnerableCheat;
-            }
-        }
         #region States that you must Get and Set from Here
 
         // The core idea is that something that may want to be visable from an external class should be added to the Character State From SO class overrides
@@ -129,7 +108,7 @@ namespace Finisher.Characters
 
         [HideInInspector] public bool IsDodgeFrame = false;
         [HideInInspector] public bool IsParryFrame = false;
-        public bool invulnerableCheat = false;
+
         public bool Invulnerable
         {
             get
@@ -143,7 +122,7 @@ namespace Finisher.Characters
                 }
                 else
                 {
-                    return invulnerableCheat;
+                    return false;
                 }
             }
         }
@@ -160,17 +139,12 @@ namespace Finisher.Characters
 
         #region States that you can Get here, but whose animation triggers are set somewhere else
 
-        private bool attacking = false;
         public bool Attacking
         {
             get
             {
-                return attacking || animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
+                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG) ||
                     animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
-            }
-            set
-            {
-                attacking = value;
             }
         }
 

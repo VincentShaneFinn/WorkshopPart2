@@ -62,22 +62,29 @@ namespace Finisher.Characters.Player.Systems
 
         private void processAttackInput()
         {
-            if (FinisherInput.LightAttack())
+            if (Input.GetButtonDown(InputNames.LightAttack))
             {
                 LightAttack();
-                characterState.Attacking = true;
             }
-
-            if (FinisherInput.HeavyAttack())
+            if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
             {
-                HeavyAttack();
-                    characterState.Attacking = true;
+                if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
+                {
+                    HeavyAttack();
+                }
+            }
+            else
+            {
+                if (Input.GetButtonDown(InputNames.HeavyAttack))
+                {
+                    HeavyAttack();
+                }
             }
         }
 
         private void processDodgeInput()
         {
-            if (FinisherInput.Dodge())
+            if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
             {
                 finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
@@ -87,7 +94,7 @@ namespace Finisher.Characters.Player.Systems
 
         private void processParryInput()
         {
-            if (FinisherInput.Parry())
+            if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
             {
                 finisherSystem.ToggleGrabOff();
                 Parry();

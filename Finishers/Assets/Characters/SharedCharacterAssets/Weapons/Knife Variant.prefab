@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soulEffect: {fileID: 8806726374134371497}
-  trailEffect: {fileID: 4094259449170254147}
 --- !u!1001 &6976893862068700657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,31 +95,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.27714697
       objectReference: {fileID: 0}
-    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.133
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.194
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4566409314502927765, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.23726334
-      objectReference: {fileID: 0}
-    - target: {fileID: 1599581485481047705, guid: f4c8e89ffc7985540b621b4a637a5756,
-        type: 3}
-      propertyPath: soulBonusDamage
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 1938006868888818008, guid: f4c8e89ffc7985540b621b4a637a5756,
         type: 3}
       propertyPath: m_IsActive
@@ -141,6 +115,11 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 130
       objectReference: {fileID: 0}
+    - target: {fileID: 1599581485481047705, guid: f4c8e89ffc7985540b621b4a637a5756,
+        type: 3}
+      propertyPath: soulBonusDamage
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5068545775141108805, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f4c8e89ffc7985540b621b4a637a5756, type: 3}
@@ -153,12 +132,6 @@ GameObject:
 --- !u!1 &8806726374134371497 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1938006868888818008, guid: f4c8e89ffc7985540b621b4a637a5756,
-    type: 3}
-  m_PrefabInstance: {fileID: 6976893862068700657}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &4094259449170254147 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 6342004261624290482, guid: f4c8e89ffc7985540b621b4a637a5756,
     type: 3}
   m_PrefabInstance: {fileID: 6976893862068700657}
   m_PrefabAsset: {fileID: 0}

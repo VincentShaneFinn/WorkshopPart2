@@ -47,8 +47,10 @@ namespace Finisher.Characters.Player
 
             SetMoveDirection(horizontal, vertical);
 
+            bool running = Input.GetButton(InputNames.Sprint);
+
             // pass all parameters to the character control script
-            character.MoveCharacter(InputMoveDirection, FinisherInput.isSpriting());
+            character.MoveCharacter(InputMoveDirection, running);//change to use run button
         }
 
         private void SetMoveDirection(float horizontal, float vertical)

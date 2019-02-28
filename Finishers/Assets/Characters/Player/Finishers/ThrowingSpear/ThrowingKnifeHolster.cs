@@ -18,7 +18,7 @@ namespace Finisher.Characters.Player.Finishers
                     currentThrowingWeapon.transform.parent = transform;
                 }
             }
-            if(currentThrowingWeapon && FinisherInput.SpecialAttack())
+            if(currentThrowingWeapon && Input.GetButtonDown(InputNames.SpecialAttack))
             {
                 currentThrowingWeapon.ThrowWeapon();
                 currentThrowingWeapon = null;

@@ -31,7 +31,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1664466742265951452}
+  - {fileID: 7557685457774827574}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,32 +175,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &2420153487133890180
+--- !u!1001 &6804105098146527854
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 4498026790552208}
     m_Modifications:
-    - target: {fileID: 3931435117293036121, guid: 048ad4efe7882b043a543b7cdfe27bf5,
-        type: 3}
-      propertyPath: m_Name
-      value: Pulse finisher
-      objectReference: {fileID: 0}
     - target: {fileID: 3931435117293036120, guid: 048ad4efe7882b043a543b7cdfe27bf5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8.868134
       objectReference: {fileID: 0}
     - target: {fileID: 3931435117293036120, guid: 048ad4efe7882b043a543b7cdfe27bf5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 13.451931
       objectReference: {fileID: 0}
     - target: {fileID: 3931435117293036120, guid: 048ad4efe7882b043a543b7cdfe27bf5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 8.622476
       objectReference: {fileID: 0}
     - target: {fileID: 3931435117293036120, guid: 048ad4efe7882b043a543b7cdfe27bf5,
         type: 3}
@@ -242,11 +237,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3931435117293036121, guid: 048ad4efe7882b043a543b7cdfe27bf5,
+        type: 3}
+      propertyPath: m_Name
+      value: Pulse finisher
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 048ad4efe7882b043a543b7cdfe27bf5, type: 3}
---- !u!4 &1664466742265951452 stripped
+--- !u!4 &7557685457774827574 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3931435117293036120, guid: 048ad4efe7882b043a543b7cdfe27bf5,
     type: 3}
-  m_PrefabInstance: {fileID: 2420153487133890180}
+  m_PrefabInstance: {fileID: 6804105098146527854}
   m_PrefabAsset: {fileID: 0}
