@@ -4,6 +4,7 @@ using UnityEngine;
 
 using Finisher.Characters.Enemies;
 using System;
+using Finisher.Characters.Player.Finishers;
 
 namespace Finisher.Characters.Systems
 {
@@ -15,8 +16,10 @@ namespace Finisher.Characters.Systems
         [SerializeField] private float feintTime = .25f;
         private bool useFeint = false;
 
+        [SerializeField] ThrowingOrb orb;
+        RangedAttackSMB rangedSMB;
+
         AICharacterController character;
-        RangedAttackSMB rangedAttackSMB;
         EnemyAI enemyAI;
         Transform target;
 
@@ -31,13 +34,13 @@ namespace Finisher.Characters.Systems
             {
                 behavior.KnightCombatSystem = this;
             }
-            rangedAttackSMB = animator.GetBehaviour<RangedAttackSMB>();
-            if (rangedAttackSMB) { rangedAttackSMB.RangedExitListeners += StopRangedCoroutine; }
+            rangedSMB = animator.GetBehaviour<RangedAttackSMB>();
+            rangedSMB.RangeExitListeners += StopRangedAttack;
         }
-        
+
         void OnDestroy()
         {
-            if (rangedAttackSMB) { rangedAttackSMB.RangedExitListeners -= StopRangedCoroutine; }
+            rangedSMB.RangeExitListeners -= StopRangedAttack;
         }
 
         #region RushAttack
@@ -150,14 +153,34 @@ namespace Finisher.Characters.Systems
             animator.SetInteger("SpecialAttackIndex", 1);
         }
 
+        IEnumerator facePlayerCoroutine;
+
         void StartRangedAttack()
         {
             //Not needed to do anything yet
+            facePlayerCoroutine = facePlayer();
+            StartCoroutine(facePlayerCoroutine);
+        }
+
+        IEnumerator facePlayer()
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            while (true)
+            {
+                transform.LookAt(player.transform);
+                yield return null;
+            }
         }
 
         void LaunchRangedAttack()
         {
-            print("launch");
+            Instantiate(orb, transform.position + transform.forward + transform.up, transform.rotation);
+            StopCoroutine(facePlayerCoroutine);
+        }
+
+        void StopRangedAttack()
+        {
+            StopCoroutine(facePlayerCoroutine);
         }
 
         #endregion
