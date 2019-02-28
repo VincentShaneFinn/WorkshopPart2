@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Core;
+using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
@@ -16,6 +17,9 @@ namespace Finisher.Characters.Enemies
         [SerializeField] private int directAttackers = 1;
         [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
         [SerializeField] private int indirectAttackers = 2;
+        [SerializeField] private float rangedAttackRangeLowerBound = 5f;
+        [SerializeField] private float rangedAttackUpperBound = 7.5f;
+        private bool timeForRangedAttack = false;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
@@ -67,6 +71,7 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator assignEnemyRoles()
         {
+            StartCoroutine(resetTimeForRangedAttack());
             while (player)
             {
                 setEnemiesSubChase();
@@ -140,8 +145,27 @@ namespace Finisher.Characters.Enemies
                     Ai.currentChaseSubstate = ChaseSubState.Arced;
                     indirectAttackersCount--;
                 }
-                else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
+                else {
+                    Ai.currentChaseSubstate = ChaseSubState.Surround;
+                    if(timeForRangedAttack)
+                    {
+                        var combatSystem = Ai.GetComponent<KnightCombatSystem>();
+                        if (combatSystem && !combatSystem.IsPerformingSpecialAttack && 
+                            Vector3.Distance(Ai.transform.position, player.transform.position) > 5f)
+                        {
+                            combatSystem.RangedAttack();
+                            timeForRangedAttack = false;
+                            StartCoroutine(resetTimeForRangedAttack());
+                        }
+                    }
+                }
             }
+        }
+
+        IEnumerator resetTimeForRangedAttack()
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(rangedAttackRangeLowerBound, rangedAttackUpperBound));
+            timeForRangedAttack = true;
         }
 
         public void SortEnemiesByDistance()
