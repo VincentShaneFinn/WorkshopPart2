@@ -38,10 +38,10 @@ namespace Finisher.Characters.Systems
             rangedSMB.RangeExitListeners += StopRangedAttack;
         }
 
-        void OnDestroy()
-        {
-            rangedSMB.RangeExitListeners -= StopRangedAttack;
-        }
+        //void OnDestroy()
+        //{
+        //    rangedSMB.RangeExitListeners -= StopRangedAttack;
+        //}
 
         #region RushAttack
 
