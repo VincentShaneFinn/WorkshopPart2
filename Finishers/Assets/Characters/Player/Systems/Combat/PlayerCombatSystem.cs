@@ -197,8 +197,11 @@ namespace Finisher.Characters.Player.Systems
         IEnumerator killOnStab(HealthSystem enemyToParry)
         {
             yield return new WaitForSeconds(.75f);
-            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
-            enemyToParry.Kill(config.RiposteKillAnimationToPass);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry, bonusDamage: 10);
+            if (enemyToParry.GetHealthAsPercent() <= 0)
+            {
+                enemyToParry.Kill(config.RiposteKillAnimationToPass, overrideKillAnim: true);
+            }
         }
 
         //TODO: create a linked character animation system

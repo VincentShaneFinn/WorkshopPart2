@@ -226,9 +226,9 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public virtual void Kill(AnimationClip animClip = null)
+        public virtual void Kill(AnimationClip animClip = null, bool overrideKillAnim = false)
         {
-            if (characterState.Dying) { return; }
+            if (characterState.Dying && !overrideKillAnim) { return; }
 
             if(animClip == null)
             {

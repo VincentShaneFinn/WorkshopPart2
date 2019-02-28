@@ -65,9 +65,9 @@ namespace Finisher.Characters.Enemies.Systems
 
         #region Override Kill(animclip)
 
-        public override void Kill(AnimationClip animClip)
+        public override void Kill(AnimationClip animClip, bool overrideKillAnim = false)
         {
-            base.Kill(animClip);
+            base.Kill(animClip, overrideKillAnim);
             toggleEnemyCanvas(false);
         }
 
