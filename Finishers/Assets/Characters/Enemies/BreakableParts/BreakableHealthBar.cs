@@ -9,14 +9,14 @@ namespace Finisher.Characters.Enemies.BreakableParts
 
         [SerializeField] private BreakablePart breakablePart;
         private HealthSystem parentHealthSystem = null;
-        //void Start()
-        //{
-        //    parentHealthSystem = GetComponentInParent<HealthSystem>();
-        //    if (parentHealthSystem != null)
-        //    {
-        //        parentHealthSystem.OnDamageTaken += hitArmor;
-        //    }
-        //}
+        void Start()
+        {
+            parentHealthSystem = GetComponentInParent<HealthSystem>();
+            if (parentHealthSystem != null)
+            {
+                parentHealthSystem.OnDamageTaken += hitArmor;
+            }
+        }
 
         void OnDestroy()
         {
@@ -28,16 +28,15 @@ namespace Finisher.Characters.Enemies.BreakableParts
 
         public void hitArmor()
         {
-            if(UnityEngine.Random.Range(0,1f) < 0.6f)
+            if(UnityEngine.Random.Range(0,1f) < 0.5f)
             {
                 hp--;
             }
             if (hp <= 0)
             {
-                gameObject.SetActive(false);
-                breakablePart.gameObject.transform.SetParent(null);
                 breakablePart.gameObject.SetActive(true);
-                parentHealthSystem.OnDamageTaken -= hitArmor;
+                breakablePart.gameObject.transform.SetParent(null);
+                Destroy(gameObject);
             }
         }
     }
