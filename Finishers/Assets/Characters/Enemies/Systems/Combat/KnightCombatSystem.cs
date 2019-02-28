@@ -11,6 +11,8 @@ namespace Finisher.Characters.Systems
     {
 
         public bool IsPerformingSpecialAttack;
+        [SerializeField] private float feintTime = .25f;
+        private bool useFeint = false;
 
         AICharacterController character;
         EnemyAI enemyAI;
@@ -29,18 +31,27 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        public void RushAttack(Transform target)
+        public void RushAttack(Transform target, bool feint)
         {
             this.target = target;
+            useFeint = feint;
             animator.SetTrigger("SpecialAttack");
+        }
+
+        private IEnumerator resetSpecialAttackTrigger()
+        {
+            yield return new WaitForSeconds(.5f);
+            animator.ResetTrigger("SpecialAttack");
         }
 
         public IEnumerator RushingCoroutine()
         {
-            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+            yield return null; // need to wait a frame for EnemyAI to shut itself down
+
+            GetComponent<AICharacterController>().toggleAgent(false);
             character.LookAtTarget(target);
 
-            while (!enemyAI.isPlayerInAttackRange())
+            while (!enemyAI.isPlayerInAttackRange() && !obstacleAhead())
             {
                 character.LookAtTarget(target);
                 yield return null;
@@ -49,17 +60,36 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
         }
 
+        private bool obstacleAhead()
+        {
+            var distance = 1;
+            Vector3 fwd = transform.TransformDirection(Vector3.forward);
+            int walkableLayerMask = 1 << LayerNames.WalkableLayer;
+            int obstacleLayerMask = 1 << LayerNames.ObstacleLayer;
+
+
+            if (Physics.Raycast(transform.position + Vector3.up, fwd, distance, walkableLayerMask) ||
+                Physics.Raycast(transform.position + Vector3.up, fwd, distance, obstacleLayerMask) )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void ResetRushing()
         {
             //do something when you have left the rushing state
-            GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+            GetComponent<AICharacterController>().toggleAgent(true);
         }
 
         public IEnumerator MonitorSpecialAttackStatus()
         {
             IsPerformingSpecialAttack = true;
 
-            yield return new WaitForSeconds(.26f);
+            yield return new WaitUntil(() => !animator.IsInTransition(0));
+
+            yield return null;
 
             yield return new WaitUntil(() => !animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.SPECIAL_ATTACK_SEQUENCE_TAG));
 
@@ -67,5 +97,36 @@ namespace Finisher.Characters.Systems
             IsPerformingSpecialAttack = false;
             StopAllCoroutines();
         }
+
+        void FientPeriod()
+        {
+            if(useFeint) { 
+                StartCoroutine(fient());
+            }
+        }
+
+        IEnumerator fient()
+        {
+            var count = feintTime;
+
+            while (count > 0)
+            {
+                animator.speed = (float)(count / feintTime) / 4;
+                count -= Time.deltaTime;
+                yield return null;
+            }
+
+            count = feintTime;
+
+            while (count > 0)
+            {
+                animator.speed = (1 - ((float)(count / feintTime) / 4));
+                count -= Time.deltaTime;
+                yield return null;
+            }
+
+            animator.speed = 1f;
+        }
+
     }
 }

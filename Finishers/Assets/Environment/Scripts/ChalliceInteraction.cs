@@ -1,6 +1,7 @@
 ﻿using Finisher.Characters;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChalliceInteraction : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class ChalliceInteraction : MonoBehaviour
     public GameObject bossFireEffect;
     public GameObject bossEnemy;
 
+    public GameObject vialUI; // use PLayerUI>BottumLeft>VialIcon
+    public Sprite emptyVial;  // use Assests>UI>UIButtons>Textures>VialEmpty
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +25,12 @@ public class ChalliceInteraction : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetButton("Interact") && interactable)
+        if (FinisherInput.Interact() && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(lightTorchSequence());
             interactable = false;
+            vialUI.GetComponent<Image>().sprite = emptyVial;
         }
     }
 
