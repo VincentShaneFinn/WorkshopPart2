@@ -10,11 +10,13 @@ namespace Finisher.Characters.Systems
     public class KnightCombatSystem : CombatSystem
     {
 
-        public bool IsPerformingSpecialAttack;
+        public bool IsPerformingSpecialAttack = false;
+        public bool IsPerformingRangedAttack = false;
         [SerializeField] private float feintTime = .25f;
         private bool useFeint = false;
 
         AICharacterController character;
+        RangedAttackSMB rangedAttackSMB;
         EnemyAI enemyAI;
         Transform target;
 
@@ -29,13 +31,23 @@ namespace Finisher.Characters.Systems
             {
                 behavior.KnightCombatSystem = this;
             }
+            rangedAttackSMB = animator.GetBehaviour<RangedAttackSMB>();
+            if (rangedAttackSMB) { rangedAttackSMB.RangedExitListeners += StopRangedCoroutine; }
         }
+        
+        void OnDestroy()
+        {
+            if (rangedAttackSMB) { rangedAttackSMB.RangedExitListeners -= StopRangedCoroutine; }
+        }
+
+        #region RushAttack
 
         public void RushAttack(Transform target, bool feint)
         {
             this.target = target;
             useFeint = feint;
             animator.SetTrigger("SpecialAttack");
+            animator.SetInteger("SpecialAttackIndex", 0);
         }
 
         private IEnumerator resetSpecialAttackTrigger()
@@ -127,6 +139,28 @@ namespace Finisher.Characters.Systems
 
             animator.speed = 1f;
         }
+
+        #endregion
+
+        #region RangedAttack
+
+        public void RangedAttack()
+        {
+            animator.SetTrigger("SpecialAttack");
+            animator.SetInteger("SpecialAttackIndex", 1);
+        }
+
+        void StartRangedAttack()
+        {
+            //Not needed to do anything yet
+        }
+
+        void LaunchRangedAttack()
+        {
+            print("launch");
+        }
+
+        #endregion
 
     }
 }
