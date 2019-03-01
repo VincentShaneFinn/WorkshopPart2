@@ -187,7 +187,7 @@ namespace Finisher.Characters.Systems {
 
                 if (grabHealthSystem &&
                     FinisherInput.Finisher() && 
-                    grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
+                    grabHealthSystem.GetIsFinishable())
                 {
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                     animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
@@ -303,7 +303,7 @@ namespace Finisher.Characters.Systems {
             foreach (var enemy in enemies)
             {
                 EnemyHealthSystem enemyHealthSystem = enemy.GetComponent<EnemyHealthSystem>();
-                if (enemyHealthSystem && enemyHealthSystem.GetVolaitilityAsPercent() >= 1 - Mathf.Epsilon)
+                if (enemyHealthSystem && enemyHealthSystem.GetIsFinishable())
                 {
                     return enemy.GetComponent<HealthSystem>();
                 }

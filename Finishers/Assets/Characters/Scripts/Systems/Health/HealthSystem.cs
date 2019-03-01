@@ -140,9 +140,14 @@ namespace Finisher.Characters.Systems
             updateVolatilityUI();
         }
 
-        public float GetVolaitilityAsPercent()
+        protected float getVolaitilityAsPercent()
         {
             return currentVolatility / config.MaxVolatility;
+        }
+
+        public bool GetIsFinishable()
+        {
+            return GetHealthAsPercent() < config.FinishableLowerBound;
         }
 
         private void checkVolatilityFull()

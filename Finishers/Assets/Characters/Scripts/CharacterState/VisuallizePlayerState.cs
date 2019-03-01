@@ -26,7 +26,7 @@ namespace Finisher.Characters {
             if (playerState)
             {
                 print("Health: " + playerState.GetCurrentHealthAsPercentage());
-                print("CombatTargetVolatility: " + playerState.GetCombatTargetVolatilityAsPercent());
+                print("TargetIsFinishable: " + playerState.GetIsCurrentTargetFinishable());
                 print("Attacking: " + playerState.IsAttacking);
             }
         }

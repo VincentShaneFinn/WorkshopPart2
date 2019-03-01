@@ -79,22 +79,22 @@ namespace Finisher.Characters.Enemies.Systems
         {
             if (volatilityMeter)
             {
-                volatilityMeter.SetFillAmount(GetVolaitilityAsPercent());
+                volatilityMeter.SetFillAmount(getVolaitilityAsPercent());
             }
         }
 
         private void toggleVolatiltyMeter(bool enabled)
         {
-            currentVolatility = 0;
+            //currentVolatility = 0;
 
-            if (volatilityMask)
-            {
-                volatilityMask.gameObject.SetActive(enabled);
-            }
-            if (volatilityMeter)
-            {
-                volatilityMeter.SetFillAmountInstant(currentVolatility);
-            }
+            //if (volatilityMask)
+            //{
+            //    volatilityMask.gameObject.SetActive(enabled);
+            //}
+            //if (volatilityMeter)
+            //{
+            //    volatilityMeter.SetFillAmountInstant(currentVolatility);
+            //}
         }
 
         private void toggleEnemyCanvas(bool enabled)
