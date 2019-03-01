@@ -29,7 +29,10 @@ namespace Finisher.Characters.Enemies
 
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
-
+        private float range = 10f; //public surround range just for testing
+        private bool isSurrounding = false;
+        private bool surroundRight = true;
+        private float surroundSpeed = 1f;
 
         protected AICharacterController character;
         protected CharacterState characterState;
@@ -213,46 +216,110 @@ namespace Finisher.Characters.Enemies
             character.RestoreMovementSpeedMultiplier();
             character.StopManualMovement();
 
+            float distance;
             // modifies behavior based on variables
-            switch(currentChaseSubstate) {
+            switch (currentChaseSubstate) {
                 case ChaseSubState.Arced:
                     character.MovementSpeedMultiplier = .9f;
                     var INDIRECT_ENGAGE_DISTANCE = 10f;
-                    var distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    distance = Vector3.Distance(transform.position, combatTarget.transform.position);
                     if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
                         var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
                         character.ManuallyMoveCharacter(direction);
                     }
                     break;
                 case ChaseSubState.Surround:
-                    character.SetStoppingDistance(6f);
-                    surroundMovement();
+                    distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
+
+                    if(distance > 8f)
+                    {
+                        isSurrounding = false;
+                    }
+                    else if (distance <= 6f)
+                    {
+                        if(!isSurrounding)
+                        {
+                            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
+                            surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
+                        }
+                        isSurrounding = true;
+                    }
+                    if (isSurrounding)
+                    {
+                        surroundMovement(distance);
+                    }
                     break;
             }
         }
 
-        private void surroundMovement()
+        private void surroundMovement(float distance)
         {
-            if (Input.GetKey(KeyCode.I))
+            var moveXDirection = 1;
+            if (!surroundRight)
             {
-                character.ManuallyMoveCharacter(transform.forward, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
+                moveXDirection = -1;
             }
-            else if (Input.GetKey(KeyCode.L))
+
+            #region Keep Away From each other, needs work
+            //bool enemyLeft = false;
+            //bool enemyRight = false;
+            //Collider[] C = Physics.OverlapSphere(transform.position, 2.50f);
+            //foreach (Collider col in C)
+            //{
+            //    if (col.tag.Equals("Enemy"))
+            //    {
+            //        if (!col.transform.Equals(transform))
+            //        {
+            //            Vector3 targetDir = transform.position - col.transform.position;
+            //            if ((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg > 180 && moveXDirection == -1))
+            //            {
+            //                //character.MovementSpeedMultiplier = .3f;
+            //                enemyLeft = true;
+            //            }
+            //            if((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg < 180 && moveXDirection == 1))
+            //            {
+            //                enemyRight = true;
+            //            }
+            //            //this part have a problem
+            //            if (Vector3.Distance(col.transform.position, this.transform.position) < .2f)
+            //            { 
+            //                if(!(enemyLeft && enemyRight))
+            //                {
+            //                    if (enemyLeft && !enemyRight)
+            //                    {
+            //                        moveXDirection = -1;
+            //                    }
+            //                    else if (enemyRight && !enemyLeft)
+            //                    {
+            //                        moveXDirection = 1;
+            //                    }
+            //                    else
+            //                    {
+            //                        moveXDirection = 0;
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+
+            //}
+            #endregion
+
+            Vector3 forwardMovement = Vector3.zero;
+            if(distance < 6.75)
             {
-                character.ManuallyMoveCharacter(transform.right, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
+                forwardMovement = -transform.forward;
             }
-            else if (Input.GetKey(KeyCode.K))
+            else if (distance > 7.25)
             {
-                character.ManuallyMoveCharacter(-transform.forward, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
+                forwardMovement = transform.forward;
             }
-            else if (Input.GetKey(KeyCode.J))
-            {
-                character.ManuallyMoveCharacter(-transform.right, strafing: true);
-                character.LookAtTarget(combatTarget.transform);
-            }
+            Vector3 moveDirection = transform.right * moveXDirection + forwardMovement;
+
+
+            character.ManuallyMoveCharacter(moveDirection, strafing: true);
+            character.LookAtTarget(combatTarget.transform);
+            character.MovementSpeedMultiplier = surroundSpeed;
         }
 
         protected virtual void attackPlayer()

@@ -12,6 +12,7 @@ namespace Finisher.Characters.Enemies.Systems
         [SerializeField] private EnemyUI enemyCanvas;
 
         private UI_VolatilityMeter volatilityMeter;
+        private UI_FinishableThresholdLine finishabilityLine;
         private Image volatilityMask;
 
         protected override void Start()
@@ -29,6 +30,11 @@ namespace Finisher.Characters.Enemies.Systems
                 healthBar = GetComponentInChildren<UI_HealthMeter>();
                 volatilityMeter = GetComponentInChildren<UI_VolatilityMeter>();
                 volatilityMask = enemyCanvas.VolatilityMeterMask;
+                finishabilityLine = GetComponentInChildren<UI_FinishableThresholdLine>();
+                if (finishabilityLine)
+                {
+                    finishabilityLine.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -65,9 +71,9 @@ namespace Finisher.Characters.Enemies.Systems
 
         #region Override Kill(animclip)
 
-        public override void Kill(AnimationClip animClip)
+        public override void Kill(AnimationClip animClip, bool overrideKillAnim = false)
         {
-            base.Kill(animClip);
+            base.Kill(animClip, overrideKillAnim);
             toggleEnemyCanvas(false);
         }
 
@@ -75,26 +81,46 @@ namespace Finisher.Characters.Enemies.Systems
 
         #region Enemy UI
 
-        protected override void updateVolatilityUI()
+        protected override void updateFinishabilityUI()
         {
-            if (volatilityMeter)
+            //if (volatilityMeter)
+            //{
+            //    volatilityMeter.SetFillAmount(getVolaitilityAsPercent());
+            //}
+            if (!inFinisherMode)
             {
-                volatilityMeter.SetFillAmount(GetVolaitilityAsPercent());
+                healthBar.SetColor(false);
+            }
+            else
+            {
+                healthBar.SetColor(GetIsFinishable());
+            }
+            if (finishabilityLine)
+            {
+                finishabilityLine.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent()) * 100, 0);
             }
         }
 
+        private bool inFinisherMode = false;
+
         private void toggleVolatiltyMeter(bool enabled)
         {
-            currentVolatility = 0;
+            //currentVolatility = 0;
 
-            if (volatilityMask)
+            //if (volatilityMask)
+            //{
+            //    volatilityMask.gameObject.SetActive(enabled);
+            //}
+            //if (volatilityMeter)
+            //{
+            //    volatilityMeter.SetFillAmountInstant(currentVolatility);
+            //}
+            inFinisherMode = enabled;
+            if (finishabilityLine)
             {
-                volatilityMask.gameObject.SetActive(enabled);
+                finishabilityLine.gameObject.SetActive(enabled);
             }
-            if (volatilityMeter)
-            {
-                volatilityMeter.SetFillAmountInstant(currentVolatility);
-            }
+            updateHealthUI();
         }
 
         private void toggleEnemyCanvas(bool enabled)

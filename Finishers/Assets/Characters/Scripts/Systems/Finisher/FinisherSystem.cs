@@ -162,7 +162,7 @@ namespace Finisher.Characters.Systems {
         {
             if (characterState.FinisherModeActive)
             {
-                if (Input.GetButtonDown(InputNames.Grab))
+                if (FinisherInput.Grab())
                 {
                     if (grabTarget)
                     {
@@ -186,8 +186,8 @@ namespace Finisher.Characters.Systems {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
                 if (grabHealthSystem &&
-                    Input.GetButtonDown(InputNames.Finisher) && 
-                    grabHealthSystem.GetVolaitilityAsPercent() >= 1f - Mathf.Epsilon)
+                    FinisherInput.Finisher() && 
+                    grabHealthSystem.GetIsFinishable())
                 {
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                     animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
@@ -201,11 +201,11 @@ namespace Finisher.Characters.Systems {
         private void attempFinisherSelection()
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_SELECTION_STATE)) {
-                if(Input.GetButtonDown(InputNames.SelectFinisher1))
+                if(FinisherInput.Finisher1())
                 {
                     overrideFinisherExecution(flameAOE, true);
                 }
-                else if (Input.GetButtonDown(InputNames.SelectFinisher2))
+                else if (FinisherInput.Finisher2())
                 {
                     overrideFinisherExecution(soulInfusion, true);
                 }
@@ -272,7 +272,7 @@ namespace Finisher.Characters.Systems {
         private bool inQuickFinisher = false; //TODO: must make a better quick finisher system
         private void attempQuickFinisher()
         {
-            if (Input.GetButtonDown(InputNames.Finisher) && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
+            if (FinisherInput.Finisher() && !characterState.Grabbing && characterState.FinisherModeActive && !inQuickFinisher)
             {
                 var enemies = getEnemiesInFront();
                 var enemyToFinish = getEnemyToQuickFinish(enemies);
@@ -303,7 +303,7 @@ namespace Finisher.Characters.Systems {
             foreach (var enemy in enemies)
             {
                 EnemyHealthSystem enemyHealthSystem = enemy.GetComponent<EnemyHealthSystem>();
-                if (enemyHealthSystem && enemyHealthSystem.GetVolaitilityAsPercent() >= 1 - Mathf.Epsilon)
+                if (enemyHealthSystem && enemyHealthSystem.GetIsFinishable())
                 {
                     return enemy.GetComponent<HealthSystem>();
                 }
@@ -353,11 +353,11 @@ namespace Finisher.Characters.Systems {
 
         private void testInput()
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (FinisherInput.FinisherMeterCheat())
             {
                 increaseFinisherMeter(config.MaxFinisherMeter);
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2) && grabTarget)
+            if (FinisherInput.VolatilityCheat() && grabTarget)
             {
                 grabTarget.GetComponent<EnemyHealthSystem>().DamageVolatility(100f);
             }
@@ -528,18 +528,20 @@ namespace Finisher.Characters.Systems {
 
         #endregion
 
+        bool finisherModeActive = false;
+
         // subscribed to the OnFinisherModeToggled delegate
         private void toggleFinisherMode(bool enabled)
         {
-            var finisherModeActive = enabled;
+            finisherModeActive = enabled;
 
             animator.SetBool(AnimConstants.Parameters.FINISHERMODE_BOOL, finisherModeActive);
             animator.SetTrigger(AnimConstants.Parameters.RESETPEACEFULLY_TRIGGER);
-            inFinisherIndicator.gameObject.SetActive(finisherModeActive);
 
             if (enabled)
             {
                 toggleWeapon(WeaponToggle.Knife);
+                inFinisherIndicator.gameObject.SetActive(false);
             }
             else
             {
@@ -550,6 +552,8 @@ namespace Finisher.Characters.Systems {
             {
                 ToggleGrabOff();
             }
+
+            updateFinisherMeterUI();
         }
 
         private void toggleWeapon(WeaponToggle weaponToggle)
@@ -574,6 +578,8 @@ namespace Finisher.Characters.Systems {
             if (finisherMeter)
             {
                 finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
+
+                inFinisherIndicator.gameObject.SetActive(GetFinisherMeterAsPercent() >= 1 - Mathf.Epsilon && !finisherModeActive);
             }
         }
 

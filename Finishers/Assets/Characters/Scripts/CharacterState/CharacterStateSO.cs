@@ -266,21 +266,21 @@ namespace Finisher.Characters
         #region GetCombatTargetVolatilityAsPercent
 
         [Header("GetCombatTargetVolatilityAsPercent")]
-        [SerializeField] [Range(0, 1)] float combatTargetVolatilityPercent = 0.5f;
+        [SerializeField] bool combatTargetFinishable = false;
         [SerializeField] bool useCombatTargetVolatilityPercent = false;
-        public float GetCombatTargetVolatilityAsPercent()
+        public bool GetIsCurrentTargetFinishable()
         {
             if (CombatTarget)
             {
-                return CombatTarget.GetVolaitilityAsPercent();
+                return CombatTarget.GetIsFinishable();
             }
             else if (useCombatTargetVolatilityPercent)
             {
-                return combatTargetVolatilityPercent;
+                return combatTargetFinishable;
             }
             else
             {
-                return 0;
+                return false;
             }
         }
 

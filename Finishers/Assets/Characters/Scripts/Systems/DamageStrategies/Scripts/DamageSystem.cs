@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace Finisher.Characters.Systems.Strategies {
-    public abstract class DamageSystem : ScriptableObject
+    [CreateAssetMenu(menuName = ("Finisher/Systems/Damage/SimpleDamage"))]
+    public class DamageSystem : ScriptableObject
     {
 
         [SerializeField] protected float baseDamage = 10f;

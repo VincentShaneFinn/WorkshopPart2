@@ -137,32 +137,32 @@ namespace Finisher.Characters.Systems
             IsDamageFrame = false;
         }
 
-        void OnDestroy()
-        {
-            foreach (CombatSMB smb in combatSMBs)
-            {
-                smb.AttackExitListeners -= DamageEnd;
-                smb.AttackExitListeners -= RestoreDodging;
-                smb.AttackStartListeners -= attemptRiposte;
-            }
+        //void OnDestroy()
+        //{
+        //    foreach (CombatSMB smb in combatSMBs)
+        //    {
+        //        smb.AttackExitListeners -= DamageEnd;
+        //        smb.AttackExitListeners -= RestoreDodging;
+        //        smb.AttackStartListeners -= attemptRiposte;
+        //    }
 
-            foreach (DodgeSMB smb in dodgeSMBs)
-            {
-                smb.DodgeExitListeners -= DodgeEnd;
-            }
+        //    foreach (DodgeSMB smb in dodgeSMBs)
+        //    {
+        //        smb.DodgeExitListeners -= DodgeEnd;
+        //    }
 
-            HealthSystem healthSystem = GetComponent<HealthSystem>();
+        //    HealthSystem healthSystem = GetComponent<HealthSystem>();
 
-            if (healthSystem)
-            {
-                healthSystem.OnDamageTaken -= resetHitCounter;
-            }
+        //    if (healthSystem)
+        //    {
+        //        healthSystem.OnDamageTaken -= resetHitCounter;
+        //    }
 
-            foreach (ParrySMB smb in parrySMBs)
-            {
-                smb.ParryExitListeners += ParryEnd;
-            }
-        }
+        //    foreach (ParrySMB smb in parrySMBs)
+        //    {
+        //        smb.ParryExitListeners += ParryEnd;
+        //    }
+        //}
 
         #region Attacks
 

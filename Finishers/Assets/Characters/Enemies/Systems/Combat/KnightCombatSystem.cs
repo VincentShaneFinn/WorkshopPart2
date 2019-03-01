@@ -4,15 +4,20 @@ using UnityEngine;
 
 using Finisher.Characters.Enemies;
 using System;
+using Finisher.Characters.Player.Finishers;
 
 namespace Finisher.Characters.Systems
 {
     public class KnightCombatSystem : CombatSystem
     {
 
-        public bool IsPerformingSpecialAttack;
+        public bool IsPerformingSpecialAttack = false;
+        public bool IsPerformingRangedAttack = false;
         [SerializeField] private float feintTime = .25f;
         private bool useFeint = false;
+
+        [SerializeField] ThrowingOrb orb;
+        RangedAttackSMB rangedSMB;
 
         AICharacterController character;
         EnemyAI enemyAI;
@@ -29,13 +34,23 @@ namespace Finisher.Characters.Systems
             {
                 behavior.KnightCombatSystem = this;
             }
+            rangedSMB = animator.GetBehaviour<RangedAttackSMB>();
+            rangedSMB.RangeExitListeners += StopRangedAttack;
         }
+
+        //void OnDestroy()
+        //{
+        //    rangedSMB.RangeExitListeners -= StopRangedAttack;
+        //}
+
+        #region RushAttack
 
         public void RushAttack(Transform target, bool feint)
         {
             this.target = target;
             useFeint = feint;
             animator.SetTrigger("SpecialAttack");
+            animator.SetInteger("SpecialAttackIndex", 0);
         }
 
         private IEnumerator resetSpecialAttackTrigger()
@@ -127,6 +142,48 @@ namespace Finisher.Characters.Systems
 
             animator.speed = 1f;
         }
+
+        #endregion
+
+        #region RangedAttack
+
+        public void RangedAttack()
+        {
+            animator.SetTrigger("SpecialAttack");
+            animator.SetInteger("SpecialAttackIndex", 1);
+        }
+
+        IEnumerator facePlayerCoroutine;
+
+        void StartRangedAttack()
+        {
+            //Not needed to do anything yet
+            facePlayerCoroutine = facePlayer();
+            StartCoroutine(facePlayerCoroutine);
+        }
+
+        IEnumerator facePlayer()
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            while (true)
+            {
+                transform.LookAt(player.transform);
+                yield return null;
+            }
+        }
+
+        void LaunchRangedAttack()
+        {
+            Instantiate(orb, transform.position + transform.forward + transform.up, transform.rotation);
+            StopCoroutine(facePlayerCoroutine);
+        }
+
+        void StopRangedAttack()
+        {
+            StopCoroutine(facePlayerCoroutine);
+        }
+
+        #endregion
 
     }
 }

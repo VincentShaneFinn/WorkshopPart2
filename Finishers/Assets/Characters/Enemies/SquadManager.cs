@@ -1,9 +1,12 @@
-﻿using Finisher.Characters.Enemies.Systems;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
+using Finisher.Characters.Enemies.Systems;
+using Finisher.Core;
+using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
@@ -14,11 +17,15 @@ namespace Finisher.Characters.Enemies
         [SerializeField] private int directAttackers = 1;
         [HideInInspector] public int DirectAttackers { get { return directAttackers; } }
         [SerializeField] private int indirectAttackers = 2;
+        [SerializeField] private float rangedAttackRangeLowerBound = 5f;
+        [SerializeField] private float rangedAttackUpperBound = 7.5f;
+        private bool timeForRangedAttack = false;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
         private List<GameObject> enemies = new List<GameObject>();
         private GameObject player;
+        private EnemyManager enemyManager;
         private CharacterStateSO playerState;
         private KnightLeaderAI leader;
 
@@ -40,6 +47,7 @@ namespace Finisher.Characters.Enemies
             if (player) {
                 playerState = player.GetComponent<CharacterStateFromSO>().stateSO;
             }
+            enemyManager = FindObjectOfType<EnemyManager>();
 
             setEnemies();
         }
@@ -63,10 +71,11 @@ namespace Finisher.Characters.Enemies
 
         IEnumerator assignEnemyRoles()
         {
+            StartCoroutine(resetTimeForRangedAttack());
             while (player)
             {
                 setEnemiesSubChase();
-                yield return new WaitForSeconds(1f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
@@ -80,6 +89,7 @@ namespace Finisher.Characters.Enemies
             if (CurrentManagerState != ManagerState.Attacking)
             {
                 CurrentManagerState = ManagerState.Attacking;
+                enemyManager.AddCombatSquad(this);
                 StartCoroutine(assignEnemyRoles()); //Move to play 1 second after first enemy starts chasing
             }
         }
@@ -87,6 +97,10 @@ namespace Finisher.Characters.Enemies
         public void RemoveEnemy(GameObject enemy)
         {
             enemies.Remove(enemy);
+            if(enemies.Count <= 0)
+            {
+                enemyManager.RemoveCombatSquad(this);
+            }
         }
 
         private void setEnemiesSubChase()
@@ -131,8 +145,27 @@ namespace Finisher.Characters.Enemies
                     Ai.currentChaseSubstate = ChaseSubState.Arced;
                     indirectAttackersCount--;
                 }
-                else { Ai.currentChaseSubstate = ChaseSubState.Surround; }
+                else {
+                    Ai.currentChaseSubstate = ChaseSubState.Surround;
+                    if(timeForRangedAttack)
+                    {
+                        var combatSystem = Ai.GetComponent<KnightCombatSystem>();
+                        if (combatSystem && !combatSystem.IsPerformingSpecialAttack && 
+                            Vector3.Distance(Ai.transform.position, player.transform.position) > 5f)
+                        {
+                            combatSystem.RangedAttack();
+                            timeForRangedAttack = false;
+                            StartCoroutine(resetTimeForRangedAttack());
+                        }
+                    }
+                }
             }
+        }
+
+        IEnumerator resetTimeForRangedAttack()
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(rangedAttackRangeLowerBound, rangedAttackUpperBound));
+            timeForRangedAttack = true;
         }
 
         public void SortEnemiesByDistance()
@@ -147,6 +180,7 @@ namespace Finisher.Characters.Enemies
                 CurrentManagerState = ManagerState.ReturnHome;
                 StopAllCoroutines();
                 resetEnemiesChaseSubstates();
+                enemyManager.RemoveCombatSquad(this);
             }
         }
 
