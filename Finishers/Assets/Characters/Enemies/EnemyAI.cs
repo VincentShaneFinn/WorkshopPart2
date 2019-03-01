@@ -271,7 +271,7 @@ namespace Finisher.Characters.Enemies
                     {
                         Vector3 targetDir = col.transform.position - transform.position;
                         float angletest = Vector3.SignedAngle(transform.forward, targetDir, Vector3.up);
-                        Debug.Log(col + "at my " + angletest);//angletest > 0, the col at right
+                        //Debug.Log(col + "at my " + angletest);//angletest > 0, the col at right
                         if ((angletest < 0))
                         {
                             //character.MovementSpeedMultiplier = .3f;
@@ -281,7 +281,7 @@ namespace Finisher.Characters.Enemies
                         {
                             enemyRight = true;
                         }
-                        Debug.Log("R:" + enemyRight + ";L:" + enemyLeft);
+                        //Debug.Log("R:" + enemyRight + ";L:" + enemyLeft);
                         //this part have a problem
                         //if (Vector3.Distance(col.transform.position, this.transform.position) < 2f)
                         //{ 
