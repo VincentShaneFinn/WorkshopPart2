@@ -7,6 +7,7 @@ using UnityEngine;
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Core;
 using Finisher.Characters.Systems;
+using UnityEngine.Environment;
 
 namespace Finisher.Characters.Enemies
 {
@@ -29,15 +30,16 @@ namespace Finisher.Characters.Enemies
         private CharacterStateSO playerState;
         private KnightLeaderAI leader;
 
-        //public delegate void EnemiesEngage();
-        //public event EnemiesEngage OnEnemiesEngage;
-        //public void CallWakeUpListeners()
-        //{
-        //    if (OnEnemiesEngage != null)
-        //    {
-        //        OnEnemiesEngage();
-        //    }
-        //}
+        //public delegate void SquadDefeatated();
+        //public event SquadDefeatated OnSquadDefeatated;
+        [HideInInspector] public HaltProgressDoor door;
+        private void CallSquadDefeatated()
+        {
+            if (door)
+            {
+                door.RemoveSquad(this);
+            }
+        }
 
         void Start()
         {
@@ -74,8 +76,18 @@ namespace Finisher.Characters.Enemies
             StartCoroutine(resetTimeForRangedAttack());
             while (player)
             {
+                checkAliveStatus();
                 setEnemiesSubChase();
                 yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        private void checkAliveStatus()
+        {
+            if(enemies.Count <= 1)
+            {
+                CallSquadDefeatated();
+                StopAllCoroutines();
             }
         }
 
