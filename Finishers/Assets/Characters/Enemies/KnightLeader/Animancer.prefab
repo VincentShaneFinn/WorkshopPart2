@@ -741,6 +741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
   IsParryFrame: 0
+  invulnerableCheat: 0
 --- !u!114 &7947276606294265880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 1ca79b7ae7e568d4eb5caad178493a23, type: 2}
-  enemyCanvas: {fileID: 5563752524858628117}
+  enemyCanvas: {fileID: 8686576069457066128}
   hitsUntilRetaliation: 2
   timeToResetHitsTaken: 2
 --- !u!114 &4728689035381766452
@@ -8940,6 +8941,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3906266330476250728}
     m_Modifications:
+    - target: {fileID: 3922335104527677596, guid: 7112720e273959c4ab8f15ce1a2fb610,
+        type: 3}
+      propertyPath: m_Name
+      value: AttackTrail
+      objectReference: {fileID: 0}
     - target: {fileID: 6551779144639031689, guid: 7112720e273959c4ab8f15ce1a2fb610,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9000,11 +9006,6 @@ PrefabInstance:
       propertyPath: ShapeModule.m_Position.y
       value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 3922335104527677596, guid: 7112720e273959c4ab8f15ce1a2fb610,
-        type: 3}
-      propertyPath: m_Name
-      value: AttackTrail
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7112720e273959c4ab8f15ce1a2fb610, type: 3}
 --- !u!4 &6551779144077025334 stripped
@@ -9026,6 +9027,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7548122116635908273}
     m_Modifications:
+    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095777, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9130,11 +9136,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
