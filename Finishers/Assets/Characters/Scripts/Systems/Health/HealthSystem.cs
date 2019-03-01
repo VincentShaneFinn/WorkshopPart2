@@ -147,7 +147,7 @@ namespace Finisher.Characters.Systems
 
         public bool GetIsFinishable()
         {
-            return GetHealthAsPercent() < config.FinishableLowerBound;
+            return GetHealthAsPercent() < (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent());
         }
 
         private void checkVolatilityFull()

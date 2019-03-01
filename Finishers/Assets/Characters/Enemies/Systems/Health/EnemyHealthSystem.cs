@@ -95,6 +95,10 @@ namespace Finisher.Characters.Enemies.Systems
             {
                 healthBar.SetColor(GetIsFinishable());
             }
+            if (finishabilityLine)
+            {
+                finishabilityLine.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent()) * 100, 0);
+            }
         }
 
         private bool inFinisherMode = false;

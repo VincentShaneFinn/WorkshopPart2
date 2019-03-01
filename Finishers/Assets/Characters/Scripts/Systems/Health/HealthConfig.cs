@@ -8,6 +8,7 @@ namespace Finisher.Characters.Systems
         [SerializeField] float maxHealth = 100f; public float MaxHealth { get { return maxHealth; } }
         [SerializeField] float maxVolatility = 100f; public float MaxVolatility { get { return maxVolatility; } }
         [SerializeField] float finishableLowerBound = 0.3f; public float FinishableLowerBound { get { return finishableLowerBound; } }
+        [SerializeField] float finishableUpperBound = 0.6f; public float FinishableUpperBound { get { return finishableUpperBound; } }
         [SerializeField] int knockbackLimit = 2; public int KnockbackLimit { get { return knockbackLimit; } }
         [SerializeField] float freeKnockbackTime = 1f; public float FreeKnockbackTime { get { return freeKnockbackTime; } }
         [SerializeField] float regenPerSecond = 0f; public float RegenPerSecond { get { return regenPerSecond; } }
