@@ -176,6 +176,8 @@ namespace Finisher.Characters.Systems {
             }
         }
 
+        bool isFinishing = false;
+
         private void attemptFinisher()
         {
 
@@ -186,9 +188,11 @@ namespace Finisher.Characters.Systems {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
                 if (grabHealthSystem &&
-                    FinisherInput.Finisher() && 
+                    //FinisherInput.Finisher() && 
+                    !isFinishing &&
                     grabHealthSystem.GetIsFinishable())
                 {
+                    isFinishing = true;
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                     animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
                     //Set the default finisher to play
@@ -587,7 +591,6 @@ namespace Finisher.Characters.Systems {
 
         void FinisherExecutionSlice()
         {
-
             lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
             grabTarget.GetComponent<HealthSystem>().CutInHalf();
             toggleWeapon(WeaponToggle.Knife);
@@ -597,6 +600,7 @@ namespace Finisher.Characters.Systems {
         {
             decreaseFinisherMeter(flameAOE.FinisherMeterCost);
             Instantiate(currentFinisherExecution, transform.position, transform.rotation);
+            isFinishing = false;
         }
 
         void SoulInfusion()
