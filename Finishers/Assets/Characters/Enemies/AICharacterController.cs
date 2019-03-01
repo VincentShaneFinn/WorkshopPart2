@@ -75,6 +75,11 @@ namespace Finisher.Characters.Enemies
 
         private void Update()
         {
+            if (characterState.Attacking)
+            {
+                EngageEnemy();
+            }
+
             if (manualControl)
             {
                 return;
@@ -201,6 +206,35 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        //TODO: same exact code the playerCharacterController has, consider promotion to CharacterMotor
+        private float attackSnapDistance = 0.01f;
+        private float AutoLockTurnSpeed = 1f;
+
+        private void EngageEnemy()
+        {
+            var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            targetRotation.x = 0;
+            targetRotation.z = 0;
+
+            // Smoothly rotate towards the target point.
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            // Snap Player around target
+            //var heading = transform.position - target.position;
+            //var distanceToTarget = heading.magnitude;
+            //var directionTargetToSelf = heading / distanceToTarget; // This is now the normalized direction.
+
+            //var newPosition = target.transform.position + directionTargetToSelf; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
+            //var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
+            //if (distance < attackSnapDistance)
+            //{
+            //    //transform.position = newPosition;
+            //}
+            //else
+            //{
+            //    transform.position = Vector3.MoveTowards(transform.position, newPosition, attackSnapDistance);
+            //}
+        }
 
         //void OnDrawGizmos()
         //{
