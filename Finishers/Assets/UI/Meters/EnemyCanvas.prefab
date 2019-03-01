@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 7928846566709993362}
   - component: {fileID: 6178806994398657206}
   - component: {fileID: 3290617019750329110}
+  - component: {fileID: 6071949838122606285}
   m_Layer: 0
   m_Name: Line
   m_TagString: Untagged
@@ -253,6 +254,18 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &6071949838122606285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6048678385145565882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a421e24ec80b3479bbf955509e7258, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6205458041244095782
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VolatilityMeterMask: {fileID: 2675361419620778170}
+  ThresholdLine: {fileID: 3290617019750329110}
 --- !u!1 &6810321317199912761
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,6 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4893cc569e5db942bda3dae5acac2cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finishableColor: {r: 1, g: 0.52990144, b: 0, a: 1}
 --- !u!1 &6850036641471114880
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +556,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.77378356, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.4392157, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -582,3 +597,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98780d11dde646d4ea6d7e9e216333c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  finishableColor: {r: 0, g: 0, b: 0, a: 0}

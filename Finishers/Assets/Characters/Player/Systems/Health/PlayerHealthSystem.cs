@@ -38,7 +38,7 @@ namespace Finisher.Characters.Player.Systems
             healthBar = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_HealthMeter>();
         }
 
-        protected override void updateVolatilityUI()
+        protected override void updateFinishabilityUI()
         {
             return;
         }

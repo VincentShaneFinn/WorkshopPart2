@@ -127,7 +127,7 @@ namespace Finisher.Characters.Systems
             {
                 currentVolatility = config.MaxVolatility;
             }
-            updateVolatilityUI();
+            updateFinishabilityUI();
         }
 
         private void decreaseVolatility(float amount)
@@ -137,7 +137,7 @@ namespace Finisher.Characters.Systems
             {
                 currentVolatility = 0;
             }
-            updateVolatilityUI();
+            updateFinishabilityUI();
         }
 
         protected float getVolaitilityAsPercent()
@@ -273,17 +273,18 @@ namespace Finisher.Characters.Systems
 
         #region updateUI
 
-        private void updateHealthUI()
+        protected void updateHealthUI()
         {
             if (healthBar)
             {
                 healthBar.SetFillAmount(GetHealthAsPercent());
+                updateFinishabilityUI();
             }
         }
 
         #endregion
 
-        protected abstract void updateVolatilityUI();
+        protected abstract void updateFinishabilityUI();
 
     }
 }

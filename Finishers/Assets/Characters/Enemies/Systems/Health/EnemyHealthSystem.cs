@@ -12,6 +12,7 @@ namespace Finisher.Characters.Enemies.Systems
         [SerializeField] private EnemyUI enemyCanvas;
 
         private UI_VolatilityMeter volatilityMeter;
+        private UI_FinishableThresholdLine finishabilityLine;
         private Image volatilityMask;
 
         protected override void Start()
@@ -29,6 +30,11 @@ namespace Finisher.Characters.Enemies.Systems
                 healthBar = GetComponentInChildren<UI_HealthMeter>();
                 volatilityMeter = GetComponentInChildren<UI_VolatilityMeter>();
                 volatilityMask = enemyCanvas.VolatilityMeterMask;
+                finishabilityLine = GetComponentInChildren<UI_FinishableThresholdLine>();
+                if (finishabilityLine)
+                {
+                    finishabilityLine.gameObject.SetActive(false);
+                }
             }
         }
 
@@ -75,13 +81,23 @@ namespace Finisher.Characters.Enemies.Systems
 
         #region Enemy UI
 
-        protected override void updateVolatilityUI()
+        protected override void updateFinishabilityUI()
         {
-            if (volatilityMeter)
+            //if (volatilityMeter)
+            //{
+            //    volatilityMeter.SetFillAmount(getVolaitilityAsPercent());
+            //}
+            if (!inFinisherMode)
             {
-                volatilityMeter.SetFillAmount(getVolaitilityAsPercent());
+                healthBar.SetColor(false);
+            }
+            else
+            {
+                healthBar.SetColor(GetIsFinishable());
             }
         }
+
+        private bool inFinisherMode = false;
 
         private void toggleVolatiltyMeter(bool enabled)
         {
@@ -95,6 +111,12 @@ namespace Finisher.Characters.Enemies.Systems
             //{
             //    volatilityMeter.SetFillAmountInstant(currentVolatility);
             //}
+            inFinisherMode = enabled;
+            if (finishabilityLine)
+            {
+                finishabilityLine.gameObject.SetActive(enabled);
+            }
+            updateHealthUI();
         }
 
         private void toggleEnemyCanvas(bool enabled)
