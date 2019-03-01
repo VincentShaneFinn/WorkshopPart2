@@ -528,18 +528,20 @@ namespace Finisher.Characters.Systems {
 
         #endregion
 
+        bool finisherModeActive = false;
+
         // subscribed to the OnFinisherModeToggled delegate
         private void toggleFinisherMode(bool enabled)
         {
-            var finisherModeActive = enabled;
+            finisherModeActive = enabled;
 
             animator.SetBool(AnimConstants.Parameters.FINISHERMODE_BOOL, finisherModeActive);
             animator.SetTrigger(AnimConstants.Parameters.RESETPEACEFULLY_TRIGGER);
-            inFinisherIndicator.gameObject.SetActive(finisherModeActive);
 
             if (enabled)
             {
                 toggleWeapon(WeaponToggle.Knife);
+                inFinisherIndicator.gameObject.SetActive(false);
             }
             else
             {
@@ -550,6 +552,8 @@ namespace Finisher.Characters.Systems {
             {
                 ToggleGrabOff();
             }
+
+            updateFinisherMeterUI();
         }
 
         private void toggleWeapon(WeaponToggle weaponToggle)
@@ -574,6 +578,8 @@ namespace Finisher.Characters.Systems {
             if (finisherMeter)
             {
                 finisherMeter.SetFillAmount(GetFinisherMeterAsPercent());
+
+                inFinisherIndicator.gameObject.SetActive(GetFinisherMeterAsPercent() >= 1 - Mathf.Epsilon && !finisherModeActive);
             }
         }
 
