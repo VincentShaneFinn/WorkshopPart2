@@ -741,6 +741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
   IsParryFrame: 0
+  invulnerableCheat: 0
 --- !u!114 &7947276606294265880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -838,7 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30f32bcf215356d46b582c68d2076961, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 5d5fce414a22e55438e6f5ba32a94673, type: 2}
+  config: {fileID: 11400000, guid: 1ca79b7ae7e568d4eb5caad178493a23, type: 2}
   enemyCanvas: {fileID: 8686576069457066128}
   hitsUntilRetaliation: 2
   timeToResetHitsTaken: 2
