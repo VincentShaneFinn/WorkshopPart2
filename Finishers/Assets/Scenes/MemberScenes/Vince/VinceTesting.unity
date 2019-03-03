@@ -827,11 +827,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 5947053434891578244, guid: 4c2cec9c7076433448ee5002c76aba44,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 755630127305961271, guid: 4c2cec9c7076433448ee5002c76aba44,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -886,6 +881,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947053434891578244, guid: 4c2cec9c7076433448ee5002c76aba44,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c2cec9c7076433448ee5002c76aba44, type: 3}
@@ -2053,6 +2053,31 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4106357783344313491, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: Adventurer
+      value: 
+      objectReference: {fileID: 8300000, guid: 83dd692a8145f7545ac4c1829c30f041, type: 3}
+    - target: {fileID: 4106357783344313491, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: AdventurerAlt
+      value: 
+      objectReference: {fileID: 8300000, guid: 6826f04ff3bce6b40b7e153935f56a88, type: 3}
+    - target: {fileID: 4106357783344313491, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: Fight
+      value: 
+      objectReference: {fileID: 8300000, guid: fe3c258193772854a86a15bd1df8439a, type: 3}
+    - target: {fileID: 4106357783344313491, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: Mystic
+      value: 
+      objectReference: {fileID: 8300000, guid: 4fd4b4c98d679dd40b1cfa338909864e, type: 3}
+    - target: {fileID: 4106357783344313491, guid: f83221d9e6756614f869c751e8d09e4f,
+        type: 3}
+      propertyPath: Ominous
+      value: 
+      objectReference: {fileID: 8300000, guid: dc9d719cf531edc4d886cc9e54b68ca5, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f83221d9e6756614f869c751e8d09e4f, type: 3}
 --- !u!114 &3570073716651220104
