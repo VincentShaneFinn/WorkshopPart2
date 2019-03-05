@@ -62,6 +62,7 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private PulseBlast flamethrower;
         [SerializeField] private FlameAOE flameAOE;
         [SerializeField] private SoulInfusion soulInfusion;
+        [SerializeField] private Blades blades;
         [SerializeField] private StunAOE stunAOE;
         [SerializeField] private float soulSwordTime=10;
 
@@ -208,6 +209,10 @@ namespace Finisher.Characters.Systems {
                 else if (FinisherInput.Finisher2())
                 {
                     overrideFinisherExecution(soulInfusion, true);
+                }
+                else if (FinisherInput.Finisher4())
+                {
+                    overrideFinisherExecution(blades, true);
                 }
             }
         }

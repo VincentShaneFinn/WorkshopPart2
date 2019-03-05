@@ -90,6 +90,12 @@ public class FinisherInput : MonoBehaviour
         rv = Input.GetButtonDown(InputNames.SelectFinisher2);
         return rv;
     }
+    public static bool Finisher4()
+    {
+        bool rv = false;
+        rv = Input.GetButtonDown(InputNames.SelectFinisher4);
+        return rv;
+    }
 
     static float previousHealDPadX = 0;
     //Heal Cheat
