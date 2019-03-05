@@ -10,7 +10,6 @@ public class CharacterSoundHandler : MonoBehaviour
     [SerializeField] CharacterSoundConfig config;
 
     protected HealthSystem healthSystem;
-
     private AudioSource baseAudioSource;
     private Rigidbody rigidBody;
     private const float CHECK_IF_MOVING = .3f;
@@ -28,7 +27,7 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+       rigidBody = GetComponent<Rigidbody>();
     }
 
     void OnDestroy()
@@ -111,7 +110,6 @@ public class CharacterSoundHandler : MonoBehaviour
     {
         config.FinisherSlice.Play(baseAudioSource);
     }
-
     //TODO move this to the prefab
     void Finisher_AOE_Blast()
     {
@@ -119,5 +117,4 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherAOEBlast.Play(audioSourceToKill);
         Destroy(audioSourceToKill, audioSourceToKill.clip.length);
     }
-    
 }
