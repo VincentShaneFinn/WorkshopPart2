@@ -13,5 +13,6 @@ namespace Finisher.Characters.Systems
         [SerializeField] AnimationClip riposteKillAnimationToPass; public AnimationClip RiposteKillAnimationToPass { get { return riposteKillAnimationToPass; } }
         [SerializeField] private float timeToClearAttackTrigger = 0; public float TimeToClearAttackTrigger { get { return timeToClearAttackTrigger; } }
         [SerializeField] private float attackAnimSpeed = 1f; public float AttackAnimSpeed { get { return attackAnimSpeed; } }
+        [SerializeField] private float timeToKeepCombo = 7f; public float TimeToKeepCombo { get { return timeToKeepCombo; } }
     }
 }

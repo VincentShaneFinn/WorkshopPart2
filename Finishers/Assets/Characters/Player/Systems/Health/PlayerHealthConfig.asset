@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxVolatility: 100
+  finishableLowerBound: 0.3
+  finishableUpperBound: 0.6
   knockbackLimit: 2
   freeKnockbackTime: 2
-  regenPerSecond: 3
+  regenPerSecond: 1
   normalDeathAnimations:
   - {fileID: 7400000, guid: 9a26352c93a81e947b73b8e47cc931bb, type: 3}
   knockbackAnimations:

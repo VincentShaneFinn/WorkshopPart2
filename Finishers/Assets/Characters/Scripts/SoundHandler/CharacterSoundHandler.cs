@@ -11,7 +11,6 @@ public class CharacterSoundHandler : MonoBehaviour
     [SerializeField] CharacterSoundConfig config;
 
     protected HealthSystem healthSystem;
-
     private AudioSource baseAudioSource;
     private Rigidbody rigidBody;
     private const float CHECK_IF_MOVING = .3f;
@@ -31,7 +30,7 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+       rigidBody = GetComponent<Rigidbody>();
     }
 
     void OnDestroy()
@@ -64,7 +63,8 @@ public class CharacterSoundHandler : MonoBehaviour
             {
                 config.FootStepSand.Play(baseAudioSource);
             }
-            else if (terrainType == "Floor")
+            //else if (terrainType == "Floor")
+            else
             {
                 config.FootStepDefault.Play(baseAudioSource);
             }
@@ -126,7 +126,6 @@ public class CharacterSoundHandler : MonoBehaviour
     {
         config.FinisherSlice.Play(baseAudioSource);
     }
-
     //TODO move this to the prefab
     void Finisher_AOE_Blast()
     {

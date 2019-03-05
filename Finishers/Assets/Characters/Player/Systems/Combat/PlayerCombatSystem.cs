@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -40,6 +40,17 @@ namespace Finisher.Characters.Player.Systems
             }
 
             testingInputZone();
+
+            if (hitCounter > 0)
+            {
+                timer += Time.deltaTime;
+
+                if (timer >= config.TimeToKeepCombo)
+                {
+                    resetHitCounter();
+                    timer = 0;
+                }
+            }
         }
 
         private void processCombatInput()
@@ -51,29 +62,20 @@ namespace Finisher.Characters.Player.Systems
 
         private void processAttackInput()
         {
-            if (Input.GetButtonDown(InputNames.LightAttack))
+            if (FinisherInput.LightAttack())
             {
                 LightAttack();
             }
-            if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
+
+            if (FinisherInput.HeavyAttack())
             {
-                if (Input.GetAxisRaw(InputNames.HeavyAttack) > 0) // xbox triggers are not buttons
-                {
-                    HeavyAttack();
-                }
-            }
-            else
-            {
-                if (Input.GetButtonDown(InputNames.HeavyAttack))
-                {
-                    HeavyAttack();
-                }
+                HeavyAttack();
             }
         }
 
         private void processDodgeInput()
         {
-            if (Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3))
+            if (FinisherInput.Dodge())
             {
                 finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
@@ -83,7 +85,7 @@ namespace Finisher.Characters.Player.Systems
 
         private void processParryInput()
         {
-            if (Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4))
+            if (FinisherInput.Parry())
             {
                 finisherSystem.ToggleGrabOff();
                 Parry();
@@ -193,8 +195,11 @@ namespace Finisher.Characters.Player.Systems
         IEnumerator killOnStab(HealthSystem enemyToParry)
         {
             yield return new WaitForSeconds(.75f);
-            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry);
-            enemyToParry.Kill(config.RiposteKillAnimationToPass);
+            lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry, bonusDamage: 10);
+            if (enemyToParry.GetHealthAsPercent() <= 0)
+            {
+                enemyToParry.Kill(config.RiposteKillAnimationToPass, overrideKillAnim: true);
+            }
         }
 
         //TODO: create a linked character animation system

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Finisher.Characters.Enemies
@@ -7,7 +8,9 @@ namespace Finisher.Characters.Enemies
     {
         public bool UseOptionalDestination = false;
         public Vector3 OptionalDestination = Vector3.zero;
-        private bool manualControl = false; 
+        private bool manualControl = false;
+
+        private float lockLookAtDuration = 0;
 
         private Transform target; // target to aim for
 
@@ -55,13 +58,12 @@ namespace Finisher.Characters.Enemies
 
         private UnityEngine.AI.NavMeshAgent agent; // the navmesh agent required for the path finding
 
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
 
             // get the components on the object we need ( should not be null due to require component so no need to check )
             agent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
-            //agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
             agent.baseOffset = baseOffset;
             agent.stoppingDistance = stoppingDistance;
             agent.speed = 1;
@@ -73,6 +75,11 @@ namespace Finisher.Characters.Enemies
 
         private void Update()
         {
+            if (characterState.Attacking)
+            {
+                EngageEnemy();
+            }
+
             if (manualControl)
             {
                 return;
@@ -92,12 +99,12 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void ManualyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
+        public void ManuallyMoveCharacter(Vector3 manualMoveDirection, bool strafing = false)
         {
             if (CanMove)
             {
                 manualControl = true;
-                agent.enabled = false;
+                toggleAgent(false);
                 Strafing = strafing;
                 MoveCharacter(manualMoveDirection);
             }
@@ -106,7 +113,7 @@ namespace Finisher.Characters.Enemies
         public void StopManualMovement()
         {
             manualControl = false;
-            agent.enabled = true;
+            toggleAgent(true);
             Strafing = false;
         }
 
@@ -133,7 +140,7 @@ namespace Finisher.Characters.Enemies
                 agent.SetDestination(transform.position);
                 MoveCharacter(Vector3.zero);
             }
-            
+
         }
 
         private void StationaryLookAt()
@@ -145,12 +152,25 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        public void LookAtTarget(Transform _target)
+        public void LookAtTarget(Transform _target, float duration = 0)
         {
+            if(lockLookAtDuration > 0) { return; }
+            if (duration > 0)
+            {
+                lockLookAtDuration = duration;
+                StartCoroutine(lockLookAtDurationTimer());
+            }
+
             if (_target)
             {
                 transform.LookAt(new Vector3(_target.position.x, transform.position.y, _target.position.z));
             }
+        }
+
+        IEnumerator lockLookAtDurationTimer()
+        {
+            yield return new WaitForSeconds(lockLookAtDuration);
+            lockLookAtDuration = 0;
         }
 
         public void SetStoppingDistance(float newStoppingDistance)
@@ -168,6 +188,11 @@ namespace Finisher.Characters.Enemies
             this.target = target;
         }
 
+        public void toggleAgent(bool enabled)
+        {
+            agent.enabled = enabled;
+        }
+
         private void setAgentDestination()
         {
             if (UseOptionalDestination)
@@ -178,10 +203,38 @@ namespace Finisher.Characters.Enemies
             else if (target)
             {
                 agent.SetDestination(target.position);
-                agent.stoppingDistance = stoppingDistance;
             }
         }
 
+        //TODO: same exact code the playerCharacterController has, consider promotion to CharacterMotor
+        private float attackSnapDistance = 0.01f;
+        private float AutoLockTurnSpeed = 1f;
+
+        private void EngageEnemy()
+        {
+            var targetRotation = Quaternion.LookRotation(target.transform.position - transform.position);
+            targetRotation.x = 0;
+            targetRotation.z = 0;
+
+            // Smoothly rotate towards the target point.
+            transform.rotation =
+                Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
+            // Snap Player around target
+            //var heading = transform.position - target.position;
+            //var distanceToTarget = heading.magnitude;
+            //var directionTargetToSelf = heading / distanceToTarget; // This is now the normalized direction.
+
+            //var newPosition = target.transform.position + directionTargetToSelf; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
+            //var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
+            //if (distance < attackSnapDistance)
+            //{
+            //    //transform.position = newPosition;
+            //}
+            //else
+            //{
+            //    transform.position = Vector3.MoveTowards(transform.position, newPosition, attackSnapDistance);
+            //}
+        }
 
         //void OnDrawGizmos()
         //{

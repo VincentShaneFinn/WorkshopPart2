@@ -9,8 +9,8 @@ using System.Collections.Generic;
 namespace Finisher.Characters.Systems
 {
 
-    public enum AttackType { None, LightBlade, HeavyBlade };
-    public enum MoveDirection { Forward,Right,Backward,Left };
+    public enum AttackType { None, LightBlade, HeavyBlade, Special };
+    public enum MoveDirection { Forward, Right, Backward, Left };
 
     [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
@@ -25,8 +25,11 @@ namespace Finisher.Characters.Systems
         [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
         [SerializeField] protected CombatConfig config;
 
+        protected float timer;
+        protected int hitCounter;
+
         public bool IsDamageFrame { get; private set; }
-        public bool DodgingAllowed = true; 
+        public bool DodgingAllowed = true;
 
         #region Delegates
 
@@ -62,7 +65,8 @@ namespace Finisher.Characters.Systems
 
         #endregion
 
-        public AttackType CurrentAttackType {
+        public AttackType CurrentAttackType
+        {
             get
             {
                 if (animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.LIGHTATTACK_TAG))
@@ -73,13 +77,16 @@ namespace Finisher.Characters.Systems
                 {
                     return AttackType.HeavyBlade;
                 }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag("SpecialAttack")) //TODO: make an AnimConstant and note below it is being used the same way heavy attack is
+                {
+                    return AttackType.Special;
+                }
                 return AttackType.None;
             }
         }
 
         private float resetAttackTriggerTime = 0;
         private bool runningResetCR = false;
-        private int hitCounter;
 
         [HideInInspector] protected Animator animator;
         private AnimOverrideSetter animOverrideHandler;
@@ -108,6 +115,7 @@ namespace Finisher.Characters.Systems
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
                 smb.AttackStartListeners += attemptRiposte;
+                smb.AttackStartListeners += attackStarted;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -130,32 +138,37 @@ namespace Finisher.Characters.Systems
             IsDamageFrame = false;
         }
 
-        void OnDestroy()
+        void attackStarted()
         {
-            foreach (CombatSMB smb in combatSMBs)
-            {
-                smb.AttackExitListeners -= DamageEnd;
-                smb.AttackExitListeners -= RestoreDodging;
-                smb.AttackStartListeners -= attemptRiposte;
-            }
-
-            foreach (DodgeSMB smb in dodgeSMBs)
-            {
-                smb.DodgeExitListeners -= DodgeEnd;
-            }
-
-            HealthSystem healthSystem = GetComponent<HealthSystem>();
-
-            if (healthSystem)
-            {
-                healthSystem.OnDamageTaken -= resetHitCounter;
-            }
-
-            foreach (ParrySMB smb in parrySMBs)
-            {
-                smb.ParryExitListeners += ParryEnd;
-            }
+            characterState.Attacking = true;
         }
+
+        //void OnDestroy()
+        //{
+        //    foreach (CombatSMB smb in combatSMBs)
+        //    {
+        //        smb.AttackExitListeners -= DamageEnd;
+        //        smb.AttackExitListeners -= RestoreDodging;
+        //        smb.AttackStartListeners -= attemptRiposte;
+        //    }
+
+        //    foreach (DodgeSMB smb in dodgeSMBs)
+        //    {
+        //        smb.DodgeExitListeners -= DodgeEnd;
+        //    }
+
+        //    HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+        //    if (healthSystem)
+        //    {
+        //        healthSystem.OnDamageTaken -= resetHitCounter;
+        //    }
+
+        //    foreach (ParrySMB smb in parrySMBs)
+        //    {
+        //        smb.ParryExitListeners += ParryEnd;
+        //    }
+        //}
 
         #region Attacks
 
@@ -164,7 +177,7 @@ namespace Finisher.Characters.Systems
             animator.SetBool(AnimConstants.Parameters.ISHEAVY_BOOL, false);
             animator.SetTrigger(AnimConstants.Parameters.ATTACK_TRIGGER);
             resetAttackTriggerTime = Time.time + config.TimeToClearAttackTrigger;
-            if(!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
+            if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
         public void HeavyAttack()
@@ -189,7 +202,7 @@ namespace Finisher.Characters.Systems
 
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
-            if (characterState.Uninteruptable || characterState.Dodging  || !DodgingAllowed)
+            if (characterState.Uninteruptable || characterState.Dodging || !DodgingAllowed)
             {
                 return;
             }
@@ -301,7 +314,7 @@ namespace Finisher.Characters.Systems
         #endregion
 
         // todo make this and the class abstract when we add an enemy combat system
-        public virtual void HitCharacter(HealthSystem targetHealthSystem,float soulBonus=0)
+        public virtual void HitCharacter(HealthSystem targetHealthSystem, float soulBonus = 0)
         {
 
             if (!Hit.Add(targetHealthSystem))
@@ -313,11 +326,11 @@ namespace Finisher.Characters.Systems
                 float finisherMeterGain = lightAttackDamageSystem.FinisherMeterGainAmount;
 
                 finisherMeterGain = multiplyFinisherMeterGain(finisherMeterGain);
-                
+
                 lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
-            else if (CurrentAttackType == AttackType.HeavyBlade)
+            else if (CurrentAttackType == AttackType.HeavyBlade || CurrentAttackType == AttackType.Special)
             {
                 float finisherMeterGain = heavyAttackDamageSystem.FinisherMeterGainAmount;
 
@@ -328,7 +341,7 @@ namespace Finisher.Characters.Systems
             }
 
             IncrementHitCounter();
-            
+
         }
 
         public void IncrementHitCounter(bool reset = false)
@@ -338,16 +351,18 @@ namespace Finisher.Characters.Systems
                 if (reset)
                 {
                     hitCounter = 0;
+                    timer = 0;
                 }
                 else
                 {
                     hitCounter++;
                 }
+
                 CallHitCounterChangedEvent(hitCounter);
             }
         }
 
-        private void resetHitCounter()
+        protected void resetHitCounter()
         {
             IncrementHitCounter(reset: true);
         }
@@ -359,7 +374,7 @@ namespace Finisher.Characters.Systems
                 var counter = Mathf.Clamp(hitCounter, 0, 15);
                 finisherMeterGain = finisherMeterGain * (1 + (.05f * (counter - 5)));
             }
-            
+
             return finisherMeterGain;
         }
 

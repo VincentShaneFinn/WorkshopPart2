@@ -1,10 +1,13 @@
 ﻿using Finisher.Characters;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StyxInteraction : MonoBehaviour
 {
     public AnimationClip animationToPlay;
+    public GameObject vialUI; // use PLayerUI>BottumLeft>VialIcon
+    public Sprite fullVial;  // use Assests>UI>UIButtons>Textures>VialFull
 
     protected bool interactable = false;
 
@@ -16,11 +19,15 @@ public class StyxInteraction : MonoBehaviour
     
     private void OnTriggerStay(Collider other)
     {
-        if (Input.GetButton("Interact") && interactable)
+        if (FinisherInput.Interact() && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             StartCoroutine(pickupItem());
             interactable = false;
+            if (vialUI != null)
+            {
+                vialUI.GetComponent<Image>().sprite = fullVial;
+            }
         }
     }
 

@@ -2,7 +2,8 @@
 using UnityEngine;
 
 namespace Finisher.Characters.Systems.Strategies {
-    public abstract class DamageSystem : ScriptableObject
+    [CreateAssetMenu(menuName = ("Finisher/Systems/Damage/SimpleDamage"))]
+    public class DamageSystem : ScriptableObject
     {
 
         [SerializeField] protected float baseDamage = 10f;
@@ -21,10 +22,10 @@ namespace Finisher.Characters.Systems.Strategies {
             playParticle(targetHealthSytem);
         }
 
-        protected virtual void DealDamage(HealthSystem targetHealthSystem,float damageMultiplier,float bonusDamage)
+        protected virtual void DealDamage(HealthSystem targetHealthSystem, float damageMultiplier, float bonusDamage)
         {
 
-            targetHealthSystem.DamageHealth(baseDamage*damageMultiplier+bonusDamage);
+            targetHealthSystem.DamageHealth(baseDamage*damageMultiplier + bonusDamage, this);
 
         }
 
