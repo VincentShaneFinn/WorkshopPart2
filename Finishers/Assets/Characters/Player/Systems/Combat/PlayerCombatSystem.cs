@@ -65,13 +65,11 @@ namespace Finisher.Characters.Player.Systems
             if (FinisherInput.LightAttack())
             {
                 LightAttack();
-                characterState.Attacking = true;
             }
 
             if (FinisherInput.HeavyAttack())
             {
                 HeavyAttack();
-                    characterState.Attacking = true;
             }
         }
 

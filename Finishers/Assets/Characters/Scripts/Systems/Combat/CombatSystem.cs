@@ -115,6 +115,7 @@ namespace Finisher.Characters.Systems
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
                 smb.AttackStartListeners += attemptRiposte;
+                smb.AttackStartListeners += attackStarted;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -135,6 +136,11 @@ namespace Finisher.Characters.Systems
             }
 
             IsDamageFrame = false;
+        }
+
+        void attackStarted()
+        {
+            characterState.Attacking = true;
         }
 
         //void OnDestroy()
