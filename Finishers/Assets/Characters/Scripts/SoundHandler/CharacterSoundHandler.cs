@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Finisher.Characters.Systems;
+using System;
 
 public class CharacterSoundHandler : MonoBehaviour
 {
@@ -10,10 +11,11 @@ public class CharacterSoundHandler : MonoBehaviour
     [SerializeField] CharacterSoundConfig config;
 
     protected HealthSystem healthSystem;
-
     private AudioSource baseAudioSource;
     private Rigidbody rigidBody;
     private const float CHECK_IF_MOVING = .3f;
+
+    private string terrainType;
 
     void Awake()
     {
@@ -28,7 +30,7 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void Start()
     {
-        rigidBody = GetComponent<Rigidbody>();
+       rigidBody = GetComponent<Rigidbody>();
     }
 
     void OnDestroy()
@@ -43,19 +45,32 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void FootL()
     {
-        if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
-        {
-            config.FootStep.Play(baseAudioSource);
-        }
+        Footstep();
     }
 
     void FootR()
     {
+        Footstep();
+    }
+
+    void Footstep()
+    {
+        RaycastHit hit;
+
         if (rigidBody.velocity.magnitude > CHECK_IF_MOVING)
         {
-            config.FootStep.Play(baseAudioSource);
+            if (terrainType == "SandFloor")
+            {
+                config.FootStepSand.Play(baseAudioSource);
+            }
+            //else if (terrainType == "Floor")
+            else
+            {
+                config.FootStepDefault.Play(baseAudioSource);
+            }
         }
     }
+
     #endregion
 
     #region Combat Animation Events
@@ -111,7 +126,6 @@ public class CharacterSoundHandler : MonoBehaviour
     {
         config.FinisherSlice.Play(baseAudioSource);
     }
-
     //TODO move this to the prefab
     void Finisher_AOE_Blast()
     {
@@ -119,5 +133,9 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherAOEBlast.Play(audioSourceToKill);
         Destroy(audioSourceToKill, audioSourceToKill.clip.length);
     }
-    
+
+    void OnCollisionStay(Collision collision)
+    {
+        terrainType = collision.gameObject.tag;
+    }
 }

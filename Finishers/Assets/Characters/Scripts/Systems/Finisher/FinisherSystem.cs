@@ -11,6 +11,7 @@ using Finisher.Characters.Player.Finishers;
 using Finisher.Characters.Enemies.Systems;
 using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
+using System;
 
 namespace Finisher.Characters.Systems {
 
@@ -22,6 +23,7 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private FinisherConfig config;
         [SerializeField] private FinisherModeDamageSystem lightFinisherAttackDamageSystem;
         [SerializeField] private FinisherModeDamageSystem heavyFinisherAttackDamageSystem;
+        private GameObject FinisherGuidePanel;
 
         #region Delegates
 
@@ -86,6 +88,7 @@ namespace Finisher.Characters.Systems {
             toggleWeapon(WeaponToggle.Sword);
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
+            FinisherGuidePanel = FindObjectOfType<UI.PlayerUIObjects>().FinisherGuidePanel;
 
             inFinisherIndicator = FindObjectOfType<UI.PlayerUIObjects>().InFinisherIndicator.gameObject;
             inFinisherIndicator.gameObject.SetActive(false);
@@ -177,6 +180,8 @@ namespace Finisher.Characters.Systems {
             }
         }
 
+        bool isFinishing = false;
+
         private void attemptFinisher()
         {
 
@@ -187,9 +192,11 @@ namespace Finisher.Characters.Systems {
                 var grabHealthSystem = grabTarget.GetComponent<EnemyHealthSystem>();
 
                 if (grabHealthSystem &&
-                    FinisherInput.Finisher() && 
+                    //FinisherInput.Finisher() && 
+                    !isFinishing &&
                     grabHealthSystem.GetIsFinishable())
                 {
+                    isFinishing = true;
                     animator.SetTrigger(AnimConstants.Parameters.RESETFORCEFULLY_TRIGGER);
                     animator.SetTrigger(AnimConstants.Parameters.FINISHER_EXECUTION_TRIGGER);
                     //Set the default finisher to play
@@ -202,7 +209,8 @@ namespace Finisher.Characters.Systems {
         private void attempFinisherSelection()
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.FINISHER_SELECTION_STATE)) {
-                if(FinisherInput.Finisher1())
+                FinisherGuidePanel.SetActive(true);
+                if (FinisherInput.Finisher1())
                 {
                     overrideFinisherExecution(flameAOE, true);
                 }
@@ -214,6 +222,10 @@ namespace Finisher.Characters.Systems {
                 {
                     overrideFinisherExecution(blades, true);
                 }
+            }
+            else
+            {
+                FinisherGuidePanel.SetActive(false);
             }
         }
 
@@ -592,9 +604,15 @@ namespace Finisher.Characters.Systems {
 
         void FinisherExecutionSlice()
         {
-
-            lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
-            grabTarget.GetComponent<HealthSystem>().CutInHalf();
+            try
+            {
+                lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
+                grabTarget.GetComponent<HealthSystem>().CutInHalf();
+            }
+            catch(Exception ex)
+            {
+                
+            }
             toggleWeapon(WeaponToggle.Knife);
         }
 
@@ -602,10 +620,12 @@ namespace Finisher.Characters.Systems {
         {
             decreaseFinisherMeter(flameAOE.FinisherMeterCost);
             Instantiate(currentFinisherExecution, transform.position, transform.rotation);
+            isFinishing = false;
         }
 
         void SoulInfusion()
         {
+            isFinishing = false;
             if (soulTimer != null)
             {
                 StopCoroutine(soulTimer);

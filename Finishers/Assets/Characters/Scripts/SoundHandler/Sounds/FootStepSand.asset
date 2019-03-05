@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a9f940313d06d4caed9863bf024ebf, type: 3}
+  m_Name: FootStepSand
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: c699d8f79b1d124489cc4db77bed37de, type: 3}
+  - {fileID: 8300000, guid: 75554550ad823624f9176673e1d42f7e, type: 3}
+  - {fileID: 8300000, guid: 1d7a5696f751eea43b03d429bda5665b, type: 3}
+  - {fileID: 8300000, guid: 29cb0df3ebc9170449ad4306063cbda0, type: 3}
+  volume:
+    minValue: 0.47361654
+    maxValue: 0.5912636
+  pitch:
+    minValue: 0.9261842
+    maxValue: 1.3999478

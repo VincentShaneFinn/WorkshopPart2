@@ -12,8 +12,8 @@ namespace Finisher.UI
         [SerializeField] public GameObject ControlMenuObject;
         [SerializeField] public GameObject LeftUpperObject;
         [SerializeField] public GameObject LeftLowerObject;
+        [SerializeField] public GameObject FinisherGuidePanel;
 
-       
         [SerializeField] public Image InFinisherIndicator;
         public CursorMode cursorMode = CursorMode.ForceSoftware;
         public Texture2D cursorTexture;
