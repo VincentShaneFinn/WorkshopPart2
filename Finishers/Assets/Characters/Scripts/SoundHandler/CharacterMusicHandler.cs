@@ -11,7 +11,8 @@ namespace Finisher.Core
         protected EnemyManager enemyManager;
         private List<AudioClip> combatMusic;
         private List<AudioClip> explorationMusic;
-        private AudioSource musicSource;
+        private AudioSource oocMusicSource;
+        private AudioSource cMusicSource;
         private float timer = 0.0f;
         private int volumeSteps = 10;
         private float timeBetweenStep = .1f;
@@ -30,10 +31,11 @@ namespace Finisher.Core
             explorationMusic = new List<AudioClip> { Adventurer, AdventurerAlt, Mystic, Ominous };
 
             enemyManager = FindObjectOfType<EnemyManager>();
-            musicSource = gameObject.AddComponent<AudioSource>();
+            oocMusicSource = gameObject.AddComponent<AudioSource>();
+            cMusicSource = gameObject.AddComponent<AudioSource>();
 
-            musicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
-            musicSource.Play(0);
+            oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
+            oocMusicSource.Play(0);
             subscribeToDelegates();
         }
 
@@ -50,29 +52,33 @@ namespace Finisher.Core
         //fades out of current track, switches track, then fades back in
         private IEnumerator switchTrack(bool inCombatPass)
         {
-            //fade out
-            for(int i=0; i<= volumeSteps; i++ )
-            {
-                musicSource.volume -= maxVolume / volumeSteps;
-                yield return new WaitForSeconds(timeBetweenStep);
-            }
-            //switch tracks on context
             if (inCombatPass)
             {
-                musicSource.clip = combatMusic[Random.Range(0, combatMusic.Count-1)];
+                cMusicSource.clip = combatMusic[Random.Range(0, combatMusic.Count - 1)];
+                cMusicSource.volume = 0;
+                cMusicSource.Play(0);
+                for (int i = 0; i <= volumeSteps; i++)
+                {
+                    oocMusicSource.volume -= maxVolume / volumeSteps;
+                    cMusicSource.volume += maxVolume / volumeSteps;
+                    yield return new WaitForSeconds(timeBetweenStep);
+                }
+                oocMusicSource.volume = 0;
             }
             else
             {
-                musicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
+                oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
+                oocMusicSource.volume = 0;
+                oocMusicSource.Play(0);
+                for (int i = 0; i <= volumeSteps; i++)
+                {
+                    oocMusicSource.volume += maxVolume / volumeSteps;
+                    cMusicSource.volume -= maxVolume / volumeSteps;
+                    yield return new WaitForSeconds(timeBetweenStep);
+                }
+                cMusicSource.volume = 0;
             }
-            //start new track
-            musicSource.Play(0);
-            //fade volume back up
-            for (int i = 0; i <= volumeSteps; i++)
-            {
-                musicSource.volume += maxVolume / volumeSteps;
-                yield return new WaitForSeconds(timeBetweenStep);
-            }
+
         }
     }
 }
