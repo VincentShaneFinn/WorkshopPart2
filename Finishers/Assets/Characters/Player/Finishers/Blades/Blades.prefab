@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2753358496415205968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0.5}
+  m_Size: {x: 12, y: 5, z: 12}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4770387372400968304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,4 +60,4 @@ MonoBehaviour:
   blade: {fileID: 5688856809812685475, guid: 26851d02699b9d84287c599cd26f0e34, type: 3}
   damageSystem: {fileID: 11400000, guid: 06d5cff0856cc8842a4bd235bef9254d, type: 2}
   animationToPlay: {fileID: 7400000, guid: 1091e567ba2e27847a427b1c4624b061, type: 3}
-  destroyInNSeconds: 0.5
+  destroyInNSeconds: 0.1
