@@ -44,6 +44,11 @@ namespace Finisher.Core
             enemyManager.OnPlayerInCombatChanged += ToggleCombatMusic;
         }
 
+        void OnDestroy()
+        {
+            enemyManager.OnPlayerInCombatChanged -= ToggleCombatMusic;
+        }
+
         void ToggleCombatMusic(bool inCombat)
         {
             StartCoroutine(switchTrack(inCombat));
