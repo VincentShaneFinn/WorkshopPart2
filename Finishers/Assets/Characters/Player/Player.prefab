@@ -2288,6 +2288,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3079736053775607216}
     m_Modifications:
+    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
+        type: 3}
+      propertyPath: m_Name
+      value: Knife
+      objectReference: {fileID: 0}
     - target: {fileID: 6624719855217977527, guid: c59eaaa44d8e1f4469b7db18f5763773,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2342,11 +2347,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 255.808
-      objectReference: {fileID: 0}
-    - target: {fileID: 6624719855217977526, guid: c59eaaa44d8e1f4469b7db18f5763773,
-        type: 3}
-      propertyPath: m_Name
-      value: Knife
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c59eaaa44d8e1f4469b7db18f5763773, type: 3}
