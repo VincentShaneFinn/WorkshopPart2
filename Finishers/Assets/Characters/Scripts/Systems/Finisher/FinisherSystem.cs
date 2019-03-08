@@ -530,6 +530,7 @@ namespace Finisher.Characters.Systems {
             freeLookCam.NewFollowTarget = grabTarget;
             characterState.Grabbing = true;
             grabTarget.GetComponent<CharacterState>().Grabbed = true;
+            isFinishing = false;
         }
 
         private void stopGrab()
