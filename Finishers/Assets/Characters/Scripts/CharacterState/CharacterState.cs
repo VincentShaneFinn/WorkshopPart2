@@ -93,7 +93,7 @@ namespace Finisher.Characters
             Systems.HealthSystem healthSystem = GetComponent<Systems.HealthSystem>();
             if (healthSystem)
             {
-                healthSystem.Knockback();
+                healthSystem.Knockback(force: true);
             }
             else
             {
