@@ -174,6 +174,18 @@ namespace Finisher.Characters
             }
         }
 
+        public bool HeavyAttacking
+        {
+            get
+            {
+                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
+            }
+        }
+        public Animator getAnimator()
+        {
+            return animator;
+        }
+
         public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }
 
         public bool Parrying { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.PARRY_STATE); } }

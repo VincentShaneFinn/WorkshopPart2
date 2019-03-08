@@ -334,7 +334,7 @@ namespace Finisher.Characters.Enemies
                 squadManager.SendWakeUpCallToEnemies();
             }
 
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            if (UnityEngine.Random.Range(0,1f) <= 0.25f)
             {
                 combatSystem.HeavyAttack();
             }
@@ -427,7 +427,7 @@ namespace Finisher.Characters.Enemies
             var moveTarget = new Vector3(x, transform.position.y, z);
             var moveDirection = moveTarget - transform.position;
 
-            if(moveDirection == Vector3.zero)
+            if(moveDirection .magnitude < 0.3f)
             {
                 moveDirection = tarPos - currPos;
             }
