@@ -14,6 +14,7 @@ namespace Finisher.Characters.Systems
         protected float currentHealth { get; set; }
         protected float currentVolatility { get; set; }
         protected int knockbackCount;
+        protected bool immuneToKnockback = false;
 
         #region Delegates
 
@@ -162,10 +163,10 @@ namespace Finisher.Characters.Systems
 
         #region Knockback And Kill
 
-        public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
+        public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
 
             if (animClip == null)
             {
@@ -187,13 +188,13 @@ namespace Finisher.Characters.Systems
 
         public void KnockbackOutwards(GameObject damageSource, float knockbackRange, float knockbackTime = 0.1f, AnimationClip animClip = null)
         {
-            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip);
+            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip, force: true);
         }
 
-        public void Knockback(AnimationClip animClip = null)
+        public void Knockback(AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
 
             if(animClip == null)
             {
