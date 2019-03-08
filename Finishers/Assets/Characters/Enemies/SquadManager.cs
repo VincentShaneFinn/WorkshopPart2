@@ -21,6 +21,9 @@ namespace Finisher.Characters.Enemies
         [SerializeField] private float rangedAttackRangeLowerBound = 5f;
         [SerializeField] private float rangedAttackUpperBound = 7.5f;
         private bool timeForRangedAttack = false;
+        [SerializeField] private float rushAttackRangeLowerBound = 3f;
+        [SerializeField] private float rushAttackUpperBound = 8f;
+        private bool timeForRushAttack = false;
         [HideInInspector] public int IndirectAttackers { get { return indirectAttackers; } }
 
         [HideInInspector]public ManagerState CurrentManagerState;
@@ -74,6 +77,7 @@ namespace Finisher.Characters.Enemies
         IEnumerator assignEnemyRoles()
         {
             StartCoroutine(resetTimeForRangedAttack());
+            StartCoroutine(resetTimeForRushAttack());
             while (player)
             {
                 checkAliveStatus();
@@ -131,13 +135,26 @@ namespace Finisher.Characters.Enemies
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
-                if(Ai is KnightLeaderAI)
+                if(Ai is KnightLeaderAI && enemies.Count > 1)
                 {
                     Ai.currentChaseSubstate = ChaseSubState.Surround;
                     continue;
                 }
 
                 if (directAttackersCount > 0) {
+                    if(timeForRushAttack &&
+                        (!(leader && !leader.GetComponent<CharacterState>().Dying) || !leader) && 
+                        (Ai.currentChaseSubstate == ChaseSubState.Surround || Ai.currentChaseSubstate == ChaseSubState.Arced) && 
+                        !(Ai is KnightLeaderAI))
+                    {
+                        var combatSystem = Ai.GetComponent<KnightCombatSystem>();
+                        if(combatSystem)
+                        {
+                            combatSystem.RushAttack(player.transform, false);
+                            timeForRushAttack = false;
+                            StartCoroutine(resetTimeForRushAttack());
+                        }
+                    }
                     Ai.currentChaseSubstate = ChaseSubState.Direct;
                     directAttackersCount--;
                 }
@@ -178,6 +195,12 @@ namespace Finisher.Characters.Enemies
         {
             yield return new WaitForSeconds(UnityEngine.Random.Range(rangedAttackRangeLowerBound, rangedAttackUpperBound));
             timeForRangedAttack = true;
+        }
+
+        IEnumerator resetTimeForRushAttack()
+        {
+            yield return new WaitForSeconds(UnityEngine.Random.Range(rushAttackRangeLowerBound, rushAttackUpperBound));
+            timeForRushAttack = true;
         }
 
         public void SortEnemiesByDistance()

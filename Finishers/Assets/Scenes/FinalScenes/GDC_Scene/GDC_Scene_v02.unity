@@ -9083,6 +9083,8 @@ MonoBehaviour:
   indirectAttackers: 2
   rangedAttackRangeLowerBound: 5
   rangedAttackUpperBound: 7.5
+  rushAttackRangeLowerBound: 3
+  rushAttackUpperBound: 8
   CurrentManagerState: 0
   door: {fileID: 0}
 --- !u!136 &456653168
@@ -17049,6 +17051,8 @@ MonoBehaviour:
   indirectAttackers: 2
   rangedAttackRangeLowerBound: 5
   rangedAttackUpperBound: 7.5
+  rushAttackRangeLowerBound: 3
+  rushAttackUpperBound: 8
   CurrentManagerState: 0
   door: {fileID: 0}
 --- !u!4 &688853055
@@ -27748,6 +27752,8 @@ MonoBehaviour:
   indirectAttackers: 2
   rangedAttackRangeLowerBound: 5
   rangedAttackUpperBound: 7.5
+  rushAttackRangeLowerBound: 3
+  rushAttackUpperBound: 8
   CurrentManagerState: 0
   door: {fileID: 0}
 --- !u!1001 &888223146
@@ -43104,6 +43110,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreeRoomDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 2397053845503880913, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: c10e855ce6b680b40a38ded3ac0a11db,
+        type: 2}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1716650397}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.data[1]
+      value: 
+      objectReference: {fileID: 887718779}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.data[2]
+      value: 
+      objectReference: {fileID: 456653167}
     - target: {fileID: 5414375113353736691, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -43169,33 +43201,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.data[0]
-      value: 
-      objectReference: {fileID: 1716650397}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.data[1]
-      value: 
-      objectReference: {fileID: 887718779}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.data[2]
-      value: 
-      objectReference: {fileID: 456653167}
     - target: {fileID: 6801990578223888375, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: c10e855ce6b680b40a38ded3ac0a11db,
-        type: 2}
-    - target: {fileID: 2397053845503880913, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
         type: 3}
       propertyPath: m_Material
       value: 
@@ -44140,6 +44146,8 @@ MonoBehaviour:
   indirectAttackers: 2
   rangedAttackRangeLowerBound: 5
   rangedAttackUpperBound: 7.5
+  rushAttackRangeLowerBound: 3
+  rushAttackUpperBound: 8
   CurrentManagerState: 0
   door: {fileID: 0}
 --- !u!4 &1672583829 stripped
@@ -44410,26 +44418,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac6cc1cdfce16a444a625a176724cb19, type: 3}
---- !u!1 &1704171232 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100034, guid: 08c542ae01ddf8643b1d6807bec4be9f,
-    type: 3}
-  m_PrefabInstance: {fileID: 1747044327}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &1704171234
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1704171232}
-  m_Material: {fileID: 13400000, guid: c10e855ce6b680b40a38ded3ac0a11db, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 4300088, guid: 08c542ae01ddf8643b1d6807bec4be9f, type: 3}
 --- !u!1001 &1711704307
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44599,6 +44587,8 @@ MonoBehaviour:
   indirectAttackers: 2
   rangedAttackRangeLowerBound: 5
   rangedAttackUpperBound: 7.5
+  rushAttackRangeLowerBound: 3
+  rushAttackUpperBound: 8
   CurrentManagerState: 0
   door: {fileID: 0}
 --- !u!4 &1740708723 stripped
@@ -44736,7 +44726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100104, guid: 08c542ae01ddf8643b1d6807bec4be9f, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 100022, guid: 08c542ae01ddf8643b1d6807bec4be9f, type: 3}
       propertyPath: m_Layer
@@ -67287,6 +67277,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: TriangleRoomDoor
       objectReference: {fileID: 0}
+    - target: {fileID: 2397053845503880913, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: c10e855ce6b680b40a38ded3ac0a11db,
+        type: 2}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
+        type: 3}
+      propertyPath: squadManagers.Array.data[0]
+      value: 
+      objectReference: {fileID: 1672310953}
     - target: {fileID: 5414375113353736691, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67352,23 +67358,7 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5218180857775797859, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: squadManagers.Array.data[0]
-      value: 
-      objectReference: {fileID: 1672310953}
     - target: {fileID: 6801990578223888375, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
-        type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 13400000, guid: c10e855ce6b680b40a38ded3ac0a11db,
-        type: 2}
-    - target: {fileID: 2397053845503880913, guid: 11d1e99bbe3f4fa48b76d05ce0307b6e,
         type: 3}
       propertyPath: m_Material
       value: 
@@ -67756,8 +67746,8 @@ MonoBehaviour:
   m_IgnoreNavMeshObstacle: 1
   m_OverrideTileSize: 0
   m_TileSize: 256
-  m_OverrideVoxelSize: 1
-  m_VoxelSize: 0.07
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 23800000, guid: 72959770e48e26a4b93f7d2440802ebd, type: 2}
 --- !u!1001 &8249099303757911891

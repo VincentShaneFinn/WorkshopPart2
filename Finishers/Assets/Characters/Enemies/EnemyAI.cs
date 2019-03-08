@@ -426,6 +426,11 @@ namespace Finisher.Characters.Enemies
 
             var moveTarget = new Vector3(x, transform.position.y, z);
             var moveDirection = moveTarget - transform.position;
+
+            if(moveDirection == Vector3.zero)
+            {
+                moveDirection = tarPos - currPos;
+            }
             return moveDirection;
         }
 
