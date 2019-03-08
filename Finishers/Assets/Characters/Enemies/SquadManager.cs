@@ -142,8 +142,9 @@ namespace Finisher.Characters.Enemies
                 }
 
                 if (directAttackersCount > 0) {
-                    if((!(leader && !leader.GetComponent<CharacterState>().Dying) || !leader) && 
-                        Ai.currentChaseSubstate == ChaseSubState.Surround && 
+                    if(timeForRushAttack &&
+                        (!(leader && !leader.GetComponent<CharacterState>().Dying) || !leader) && 
+                        (Ai.currentChaseSubstate == ChaseSubState.Surround || Ai.currentChaseSubstate == ChaseSubState.Arced) && 
                         !(Ai is KnightLeaderAI))
                     {
                         var combatSystem = Ai.GetComponent<KnightCombatSystem>();
