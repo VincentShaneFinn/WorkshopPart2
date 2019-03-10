@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Finisher.Characters.Systems;
+using System;
 using System.Collections;
 using UnityEngine;
-
-using Finisher.Characters.Systems;
 
 namespace Finisher.Characters.Enemies
 {
@@ -31,7 +30,7 @@ namespace Finisher.Characters.Enemies
         private Quaternion homeTargetRotation;
         private float range = 10f; //public surround range just for testing
         private bool isSurrounding = false;
-        private bool surroundRight = true;
+        private bool surroundRight;
         private float surroundSpeed = 1f;
 
         protected AICharacterController character;
@@ -62,6 +61,7 @@ namespace Finisher.Characters.Enemies
             {
                 characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
             }
+            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
 
             Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
         }
@@ -239,7 +239,6 @@ namespace Finisher.Characters.Enemies
                     {
                         if(!isSurrounding)
                         {
-                            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
                             surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
                         }
                         isSurrounding = true;
@@ -261,48 +260,54 @@ namespace Finisher.Characters.Enemies
             }
 
             #region Keep Away From each other, needs work
-            //bool enemyLeft = false;
-            //bool enemyRight = false;
-            //Collider[] C = Physics.OverlapSphere(transform.position, 2.50f);
-            //foreach (Collider col in C)
-            //{
-            //    if (col.tag.Equals("Enemy"))
-            //    {
-            //        if (!col.transform.Equals(transform))
-            //        {
-            //            Vector3 targetDir = transform.position - col.transform.position;
-            //            if ((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg > 180 && moveXDirection == -1))
-            //            {
-            //                //character.MovementSpeedMultiplier = .3f;
-            //                enemyLeft = true;
-            //            }
-            //            if((Mathf.Atan2(targetDir.z, targetDir.x) * Mathf.Rad2Deg < 180 && moveXDirection == 1))
-            //            {
-            //                enemyRight = true;
-            //            }
-            //            //this part have a problem
-            //            if (Vector3.Distance(col.transform.position, this.transform.position) < .2f)
-            //            { 
-            //                if(!(enemyLeft && enemyRight))
-            //                {
-            //                    if (enemyLeft && !enemyRight)
-            //                    {
-            //                        moveXDirection = -1;
-            //                    }
-            //                    else if (enemyRight && !enemyLeft)
-            //                    {
-            //                        moveXDirection = 1;
-            //                    }
-            //                    else
-            //                    {
-            //                        moveXDirection = 0;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
+            bool enemyLeft = false;
+            bool enemyRight = false;
+            Collider[] C = Physics.OverlapSphere(transform.position, 1.0f);
+            foreach (Collider col in C)
+            {
+                if (col.tag.Equals("Enemy"))
+                {
+                    if (!col.transform.Equals(transform))
+                    {
+                        Vector3 targetDir = col.transform.position - transform.position;
+                        float angletest = Vector3.SignedAngle(transform.forward, targetDir, Vector3.up);
+                        //Debug.Log(col + "at my " + angletest);//angletest > 0, the col at right
+                        if ((angletest < 0))
+                        {
+                            //character.MovementSpeedMultiplier = .3f;
+                            enemyLeft = true;
+                        }
+                        else if((angletest > 0))
+                        {
+                            enemyRight = true;
+                        }
+                        //Debug.Log("R:" + enemyRight + ";L:" + enemyLeft);
+                        //this part have a problem
+                        //if (Vector3.Distance(col.transform.position, this.transform.position) < 2f)
+                        //{ 
+                            
+                        //}
+                    }
+                }
 
-            //}
+            }
+            if (enemyLeft || enemyRight)
+            {
+                if (enemyLeft && !enemyRight)
+                {
+                    moveXDirection = 1;
+                    surroundRight = true;
+                }
+                if (enemyRight && !enemyLeft)
+                {
+                    moveXDirection = -1;
+                    surroundRight = false;
+                }
+                if(enemyLeft && enemyRight)
+                {
+                    moveXDirection = 0;
+                }
+            }
             #endregion
 
             Vector3 forwardMovement = Vector3.zero;
@@ -329,7 +334,7 @@ namespace Finisher.Characters.Enemies
                 squadManager.SendWakeUpCallToEnemies();
             }
 
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            if (UnityEngine.Random.Range(0,1f) <= 0.25f)
             {
                 combatSystem.HeavyAttack();
             }
@@ -421,6 +426,11 @@ namespace Finisher.Characters.Enemies
 
             var moveTarget = new Vector3(x, transform.position.y, z);
             var moveDirection = moveTarget - transform.position;
+
+            if(moveDirection .magnitude < 0.3f)
+            {
+                moveDirection = tarPos - currPos;
+            }
             return moveDirection;
         }
 

@@ -93,7 +93,7 @@ namespace Finisher.Characters
             Systems.HealthSystem healthSystem = GetComponent<Systems.HealthSystem>();
             if (healthSystem)
             {
-                healthSystem.Knockback();
+                healthSystem.Knockback(force: true);
             }
             else
             {
@@ -172,6 +172,18 @@ namespace Finisher.Characters
             {
                 attacking = value;
             }
+        }
+
+        public bool HeavyAttacking
+        {
+            get
+            {
+                return animator.GetCurrentAnimatorStateInfo(0).IsTag(AnimConstants.Tags.HEAVYATTACK_TAG);
+            }
+        }
+        public Animator getAnimator()
+        {
+            return animator;
         }
 
         public bool Dodging { get { return animator.GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.DODGE_STATE); } }

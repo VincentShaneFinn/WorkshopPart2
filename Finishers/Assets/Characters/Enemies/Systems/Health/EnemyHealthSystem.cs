@@ -10,6 +10,7 @@ namespace Finisher.Characters.Enemies.Systems
     public class EnemyHealthSystem : HealthSystem
     {
         [SerializeField] private EnemyUI enemyCanvas;
+        [SerializeField] private ParticleSystem enemyWeapon;
 
         private UI_VolatilityMeter volatilityMeter;
         private UI_FinishableThresholdLine finishabilityLine;
@@ -66,6 +67,21 @@ namespace Finisher.Characters.Enemies.Systems
                 {
                     playerFinisherSystem.OnFinisherModeToggled -= toggleVolatiltyMeter;
                 }
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if(characterState.HeavyAttacking || characterState.getAnimator().GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.RUSHING_ATTACK_STATE))
+            {
+                immuneToKnockback = true;
+                enemyWeapon.gameObject.SetActive(true);
+                //enemyWeapon.startColor = uninteruptableAttackColor;
+            }
+            else {
+                immuneToKnockback = false;
+                enemyWeapon.gameObject.SetActive(false);
             }
         }
 
