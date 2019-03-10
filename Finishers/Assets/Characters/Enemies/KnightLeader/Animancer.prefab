@@ -772,14 +772,14 @@ MonoBehaviour:
   CurrentLookTarget: {fileID: 0}
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
-  gravityMultiplier: 2
+  gravityMultiplier: 3.41
   runCycleLegOffset: 0.2
   initialMoveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
   collisionDetectionMode: 2
-  capsuleColliderCenter: {x: 0, y: 1, z: 0}
-  capsuleColliderHeight: 2
+  capsuleColliderCenter: {x: 0, y: 1.3, z: 0}
+  capsuleColliderHeight: 2.6
   capsuleColliderRadius: 0.5
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
@@ -9029,16 +9029,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3906266330476250728}
     m_Modifications:
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_Name
-      value: redSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9098,6 +9088,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 1.2426
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_Name
+      value: redSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c74cb7c452585b4469e7b3bc89f644fc, type: 3}
