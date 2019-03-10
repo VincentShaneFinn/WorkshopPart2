@@ -4,28 +4,46 @@ using UnityEngine;
 
 public class FinisherInput : MonoBehaviour
 {
-    //Special Attack
+    //Special Attack         
     public static bool SpecialAttack()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.SpecialAttack);
-        return rv;
+        switch(ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetAxisRaw("XBOXLeftTrigger") > 0;
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.SpecialAttack);
+        }
+        return false;
     }
 
     //Sprinting
     public static bool isSpriting()
     {
-        bool rv = false;
-        rv = Input.GetButton(InputNames.Sprint);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXLeftStickButton");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.Sprint);
+        }
+        return false;
     }
 
     //Light Attack
     public static bool LightAttack()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.LightAttack);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXRightBumper");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.LightAttack);
+        }
+        return false;
     }
 
     //Heavy Attack
@@ -46,49 +64,85 @@ public class FinisherInput : MonoBehaviour
     //Dodge
     public static bool Dodge()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXLeftBumper");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.Dodge) || Input.GetKeyDown(KeyCode.Mouse3);
+        }
+        return false;
     }
 
     //Parry
     public static bool Parry()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetAxisRaw("XBOXLeftTrigger") > 0;
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.Parry) || Input.GetKeyDown(KeyCode.Mouse4);
+        }
+        return false;
     }
 
     //Grab
     public static bool Grab()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.Grab);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXRightStickButton");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.Grab);
+        }
+        return false;
     }
 
     //Finisher
     public static bool Finisher()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.Finisher);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXRightStickButton") && Input.GetButton("XBOXLeftStickButton");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.Finisher);
+        }
+        return false;
     }
 
     //Finisher1
     public static bool Finisher1()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.SelectFinisher1);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXX");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.SelectFinisher1);
+        }
+        return false;
     }
 
     //Finisher2
     public static bool Finisher2()
     {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.SelectFinisher2);
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXY");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButtonDown(InputNames.SelectFinisher2);
+        }
+        return false;
     }
     public static bool Finisher4()
     {
@@ -101,79 +155,133 @@ public class FinisherInput : MonoBehaviour
     //Heal Cheat
     public static bool HealCheat()
     {
-        bool rv = false;
-        float DPadX = Input.GetAxis("DPadX");
+        float DPadX = 0;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.PS4:
+                DPadX = Input.GetAxis("DPadX");
+                break;
+            case ControlType.Xbox:
+                DPadX = Input.GetAxis("XBOXDPadX");
+                break;
+            case ControlType.PC:
+                return Input.GetKeyDown(KeyCode.Alpha3);
+        }
         if (DPadX == 1 && previousHealDPadX == 0)
         {
             previousHealDPadX = DPadX;
             return true;
         }
+
         previousHealDPadX = DPadX;
-        rv = Input.GetKeyDown(KeyCode.Alpha3);
-        return rv;
+        return false;
     }
 
     static float previousFinisherDPadX = 0;
     //Finisher Meter Cheat
     public static bool FinisherMeterCheat()
     {
-        bool rv = false;
-        float DPadX = Input.GetAxis("DPadX");
+        float DPadX = 0;
+        switch(ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.PS4:
+                DPadX = Input.GetAxis("DPadX");
+                break;
+            case ControlType.Xbox:
+                DPadX = Input.GetAxis("XBOXDPadX");
+                break;
+            case ControlType.PC:
+                return Input.GetKeyDown(KeyCode.Alpha1);
+        }
         if (DPadX == -1 && previousFinisherDPadX == 0)
         {
             previousFinisherDPadX = DPadX;
             return true;
         }
+
         previousFinisherDPadX = DPadX;
-        rv = Input.GetKeyDown(KeyCode.Alpha1);
-        return rv;
+        return false;
     }
 
     static float previousvolDPadY = 0;
     //Volatility Cheat
     public static bool VolatilityCheat()
     {
-        bool rv = false;
-        float DPadY = Input.GetAxis("DPadY");
+        float DPadY = 0;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.PS4:
+                DPadY = Input.GetAxis("DPadY");
+                break;
+            case ControlType.Xbox:
+                DPadY = Input.GetAxis("XBOXDPadY");
+                break;
+            case ControlType.PC:
+                return Input.GetKeyDown(KeyCode.Alpha2);
+        }
         if (DPadY == 1 && previousvolDPadY == 0)
         {
             previousvolDPadY = DPadY;
             return true;
         }
         previousvolDPadY = DPadY;
-        rv = Input.GetKeyDown(KeyCode.Alpha2);
-        return rv;
+        return false;
     }
 
     static float previousinvDPadY = 0;
     //Invulnerability Cheat
     public static bool InvulnerabilityCheat()
     {
-        bool rv = false;
-        float DPadY = Input.GetAxisRaw("DPadY");
+        float DPadY = 0;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.PS4:
+                DPadY = Input.GetAxis("DPadY");
+                break;
+            case ControlType.Xbox:
+                DPadY = Input.GetAxis("XBOXDPadY");
+                break;
+            case ControlType.PC:
+                return Input.GetKeyDown(KeyCode.I);
+        }
+        
         if (DPadY == -1 && previousinvDPadY == 0)
         {
             previousinvDPadY = DPadY;
             return true;
         }
         previousinvDPadY = DPadY;
-        rv = Input.GetKeyDown(KeyCode.I);
-        return rv;
+        return false;
     }
 
     //Interact
     public static bool Interact()
     {
-        bool rv = false;
-        rv = Input.GetButton("Interact");
-        return rv;
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                return Input.GetButtonDown("XBOXY");
+            case ControlType.PS4:
+            case ControlType.PC:
+                return Input.GetButton("Interact");
+        }
+        return false;
     }
 
     //Pause
     public static bool Pause()
     {
         bool rv = false;
-        rv = Input.GetKeyDown(KeyCode.Escape);
+        switch (ControlMethodDetector.GetCurrentControlType())
+        {
+            case ControlType.Xbox:
+                rv = Input.GetButtonDown("XBOXStart");
+                break;
+            case ControlType.PS4:
+                rv = Input.GetButtonDown("PS4Start");
+                break;
+        }
+        rv = rv || Input.GetKeyDown(KeyCode.Escape);
         return rv;
     }
 
