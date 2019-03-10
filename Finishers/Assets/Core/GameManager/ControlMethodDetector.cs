@@ -7,39 +7,25 @@ public class ControlMethodDetector : MonoBehaviour
 
     private static ControlType currentControlType; public static ControlType GetCurrentControlType() { return currentControlType; }
 
-    private int Xbox_One_Controller = 0;
-    private int PS4_Controller = 0;
-
     void Update()
     {
         string[] names = Input.GetJoystickNames();
-        for (int x = 0; x < names.Length; x++)
+        int index = 0;
+        for (int i = 0; i < names.Length; i++)
         {
-            print(names[x].Length);
-            if (names[x].Length == 19)
+            if (names[i].Length > 0)
             {
-                print("PS4 CONTROLLER IS CONNECTED");
-                PS4_Controller = 1;
-                Xbox_One_Controller = 0;
-            }
-            if (names[x].Length == 33)
-            {
-                print("XBOX ONE CONTROLLER IS CONNECTED");
-                //set a controller bool to true
-                PS4_Controller = 0;
-                Xbox_One_Controller = 1;
-
+                index = i;
+                break;
             }
         }
-
-
-        if (Xbox_One_Controller == 1)
-        {
-            currentControlType = ControlType.Xbox;
-        }
-        else if (PS4_Controller == 1)
+        if (names[index].Length == 19)
         {
             currentControlType = ControlType.PS4;
+        }
+        else if (names[index].Length == 33)
+        {
+            currentControlType = ControlType.Xbox;
         }
         else
         {
