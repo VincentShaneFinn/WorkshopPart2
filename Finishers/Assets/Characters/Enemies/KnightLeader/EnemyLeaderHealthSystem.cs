@@ -20,6 +20,7 @@ namespace Finisher.Characters.Enemies.Systems
         private Animator animator;
         private CameraAnimatorController cameraAnimatorController;
         private CameraLookController cameraLookController;
+
         //Override get hit to play parry animation and stun the player, then riposte after a fiew
         protected override void Start()
         {
@@ -31,7 +32,7 @@ namespace Finisher.Characters.Enemies.Systems
         public override void DamageHealth(float damage, DamageSystem damageSource)
         {
             base.DamageHealth(damage, damageSource);
-            if (damageSource is CoreCombatDamageSystem)
+            if (damageSource is CoreCombatDamageSystem && !characterState.Stunned )
             {
                 hitsTaken++;
                 StopCoroutine(resetHitsTakenCoroutine);
