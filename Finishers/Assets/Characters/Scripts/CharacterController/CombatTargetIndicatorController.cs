@@ -16,7 +16,6 @@ public class CombatTargetIndicatorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(player.CombatTarget);
         UpdateCombatTargetIndicator(player.CombatTarget != null ? player.CombatTarget.gameObject : null);
     }
 

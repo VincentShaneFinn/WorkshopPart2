@@ -772,14 +772,14 @@ MonoBehaviour:
   CurrentLookTarget: {fileID: 0}
   movingTurnSpeed: 720
   stationaryTurnSpeed: 720
-  gravityMultiplier: 2
+  gravityMultiplier: 3.41
   runCycleLegOffset: 0.2
   initialMoveSpeedMultiplier: 1
   runMoveSpeedMultiplier: 1
   groundCheckDistance: 0.3
   collisionDetectionMode: 2
-  capsuleColliderCenter: {x: 0, y: 1, z: 0}
-  capsuleColliderHeight: 2
+  capsuleColliderCenter: {x: 0, y: 1.5, z: 0}
+  capsuleColliderHeight: 2.6
   capsuleColliderRadius: 0.5
   animSpeedMultiplier: 0.6
   runAnimSpeedMultiplier: 1.5
