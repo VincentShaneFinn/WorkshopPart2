@@ -32,8 +32,6 @@ public class CameraAnimatorController : MonoBehaviour
 
     private void cameraZoomOnGrab(bool isGrabbing)
     {
-        var _isGrabbing = animator.GetBool("isGrabbing");
-
         if (isGrabbing)
         {
             animator.SetBool("isGrabbing", true);

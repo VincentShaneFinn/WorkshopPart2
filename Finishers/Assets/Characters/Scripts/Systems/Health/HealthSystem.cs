@@ -2,10 +2,10 @@
 using UnityEngine;
 
 using Finisher.UI.Meters;
+using Finisher.Characters.Systems.Strategies;
 
 namespace Finisher.Characters.Systems
 {
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(CharacterAnimator))]
     public abstract class HealthSystem : MonoBehaviour
     {
@@ -14,6 +14,7 @@ namespace Finisher.Characters.Systems
         protected float currentHealth { get; set; }
         protected float currentVolatility { get; set; }
         protected int knockbackCount;
+        protected bool immuneToKnockback = false;
 
         #region Delegates
 
@@ -53,14 +54,17 @@ namespace Finisher.Characters.Systems
 
         protected virtual void Update()
         {
-            IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+            if (!characterState.Dying)
+            {
+                IncreaseHealth(config.RegenPerSecond * Time.deltaTime);
+            }
         }
 
         #region Public Interface
 
         #region Change Health
 
-        public virtual void DamageHealth(float damage)
+        public virtual void DamageHealth(float damage, DamageSystem damageSource)
         {
             //Dont deal damage if dodging
             if (characterState.Invulnerable) { return; }
@@ -124,7 +128,7 @@ namespace Finisher.Characters.Systems
             {
                 currentVolatility = config.MaxVolatility;
             }
-            updateVolatilityUI();
+            updateFinishabilityUI();
         }
 
         private void decreaseVolatility(float amount)
@@ -134,12 +138,17 @@ namespace Finisher.Characters.Systems
             {
                 currentVolatility = 0;
             }
-            updateVolatilityUI();
+            updateFinishabilityUI();
         }
 
-        public float GetVolaitilityAsPercent()
+        protected float getVolaitilityAsPercent()
         {
             return currentVolatility / config.MaxVolatility;
+        }
+
+        public bool GetIsFinishable()
+        {
+            return GetHealthAsPercent() < (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent());
         }
 
         private void checkVolatilityFull()
@@ -154,10 +163,10 @@ namespace Finisher.Characters.Systems
 
         #region Knockback And Kill
 
-        public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null)
+        public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
 
             if (animClip == null)
             {
@@ -179,13 +188,13 @@ namespace Finisher.Characters.Systems
 
         public void KnockbackOutwards(GameObject damageSource, float knockbackRange, float knockbackTime = 0.1f, AnimationClip animClip = null)
         {
-            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip);
+            Knockback((Vector3.Normalize(transform.position - damageSource.transform.position) * knockbackRange), knockbackTime, animClip, force: true);
         }
 
-        public void Knockback(AnimationClip animClip = null)
+        public void Knockback(AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
 
             if(animClip == null)
             {
@@ -223,9 +232,9 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public virtual void Kill(AnimationClip animClip = null)
+        public virtual void Kill(AnimationClip animClip = null, bool overrideKillAnim = false)
         {
-            if (characterState.Dying) { return; }
+            if (characterState.Dying && !overrideKillAnim) { return; }
 
             if(animClip == null)
             {
@@ -265,17 +274,18 @@ namespace Finisher.Characters.Systems
 
         #region updateUI
 
-        private void updateHealthUI()
+        protected void updateHealthUI()
         {
             if (healthBar)
             {
                 healthBar.SetFillAmount(GetHealthAsPercent());
+                updateFinishabilityUI();
             }
         }
 
         #endregion
 
-        protected abstract void updateVolatilityUI();
+        protected abstract void updateFinishabilityUI();
 
     }
 }

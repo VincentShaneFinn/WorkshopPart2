@@ -5,7 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Finisher/Sound/CharacterSoundConfig")]
 public class CharacterSoundConfig : ScriptableObject
 {
-    [SerializeField] private SimpleAudioEvent footStep;
+    [SerializeField] private SimpleAudioEvent footStepDefault;
+    [SerializeField] private SimpleAudioEvent footStepSand;
     [SerializeField] private SimpleAudioEvent getHit;
     [SerializeField] private SimpleAudioEvent swordSwing_1;
     [SerializeField] private SimpleAudioEvent swordSwing_2;
@@ -17,7 +18,8 @@ public class CharacterSoundConfig : ScriptableObject
     [SerializeField] private SimpleAudioEvent daggerHeavy;
     [SerializeField] private SimpleAudioEvent finisherSlice;
     [SerializeField] private SimpleAudioEvent finisherAOEBlast;
-    public SimpleAudioEvent FootStep { get { return footStep; } }
+    public SimpleAudioEvent FootStepDefault { get { return footStepDefault; } }
+    public SimpleAudioEvent FootStepSand { get { return footStepSand; } }
     public SimpleAudioEvent GetHit { get { return getHit; } }
     public SimpleAudioEvent SwordSwing_First { get { return swordSwing_1; } }
     public SimpleAudioEvent SwordSwing_Second { get { return swordSwing_2; } }

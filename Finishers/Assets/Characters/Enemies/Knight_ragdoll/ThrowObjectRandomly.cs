@@ -8,7 +8,7 @@ public class ThrowObjectRandomly : MonoBehaviour
     [SerializeField] float speed = 200f;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         rigidBody = gameObject.GetComponent<Rigidbody>();
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, Random.Range(0, 360), transform.eulerAngles.z);

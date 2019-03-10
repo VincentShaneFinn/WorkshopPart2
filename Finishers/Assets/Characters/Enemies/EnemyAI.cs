@@ -1,38 +1,48 @@
-﻿using UnityEngine;
-
-using Finisher.Characters.Systems;
+﻿using Finisher.Characters.Systems;
 using System;
+using System.Collections;
+using UnityEngine;
 
 namespace Finisher.Characters.Enemies
 {
-    public enum EnemyState { Idle, ReturningHome, Patrolling, Chasing, Attacking }
     public enum ChaseSubState { Null, Direct, Arced, Surround }
 
-    [DisallowMultipleComponent]
     [RequireComponent(typeof(AICharacterController))]
     public class EnemyAI : MonoBehaviour
     {
+        public bool ForcedSequenceRunning = false;
 
-        public ChaseSubState currentChaseSubstate; //temporarily make us manually assign their chase method from inspector
-        //TODO: this must be automated and set by the SquadManager
+        private IEnumerator currentCoroutine;
+
+        private bool engagingPlayer = false;
+        private enum OOCState { Null, ReturningHome, Idle };
+        private OOCState currentOOCState = OOCState.Null;
+        public ChaseSubState currentChaseSubstate;
 
         [SerializeField] float chaseRadius = 5f;
-        [SerializeField] float attackRadius = 1.5f;
-        [Tooltip("Will use player as the default Combat Target")]
-        [SerializeField] GameObject combatTarget = null;
-        [SerializeField] CharacterStateSO playerState;
+        [SerializeField] protected float attackRadius = 1.5f;
+        public float ArcAngle = 45;
+        [SerializeField] float DIRECT_ENGAGE_DISTANCE = 2.1f;
 
-        private AICharacterController character;
-        private CharacterState characterState;
-        private SquadManager squadManager;
-        private CombatSystem combatSystem;
-        private EnemyState currentState;
-        private EnemyState directOrder;
+        protected GameObject combatTarget = null;
+
         private Vector3 homeTargetPosition;
         private Quaternion homeTargetRotation;
+        private float range = 10f; //public surround range just for testing
+        private bool isSurrounding = false;
+        private bool surroundRight;
+        private float surroundSpeed = 1f;
+
+        protected AICharacterController character;
+        protected CharacterState characterState;
+        protected SquadManager squadManager;
+        protected Animator animator;
+        protected AnimOverrideSetter animOverrideSetter;
+        protected CombatSystem combatSystem;
+        [SerializeField] CharacterStateSO playerState;
 
         // Use this for initialization
-        void Start()
+        protected virtual void Start()
         {
             homeTargetPosition = transform.position;
             homeTargetRotation = transform.rotation;
@@ -43,16 +53,17 @@ namespace Finisher.Characters.Enemies
             character = GetComponent<AICharacterController>();
             characterState = GetComponent<CharacterState>();
             squadManager = GetComponentInParent<SquadManager>();
+            animator = GetComponent<Animator>();
+            animOverrideSetter = GetComponent<AnimOverrideSetter>();
             combatSystem = GetComponent<CombatSystem>();
-            currentState = EnemyState.Idle;
-            directOrder = EnemyState.Idle;
 
             if (squadManager)
             {
                 characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
-                squadManager.OnEnemiesEngage += chaseByManager;
-                squadManager.OnEnemiesDisengage += stopByManager;
             }
+            surroundRight = UnityEngine.Random.Range(0, 2) == 0;
+
+            Physics.IgnoreLayerCollision(LayerNames.EnemyLayer, LayerNames.EnemyLayer, true);
         }
 
         void OnDestroy()
@@ -61,111 +72,47 @@ namespace Finisher.Characters.Enemies
             {
                 characterState.DyingState.UnsubscribeToDeathEvent(removeFromSquad);
                 removeFromSquad();
-                squadManager.OnEnemiesEngage -= chaseByManager;
-                squadManager.OnEnemiesDisengage -= stopByManager;
             }
         }
 
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
-            //Test Manual Movement
-            var straffing = true;
-
-            //   I
-            // J K L to move all enemies 
-            if (Input.GetKey(KeyCode.I))
+            if (characterState.Dying ||
+                playerState.IsDying ||
+                characterState.Uninteruptable)
             {
-                character.ManualyMoveCharacter(transform.forward, straffing);
-                character.LookAtTarget(combatTarget.transform);
+                StopCurrentCoroutine();
             }
-            else if (Input.GetKey(KeyCode.L))
+            else if (canChasePlayer())
             {
-                character.ManualyMoveCharacter(transform.right, straffing);
-                character.LookAtTarget(combatTarget.transform);
-            }
-            else if (Input.GetKey(KeyCode.K))
-            {
-                character.ManualyMoveCharacter(-transform.forward, straffing);
-                character.LookAtTarget(combatTarget.transform);
-            }
-            else if (Input.GetKey(KeyCode.J))
-            {
-                character.ManualyMoveCharacter(-transform.right, straffing);
-                character.LookAtTarget(combatTarget.transform);
+                if (!engagingPlayer)
+                {
+                    startBehavior(engagePlayerSequence());
+                }
             }
             else
             {
-                character.StopManualMovement();
-            }
-            //NOTE: right now you must let the character know you have stopped manually controlling it
-            //TODO: refactor so it optionally uses input a little better
-            //TODO: LookAtTarget should be centralized so we can guarantee only one thing is setting it, but right now its good
-            //Done Testing
-
-            if (!combatTarget)
-            {
-                return;
+                outOfCombatSelector();
             }
 
-            EnemyState state;
-            
-            if (playerState.IsFinishing || playerState.IsGrabbing)
-            {
-                currentChaseSubstate = ChaseSubState.Surround;
-            }
-            else if (!squadManager)
-            {
-                currentChaseSubstate = ChaseSubState.Null;
-            }
+        }
 
-            if (directOrder == EnemyState.ReturningHome)
-            {
-                state = EnemyState.ReturningHome;
-            }
-            else if (isPlayerInAttackRange() && !(playerState.IsFinishing || playerState.IsGrabbing))
-            {
-                state = EnemyState.Attacking;
-            }
-            else if (isPlayerInChaseRange() || directOrder == EnemyState.Chasing)
-            {
-                state = EnemyState.Chasing;
-            }
-            else if (!atHomePoint())
-            {
-                state = EnemyState.ReturningHome;
-            }
-            else
-            {
-                state = EnemyState.Idle;
-            }
+        private void startBehavior(IEnumerator coroutine)
+        {
+            StopCurrentCoroutine();
+            currentCoroutine = coroutine;
+            StartCoroutine(currentCoroutine);
+        }
 
-            //if (state != currentState) //Only do stuff if it changes
-            //Only thing broken with this now is attack does not do the attack chains since no 
-            //coroutine sequence is setup
+        protected void StopCurrentCoroutine()
+        {
+            if (currentCoroutine != null)
             {
-                currentState = state;
+                StopCoroutine(currentCoroutine); //make a switch statement to stop gracefully\
+                ((IDisposable)currentCoroutine).Dispose();
+                currentCoroutine = null;
             }
-
-            switch (currentState)
-            {
-                case EnemyState.Idle:
-                    idleStance();
-                    break;
-                case EnemyState.Patrolling:
-                    throw new NotImplementedException();
-                case EnemyState.ReturningHome:
-                    returnHome();
-                    break;
-                case EnemyState.Chasing:
-                    pursuePlayer(); //TODO: a substate of chasing would be the 3 methods, DirectChase, ArcedChase, and Surround
-                    break;
-                case EnemyState.Attacking:
-                    attackPlayer();
-                    break;
-
-            }
-            
         }
 
         #region Helper Checkers
@@ -183,10 +130,20 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        private bool isPlayerInChaseRange()
+        private bool canChasePlayer()
         {
+            ManagerState squadState = ManagerState.Waiting;
+            if (squadManager)
+            {
+                squadState = squadManager.CurrentManagerState;
+            }
+            if(squadState == ManagerState.ReturnHome)
+            {
+                return false;
+            }
+
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if(distanceToPlayer <= chaseRadius)
+            if(distanceToPlayer <= chaseRadius || squadState == ManagerState.Attacking)
             {
                 return true;
             }
@@ -196,11 +153,17 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-
-        private bool isPlayerInAttackRange()
+        public bool isPlayerInAttackRange(float customRadius = -1)
         {
             float distanceToPlayer = Vector3.Distance(combatTarget.transform.position, transform.position);
-            if (distanceToPlayer <= attackRadius)
+
+            float radius = attackRadius;
+            if (customRadius >= 0)
+            {
+                radius = customRadius;
+            }
+
+            if (distanceToPlayer <= radius)
             {
                 return true;
             }
@@ -214,40 +177,164 @@ namespace Finisher.Characters.Enemies
 
         #region State Behaviors
 
-        private void idleStance()
+        #region Engage Player Sequence
+
+        IEnumerator engagePlayerSequence()
         {
-            character.SetTarget(transform);
-            character.UseOptionalDestination = false;
-            transform.rotation = homeTargetRotation;
+            engagingPlayer = true;
+
+            try
+            {
+                while (!isPlayerInAttackRange())
+                {
+                    pursuePlayer();
+                    yield return null;
+                }
+                attackPlayer();
+            }
+            finally
+            {
+                endEngagePlayerSequence();
+            }
         }
 
-        private void pursuePlayer()
+        protected virtual void endEngagePlayerSequence()
         {
+            character.RestoreStoppingDistance();
+            character.RestoreMovementSpeedMultiplier();
+            engagingPlayer = false;
+            character.StopManualMovement();
+        }
+
+        protected virtual void pursuePlayer()
+        {
+            // resets all variables to default behavior
             character.SetTarget(combatTarget.transform);
             character.UseOptionalDestination = false;
 
             character.RestoreStoppingDistance();
             character.RestoreMovementSpeedMultiplier();
+            character.StopManualMovement();
 
-            if (currentChaseSubstate == ChaseSubState.Arced)
-            {
-                character.MovementSpeedMultiplier = .4f;
-            }
-            else if(currentChaseSubstate == ChaseSubState.Surround)
-            {
-                character.SetStoppingDistance(3.75f);
+            float distance;
+            // modifies behavior based on variables
+            switch (currentChaseSubstate) {
+                case ChaseSubState.Arced:
+                    character.MovementSpeedMultiplier = .9f;
+                    var INDIRECT_ENGAGE_DISTANCE = 10f;
+                    distance = Vector3.Distance(transform.position, combatTarget.transform.position);
+                    if (distance > DIRECT_ENGAGE_DISTANCE && distance < INDIRECT_ENGAGE_DISTANCE) {
+                        var direction = getArcRunDirection(transform.position, combatTarget.transform.position, ArcAngle);
+                        character.ManuallyMoveCharacter(direction);
+                    }
+                    break;
+                case ChaseSubState.Surround:
+                    distance = Vector3.Distance(combatTarget.transform.position, this.transform.position);
+
+                    if(distance > 8f)
+                    {
+                        isSurrounding = false;
+                    }
+                    else if (distance <= 6f)
+                    {
+                        if(!isSurrounding)
+                        {
+                            surroundSpeed = UnityEngine.Random.Range(.5f, 1.5f);
+                        }
+                        isSurrounding = true;
+                    }
+                    if (isSurrounding)
+                    {
+                        surroundMovement(distance);
+                    }
+                    break;
             }
         }
 
-        private void attackPlayer()
+        private void surroundMovement(float distance)
+        {
+            var moveXDirection = 1;
+            if (!surroundRight)
+            {
+                moveXDirection = -1;
+            }
+
+            #region Keep Away From each other, needs work
+            bool enemyLeft = false;
+            bool enemyRight = false;
+            Collider[] C = Physics.OverlapSphere(transform.position, 1.0f);
+            foreach (Collider col in C)
+            {
+                if (col.tag.Equals("Enemy"))
+                {
+                    if (!col.transform.Equals(transform))
+                    {
+                        Vector3 targetDir = col.transform.position - transform.position;
+                        float angletest = Vector3.SignedAngle(transform.forward, targetDir, Vector3.up);
+                        //Debug.Log(col + "at my " + angletest);//angletest > 0, the col at right
+                        if ((angletest < 0))
+                        {
+                            //character.MovementSpeedMultiplier = .3f;
+                            enemyLeft = true;
+                        }
+                        else if((angletest > 0))
+                        {
+                            enemyRight = true;
+                        }
+                        //Debug.Log("R:" + enemyRight + ";L:" + enemyLeft);
+                        //this part have a problem
+                        //if (Vector3.Distance(col.transform.position, this.transform.position) < 2f)
+                        //{ 
+                            
+                        //}
+                    }
+                }
+
+            }
+            if (enemyLeft || enemyRight)
+            {
+                if (enemyLeft && !enemyRight)
+                {
+                    moveXDirection = 1;
+                    surroundRight = true;
+                }
+                if (enemyRight && !enemyLeft)
+                {
+                    moveXDirection = -1;
+                    surroundRight = false;
+                }
+                if(enemyLeft && enemyRight)
+                {
+                    moveXDirection = 0;
+                }
+            }
+            #endregion
+
+            Vector3 forwardMovement = Vector3.zero;
+            if(distance < 6.75)
+            {
+                forwardMovement = -transform.forward;
+            }
+            else if (distance > 7.25)
+            {
+                forwardMovement = transform.forward;
+            }
+            Vector3 moveDirection = transform.right * moveXDirection + forwardMovement;
+
+
+            character.ManuallyMoveCharacter(moveDirection, strafing: true);
+            character.LookAtTarget(combatTarget.transform);
+            character.MovementSpeedMultiplier = surroundSpeed;
+        }
+
+        protected virtual void attackPlayer()
         {
             if (squadManager && squadManager.CurrentManagerState == ManagerState.Waiting)
             {
-                //CURRENTLY MAJORLY BUGGED WHERE IT CRASHES BUILDS ONLY
                 squadManager.SendWakeUpCallToEnemies();
             }
 
-            if (UnityEngine.Random.Range(0, 2) == 0)
+            if (UnityEngine.Random.Range(0,1f) <= 0.25f)
             {
                 combatSystem.HeavyAttack();
             }
@@ -258,14 +345,63 @@ namespace Finisher.Characters.Enemies
 
         }
 
-        private void returnHome()
+        #endregion
+
+        private void outOfCombatSelector()
         {
-            character.SetTarget(transform);
-            character.OptionalDestination = homeTargetPosition;
-            character.UseOptionalDestination = true;
-            if (atHomePoint())
+            if (!atHomePoint())
             {
-                directOrder = EnemyState.Idle;
+                if (currentOOCState != OOCState.ReturningHome)
+                {
+                    startBehavior(returnHomeNode());
+                }
+            }
+            else
+            {
+                if (currentOOCState != OOCState.Idle)
+                {
+                    startBehavior(idleStanceNode());
+                }
+            }
+        }
+
+        IEnumerator returnHomeNode()
+        {
+            currentOOCState = OOCState.ReturningHome;
+
+            try
+            {
+                character.SetTarget(transform);
+                character.OptionalDestination = homeTargetPosition;
+                character.UseOptionalDestination = true;
+                character.RestoreStoppingDistance();
+                character.RestoreMovementSpeedMultiplier();
+                yield return new WaitUntil(() => atHomePoint());
+            }
+            finally
+            {
+                currentOOCState = OOCState.Null;
+            }
+        }
+
+        IEnumerator idleStanceNode()
+        {
+            currentOOCState = OOCState.Idle;
+
+            try
+            {
+                if (transform.rotation != homeTargetRotation)
+                {
+                    character.SetTarget(transform);
+                    character.UseOptionalDestination = false;
+                    transform.rotation = homeTargetRotation;
+
+                }
+                yield return null;
+            }
+            finally
+            {
+                currentOOCState = OOCState.Null;
             }
         }
 
@@ -273,22 +409,30 @@ namespace Finisher.Characters.Enemies
 
         #region Delegate Methods
 
-        private void chaseByManager()
-        {
-            directOrder = EnemyState.Chasing;
-        }
-
-        private void stopByManager()
-        {
-            directOrder = EnemyState.ReturningHome;
-        }
-
         private void removeFromSquad()
         {
             squadManager.RemoveEnemy(this.gameObject);
         }
 
         #endregion
+
+        private Vector3 getArcRunDirection(Vector3 currPos, Vector3 tarPos, float arcAngle)
+        {
+
+            var distance = Vector3.Distance(currPos, tarPos);
+            Vector3 midpoint = (currPos + tarPos) / 2f;
+            float x = midpoint.x + (currPos.x - midpoint.x) * Mathf.Cos(arcAngle) - (currPos.z - midpoint.z) * Mathf.Sin(arcAngle);
+            float z = midpoint.z + (currPos.x - midpoint.x) * Mathf.Sin(arcAngle) + (currPos.z - midpoint.z) * Mathf.Cos(arcAngle);
+
+            var moveTarget = new Vector3(x, transform.position.y, z);
+            var moveDirection = moveTarget - transform.position;
+
+            if(moveDirection .magnitude < 0.3f)
+            {
+                moveDirection = tarPos - currPos;
+            }
+            return moveDirection;
+        }
 
     }
 }

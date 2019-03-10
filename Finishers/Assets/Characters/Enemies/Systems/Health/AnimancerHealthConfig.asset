@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771f1c90119a8f545b833cbb6071c585, type: 3}
+  m_Name: AnimancerHealthConfig
+  m_EditorClassIdentifier: 
+  maxHealth: 240
+  maxVolatility: 700
+  finishableLowerBound: 0.3
+  finishableUpperBound: 0.6
+  knockbackLimit: 10
+  freeKnockbackTime: 0
+  regenPerSecond: 0
+  normalDeathAnimations:
+  - {fileID: 7400000, guid: a16cbf1e833a9a245959413aaed82913, type: 3}
+  - {fileID: 7400000, guid: fc2751fb0a43c35458f29c8359b65583, type: 3}
+  - {fileID: 7400000, guid: 589a11892e95f834dbf23f9e1cc1f090, type: 3}
+  knockbackAnimations:
+  - {fileID: 7400000, guid: acbe57a104d8c114c8487055894b3188, type: 3}
+  - {fileID: 7400000, guid: 64f13fda454b3084d8047d3cfefef410, type: 3}
+  - {fileID: 7400000, guid: be27eac04bde68040994c827068530ee, type: 3}
+  topHalf: {fileID: 4939632194541006179, guid: f762de62376428e418744361f80cd08e, type: 3}
+  bottomHalf: {fileID: 4939632194541006179, guid: a0a91290a0917294681cd79ed8ac71bd,
+    type: 3}

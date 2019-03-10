@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Finisher.Characters.Systems
 {
 
-    public enum AttackType { None, LightBlade, HeavyBlade };
+    public enum AttackType { None, LightBlade, HeavyBlade, Special };
     public enum MoveDirection { Forward, Right, Backward, Left };
 
     [DisallowMultipleComponent]
@@ -77,6 +77,10 @@ namespace Finisher.Characters.Systems
                 {
                     return AttackType.HeavyBlade;
                 }
+                else if (animator.GetCurrentAnimatorStateInfo(0).IsTag("SpecialAttack")) //TODO: make an AnimConstant and note below it is being used the same way heavy attack is
+                {
+                    return AttackType.Special;
+                }
                 return AttackType.None;
             }
         }
@@ -111,6 +115,7 @@ namespace Finisher.Characters.Systems
                 smb.AttackExitListeners += DamageEnd;
                 smb.AttackExitListeners += RestoreDodging;
                 smb.AttackStartListeners += attemptRiposte;
+                smb.AttackStartListeners += attackStarted;
             }
 
             foreach (DodgeSMB smb in dodgeSMBs)
@@ -133,32 +138,37 @@ namespace Finisher.Characters.Systems
             IsDamageFrame = false;
         }
 
-        void OnDestroy()
+        void attackStarted()
         {
-            foreach (CombatSMB smb in combatSMBs)
-            {
-                smb.AttackExitListeners -= DamageEnd;
-                smb.AttackExitListeners -= RestoreDodging;
-                smb.AttackStartListeners -= attemptRiposte;
-            }
-
-            foreach (DodgeSMB smb in dodgeSMBs)
-            {
-                smb.DodgeExitListeners -= DodgeEnd;
-            }
-
-            HealthSystem healthSystem = GetComponent<HealthSystem>();
-
-            if (healthSystem)
-            {
-                healthSystem.OnDamageTaken -= resetHitCounter;
-            }
-
-            foreach (ParrySMB smb in parrySMBs)
-            {
-                smb.ParryExitListeners += ParryEnd;
-            }
+            characterState.Attacking = true;
         }
+
+        //void OnDestroy()
+        //{
+        //    foreach (CombatSMB smb in combatSMBs)
+        //    {
+        //        smb.AttackExitListeners -= DamageEnd;
+        //        smb.AttackExitListeners -= RestoreDodging;
+        //        smb.AttackStartListeners -= attemptRiposte;
+        //    }
+
+        //    foreach (DodgeSMB smb in dodgeSMBs)
+        //    {
+        //        smb.DodgeExitListeners -= DodgeEnd;
+        //    }
+
+        //    HealthSystem healthSystem = GetComponent<HealthSystem>();
+
+        //    if (healthSystem)
+        //    {
+        //        healthSystem.OnDamageTaken -= resetHitCounter;
+        //    }
+
+        //    foreach (ParrySMB smb in parrySMBs)
+        //    {
+        //        smb.ParryExitListeners += ParryEnd;
+        //    }
+        //}
 
         #region Attacks
 
@@ -320,7 +330,7 @@ namespace Finisher.Characters.Systems
                 lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
             }
-            else if (CurrentAttackType == AttackType.HeavyBlade)
+            else if (CurrentAttackType == AttackType.HeavyBlade || CurrentAttackType == AttackType.Special)
             {
                 float finisherMeterGain = heavyAttackDamageSystem.FinisherMeterGainAmount;
 

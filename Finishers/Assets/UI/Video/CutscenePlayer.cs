@@ -27,7 +27,7 @@ public class CutscenePlayer : MonoBehaviour
 
     private void waitForInput()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (FinisherInput.PlayCutscene())
         {
             PlayCutscene();
         }
