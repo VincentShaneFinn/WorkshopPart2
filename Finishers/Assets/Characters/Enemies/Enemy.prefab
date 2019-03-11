@@ -163,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1297612759035436}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 378d2e9256386b541a56dab48b022ed5, type: 3}
+  m_Script: {fileID: 11500000, guid: f65da7a4a0e153d4bbc2e9c2dc580bec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &4272811459655557066
@@ -517,16 +517,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4522219985359809673}
     m_Modifications:
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_Name
-      value: redSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -580,6 +570,16 @@ PrefabInstance:
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_Name
+      value: redSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -787,11 +787,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
-    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCanvas
-      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095777, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -896,6 +891,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
