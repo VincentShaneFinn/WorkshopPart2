@@ -342,7 +342,7 @@ namespace Finisher.Characters
         private void ReviveCharacter()
         {
             capsule.enabled = true;
-            rigidBody.constraints = RigidbodyConstraints.None;
+            rigidBody.constraints = RigidbodyConstraints.FreezeRotation;
         }
 
         #endregion

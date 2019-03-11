@@ -417,7 +417,10 @@ namespace Finisher.Characters.Enemies
         }
         private void addToSquad()
         {
-            squadManager.AddEnemy(this.gameObject);
+            if (!squadManager.GetEnemies().Contains(this.gameObject))
+            {
+                squadManager.AddEnemy(this.gameObject);
+            }
         }
 
         #endregion

@@ -21,6 +21,14 @@ namespace Finisher.Characters
         {
             if (Input.GetKeyDown("space"))
             {
+                revive();
+            }
+        }
+
+        private void revive()
+        {
+            if (characterState.Dying)
+            {
                 characterState.DyingState.Revive();
                 healthSystem.Revive();
             }

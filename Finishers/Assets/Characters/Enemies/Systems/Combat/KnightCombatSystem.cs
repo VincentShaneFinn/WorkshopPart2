@@ -175,12 +175,18 @@ namespace Finisher.Characters.Systems
         void LaunchRangedAttack()
         {
             Instantiate(orb, transform.position + transform.forward + transform.up, transform.rotation);
-            StopCoroutine(facePlayerCoroutine);
+            if (facePlayerCoroutine != null)
+            {
+                StopCoroutine(facePlayerCoroutine);
+            }
         }
 
         void StopRangedAttack()
         {
-            StopCoroutine(facePlayerCoroutine);
+            if (facePlayerCoroutine != null)
+            {
+                StopCoroutine(facePlayerCoroutine);
+            }
         }
 
         #endregion
