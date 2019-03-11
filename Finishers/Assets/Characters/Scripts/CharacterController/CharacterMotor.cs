@@ -96,11 +96,13 @@ namespace Finisher.Characters
         {
             characterState = GetComponent<CharacterState>();
             characterState.DyingState.SubscribeToDeathEvent(KillCharacter);
+            characterState.DyingState.SubscribeToReviveEvent(ReviveCharacter);
         }
 
         void OnDestroy()
         {
             characterState.DyingState.UnsubscribeToDeathEvent(KillCharacter);
+            characterState.DyingState.UnsubscribeToReviveEvent(ReviveCharacter);
         }
 
         #region Initialization and ComponentBuilder
@@ -335,6 +337,12 @@ namespace Finisher.Characters
         {
             capsule.enabled = false;
             rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        private void ReviveCharacter()
+        {
+            capsule.enabled = true;
+            rigidBody.constraints = RigidbodyConstraints.None;
         }
 
         #endregion

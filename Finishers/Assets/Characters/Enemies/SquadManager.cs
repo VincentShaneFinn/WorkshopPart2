@@ -119,6 +119,11 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        public void AddEnemy(GameObject enemy)
+        {
+            enemies.Add(enemy);
+        }
+
         private void setEnemiesSubChase()
         {
             SortEnemiesByDistance();
