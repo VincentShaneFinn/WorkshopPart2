@@ -1,0 +1,1658 @@
+fileFormatVersion: 2
+guid: 44c347c02fb0f0747b89cacaa39af9e5
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: ActualGate
+    100002: ActualGate 1
+    100004: ArchWay
+    100006: ArchWay 1
+    100008: ArchWay1
+    100010: ArchWay1 1
+    100012: Balcony_02
+    100014: bridge
+    100016: bridge1
+    100018: Bridge_Medium3
+    100020: Bridge_Small3
+    100022: Bridge_Small4
+    100024: BridgesPart
+    100026: Buttress_Full1
+    100028: Buttress_Full1 1
+    100030: Buttress_Full2
+    100032: Buttress_Full2 1
+    100034: Buttress_HalfArch4
+    100036: Buttress_HalfArch5
+    100038: Buttress_Quarter3
+    100040: Buttress_Quarter4
+    100042: Buttress_Quarter5
+    100044: Buttress_Quarter6
+    100046: Buttress_Quarter7
+    100048: Buttress_Quarter8
+    100050: Buttress_QuarterPlate1
+    100052: Buttress_QuarterPlate1 1
+    100054: Buttress_QuarterPlate1 2
+    100056: Buttress_QuarterPlate1 3
+    100058: Buttress_QuarterPlate2
+    100060: Buttress_QuarterPlate2 1
+    100062: Buttress_QuarterPlate2 2
+    100064: Buttress_QuarterPlate2 3
+    100066: Buttress_QuarterPlate3
+    100068: Buttress_QuarterPlate4
+    100070: Buttress_QuarterPlate5
+    100072: Buttress_QuarterPlate6
+    100074: Column_Large1
+    100076: Column_Large2
+    100078: Column_Large3
+    100080: Column_Large3 1
+    100082: Column_Large3 2
+    100084: Column_Large3 3
+    100086: Decor
+    100088: Decor 1
+    100090: Decor 2
+    100092: Decor 3
+    100094: Decor 4
+    100096: Decor 5
+    100098: Decor 6
+    100100: Decor 7
+    100102: ENV
+    100104: Floor_1x135
+    100106: Floor_1x135 1
+    100108: Floor_1x136
+    100110: Floor_1x136 1
+    100112: Floor_1x137
+    100114: Floor_1x137 1
+    100116: Floor_1x141
+    100118: Floor_1x142
+    100120: Floor_1x143
+    100122: Floor_1x144
+    100124: Floor_1x145
+    100126: Floor_1x146
+    100128: Floor_1x147
+    100130: Floor_1x368
+    100132: Floor_1x368 1
+    100134: Floor_2x14
+    100136: Floor_2x14 1
+    100138: Floor_2x15
+    100140: Floor_2x15 1
+    100142: Floor_2x16
+    100144: Floor_2x16 1
+    100146: Floor_2x17
+    100148: Floor_2x17 1
+    100150: Floor_Corner1
+    100152: Floor_Corner2
+    100154: Gate_Indoor_Openable
+    100156: Gate_Indoor_Openable1
+    100158: Gateway
+    100160: Gateway 1
+    100162: Large_03
+    100164: Large_04
+    100166: Library
+    100168: Library_EntrancePlates
+    100170: Library_Floor
+    100172: Library_Floor_02
+    100174: Library_Floors
+    100176: Library_Floors_Ceiling
+    100178: Library_GateWay
+    100180: Library_InnerWall_Back
+    100182: Library_InnerWall_Right
+    100184: Library_InnerWalls
+    100186: Library_InnterWall_Left
+    100188: Library_Ramp
+    100190: Library_Ramp_01
+    100192: Library_Ramp_02
+    100194: Library_Ramps
+    100196: Library_Roof
+    100198: Library_Wall_Back
+    100200: Library_Wall_Front
+    100202: Library_Wall_Left
+    100204: Library_Wall_Right
+    100206: Library_Wall_SecondFloor
+    100208: //RootNode
+    100210: Medium_06
+    100212: Medium_07
+    100214: Medium_08
+    100216: Medium_09
+    100218: pCube1
+    100220: pCube8
+    100222: pCube9
+    100224: Pillar17
+    100226: Pillar24
+    100228: Pillar25
+    100230: Pillar26
+    100232: Pillar27
+    100234: Pillar28
+    100236: Pillar29
+    100238: Pillar30
+    100240: Pillar_Large31
+    100242: Pillar_Large46
+    100244: Pillar_Large46 1
+    100246: Pillar_Large48
+    100248: Pillar_Large49
+    100250: Pillar_Large50
+    100252: Pillar_Large54
+    100254: Pillar_Large54 1
+    100256: Railing22
+    100258: Railing22 1
+    100260: Railing23
+    100262: Railing23 1
+    100264: Railing24
+    100266: Railing24 1
+    100268: Railing25
+    100270: Railing25 1
+    100272: Railing26
+    100274: Railing26 1
+    100276: Railing27
+    100278: Railing27 1
+    100280: Railing28
+    100282: Railing29
+    100284: Railing30
+    100286: Railing31
+    100288: Railing32
+    100290: Railing33
+    100292: Railing34
+    100294: Railing35
+    100296: Railing36
+    100298: Railing37
+    100300: Railing_Corner1
+    100302: Railing_Corner2
+    100304: Railing_Diagonal1
+    100306: Railing_Diagonal2
+    100308: Railing_Diagonal3
+    100310: Railing_Diagonal4
+    100312: Railing_Long10
+    100314: Railing_Long10 1
+    100316: Railing_Long12
+    100318: Railing_Long12 1
+    100320: Railing_Long18
+    100322: Railing_Long19
+    100324: Railing_Long20
+    100326: Railing_Long23
+    100328: Railing_Long24
+    100330: Railing_Long24 1
+    100332: Railing_Long25
+    100334: Railing_Long25 1
+    100336: Railing_Long5
+    100338: Railing_Long5 1
+    100340: Railing_Long8
+    100342: Railing_Long8 1
+    100344: Railing_Long9
+    100346: Railing_Long9 1
+    100348: Railing_Pole_Center10
+    100350: Railing_Pole_Center10 1
+    100352: Railing_Pole_Center11
+    100354: Railing_Pole_Center11 1
+    100356: Railing_Pole_Center12
+    100358: Railing_Pole_Center12 1
+    100360: Railing_Pole_Center13
+    100362: Railing_Pole_Center13 1
+    100364: Railing_Pole_Center14
+    100366: Railing_Pole_Center15
+    100368: Railing_Pole_Center16
+    100370: Railing_Pole_Center17
+    100372: Railing_Pole_Center18
+    100374: Railing_Pole_Center19
+    100376: Railing_Pole_Center20
+    100378: Railing_Pole_Center21
+    100380: Railing_Pole_Center22
+    100382: Railing_Pole_Center23
+    100384: Railing_Pole_Center24
+    100386: Railing_Pole_Center25
+    100388: Railing_Pole_Center25 1
+    100390: Railing_Pole_Center26
+    100392: Railing_Pole_Center26 1
+    100394: Railing_Pole_Corner1
+    100396: Railing_Pole_Corner2
+    100398: Railing_Pole_Corner3
+    100400: Railing_Pole_Corner4
+    100402: Railing_Pole_End1
+    100404: Railing_Pole_End1 1
+    100406: Railing_Pole_End10
+    100408: Railing_Pole_End11
+    100410: Railing_Pole_End11 1
+    100412: Railing_Pole_End2
+    100414: Railing_Pole_End2 1
+    100416: Railing_Pole_End3
+    100418: Railing_Pole_End3 1
+    100420: Railing_Pole_End4
+    100422: Railing_Pole_End4 1
+    100424: Railing_Pole_End5
+    100426: Railing_Pole_End6
+    100428: Railing_Pole_End7
+    100430: Railing_Pole_End8
+    100432: Railing_Pole_End9
+    100434: Ramp_Medium_Platform1
+    100436: Ramp_WithPlatform1
+    100438: Ramp_WithPlatform1 1
+    100440: Roof10
+    100442: Roof9
+    100444: Roof_Cover1
+    100446: Roof_Cover2
+    100448: Small_04
+    100450: Small_04 1
+    100452: Small_05
+    100454: Small_06
+    100456: Structure
+    100458: Structure 1
+    100460: Structure 2
+    100462: Structure 3
+    100464: Structure 4
+    100466: Structure 5
+    100468: Structure 6
+    100470: Tall_02
+    100472: Tall_05
+    100474: Tall_06
+    100476: Tall_07
+    100478: Wall173
+    100480: Wall174
+    100482: Wall75
+    100484: Wall75 1
+    100486: Wall76
+    100488: Wall76 1
+    100490: Wall77
+    100492: Wall78
+    100494: Wall79
+    100496: Wall80
+    100498: Wall_Large151
+    100500: Wall_Large151 1
+    100502: Wall_Large152
+    100504: Wall_Large152 1
+    100506: Wall_Large153
+    100508: Wall_Large153 1
+    100510: Wall_Large305
+    100512: Wall_Large306
+    100514: Wall_Large307
+    100516: Wall_Large308
+    100518: Wall_Large309
+    100520: Wall_Large310
+    100522: Wall_Large311
+    100524: Wall_Large312
+    100526: Wall_Large312 1
+    100528: Wall_Large398
+    100530: Wall_Large398 1
+    100532: Wall_Large71
+    100534: Wall_Large71 1
+    100536: Wall_Large72
+    100538: Wall_Large72 1
+    100540: Wall_Large73
+    100542: Wall_Large73 1
+    100544: Wall_RightAngle_Half10
+    100546: Wall_RightAngle_Half10 1
+    100548: Wall_RightAngle_Half11
+    100550: Wall_RightAngle_Half11 1
+    100552: Wall_RightAngle_Half12
+    100554: Wall_RightAngle_Half12 1
+    100556: Wall_RightAngle_Half13
+    100558: Wall_RightAngle_Half13 1
+    100560: Wall_RightAngle_Half14
+    100562: Wall_RightAngle_Half14 1
+    100564: Wall_RightAngle_Half15
+    100566: Wall_RightAngle_Half15 1
+    100568: Wall_RightAngle_Half16
+    100570: Wall_RightAngle_Half16 1
+    100572: Wall_RightAngle_Half17
+    100574: Wall_RightAngle_Half17 1
+    100576: Wall_RightAngle_Half18
+    100578: Wall_RightAngle_Half18 1
+    100580: Wall_RightAngle_Half19
+    100582: Wall_RightAngle_Half19 1
+    100584: Wall_RightAngle_Half2
+    100586: Wall_RightAngle_Half2 1
+    100588: Wall_RightAngle_Half20
+    100590: Wall_RightAngle_Half20 1
+    100592: Wall_RightAngle_Half21
+    100594: Wall_RightAngle_Half21 1
+    100596: Wall_RightAngle_Half22
+    100598: Wall_RightAngle_Half22 1
+    100600: Wall_RightAngle_Half23
+    100602: Wall_RightAngle_Half23 1
+    100604: Wall_RightAngle_Half24
+    100606: Wall_RightAngle_Half24 1
+    100608: Wall_RightAngle_Half25
+    100610: Wall_RightAngle_Half25 1
+    100612: Wall_RightAngle_Half26
+    100614: Wall_RightAngle_Half26 1
+    100616: Wall_RightAngle_Half27
+    100618: Wall_RightAngle_Half27 1
+    100620: Wall_RightAngle_Half28
+    100622: Wall_RightAngle_Half28 1
+    100624: Wall_RightAngle_Half29
+    100626: Wall_RightAngle_Half29 1
+    100628: Wall_RightAngle_Half3
+    100630: Wall_RightAngle_Half3 1
+    100632: Wall_RightAngle_Half4
+    100634: Wall_RightAngle_Half4 1
+    100636: Wall_RightAngle_Half42
+    100638: Wall_RightAngle_Half42 1
+    100640: Wall_RightAngle_Half5
+    100642: Wall_RightAngle_Half5 1
+    100644: Wall_RightAngle_Half6
+    100646: Wall_RightAngle_Half6 1
+    100648: Wall_RightAngle_Half7
+    100650: Wall_RightAngle_Half7 1
+    100652: Wall_RightAngle_Half8
+    100654: Wall_RightAngle_Half8 1
+    400000: ActualGate
+    400002: ActualGate 1
+    400004: ArchWay
+    400006: ArchWay 1
+    400008: ArchWay1
+    400010: ArchWay1 1
+    400012: Balcony_02
+    400014: bridge
+    400016: bridge1
+    400018: Bridge_Medium3
+    400020: Bridge_Small3
+    400022: Bridge_Small4
+    400024: BridgesPart
+    400026: Buttress_Full1
+    400028: Buttress_Full1 1
+    400030: Buttress_Full2
+    400032: Buttress_Full2 1
+    400034: Buttress_HalfArch4
+    400036: Buttress_HalfArch5
+    400038: Buttress_Quarter3
+    400040: Buttress_Quarter4
+    400042: Buttress_Quarter5
+    400044: Buttress_Quarter6
+    400046: Buttress_Quarter7
+    400048: Buttress_Quarter8
+    400050: Buttress_QuarterPlate1
+    400052: Buttress_QuarterPlate1 1
+    400054: Buttress_QuarterPlate1 2
+    400056: Buttress_QuarterPlate1 3
+    400058: Buttress_QuarterPlate2
+    400060: Buttress_QuarterPlate2 1
+    400062: Buttress_QuarterPlate2 2
+    400064: Buttress_QuarterPlate2 3
+    400066: Buttress_QuarterPlate3
+    400068: Buttress_QuarterPlate4
+    400070: Buttress_QuarterPlate5
+    400072: Buttress_QuarterPlate6
+    400074: Column_Large1
+    400076: Column_Large2
+    400078: Column_Large3
+    400080: Column_Large3 1
+    400082: Column_Large3 2
+    400084: Column_Large3 3
+    400086: Decor
+    400088: Decor 1
+    400090: Decor 2
+    400092: Decor 3
+    400094: Decor 4
+    400096: Decor 5
+    400098: Decor 6
+    400100: Decor 7
+    400102: ENV
+    400104: Floor_1x135
+    400106: Floor_1x135 1
+    400108: Floor_1x136
+    400110: Floor_1x136 1
+    400112: Floor_1x137
+    400114: Floor_1x137 1
+    400116: Floor_1x141
+    400118: Floor_1x142
+    400120: Floor_1x143
+    400122: Floor_1x144
+    400124: Floor_1x145
+    400126: Floor_1x146
+    400128: Floor_1x147
+    400130: Floor_1x368
+    400132: Floor_1x368 1
+    400134: Floor_2x14
+    400136: Floor_2x14 1
+    400138: Floor_2x15
+    400140: Floor_2x15 1
+    400142: Floor_2x16
+    400144: Floor_2x16 1
+    400146: Floor_2x17
+    400148: Floor_2x17 1
+    400150: Floor_Corner1
+    400152: Floor_Corner2
+    400154: Gate_Indoor_Openable
+    400156: Gate_Indoor_Openable1
+    400158: Gateway
+    400160: Gateway 1
+    400162: Large_03
+    400164: Large_04
+    400166: Library
+    400168: Library_EntrancePlates
+    400170: Library_Floor
+    400172: Library_Floor_02
+    400174: Library_Floors
+    400176: Library_Floors_Ceiling
+    400178: Library_GateWay
+    400180: Library_InnerWall_Back
+    400182: Library_InnerWall_Right
+    400184: Library_InnerWalls
+    400186: Library_InnterWall_Left
+    400188: Library_Ramp
+    400190: Library_Ramp_01
+    400192: Library_Ramp_02
+    400194: Library_Ramps
+    400196: Library_Roof
+    400198: Library_Wall_Back
+    400200: Library_Wall_Front
+    400202: Library_Wall_Left
+    400204: Library_Wall_Right
+    400206: Library_Wall_SecondFloor
+    400208: //RootNode
+    400210: Medium_06
+    400212: Medium_07
+    400214: Medium_08
+    400216: Medium_09
+    400218: pCube1
+    400220: pCube8
+    400222: pCube9
+    400224: Pillar17
+    400226: Pillar24
+    400228: Pillar25
+    400230: Pillar26
+    400232: Pillar27
+    400234: Pillar28
+    400236: Pillar29
+    400238: Pillar30
+    400240: Pillar_Large31
+    400242: Pillar_Large46
+    400244: Pillar_Large46 1
+    400246: Pillar_Large48
+    400248: Pillar_Large49
+    400250: Pillar_Large50
+    400252: Pillar_Large54
+    400254: Pillar_Large54 1
+    400256: Railing22
+    400258: Railing22 1
+    400260: Railing23
+    400262: Railing23 1
+    400264: Railing24
+    400266: Railing24 1
+    400268: Railing25
+    400270: Railing25 1
+    400272: Railing26
+    400274: Railing26 1
+    400276: Railing27
+    400278: Railing27 1
+    400280: Railing28
+    400282: Railing29
+    400284: Railing30
+    400286: Railing31
+    400288: Railing32
+    400290: Railing33
+    400292: Railing34
+    400294: Railing35
+    400296: Railing36
+    400298: Railing37
+    400300: Railing_Corner1
+    400302: Railing_Corner2
+    400304: Railing_Diagonal1
+    400306: Railing_Diagonal2
+    400308: Railing_Diagonal3
+    400310: Railing_Diagonal4
+    400312: Railing_Long10
+    400314: Railing_Long10 1
+    400316: Railing_Long12
+    400318: Railing_Long12 1
+    400320: Railing_Long18
+    400322: Railing_Long19
+    400324: Railing_Long20
+    400326: Railing_Long23
+    400328: Railing_Long24
+    400330: Railing_Long24 1
+    400332: Railing_Long25
+    400334: Railing_Long25 1
+    400336: Railing_Long5
+    400338: Railing_Long5 1
+    400340: Railing_Long8
+    400342: Railing_Long8 1
+    400344: Railing_Long9
+    400346: Railing_Long9 1
+    400348: Railing_Pole_Center10
+    400350: Railing_Pole_Center10 1
+    400352: Railing_Pole_Center11
+    400354: Railing_Pole_Center11 1
+    400356: Railing_Pole_Center12
+    400358: Railing_Pole_Center12 1
+    400360: Railing_Pole_Center13
+    400362: Railing_Pole_Center13 1
+    400364: Railing_Pole_Center14
+    400366: Railing_Pole_Center15
+    400368: Railing_Pole_Center16
+    400370: Railing_Pole_Center17
+    400372: Railing_Pole_Center18
+    400374: Railing_Pole_Center19
+    400376: Railing_Pole_Center20
+    400378: Railing_Pole_Center21
+    400380: Railing_Pole_Center22
+    400382: Railing_Pole_Center23
+    400384: Railing_Pole_Center24
+    400386: Railing_Pole_Center25
+    400388: Railing_Pole_Center25 1
+    400390: Railing_Pole_Center26
+    400392: Railing_Pole_Center26 1
+    400394: Railing_Pole_Corner1
+    400396: Railing_Pole_Corner2
+    400398: Railing_Pole_Corner3
+    400400: Railing_Pole_Corner4
+    400402: Railing_Pole_End1
+    400404: Railing_Pole_End1 1
+    400406: Railing_Pole_End10
+    400408: Railing_Pole_End11
+    400410: Railing_Pole_End11 1
+    400412: Railing_Pole_End2
+    400414: Railing_Pole_End2 1
+    400416: Railing_Pole_End3
+    400418: Railing_Pole_End3 1
+    400420: Railing_Pole_End4
+    400422: Railing_Pole_End4 1
+    400424: Railing_Pole_End5
+    400426: Railing_Pole_End6
+    400428: Railing_Pole_End7
+    400430: Railing_Pole_End8
+    400432: Railing_Pole_End9
+    400434: Ramp_Medium_Platform1
+    400436: Ramp_WithPlatform1
+    400438: Ramp_WithPlatform1 1
+    400440: Roof10
+    400442: Roof9
+    400444: Roof_Cover1
+    400446: Roof_Cover2
+    400448: Small_04
+    400450: Small_04 1
+    400452: Small_05
+    400454: Small_06
+    400456: Structure
+    400458: Structure 1
+    400460: Structure 2
+    400462: Structure 3
+    400464: Structure 4
+    400466: Structure 5
+    400468: Structure 6
+    400470: Tall_02
+    400472: Tall_05
+    400474: Tall_06
+    400476: Tall_07
+    400478: Wall173
+    400480: Wall174
+    400482: Wall75
+    400484: Wall75 1
+    400486: Wall76
+    400488: Wall76 1
+    400490: Wall77
+    400492: Wall78
+    400494: Wall79
+    400496: Wall80
+    400498: Wall_Large151
+    400500: Wall_Large151 1
+    400502: Wall_Large152
+    400504: Wall_Large152 1
+    400506: Wall_Large153
+    400508: Wall_Large153 1
+    400510: Wall_Large305
+    400512: Wall_Large306
+    400514: Wall_Large307
+    400516: Wall_Large308
+    400518: Wall_Large309
+    400520: Wall_Large310
+    400522: Wall_Large311
+    400524: Wall_Large312
+    400526: Wall_Large312 1
+    400528: Wall_Large398
+    400530: Wall_Large398 1
+    400532: Wall_Large71
+    400534: Wall_Large71 1
+    400536: Wall_Large72
+    400538: Wall_Large72 1
+    400540: Wall_Large73
+    400542: Wall_Large73 1
+    400544: Wall_RightAngle_Half10
+    400546: Wall_RightAngle_Half10 1
+    400548: Wall_RightAngle_Half11
+    400550: Wall_RightAngle_Half11 1
+    400552: Wall_RightAngle_Half12
+    400554: Wall_RightAngle_Half12 1
+    400556: Wall_RightAngle_Half13
+    400558: Wall_RightAngle_Half13 1
+    400560: Wall_RightAngle_Half14
+    400562: Wall_RightAngle_Half14 1
+    400564: Wall_RightAngle_Half15
+    400566: Wall_RightAngle_Half15 1
+    400568: Wall_RightAngle_Half16
+    400570: Wall_RightAngle_Half16 1
+    400572: Wall_RightAngle_Half17
+    400574: Wall_RightAngle_Half17 1
+    400576: Wall_RightAngle_Half18
+    400578: Wall_RightAngle_Half18 1
+    400580: Wall_RightAngle_Half19
+    400582: Wall_RightAngle_Half19 1
+    400584: Wall_RightAngle_Half2
+    400586: Wall_RightAngle_Half2 1
+    400588: Wall_RightAngle_Half20
+    400590: Wall_RightAngle_Half20 1
+    400592: Wall_RightAngle_Half21
+    400594: Wall_RightAngle_Half21 1
+    400596: Wall_RightAngle_Half22
+    400598: Wall_RightAngle_Half22 1
+    400600: Wall_RightAngle_Half23
+    400602: Wall_RightAngle_Half23 1
+    400604: Wall_RightAngle_Half24
+    400606: Wall_RightAngle_Half24 1
+    400608: Wall_RightAngle_Half25
+    400610: Wall_RightAngle_Half25 1
+    400612: Wall_RightAngle_Half26
+    400614: Wall_RightAngle_Half26 1
+    400616: Wall_RightAngle_Half27
+    400618: Wall_RightAngle_Half27 1
+    400620: Wall_RightAngle_Half28
+    400622: Wall_RightAngle_Half28 1
+    400624: Wall_RightAngle_Half29
+    400626: Wall_RightAngle_Half29 1
+    400628: Wall_RightAngle_Half3
+    400630: Wall_RightAngle_Half3 1
+    400632: Wall_RightAngle_Half4
+    400634: Wall_RightAngle_Half4 1
+    400636: Wall_RightAngle_Half42
+    400638: Wall_RightAngle_Half42 1
+    400640: Wall_RightAngle_Half5
+    400642: Wall_RightAngle_Half5 1
+    400644: Wall_RightAngle_Half6
+    400646: Wall_RightAngle_Half6 1
+    400648: Wall_RightAngle_Half7
+    400650: Wall_RightAngle_Half7 1
+    400652: Wall_RightAngle_Half8
+    400654: Wall_RightAngle_Half8 1
+    2100000: Floor_Texture
+    2100002: Railing_Long_Texture
+    2100004: Railing_Pole_Center_Texture
+    2100006: Railing_Pole_End_Texture
+    2100008: lambert1
+    2100010: Column_Medium_Texture
+    2100012: Pillar_Medium_Texture
+    2100014: Wall_Texture
+    2100016: Floor_Large_Texture
+    2100018: Wall_Large_Texture
+    2100020: Large_01_Texture
+    2100022: Medium_03_Texture
+    2100024: Tall_03_Texture
+    2100026: Medium_01_Texture
+    2100028: Ramp_Medium_Platform_Texture
+    2100030: Small_02_Texture
+    2100032: Tall_02_Texture
+    2100034: Large_02_Texture
+    2100036: Medium_04_Texture
+    2100038: Small_01_Texture
+    2100040: Library_Wall_Left_Texture
+    2100042: Library_Wall_Right_Texture
+    2100044: Library_Wall_Back_Texture
+    2100046: Library_Wall_Front_Texture
+    2100048: Library_Roof_Texture
+    2100050: Library_InnerWalls_Texture
+    2100052: Library_Floors_Texture
+    2100054: Library_Ramps_Texture
+    2100056: Library_Wall_SecondFloor_Texture
+    2100058: Library_EntrancePlates_Texture
+    2100060: Buttress_HalfArch_Texture
+    2100062: Gate_Indoor_Openable_Texture
+    2100064: Gate_Indoor_Openable_ActalGate_Texture
+    2100066: Buttress_QuarterPlate_Texture
+    2100068: Floor_Corner_Texture
+    2100070: Buttress_Quarter_Texture
+    2100072: Railing_Corner_Texture
+    2100074: Pillar_Texture
+    2100076: Railing_Texture
+    2100078: Buttress_Full_Texture
+    2100080: Railing_Pole_Corner_Texture
+    2100082: Railing_Diagonal_Texture
+    2100084: Roof_Cover_Texture
+    2100086: Roof_Texture
+    2300000: ActualGate
+    2300002: ActualGate 1
+    2300004: Buttress_Full1
+    2300006: Buttress_Full1 1
+    2300008: Buttress_Full2
+    2300010: Buttress_Full2 1
+    2300012: Buttress_HalfArch4
+    2300014: Buttress_HalfArch5
+    2300016: Buttress_Quarter3
+    2300018: Buttress_Quarter4
+    2300020: Buttress_Quarter5
+    2300022: Buttress_Quarter6
+    2300024: Buttress_Quarter7
+    2300026: Buttress_Quarter8
+    2300028: Buttress_QuarterPlate1
+    2300030: Buttress_QuarterPlate1 1
+    2300032: Buttress_QuarterPlate1 2
+    2300034: Buttress_QuarterPlate1 3
+    2300036: Buttress_QuarterPlate2
+    2300038: Buttress_QuarterPlate2 1
+    2300040: Buttress_QuarterPlate2 2
+    2300042: Buttress_QuarterPlate2 3
+    2300044: Buttress_QuarterPlate3
+    2300046: Buttress_QuarterPlate4
+    2300048: Buttress_QuarterPlate5
+    2300050: Buttress_QuarterPlate6
+    2300052: Column_Large1
+    2300054: Column_Large2
+    2300056: Column_Large3
+    2300058: Column_Large3 1
+    2300060: Column_Large3 2
+    2300062: Column_Large3 3
+    2300064: Floor_1x135
+    2300066: Floor_1x135 1
+    2300068: Floor_1x136
+    2300070: Floor_1x136 1
+    2300072: Floor_1x137
+    2300074: Floor_1x137 1
+    2300076: Floor_1x141
+    2300078: Floor_1x142
+    2300080: Floor_1x143
+    2300082: Floor_1x144
+    2300084: Floor_1x145
+    2300086: Floor_1x146
+    2300088: Floor_1x147
+    2300090: Floor_1x368
+    2300092: Floor_1x368 1
+    2300094: Floor_2x14
+    2300096: Floor_2x14 1
+    2300098: Floor_2x15
+    2300100: Floor_2x15 1
+    2300102: Floor_2x16
+    2300104: Floor_2x16 1
+    2300106: Floor_2x17
+    2300108: Floor_2x17 1
+    2300110: Floor_Corner1
+    2300112: Floor_Corner2
+    2300114: Gateway
+    2300116: Gateway 1
+    2300118: Large_03
+    2300120: Large_04
+    2300122: Library_EntrancePlates
+    2300124: Library_Floor
+    2300126: Library_Floor_02
+    2300128: Library_Floors_Ceiling
+    2300130: Library_InnerWall_Back
+    2300132: Library_InnerWall_Right
+    2300134: Library_InnterWall_Left
+    2300136: Library_Ramp
+    2300138: Library_Ramp_01
+    2300140: Library_Ramp_02
+    2300142: Library_Roof
+    2300144: Library_Wall_Back
+    2300146: Library_Wall_Front
+    2300148: Library_Wall_Left
+    2300150: Library_Wall_Right
+    2300152: Library_Wall_SecondFloor
+    2300154: Medium_06
+    2300156: Medium_07
+    2300158: Medium_08
+    2300160: Medium_09
+    2300162: pCube1
+    2300164: pCube8
+    2300166: pCube9
+    2300168: Pillar17
+    2300170: Pillar24
+    2300172: Pillar25
+    2300174: Pillar26
+    2300176: Pillar27
+    2300178: Pillar28
+    2300180: Pillar29
+    2300182: Pillar30
+    2300184: Pillar_Large31
+    2300186: Pillar_Large46
+    2300188: Pillar_Large46 1
+    2300190: Pillar_Large48
+    2300192: Pillar_Large49
+    2300194: Pillar_Large50
+    2300196: Pillar_Large54
+    2300198: Pillar_Large54 1
+    2300200: Railing22
+    2300202: Railing22 1
+    2300204: Railing23
+    2300206: Railing23 1
+    2300208: Railing24
+    2300210: Railing24 1
+    2300212: Railing25
+    2300214: Railing25 1
+    2300216: Railing26
+    2300218: Railing26 1
+    2300220: Railing27
+    2300222: Railing27 1
+    2300224: Railing28
+    2300226: Railing29
+    2300228: Railing30
+    2300230: Railing31
+    2300232: Railing32
+    2300234: Railing33
+    2300236: Railing34
+    2300238: Railing35
+    2300240: Railing36
+    2300242: Railing37
+    2300244: Railing_Corner1
+    2300246: Railing_Corner2
+    2300248: Railing_Diagonal1
+    2300250: Railing_Diagonal2
+    2300252: Railing_Diagonal3
+    2300254: Railing_Diagonal4
+    2300256: Railing_Long10
+    2300258: Railing_Long10 1
+    2300260: Railing_Long12
+    2300262: Railing_Long12 1
+    2300264: Railing_Long18
+    2300266: Railing_Long19
+    2300268: Railing_Long20
+    2300270: Railing_Long23
+    2300272: Railing_Long24
+    2300274: Railing_Long24 1
+    2300276: Railing_Long25
+    2300278: Railing_Long25 1
+    2300280: Railing_Long5
+    2300282: Railing_Long5 1
+    2300284: Railing_Long8
+    2300286: Railing_Long8 1
+    2300288: Railing_Long9
+    2300290: Railing_Long9 1
+    2300292: Railing_Pole_Center10
+    2300294: Railing_Pole_Center10 1
+    2300296: Railing_Pole_Center11
+    2300298: Railing_Pole_Center11 1
+    2300300: Railing_Pole_Center12
+    2300302: Railing_Pole_Center12 1
+    2300304: Railing_Pole_Center13
+    2300306: Railing_Pole_Center13 1
+    2300308: Railing_Pole_Center14
+    2300310: Railing_Pole_Center15
+    2300312: Railing_Pole_Center16
+    2300314: Railing_Pole_Center17
+    2300316: Railing_Pole_Center18
+    2300318: Railing_Pole_Center19
+    2300320: Railing_Pole_Center20
+    2300322: Railing_Pole_Center21
+    2300324: Railing_Pole_Center22
+    2300326: Railing_Pole_Center23
+    2300328: Railing_Pole_Center24
+    2300330: Railing_Pole_Center25
+    2300332: Railing_Pole_Center25 1
+    2300334: Railing_Pole_Center26
+    2300336: Railing_Pole_Center26 1
+    2300338: Railing_Pole_Corner1
+    2300340: Railing_Pole_Corner2
+    2300342: Railing_Pole_Corner3
+    2300344: Railing_Pole_Corner4
+    2300346: Railing_Pole_End1
+    2300348: Railing_Pole_End1 1
+    2300350: Railing_Pole_End10
+    2300352: Railing_Pole_End11
+    2300354: Railing_Pole_End11 1
+    2300356: Railing_Pole_End2
+    2300358: Railing_Pole_End2 1
+    2300360: Railing_Pole_End3
+    2300362: Railing_Pole_End3 1
+    2300364: Railing_Pole_End4
+    2300366: Railing_Pole_End4 1
+    2300368: Railing_Pole_End5
+    2300370: Railing_Pole_End6
+    2300372: Railing_Pole_End7
+    2300374: Railing_Pole_End8
+    2300376: Railing_Pole_End9
+    2300378: Ramp_Medium_Platform1
+    2300380: Ramp_WithPlatform1
+    2300382: Ramp_WithPlatform1 1
+    2300384: Roof10
+    2300386: Roof9
+    2300388: Roof_Cover1
+    2300390: Roof_Cover2
+    2300392: Small_05
+    2300394: Small_06
+    2300396: Tall_06
+    2300398: Tall_07
+    2300400: Wall173
+    2300402: Wall174
+    2300404: Wall75
+    2300406: Wall75 1
+    2300408: Wall76
+    2300410: Wall76 1
+    2300412: Wall77
+    2300414: Wall78
+    2300416: Wall79
+    2300418: Wall80
+    2300420: Wall_Large151
+    2300422: Wall_Large151 1
+    2300424: Wall_Large152
+    2300426: Wall_Large152 1
+    2300428: Wall_Large153
+    2300430: Wall_Large153 1
+    2300432: Wall_Large305
+    2300434: Wall_Large306
+    2300436: Wall_Large307
+    2300438: Wall_Large308
+    2300440: Wall_Large309
+    2300442: Wall_Large310
+    2300444: Wall_Large311
+    2300446: Wall_Large312
+    2300448: Wall_Large312 1
+    2300450: Wall_Large398
+    2300452: Wall_Large398 1
+    2300454: Wall_Large71
+    2300456: Wall_Large71 1
+    2300458: Wall_Large72
+    2300460: Wall_Large72 1
+    2300462: Wall_Large73
+    2300464: Wall_Large73 1
+    2300466: Wall_RightAngle_Half10
+    2300468: Wall_RightAngle_Half10 1
+    2300470: Wall_RightAngle_Half11
+    2300472: Wall_RightAngle_Half11 1
+    2300474: Wall_RightAngle_Half12
+    2300476: Wall_RightAngle_Half12 1
+    2300478: Wall_RightAngle_Half13
+    2300480: Wall_RightAngle_Half13 1
+    2300482: Wall_RightAngle_Half14
+    2300484: Wall_RightAngle_Half14 1
+    2300486: Wall_RightAngle_Half15
+    2300488: Wall_RightAngle_Half15 1
+    2300490: Wall_RightAngle_Half16
+    2300492: Wall_RightAngle_Half16 1
+    2300494: Wall_RightAngle_Half17
+    2300496: Wall_RightAngle_Half17 1
+    2300498: Wall_RightAngle_Half18
+    2300500: Wall_RightAngle_Half18 1
+    2300502: Wall_RightAngle_Half19
+    2300504: Wall_RightAngle_Half19 1
+    2300506: Wall_RightAngle_Half2
+    2300508: Wall_RightAngle_Half2 1
+    2300510: Wall_RightAngle_Half20
+    2300512: Wall_RightAngle_Half20 1
+    2300514: Wall_RightAngle_Half21
+    2300516: Wall_RightAngle_Half21 1
+    2300518: Wall_RightAngle_Half22
+    2300520: Wall_RightAngle_Half22 1
+    2300522: Wall_RightAngle_Half23
+    2300524: Wall_RightAngle_Half23 1
+    2300526: Wall_RightAngle_Half24
+    2300528: Wall_RightAngle_Half24 1
+    2300530: Wall_RightAngle_Half25
+    2300532: Wall_RightAngle_Half25 1
+    2300534: Wall_RightAngle_Half26
+    2300536: Wall_RightAngle_Half26 1
+    2300538: Wall_RightAngle_Half27
+    2300540: Wall_RightAngle_Half27 1
+    2300542: Wall_RightAngle_Half28
+    2300544: Wall_RightAngle_Half28 1
+    2300546: Wall_RightAngle_Half29
+    2300548: Wall_RightAngle_Half29 1
+    2300550: Wall_RightAngle_Half3
+    2300552: Wall_RightAngle_Half3 1
+    2300554: Wall_RightAngle_Half4
+    2300556: Wall_RightAngle_Half4 1
+    2300558: Wall_RightAngle_Half42
+    2300560: Wall_RightAngle_Half42 1
+    2300562: Wall_RightAngle_Half5
+    2300564: Wall_RightAngle_Half5 1
+    2300566: Wall_RightAngle_Half6
+    2300568: Wall_RightAngle_Half6 1
+    2300570: Wall_RightAngle_Half7
+    2300572: Wall_RightAngle_Half7 1
+    2300574: Wall_RightAngle_Half8
+    2300576: Wall_RightAngle_Half8 1
+    3300000: ActualGate
+    3300002: ActualGate 1
+    3300004: Buttress_Full1
+    3300006: Buttress_Full1 1
+    3300008: Buttress_Full2
+    3300010: Buttress_Full2 1
+    3300012: Buttress_HalfArch4
+    3300014: Buttress_HalfArch5
+    3300016: Buttress_Quarter3
+    3300018: Buttress_Quarter4
+    3300020: Buttress_Quarter5
+    3300022: Buttress_Quarter6
+    3300024: Buttress_Quarter7
+    3300026: Buttress_Quarter8
+    3300028: Buttress_QuarterPlate1
+    3300030: Buttress_QuarterPlate1 1
+    3300032: Buttress_QuarterPlate1 2
+    3300034: Buttress_QuarterPlate1 3
+    3300036: Buttress_QuarterPlate2
+    3300038: Buttress_QuarterPlate2 1
+    3300040: Buttress_QuarterPlate2 2
+    3300042: Buttress_QuarterPlate2 3
+    3300044: Buttress_QuarterPlate3
+    3300046: Buttress_QuarterPlate4
+    3300048: Buttress_QuarterPlate5
+    3300050: Buttress_QuarterPlate6
+    3300052: Column_Large1
+    3300054: Column_Large2
+    3300056: Column_Large3
+    3300058: Column_Large3 1
+    3300060: Column_Large3 2
+    3300062: Column_Large3 3
+    3300064: Floor_1x135
+    3300066: Floor_1x135 1
+    3300068: Floor_1x136
+    3300070: Floor_1x136 1
+    3300072: Floor_1x137
+    3300074: Floor_1x137 1
+    3300076: Floor_1x141
+    3300078: Floor_1x142
+    3300080: Floor_1x143
+    3300082: Floor_1x144
+    3300084: Floor_1x145
+    3300086: Floor_1x146
+    3300088: Floor_1x147
+    3300090: Floor_1x368
+    3300092: Floor_1x368 1
+    3300094: Floor_2x14
+    3300096: Floor_2x14 1
+    3300098: Floor_2x15
+    3300100: Floor_2x15 1
+    3300102: Floor_2x16
+    3300104: Floor_2x16 1
+    3300106: Floor_2x17
+    3300108: Floor_2x17 1
+    3300110: Floor_Corner1
+    3300112: Floor_Corner2
+    3300114: Gateway
+    3300116: Gateway 1
+    3300118: Large_03
+    3300120: Large_04
+    3300122: Library_EntrancePlates
+    3300124: Library_Floor
+    3300126: Library_Floor_02
+    3300128: Library_Floors_Ceiling
+    3300130: Library_InnerWall_Back
+    3300132: Library_InnerWall_Right
+    3300134: Library_InnterWall_Left
+    3300136: Library_Ramp
+    3300138: Library_Ramp_01
+    3300140: Library_Ramp_02
+    3300142: Library_Roof
+    3300144: Library_Wall_Back
+    3300146: Library_Wall_Front
+    3300148: Library_Wall_Left
+    3300150: Library_Wall_Right
+    3300152: Library_Wall_SecondFloor
+    3300154: Medium_06
+    3300156: Medium_07
+    3300158: Medium_08
+    3300160: Medium_09
+    3300162: pCube1
+    3300164: pCube8
+    3300166: pCube9
+    3300168: Pillar17
+    3300170: Pillar24
+    3300172: Pillar25
+    3300174: Pillar26
+    3300176: Pillar27
+    3300178: Pillar28
+    3300180: Pillar29
+    3300182: Pillar30
+    3300184: Pillar_Large31
+    3300186: Pillar_Large46
+    3300188: Pillar_Large46 1
+    3300190: Pillar_Large48
+    3300192: Pillar_Large49
+    3300194: Pillar_Large50
+    3300196: Pillar_Large54
+    3300198: Pillar_Large54 1
+    3300200: Railing22
+    3300202: Railing22 1
+    3300204: Railing23
+    3300206: Railing23 1
+    3300208: Railing24
+    3300210: Railing24 1
+    3300212: Railing25
+    3300214: Railing25 1
+    3300216: Railing26
+    3300218: Railing26 1
+    3300220: Railing27
+    3300222: Railing27 1
+    3300224: Railing28
+    3300226: Railing29
+    3300228: Railing30
+    3300230: Railing31
+    3300232: Railing32
+    3300234: Railing33
+    3300236: Railing34
+    3300238: Railing35
+    3300240: Railing36
+    3300242: Railing37
+    3300244: Railing_Corner1
+    3300246: Railing_Corner2
+    3300248: Railing_Diagonal1
+    3300250: Railing_Diagonal2
+    3300252: Railing_Diagonal3
+    3300254: Railing_Diagonal4
+    3300256: Railing_Long10
+    3300258: Railing_Long10 1
+    3300260: Railing_Long12
+    3300262: Railing_Long12 1
+    3300264: Railing_Long18
+    3300266: Railing_Long19
+    3300268: Railing_Long20
+    3300270: Railing_Long23
+    3300272: Railing_Long24
+    3300274: Railing_Long24 1
+    3300276: Railing_Long25
+    3300278: Railing_Long25 1
+    3300280: Railing_Long5
+    3300282: Railing_Long5 1
+    3300284: Railing_Long8
+    3300286: Railing_Long8 1
+    3300288: Railing_Long9
+    3300290: Railing_Long9 1
+    3300292: Railing_Pole_Center10
+    3300294: Railing_Pole_Center10 1
+    3300296: Railing_Pole_Center11
+    3300298: Railing_Pole_Center11 1
+    3300300: Railing_Pole_Center12
+    3300302: Railing_Pole_Center12 1
+    3300304: Railing_Pole_Center13
+    3300306: Railing_Pole_Center13 1
+    3300308: Railing_Pole_Center14
+    3300310: Railing_Pole_Center15
+    3300312: Railing_Pole_Center16
+    3300314: Railing_Pole_Center17
+    3300316: Railing_Pole_Center18
+    3300318: Railing_Pole_Center19
+    3300320: Railing_Pole_Center20
+    3300322: Railing_Pole_Center21
+    3300324: Railing_Pole_Center22
+    3300326: Railing_Pole_Center23
+    3300328: Railing_Pole_Center24
+    3300330: Railing_Pole_Center25
+    3300332: Railing_Pole_Center25 1
+    3300334: Railing_Pole_Center26
+    3300336: Railing_Pole_Center26 1
+    3300338: Railing_Pole_Corner1
+    3300340: Railing_Pole_Corner2
+    3300342: Railing_Pole_Corner3
+    3300344: Railing_Pole_Corner4
+    3300346: Railing_Pole_End1
+    3300348: Railing_Pole_End1 1
+    3300350: Railing_Pole_End10
+    3300352: Railing_Pole_End11
+    3300354: Railing_Pole_End11 1
+    3300356: Railing_Pole_End2
+    3300358: Railing_Pole_End2 1
+    3300360: Railing_Pole_End3
+    3300362: Railing_Pole_End3 1
+    3300364: Railing_Pole_End4
+    3300366: Railing_Pole_End4 1
+    3300368: Railing_Pole_End5
+    3300370: Railing_Pole_End6
+    3300372: Railing_Pole_End7
+    3300374: Railing_Pole_End8
+    3300376: Railing_Pole_End9
+    3300378: Ramp_Medium_Platform1
+    3300380: Ramp_WithPlatform1
+    3300382: Ramp_WithPlatform1 1
+    3300384: Roof10
+    3300386: Roof9
+    3300388: Roof_Cover1
+    3300390: Roof_Cover2
+    3300392: Small_05
+    3300394: Small_06
+    3300396: Tall_06
+    3300398: Tall_07
+    3300400: Wall173
+    3300402: Wall174
+    3300404: Wall75
+    3300406: Wall75 1
+    3300408: Wall76
+    3300410: Wall76 1
+    3300412: Wall77
+    3300414: Wall78
+    3300416: Wall79
+    3300418: Wall80
+    3300420: Wall_Large151
+    3300422: Wall_Large151 1
+    3300424: Wall_Large152
+    3300426: Wall_Large152 1
+    3300428: Wall_Large153
+    3300430: Wall_Large153 1
+    3300432: Wall_Large305
+    3300434: Wall_Large306
+    3300436: Wall_Large307
+    3300438: Wall_Large308
+    3300440: Wall_Large309
+    3300442: Wall_Large310
+    3300444: Wall_Large311
+    3300446: Wall_Large312
+    3300448: Wall_Large312 1
+    3300450: Wall_Large398
+    3300452: Wall_Large398 1
+    3300454: Wall_Large71
+    3300456: Wall_Large71 1
+    3300458: Wall_Large72
+    3300460: Wall_Large72 1
+    3300462: Wall_Large73
+    3300464: Wall_Large73 1
+    3300466: Wall_RightAngle_Half10
+    3300468: Wall_RightAngle_Half10 1
+    3300470: Wall_RightAngle_Half11
+    3300472: Wall_RightAngle_Half11 1
+    3300474: Wall_RightAngle_Half12
+    3300476: Wall_RightAngle_Half12 1
+    3300478: Wall_RightAngle_Half13
+    3300480: Wall_RightAngle_Half13 1
+    3300482: Wall_RightAngle_Half14
+    3300484: Wall_RightAngle_Half14 1
+    3300486: Wall_RightAngle_Half15
+    3300488: Wall_RightAngle_Half15 1
+    3300490: Wall_RightAngle_Half16
+    3300492: Wall_RightAngle_Half16 1
+    3300494: Wall_RightAngle_Half17
+    3300496: Wall_RightAngle_Half17 1
+    3300498: Wall_RightAngle_Half18
+    3300500: Wall_RightAngle_Half18 1
+    3300502: Wall_RightAngle_Half19
+    3300504: Wall_RightAngle_Half19 1
+    3300506: Wall_RightAngle_Half2
+    3300508: Wall_RightAngle_Half2 1
+    3300510: Wall_RightAngle_Half20
+    3300512: Wall_RightAngle_Half20 1
+    3300514: Wall_RightAngle_Half21
+    3300516: Wall_RightAngle_Half21 1
+    3300518: Wall_RightAngle_Half22
+    3300520: Wall_RightAngle_Half22 1
+    3300522: Wall_RightAngle_Half23
+    3300524: Wall_RightAngle_Half23 1
+    3300526: Wall_RightAngle_Half24
+    3300528: Wall_RightAngle_Half24 1
+    3300530: Wall_RightAngle_Half25
+    3300532: Wall_RightAngle_Half25 1
+    3300534: Wall_RightAngle_Half26
+    3300536: Wall_RightAngle_Half26 1
+    3300538: Wall_RightAngle_Half27
+    3300540: Wall_RightAngle_Half27 1
+    3300542: Wall_RightAngle_Half28
+    3300544: Wall_RightAngle_Half28 1
+    3300546: Wall_RightAngle_Half29
+    3300548: Wall_RightAngle_Half29 1
+    3300550: Wall_RightAngle_Half3
+    3300552: Wall_RightAngle_Half3 1
+    3300554: Wall_RightAngle_Half4
+    3300556: Wall_RightAngle_Half4 1
+    3300558: Wall_RightAngle_Half42
+    3300560: Wall_RightAngle_Half42 1
+    3300562: Wall_RightAngle_Half5
+    3300564: Wall_RightAngle_Half5 1
+    3300566: Wall_RightAngle_Half6
+    3300568: Wall_RightAngle_Half6 1
+    3300570: Wall_RightAngle_Half7
+    3300572: Wall_RightAngle_Half7 1
+    3300574: Wall_RightAngle_Half8
+    3300576: Wall_RightAngle_Half8 1
+    4300000: Floor_1x368
+    4300002: Railing_Long24
+    4300004: Railing_Pole_Center25
+    4300006: Railing_Pole_End11
+    4300008: Railing_Long25
+    4300010: Railing_Pole_Center26
+    4300012: Ramp_WithPlatform1
+    4300014: Buttress_QuarterPlate2
+    4300016: Column_Large3
+    4300018: Buttress_QuarterPlate1
+    4300020: Buttress_QuarterPlate2
+    4300022: Column_Large3
+    4300024: Buttress_QuarterPlate1
+    4300026: Railing_Long9
+    4300028: Railing_Long5
+    4300030: Railing_Long12
+    4300032: Railing_Long8
+    4300034: Railing_Long10
+    4300036: Pillar_Large46
+    4300038: Pillar_Large54
+    4300040: Wall_RightAngle_Half4
+    4300042: Wall_RightAngle_Half5
+    4300044: Wall_RightAngle_Half8
+    4300046: Wall_RightAngle_Half7
+    4300048: Wall_RightAngle_Half6
+    4300050: Wall_RightAngle_Half2
+    4300052: Floor_2x14
+    4300054: Floor_2x15
+    4300056: Wall_RightAngle_Half3
+    4300058: Wall_Large152
+    4300060: Wall_Large153
+    4300062: Wall_Large312
+    4300064: Wall_RightAngle_Half42
+    4300066: Wall_Large398
+    4300068: Floor_1x368
+    4300070: Railing_Long24
+    4300072: Railing_Pole_Center25
+    4300074: Railing_Pole_End11
+    4300076: Railing_Long25
+    4300078: Railing_Pole_Center26
+    4300080: Ramp_WithPlatform1
+    4300082: Buttress_QuarterPlate2
+    4300084: Column_Large3
+    4300086: Buttress_QuarterPlate1
+    4300088: Buttress_QuarterPlate2
+    4300090: Column_Large3
+    4300092: Buttress_QuarterPlate1
+    4300094: Railing_Long9
+    4300096: Railing_Long5
+    4300098: Railing_Long12
+    4300100: Railing_Long8
+    4300102: Railing_Long10
+    4300104: Pillar_Large46
+    4300106: Pillar_Large54
+    4300108: Wall_RightAngle_Half4
+    4300110: Wall_RightAngle_Half5
+    4300112: Wall_RightAngle_Half8
+    4300114: Wall_RightAngle_Half7
+    4300116: Wall_RightAngle_Half6
+    4300118: Wall_RightAngle_Half2
+    4300120: Floor_2x14
+    4300122: Floor_2x15
+    4300124: Wall_RightAngle_Half3
+    4300126: Wall_Large152
+    4300128: Wall_Large153
+    4300130: Wall_Large312
+    4300132: Wall_RightAngle_Half42
+    4300134: Wall_Large398
+    4300136: pCube1
+    4300138: pCube8
+    4300140: pCube9
+    4300142: Large_03
+    4300144: Medium_07
+    4300146: Tall_06
+    4300148: Medium_06
+    4300150: Ramp_Medium_Platform1
+    4300152: Small_05
+    4300154: Medium_08
+    4300156: Tall_07
+    4300158: Large_04
+    4300160: Medium_09
+    4300162: Small_06
+    4300164: Library_Wall_Left
+    4300166: Library_Wall_Right
+    4300168: Library_Wall_Back
+    4300170: Library_Wall_Front
+    4300172: Library_Roof
+    4300174: Library_InnerWall_Back
+    4300176: Library_InnterWall_Left
+    4300178: Library_InnerWall_Right
+    4300180: Library_Floor_02
+    4300182: Library_Floor
+    4300184: Library_Floors_Ceiling
+    4300186: Library_Ramp
+    4300188: Library_Ramp_01
+    4300190: Library_Ramp_02
+    4300192: Library_Wall_SecondFloor
+    4300194: Library_EntrancePlates
+    4300196: Buttress_HalfArch5
+    4300198: Buttress_HalfArch4
+    4300200: Gateway
+    4300202: ActualGate
+    4300204: Gateway
+    4300206: ActualGate
+    4300208: Buttress_QuarterPlate3
+    4300210: Buttress_QuarterPlate4
+    4300212: Buttress_QuarterPlate5
+    4300214: Buttress_QuarterPlate6
+    4300216: Floor_Corner2
+    4300218: Floor_Corner1
+    4300220: Railing_Pole_End10
+    4300222: Buttress_Quarter7
+    4300224: Railing_Corner1
+    4300226: Railing_Pole_Center22
+    4300228: Railing_Pole_End9
+    4300230: Railing_Corner2
+    4300232: Buttress_Quarter8
+    4300234: Pillar17
+    4300236: Pillar_Large31
+    4300238: Railing_Long19
+    4300240: Railing_Long20
+    4300242: Railing_Long18
+    4300244: Pillar24
+    4300246: Pillar25
+    4300248: Pillar26
+    4300250: Pillar27
+    4300252: Pillar28
+    4300254: Pillar29
+    4300256: Pillar30
+    4300258: Pillar_Large48
+    4300260: Pillar_Large49
+    4300262: Pillar_Large50
+    4300264: Railing_Long23
+    4300266: Wall_RightAngle_Half14
+    4300268: Wall_RightAngle_Half18
+    4300270: Wall_RightAngle_Half15
+    4300272: Wall_RightAngle_Half16
+    4300274: Floor_2x17
+    4300276: Wall_RightAngle_Half21
+    4300278: Wall_RightAngle_Half20
+    4300280: Wall_RightAngle_Half24
+    4300282: Wall_RightAngle_Half23
+    4300284: Wall_Large72
+    4300286: Wall_RightAngle_Half11
+    4300288: Wall_RightAngle_Half26
+    4300290: Wall_RightAngle_Half27
+    4300292: Wall_RightAngle_Half12
+    4300294: Wall_RightAngle_Half28
+    4300296: Wall_RightAngle_Half29
+    4300298: Wall_RightAngle_Half25
+    4300300: Wall_RightAngle_Half13
+    4300302: Wall_RightAngle_Half10
+    4300304: Floor_2x16
+    4300306: Wall_RightAngle_Half22
+    4300308: Wall_RightAngle_Half17
+    4300310: Wall_Large71
+    4300312: Wall_Large73
+    4300314: Wall_RightAngle_Half19
+    4300316: Wall_Large151
+    4300318: Wall76
+    4300320: Wall75
+    4300322: Wall_Large305
+    4300324: Wall_Large306
+    4300326: Wall_Large307
+    4300328: Wall173
+    4300330: Wall174
+    4300332: Wall_Large308
+    4300334: Railing22
+    4300336: Railing_Pole_End1
+    4300338: Buttress_Full1
+    4300340: Railing_Pole_Center10
+    4300342: Railing23
+    4300344: Railing_Pole_Center12
+    4300346: Railing24
+    4300348: Railing_Pole_End2
+    4300350: Railing_Pole_Center13
+    4300352: Railing26
+    4300354: Railing_Pole_Center11
+    4300356: Railing27
+    4300358: Railing_Pole_End4
+    4300360: Railing_Pole_End3
+    4300362: Railing25
+    4300364: Buttress_Full2
+    4300366: Floor_1x137
+    4300368: Floor_1x135
+    4300370: Floor_1x136
+    4300372: Floor_1x141
+    4300374: Railing_Pole_End7
+    4300376: Railing_Pole_End6
+    4300378: Railing30
+    4300380: Floor_1x144
+    4300382: Floor_1x145
+    4300384: Floor_1x143
+    4300386: Floor_1x142
+    4300388: Buttress_Quarter4
+    4300390: Buttress_Quarter3
+    4300392: Railing_Pole_End8
+    4300394: Railing33
+    4300396: Railing_Pole_Center17
+    4300398: Railing32
+    4300400: Railing_Pole_Center16
+    4300402: Railing31
+    4300404: Railing_Pole_Center15
+    4300406: Railing29
+    4300408: Railing_Pole_Center14
+    4300410: Railing_Pole_End5
+    4300412: Railing28
+    4300414: Railing37
+    4300416: Railing_Pole_Center21
+    4300418: Railing36
+    4300420: Railing_Pole_Center20
+    4300422: Railing35
+    4300424: Railing_Pole_Center19
+    4300426: Railing34
+    4300428: Railing_Pole_Center18
+    4300430: Buttress_Quarter6
+    4300432: Buttress_Quarter5
+    4300434: Railing22
+    4300436: Railing_Pole_End1
+    4300438: Buttress_Full1
+    4300440: Railing_Pole_Center10
+    4300442: Railing23
+    4300444: Railing_Pole_Center12
+    4300446: Railing24
+    4300448: Railing_Pole_End2
+    4300450: Railing_Pole_Center13
+    4300452: Railing26
+    4300454: Railing_Pole_Center11
+    4300456: Railing27
+    4300458: Railing_Pole_End4
+    4300460: Railing_Pole_End3
+    4300462: Railing25
+    4300464: Buttress_Full2
+    4300466: Floor_1x137
+    4300468: Floor_1x135
+    4300470: Floor_1x136
+    4300472: Railing_Pole_Corner2
+    4300474: Railing_Pole_Corner4
+    4300476: Railing_Pole_Center24
+    4300478: Railing_Pole_Corner1
+    4300480: Railing_Pole_Corner3
+    4300482: Railing_Diagonal1
+    4300484: Railing_Pole_Center23
+    4300486: Railing_Diagonal2
+    4300488: Railing_Diagonal4
+    4300490: Railing_Diagonal3
+    4300492: Column_Large2
+    4300494: Column_Large1
+    4300496: Wall79
+    4300498: Wall77
+    4300500: Wall78
+    4300502: Wall80
+    4300504: Wall_Large73
+    4300506: Wall_RightAngle_Half23
+    4300508: Wall_RightAngle_Half24
+    4300510: Wall_RightAngle_Half11
+    4300512: Roof_Cover2
+    4300514: Floor_1x147
+    4300516: Wall_RightAngle_Half29
+    4300518: Wall76
+    4300520: Wall_Large71
+    4300522: Wall_RightAngle_Half14
+    4300524: Wall_RightAngle_Half22
+    4300526: Wall_Large151
+    4300528: Wall_RightAngle_Half15
+    4300530: Wall75
+    4300532: Floor_1x146
+    4300534: Roof_Cover1
+    4300536: Wall_RightAngle_Half19
+    4300538: Wall_RightAngle_Half16
+    4300540: Roof9
+    4300542: Wall_RightAngle_Half18
+    4300544: Wall_RightAngle_Half21
+    4300546: Roof10
+    4300548: Wall_RightAngle_Half17
+    4300550: Wall_RightAngle_Half20
+    4300552: Floor_2x17
+    4300554: Wall_RightAngle_Half26
+    4300556: Wall_RightAngle_Half28
+    4300558: Wall_RightAngle_Half27
+    4300560: Wall_RightAngle_Half13
+    4300562: Wall_RightAngle_Half10
+    4300564: Wall_RightAngle_Half12
+    4300566: Floor_2x16
+    4300568: Wall_Large72
+    4300570: Wall_RightAngle_Half25
+    4300572: Wall_Large309
+    4300574: Wall_Large310
+    4300576: Wall_Large311
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

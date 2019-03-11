@@ -14,6 +14,7 @@ namespace Finisher.Characters.Player.Finishers {
         [SerializeField] private AnimationClip animationToPlay; public override AnimationClip AnimationToPlay { get { return animationToPlay; } }
 
         [SerializeField] private float destroyInNSeconds = 1f;
+        [SerializeField] private float stunDuration = 3f;
         // todo make configs for Finisher
 
         private CapsuleCollider capsuleCollider;
@@ -41,7 +42,7 @@ namespace Finisher.Characters.Player.Finishers {
             {
                 stunAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
                 //TODO: add this to the damage system
-                targetHealthSystem.GetComponent<CharacterState>().Stun(3);
+                targetHealthSystem.GetComponent<CharacterState>().Stun(stunDuration);
             }
         }
 

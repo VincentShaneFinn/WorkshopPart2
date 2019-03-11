@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Finisher.UI;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +27,6 @@ namespace Finisher.Characters.Player
 
         private bool usingLSInput = false;
         private List<Collider> enemyColliders = null;
-        private GameObject currentCombatTargetIndicator;
 
         private PlayerMoveInputProcessor playerIP;
         private Transform camRig = null;
@@ -72,12 +72,13 @@ namespace Finisher.Characters.Player
             {
                 characterState.spawnConfig = new SpawnConfig(transform);
             }
+            GameObject indicator = Instantiate(CombatTargetIndicator);
+            indicator.GetComponent<CombatTargetIndicatorController>().player = this;
         }
 
         void Update()
         {
             SetCurrentCombatTarget();
-            UpdateCombatTargetIndicator();
             SetCharacterRotation();
 
             if (characterState.Dying && Input.anyKey || Input.GetKeyDown(KeyCode.Y))
@@ -209,35 +210,6 @@ namespace Finisher.Characters.Player
             }
 
             return target;
-        }
-
-        #endregion
-
-        #region UpdateCombatTargetIndicator
-
-        private void UpdateCombatTargetIndicator()
-        {
-            if (CombatTarget)
-            {
-                if (!currentCombatTargetIndicator)
-                {
-                    currentCombatTargetIndicator = Instantiate(CombatTargetIndicator, CombatTarget);
-                }
-                else
-                {
-                    currentCombatTargetIndicator.transform.parent = CombatTarget;
-                }
-
-                currentCombatTargetIndicator.transform.localPosition = new Vector3(0,
-                    CombatTarget.GetComponent<CapsuleCollider>().height + .2f, 0);
-            }
-            else
-            {
-                if (currentCombatTargetIndicator)
-                {
-                    Destroy(currentCombatTargetIndicator);
-                }
-            }
         }
 
         #endregion
