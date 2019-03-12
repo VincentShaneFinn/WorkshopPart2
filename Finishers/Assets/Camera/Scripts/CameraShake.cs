@@ -3,9 +3,7 @@ using System.Collections;
 
 public class CameraShake : MonoBehaviour
 {
-
-    public float Strength;
-    public float Duration;
+    private float _strength;
 
     private Vector3 _initialCameraPosition;
     private float _remainingShakeTime;
@@ -17,26 +15,21 @@ public class CameraShake : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            print("shake");
-            Shake();
-        }
-
         if (_remainingShakeTime <= 0)
         {
             transform.localPosition = _initialCameraPosition;
             return;
         }
 
-        transform.Translate(Random.insideUnitCircle * Strength);
+        transform.Translate(Random.insideUnitCircle * _strength);
 
         _remainingShakeTime -= Time.deltaTime;
     }
 
-    public void Shake()
+    public void Shake(float strength = 1, float duration = 0.1f)
     {
-        _remainingShakeTime = Duration;
+        _strength = strength;
+        _remainingShakeTime = duration;
     }
 
 }
