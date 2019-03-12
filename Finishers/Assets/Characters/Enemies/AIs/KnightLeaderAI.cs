@@ -19,6 +19,35 @@ namespace Finisher.Characters.Enemies
         SpecialMoveState currentSpecialMoveState;
         IEnumerator teamRushCoroutine;
 
+        protected override void Start()
+        {
+            base.Start();
+
+            StartCoroutine(awakeFinalStand());
+        }
+
+        IEnumerator awakeFinalStand()
+        {
+            var orignalEnemies = squadManager.GetEnemies();
+            yield return new WaitUntil(() => squadManager.GetEnemies().Count <= 1);
+
+            yield return new WaitForSeconds(5f);
+
+            int enemiesToRevive = 3;
+            foreach (var enemy in orignalEnemies)
+            {
+                if (enemiesToRevive <= 0) { break; }
+                if(enemy && !(enemy.GetComponent<EnemyAI>() is KnightLeaderAI))
+                {
+                    var combatSystem = enemy.GetComponent<KnightCombatSystem>();
+                    if (combatSystem)
+                    {
+                        combatSystem.Revive();
+                        enemiesToRevive--;
+                    }
+                }
+            }
+        }
         protected override void pursuePlayer()
         {
             base.pursuePlayer();

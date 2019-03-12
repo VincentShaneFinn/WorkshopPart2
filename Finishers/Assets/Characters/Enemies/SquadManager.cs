@@ -44,7 +44,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        void Start()
+        void Awake()
         {
             CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
