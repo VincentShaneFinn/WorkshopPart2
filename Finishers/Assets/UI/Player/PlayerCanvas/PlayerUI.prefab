@@ -2725,7 +2725,7 @@ RectTransform:
   m_Children:
   - {fileID: 4256309717649313233}
   m_Father: {fileID: 4173072610022665076}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -2799,7 +2799,7 @@ RectTransform:
   m_LocalScale: {x: 80.20241, y: 80.20241, z: 80.20241}
   m_Children: []
   m_Father: {fileID: 4173072610022665076}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2874,9 +2874,9 @@ RectTransform:
   - {fileID: 8693400279680231383}
   - {fileID: 1432245101512157898}
   - {fileID: 712561466018305827}
-  - {fileID: 8732073389664816489}
   - {fileID: 8510267899012603192}
   - {fileID: 458871353183452671}
+  - {fileID: 8732073389664816489}
   m_Father: {fileID: 3816523488526915845}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3391,7 +3391,7 @@ RectTransform:
   m_Children:
   - {fileID: 2037952353150878497}
   m_Father: {fileID: 4173072610022665076}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3718,10 +3718,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
-    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
-      propertyPath: m_Name
-      value: UpButtonIcon 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52
@@ -3777,6 +3773,10 @@ PrefabInstance:
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
+      propertyPath: m_Name
+      value: UpButtonIcon 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
