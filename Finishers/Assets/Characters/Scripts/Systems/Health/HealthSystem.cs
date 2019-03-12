@@ -246,6 +246,14 @@ namespace Finisher.Characters.Systems
             enterDyingState(animClip);
         }
 
+        public virtual void Revive()
+        {
+            AnimationClip animClip = animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            currentHealth = 100;
+            updateHealthUI();
+            ReviveAnimate(animClip);
+        }
+
         public virtual void CutInHalf()
         {
             Instantiate(config.TopHalf, transform.position, transform.rotation);
@@ -257,6 +265,11 @@ namespace Finisher.Characters.Systems
         {
             characterState.DyingState.Kill();
             animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true,AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
+        }
+        private void ReviveAnimate(AnimationClip animClip)
+        {
+            characterState.DyingState.Revive();
+            animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, false, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         #endregion

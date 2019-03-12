@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 namespace Finisher.Characters
 {
     public delegate void CharacterIsDying();
+    public delegate void CharacterIsRevived();
 
     [RequireComponent(typeof(AnimOverrideSetter))]
     public class CharacterState : MonoBehaviour

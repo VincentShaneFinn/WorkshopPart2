@@ -28,7 +28,7 @@ namespace Finisher.UI
         {
             if (target)
             {
-                if (playerState.GetIsCurrentTargetFinishable() && !playerState.IsGrabbing)
+                if (playerState.IsFinisherModeActive && playerState.GetIsCurrentTargetFinishable() && !playerState.IsGrabbing)
                 {
                     normalIndicator.SetActive(false);
                     grabButton.SetActive(false);
