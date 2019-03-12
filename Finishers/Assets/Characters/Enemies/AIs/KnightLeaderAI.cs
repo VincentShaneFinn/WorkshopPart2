@@ -47,6 +47,8 @@ namespace Finisher.Characters.Enemies
                     }
                 }
             }
+
+            StartCoroutine(awakeFinalStand());
         }
         protected override void pursuePlayer()
         {
