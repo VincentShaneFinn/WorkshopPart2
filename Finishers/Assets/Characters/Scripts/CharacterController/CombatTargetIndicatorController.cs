@@ -47,7 +47,7 @@ namespace Finisher.UI
                     finisherButton.SetActive(false);
                 }
                 float height = target.GetComponent<CapsuleCollider>().height;
-                transform.position = new Vector3(target.transform.position.x,
+                transform.position = new Vector3(target.transform.position.x, target.transform.position.y +
                     height + (.1f * height), target.transform.position.z);
             }
             else
