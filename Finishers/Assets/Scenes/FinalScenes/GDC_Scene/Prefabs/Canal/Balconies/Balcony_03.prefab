@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1266231703475554767}
   - component: {fileID: 1266231703475554761}
   - component: {fileID: 1266231703475554760}
+  - component: {fileID: 5622068874708101208}
   m_Layer: 0
   m_Name: Balcony_03 (1)
   m_TagString: Untagged
@@ -77,6 +78,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5622068874708101208
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231703475554766}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300004, guid: e33c6fdccfe564c4e8b465f1ced6050e, type: 3}
 --- !u!1 &1266231703541742689
 GameObject:
   m_ObjectHideFlags: 0
@@ -141,6 +156,7 @@ GameObject:
   - component: {fileID: 1266231703707852293}
   - component: {fileID: 1266231703707852295}
   - component: {fileID: 1266231703707852294}
+  - component: {fileID: 5593879696786016573}
   m_Layer: 0
   m_Name: Railing_Pole_Corner (4)
   m_TagString: Untagged
@@ -207,6 +223,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5593879696786016573
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231703707852292}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300078, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231703943648553
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,6 +248,7 @@ GameObject:
   - component: {fileID: 1266231703943648554}
   - component: {fileID: 1266231703943648564}
   - component: {fileID: 1266231703943648555}
+  - component: {fileID: 6848794174574216649}
   m_Layer: 0
   m_Name: Railing (13)
   m_TagString: Untagged
@@ -284,6 +315,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6848794174574216649
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231703943648553}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300088, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231704178903658
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +340,7 @@ GameObject:
   - component: {fileID: 1266231704178903659}
   - component: {fileID: 1266231704178903669}
   - component: {fileID: 1266231704178903668}
+  - component: {fileID: 3404068896705522310}
   m_Layer: 0
   m_Name: Railing (12)
   m_TagString: Untagged
@@ -361,6 +407,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3404068896705522310
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231704178903658}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300088, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231704322906975
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +432,7 @@ GameObject:
   - component: {fileID: 1266231704322906968}
   - component: {fileID: 1266231704322906970}
   - component: {fileID: 1266231704322906969}
+  - component: {fileID: 7539149372057047214}
   m_Layer: 0
   m_Name: Railing_Pole_Corner (3)
   m_TagString: Untagged
@@ -438,6 +499,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &7539149372057047214
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231704322906975}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300078, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231704364279456
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +524,7 @@ GameObject:
   - component: {fileID: 1266231704364279457}
   - component: {fileID: 1266231704364279459}
   - component: {fileID: 1266231704364279458}
+  - component: {fileID: 1280296113860495982}
   m_Layer: 0
   m_Name: Railing (9)
   m_TagString: Untagged
@@ -515,6 +591,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &1280296113860495982
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231704364279456}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300088, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231704796589561
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +616,7 @@ GameObject:
   - component: {fileID: 1266231704796589562}
   - component: {fileID: 1266231704796589060}
   - component: {fileID: 1266231704796589563}
+  - component: {fileID: 5921980498067285341}
   m_Layer: 0
   m_Name: Railing_Pole_End (6)
   m_TagString: Untagged
@@ -592,6 +683,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &5921980498067285341
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231704796589561}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300076, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
 --- !u!1 &1266231704914753605
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,6 +708,7 @@ GameObject:
   - component: {fileID: 1266231704914753606}
   - component: {fileID: 1266231704914753600}
   - component: {fileID: 1266231704914753607}
+  - component: {fileID: 6776144861300931863}
   m_Layer: 0
   m_Name: Railing_Pole_End (5)
   m_TagString: Untagged
@@ -669,3 +775,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &6776144861300931863
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1266231704914753605}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300076, guid: 25ebfb6168655fa4f9614984afd6a973, type: 3}
