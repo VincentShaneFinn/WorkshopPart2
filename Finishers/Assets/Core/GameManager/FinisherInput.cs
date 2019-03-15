@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ public class FinisherInput : MonoBehaviour
         bool rv = false;
         rv = Input.GetButton(InputNames.Sprint);
         return rv;
+    }
+
+    internal static bool Continue()
+    {
+        return Input.GetKeyDown(KeyCode.Return);
     }
 
     //Light Attack
