@@ -1,10 +1,13 @@
 ﻿using Finisher.Characters;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ChalliceInteraction : InteractionSaveable
 {
+    static int challicesLit;
+    public int challicesNeeded;
     public AnimationClip animationToPlay;
 
     protected bool interactable = false;
@@ -20,7 +23,16 @@ public class ChalliceInteraction : InteractionSaveable
     // Start is called before the first frame update
     void Start()
     {
+        challicesLit = 0;
+        challicesNeeded = 0;
         interactable = true;
+        Scene scene = SceneManager.GetActiveScene();
+        GameObject[] objects = scene.GetRootGameObjects();
+        foreach (GameObject obj in objects)
+        {
+            ChalliceInteraction[] challices = obj.GetComponentsInChildren<ChalliceInteraction>();
+            challicesNeeded += challices.Length;
+        }
     }
     
     private void OnTriggerStay(Collider other)
@@ -30,23 +42,27 @@ public class ChalliceInteraction : InteractionSaveable
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             GetComponent<InteractionSaveable>().interacted = true;
             other.GetComponent<CharacterState>().spawnConfig = new SpawnConfig();
+            vialUI.GetComponent<Image>().sprite = emptyVial;
             lightTorch();
         }
     }
 
     private void lightTorch()
     {
-        StartCoroutine(lightTorchSequence());
-        interactable = false;
-        vialUI.GetComponent<Image>().sprite = emptyVial;
-    }
-
-    IEnumerator lightTorchSequence()
-    {
+        challicesLit++;
         GameObject obj = Instantiate(effect);
         obj.transform.position = transform.position;
         obj.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        if (challicesLit == challicesNeeded)
+        {
+            StartCoroutine(spawnBoss());
+        }
+        
+        interactable = false;
+    }
 
+    IEnumerator spawnBoss()
+    {
         yield return new WaitForSeconds(1f);
 
         bossStatue.SetActive(false);
@@ -59,7 +75,6 @@ public class ChalliceInteraction : InteractionSaveable
         yield return new WaitForSeconds(1f);
 
         bossFireEffect.SetActive(false);
-
     }
 
     public override void runInteraction()
