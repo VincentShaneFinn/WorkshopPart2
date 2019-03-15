@@ -12,7 +12,7 @@ namespace Finisher.Characters
         protected Scene scene;
         protected Dictionary<string, Vector3> savedPositions = new Dictionary<string, Vector3>();
         protected Dictionary<string, Quaternion> savedRotations = new Dictionary<string, Quaternion>();
-        protected Dictionary<string, bool> savedDestroyed = new Dictionary<string, bool>();
+        public List<string> notDestroyed = new List<string>();
         protected Dictionary<string, bool> savedInteractions = new Dictionary<string, bool>();
         public SpawnConfig()
         {
@@ -31,7 +31,7 @@ namespace Finisher.Characters
                         savedRotations.Add(fullName, go.transform.rotation);
                     } else if (s is DestroyedSaveable)
                     {
-                        savedDestroyed.Add(fullName, false);
+                        notDestroyed.Add(fullName);
                     }
                     else if (s is InteractionSaveable)
                     {
@@ -66,7 +66,7 @@ namespace Finisher.Characters
                     }
                     else if (s is DestroyedSaveable)
                     {
-                        if (!savedDestroyed.ContainsKey(fullName))
+                        if (!notDestroyed.Contains(fullName))
                         {
                             GameObject.Destroy(go);
                         }
