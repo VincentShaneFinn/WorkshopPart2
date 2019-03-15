@@ -166,7 +166,7 @@ namespace Finisher.Characters.Systems
         public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force) || characterState.FinisherModeActive) { return; }
 
             if (animClip == null)
             {
@@ -194,7 +194,7 @@ namespace Finisher.Characters.Systems
         public void Knockback(AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force) || characterState.FinisherModeActive) { return; }
 
             if(animClip == null)
             {
