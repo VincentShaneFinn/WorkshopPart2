@@ -1,5 +1,6 @@
 ﻿using Finisher.Characters;
 using Finisher.Characters.Player;
+using Finisher.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,16 +9,22 @@ public class TriggerTutorial : MonoBehaviour
 {
     protected bool isActive = false;
     public GameObject tutorialMessageUI;
-    public CharacterState state = null;
+    protected CharacterState state = null;
 
     // Update is called once per frame
     void Update()
     {
-        if (isActive && FinisherInput.Continue())
+        if (isActive)
         {
-            Time.timeScale = 1;
-            tutorialMessageUI.SetActive(false);
-            Destroy(gameObject);
+            Time.timeScale = 0;
+            GameManager.instance.GamePaused = true;
+            if (FinisherInput.Continue())
+            {
+                Time.timeScale = 1;
+                tutorialMessageUI.SetActive(false);
+                Destroy(gameObject);
+                GameManager.instance.GamePaused = false;
+            }
         }
     }
 
