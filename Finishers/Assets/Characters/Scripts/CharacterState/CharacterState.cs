@@ -46,10 +46,6 @@ namespace Finisher.Characters
                 attacking = false;
                 attackStarted = false;
             }
-            if (FinisherInput.InvulnerabilityCheat())
-            {
-                invulnerableCheat = !invulnerableCheat;
-            }
         }
         #region States that you must Get and Set from Here
 
@@ -130,7 +126,6 @@ namespace Finisher.Characters
 
         [HideInInspector] public bool IsDodgeFrame = false;
         [HideInInspector] public bool IsParryFrame = false;
-        public bool invulnerableCheat = false;
         public bool Invulnerable
         {
             get
@@ -144,7 +139,7 @@ namespace Finisher.Characters
                 }
                 else
                 {
-                    return invulnerableCheat;
+                    return false;
                 }
             }
         }
