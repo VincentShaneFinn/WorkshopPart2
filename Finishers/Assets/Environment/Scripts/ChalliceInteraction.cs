@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChalliceInteraction : MonoBehaviour
+public class ChalliceInteraction : InteractionSaveable
 {
     public AnimationClip animationToPlay;
 
@@ -28,10 +28,17 @@ public class ChalliceInteraction : MonoBehaviour
         if (FinisherInput.Interact() && interactable)
         {
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
-            StartCoroutine(lightTorchSequence());
-            interactable = false;
-            vialUI.GetComponent<Image>().sprite = emptyVial;
+            GetComponent<InteractionSaveable>().interacted = true;
+            other.GetComponent<CharacterState>().spawnConfig = new SpawnConfig();
+            lightTorch();
         }
+    }
+
+    private void lightTorch()
+    {
+        StartCoroutine(lightTorchSequence());
+        interactable = false;
+        vialUI.GetComponent<Image>().sprite = emptyVial;
     }
 
     IEnumerator lightTorchSequence()
@@ -53,5 +60,10 @@ public class ChalliceInteraction : MonoBehaviour
 
         bossFireEffect.SetActive(false);
 
+    }
+
+    public override void runInteraction()
+    {
+        lightTorch();
     }
 }

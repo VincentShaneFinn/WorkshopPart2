@@ -11,7 +11,7 @@ public class Checkpoint : MonoBehaviour
         PlayerCharacterController playerController = other.GetComponent<PlayerCharacterController>();
         if (playerController != null)
         {
-            playerController.gameObject.GetComponent<CharacterState>().spawnConfig = new SpawnConfig(playerController.transform);
+            playerController.gameObject.GetComponent<CharacterState>().spawnConfig = new SpawnConfig();
         }
     }
 }
