@@ -44,6 +44,7 @@ public class TriggerTutorial : MonoBehaviour
         if (state != null)
         {
             state.spawnConfig = new SpawnConfig();
+            state.spawnConfig.notDestroyed.Remove(state.spawnConfig.GetFullName(gameObject));
         }
         Time.timeScale = 1;
     }
