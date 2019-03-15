@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyedSaveable : Saveable
+public class Saveable : MonoBehaviour
 {
+
 }

@@ -10,33 +10,33 @@ namespace Finisher.Characters
     public class SpawnConfig
     {
         protected Scene scene;
-        protected Dictionary<int, Vector3> savedPositions = new Dictionary<int, Vector3>();
-        protected Dictionary<int, Quaternion> savedRotations = new Dictionary<int, Quaternion>();
-        protected Dictionary<int, bool> savedDestroyed = new Dictionary<int, bool>();
-        protected Dictionary<int, bool> savedInteractions = new Dictionary<int, bool>();
+        protected Dictionary<string, Vector3> savedPositions = new Dictionary<string, Vector3>();
+        protected Dictionary<string, Quaternion> savedRotations = new Dictionary<string, Quaternion>();
+        protected Dictionary<string, bool> savedDestroyed = new Dictionary<string, bool>();
+        protected Dictionary<string, bool> savedInteractions = new Dictionary<string, bool>();
         public SpawnConfig()
         {
             this.scene = SceneManager.GetActiveScene();
             GameObject[] objects = scene.GetRootGameObjects();
             foreach (GameObject obj in objects)
             {
-                PositionSaveable[] positionSaveables = obj.GetComponentsInChildren<PositionSaveable>();
-                foreach (PositionSaveable po in positionSaveables)
+                Saveable[] saveables = obj.GetComponentsInChildren<Saveable>();
+                foreach (Saveable s in saveables)
                 {
-                    GameObject go = po.gameObject;
-                    savedPositions.Add(po.uniqueId, go.transform.position);
-                    savedRotations.Add(po.uniqueId, go.transform.rotation);
-                }
-                DestroyedSaveable[] destroyedSavables = obj.GetComponentsInChildren<DestroyedSaveable>();
-                foreach (DestroyedSaveable ds in destroyedSavables)
-                {
-                    GameObject go = ds.gameObject;
-                    savedDestroyed.Add(ds.uniqueId, false);
-                }
-                InteractionSaveable[] interactionSaveables = obj.GetComponentsInChildren<InteractionSaveable>();
-                foreach (InteractionSaveable i in interactionSaveables)
-                {
-                    savedInteractions.Add(i.uniqueId, i.interacted);
+                    GameObject go = s.gameObject;
+                    string fullName = GetFullName(go);
+                    if (s is PositionSaveable)
+                    {
+                        savedPositions.Add(fullName, go.transform.position);
+                        savedRotations.Add(fullName, go.transform.rotation);
+                    } else if (s is DestroyedSaveable)
+                    {
+                        savedDestroyed.Add(fullName, false);
+                    }
+                    else if (s is InteractionSaveable)
+                    {
+                        savedInteractions.Add(fullName, ((InteractionSaveable) s).interacted);
+                    }
                 }
             }
         }
@@ -51,51 +51,49 @@ namespace Finisher.Characters
         {
             Time.timeScale = 0;
             GameObject[] objects = scene.GetRootGameObjects();
-            Dictionary<int, GameObject> positionSaved = new Dictionary<int, GameObject>();
-            Dictionary<int, GameObject> destroyedSaved = new Dictionary<int, GameObject>();
-            Dictionary<int, InteractionSaveable> interactionSaved = new Dictionary<int, InteractionSaveable>();
 
             foreach (GameObject obj in objects)
             {
-                PositionSaveable[] positionSaveables = obj.GetComponentsInChildren<PositionSaveable>();
-                foreach (PositionSaveable po in positionSaveables) {
-                    GameObject go = po.gameObject;
-                    positionSaved.Add(po.uniqueId, go);
-                    Debug.Log(go.GetInstanceID());
-                }
-                DestroyedSaveable[] destroyedSavables = obj.GetComponentsInChildren<DestroyedSaveable>();
-                foreach (DestroyedSaveable ds in destroyedSavables)
+                Saveable[] saveables = obj.GetComponentsInChildren<Saveable>();
+                foreach (Saveable s in saveables)
                 {
-                    GameObject go = ds.gameObject;
-                    destroyedSaved.Add(ds.uniqueId, go);
-                }
-                InteractionSaveable[] interactionSaveables = obj.GetComponentsInChildren<InteractionSaveable>();
-                foreach (InteractionSaveable i in interactionSaveables)
-                {
-                    interactionSaved.Add(i.uniqueId, i);
-                }
-            }
-            foreach (int key in positionSaved.Keys)
-            {
-                positionSaved[key].transform.position = savedPositions[key];
-                positionSaved[key].transform.rotation = savedRotations[key];
-            }
-            foreach (int key in destroyedSaved.Keys)
-            {
-                if (!savedDestroyed.ContainsKey(key))
-                {
-                    GameObject.Destroy(destroyedSaved[key]);
-                }
-            }
-            foreach (int key in interactionSaved.Keys)
-            {
-                if (savedInteractions[key])
-                {
-                    interactionSaved[key].runInteraction();
+                    GameObject go = s.gameObject;
+                    string fullName = GetFullName(go);
+                    if (s is PositionSaveable)
+                    {
+                        go.transform.position = savedPositions[fullName];
+                        go.transform.rotation = savedRotations[fullName];
+                    }
+                    else if (s is DestroyedSaveable)
+                    {
+                        if (!savedDestroyed.ContainsKey(fullName))
+                        {
+                            GameObject.Destroy(go);
+                        }
+                    }
+                    else if (s is InteractionSaveable)
+                    {
+                        if (savedInteractions[fullName])
+                        {
+                            ((InteractionSaveable) s).runInteraction();
+                        }
+                    }
                 }
             }
             Time.timeScale = 1;
             SceneManager.sceneLoaded -= setStates;
+        }
+
+        public string GetFullName(GameObject go)
+        {
+            string name = go.name;
+            while (go.transform.parent != null)
+            {
+
+                go = go.transform.parent.gameObject;
+                name = go.name + "/" + name;
+            }
+            return name;
         }
     }
 }

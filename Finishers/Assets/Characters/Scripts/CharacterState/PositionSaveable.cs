@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PositionSaveable : MonoBehaviour
+public class PositionSaveable : Saveable
 {
-    public int uniqueId;
 }
