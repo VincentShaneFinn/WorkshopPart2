@@ -74,7 +74,7 @@ namespace Finisher.Characters.Enemies
             SortEnemiesByDistance();
         }
 
-        public void killEnemies()
+        public void KillEnemies()
         {
             StartCoroutine(killTheBoys());
         }

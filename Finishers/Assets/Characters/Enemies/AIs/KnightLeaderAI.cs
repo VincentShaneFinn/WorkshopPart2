@@ -24,12 +24,13 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             StartCoroutine(awakeFinalStand());
-            characterState.DyingState.SubscribeToDeathEvent(stopAll);
+            characterState.DyingState.SubscribeToDeathEvent(leaderDied);
         }
 
-        public void stopAll()
+        private void leaderDied()
         {
             StopAllCoroutines();
+            squadManager.KillEnemies();
         }
 
         IEnumerator awakeFinalStand()
