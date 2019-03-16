@@ -24,6 +24,13 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             StartCoroutine(awakeFinalStand());
+            characterState.DyingState.SubscribeToDeathEvent(leaderDied);
+        }
+
+        private void leaderDied()
+        {
+            StopAllCoroutines();
+            squadManager.KillEnemies();
         }
 
         IEnumerator awakeFinalStand()
@@ -42,7 +49,8 @@ namespace Finisher.Characters.Enemies
                     var combatSystem = enemy.GetComponent<KnightCombatSystem>();
                     if (combatSystem)
                     {
-                        combatSystem.Revive();
+                        if(!characterState.Dying)
+                            combatSystem.Revive();
                         enemiesToRevive--;
                     }
                 }

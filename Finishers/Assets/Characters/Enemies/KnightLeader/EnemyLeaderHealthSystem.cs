@@ -49,7 +49,6 @@ namespace Finisher.Characters.Enemies.Systems
         {
             base.Kill(animClip, overrideKillAnim);
             toggleEnemyCanvas(false);
-            transform.parent.gameObject.GetComponent<SquadManager>().killEnemies();
             
         }
 
