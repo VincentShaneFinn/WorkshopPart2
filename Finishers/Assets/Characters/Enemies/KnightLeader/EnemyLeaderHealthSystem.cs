@@ -25,7 +25,6 @@ namespace Finisher.Characters.Enemies.Systems
         protected override void Start()
         {
             base.Start();
-
             resetHitsTakenCoroutine = resetHitsTaken();
         }
 
@@ -44,6 +43,14 @@ namespace Finisher.Characters.Enemies.Systems
                 }
                 StartCoroutine(resetHitsTakenCoroutine);
             }
+        }
+
+        public override void Kill(AnimationClip animClip, bool overrideKillAnim = false)
+        {
+            base.Kill(animClip, overrideKillAnim);
+            toggleEnemyCanvas(false);
+            transform.parent.gameObject.GetComponent<SquadManager>().killEnemies();
+            
         }
 
         IEnumerator resetHitsTaken()
