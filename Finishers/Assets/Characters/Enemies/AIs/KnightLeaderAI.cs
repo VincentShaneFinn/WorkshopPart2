@@ -42,7 +42,8 @@ namespace Finisher.Characters.Enemies
                     var combatSystem = enemy.GetComponent<KnightCombatSystem>();
                     if (combatSystem)
                     {
-                        combatSystem.Revive();
+                        if(gameObject.GetComponent<Finisher.Characters.Enemies.Systems.EnemyLeaderHealthSystem>().getCurrentHealth() > 0)
+                            combatSystem.Revive();
                         enemiesToRevive--;
                     }
                 }

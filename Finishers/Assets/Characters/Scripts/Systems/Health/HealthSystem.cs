@@ -78,6 +78,11 @@ namespace Finisher.Characters.Systems
             }
         }
 
+        public float getCurrentHealth()
+        {
+            return currentHealth;
+        }
+
         public void IncreaseHealth(float healing)
         {
             currentHealth += healing;
