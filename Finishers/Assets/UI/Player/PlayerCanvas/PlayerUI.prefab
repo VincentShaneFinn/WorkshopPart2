@@ -2729,7 +2729,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 558.5, y: -126.9}
+  m_AnchoredPosition: {x: 557.5, y: -126.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &620068874894863475
@@ -3501,10 +3501,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
-    - target: {fileID: 1598626656871516, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
-      propertyPath: m_Name
-      value: LeftButtonIcon 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4169589720959498, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -191
@@ -3549,6 +3545,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1598626656871516, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
+      propertyPath: m_Name
+      value: LeftButtonIcon 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
 --- !u!4 &602488758993497806 stripped
@@ -3564,10 +3564,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8510267899012603192}
     m_Modifications:
-    - target: {fileID: 1810145814231848, guid: cceba2b9000aef748989881313b9225c, type: 3}
-      propertyPath: m_Name
-      value: FinisherMode
-      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: cceba2b9000aef748989881313b9225c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3624,6 +3620,20 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 224213883465341132, guid: cceba2b9000aef748989881313b9225c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810145814231848, guid: cceba2b9000aef748989881313b9225c, type: 3}
+      propertyPath: m_Name
+      value: FinisherMode
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203354539781079527, guid: cceba2b9000aef748989881313b9225c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cceba2b9000aef748989881313b9225c, type: 3}
 --- !u!4 &4256309717649313233 stripped
@@ -3639,14 +3649,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
-    - target: {fileID: 1410458181402266, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
-      propertyPath: m_Name
-      value: RightButtonIcon 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410458181402266, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4588966441284668, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 93
@@ -3703,6 +3705,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.74
       objectReference: {fileID: 0}
+    - target: {fileID: 1410458181402266, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
+      propertyPath: m_Name
+      value: RightButtonIcon 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
 --- !u!4 &4284389496120611041 stripped
@@ -3718,10 +3724,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
-    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
-      propertyPath: m_Name
-      value: UpButtonIcon 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52
@@ -3777,6 +3779,10 @@ PrefabInstance:
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.74
+      objectReference: {fileID: 0}
+    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
+      propertyPath: m_Name
+      value: UpButtonIcon 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
