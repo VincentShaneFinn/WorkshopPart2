@@ -74,6 +74,20 @@ namespace Finisher.Characters.Enemies
             SortEnemiesByDistance();
         }
 
+        public void KillEnemies()
+        {
+            StartCoroutine(killTheBoys());
+        }
+
+        IEnumerator killTheBoys()
+        {
+            while(enemies.Count > 0)
+            {
+                enemies[0].GetComponent<HealthSystem>().Kill(null);
+                yield return null;
+            }
+        }
+
         IEnumerator assignEnemyRoles()
         {
             StartCoroutine(resetTimeForRangedAttack());
@@ -140,7 +154,6 @@ namespace Finisher.Characters.Enemies
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
-                print(Ai is KnightLeaderAI && enemies.Count > 1);
                 if(Ai is KnightLeaderAI && enemies.Count > 1)
                 {
                     Ai.currentChaseSubstate = ChaseSubState.Surround;
