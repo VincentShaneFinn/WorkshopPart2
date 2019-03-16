@@ -74,6 +74,14 @@ namespace Finisher.Characters.Enemies
             SortEnemiesByDistance();
         }
 
+        public void killEnemies()
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].GetComponent<EnemyHealthSystem>().Kill(null,false);
+            }
+        }
+
         IEnumerator assignEnemyRoles()
         {
             StartCoroutine(resetTimeForRangedAttack());
