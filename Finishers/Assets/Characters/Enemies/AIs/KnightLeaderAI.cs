@@ -24,6 +24,12 @@ namespace Finisher.Characters.Enemies
             base.Start();
 
             StartCoroutine(awakeFinalStand());
+            characterState.DyingState.SubscribeToDeathEvent(stopAll);
+        }
+
+        public void stopAll()
+        {
+            StopAllCoroutines();
         }
 
         IEnumerator awakeFinalStand()
@@ -42,7 +48,7 @@ namespace Finisher.Characters.Enemies
                     var combatSystem = enemy.GetComponent<KnightCombatSystem>();
                     if (combatSystem)
                     {
-                        if(gameObject.GetComponent<Finisher.Characters.Enemies.Systems.EnemyLeaderHealthSystem>().getCurrentHealth() > 0)
+                        if(!characterState.Dying)
                             combatSystem.Revive();
                         enemiesToRevive--;
                     }
