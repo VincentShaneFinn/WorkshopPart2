@@ -44,7 +44,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        void Start()
+        void Awake()
         {
             CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
@@ -74,6 +74,14 @@ namespace Finisher.Characters.Enemies
             SortEnemiesByDistance();
         }
 
+        public void killEnemies()
+        {
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                enemies[i].GetComponent<EnemyHealthSystem>().Kill(null,false);
+            }
+        }
+
         IEnumerator assignEnemyRoles()
         {
             StartCoroutine(resetTimeForRangedAttack());
@@ -88,7 +96,7 @@ namespace Finisher.Characters.Enemies
 
         private void checkAliveStatus()
         {
-            if(enemies.Count <= 1)
+            if(enemies.Count <= 0)
             {
                 CallSquadDefeatated();
                 StopAllCoroutines();
@@ -119,6 +127,11 @@ namespace Finisher.Characters.Enemies
             }
         }
 
+        public void AddEnemy(GameObject enemy)
+        {
+            enemies.Add(enemy);
+        }
+
         private void setEnemiesSubChase()
         {
             SortEnemiesByDistance();
@@ -135,6 +148,7 @@ namespace Finisher.Characters.Enemies
             foreach (GameObject enemy in enemies)
             {
                 EnemyAI Ai = enemy.GetComponent<EnemyAI>();
+                print(Ai is KnightLeaderAI && enemies.Count > 1);
                 if(Ai is KnightLeaderAI && enemies.Count > 1)
                 {
                     Ai.currentChaseSubstate = ChaseSubState.Surround;

@@ -93,6 +93,12 @@ namespace Finisher.Characters.Enemies.Systems
             toggleEnemyCanvas(false);
         }
 
+        public override void Revive()
+        {
+            base.Revive();
+            toggleEnemyCanvas(true);
+        }
+
         #endregion
 
         #region Enemy UI
@@ -139,7 +145,7 @@ namespace Finisher.Characters.Enemies.Systems
             updateHealthUI();
         }
 
-        private void toggleEnemyCanvas(bool enabled)
+        public void toggleEnemyCanvas(bool enabled)
         {
             if (enemyCanvas)
             {
