@@ -24,6 +24,8 @@ namespace Finisher.Characters.Player.Finishers {
         void Start()
         {
             Destroy(gameObject, destroyInNSeconds);
+            
+            combatSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<CombatSystem>();
         }
 
         void OnTriggerEnter(Collider col)
@@ -39,6 +41,7 @@ namespace Finisher.Characters.Player.Finishers {
 
             if (targetHealthSystem) // hit an enemy
             {
+                combatSystem.CallCameraShakeEvent(0.5f, combatSystem.HeavyAttackDamageSystem.KnockbackDuration * 1.5f);
                 flameAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
         }
