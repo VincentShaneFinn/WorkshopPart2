@@ -1,35 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraShake : MonoBehaviour
+using Finisher.Characters.Player.Systems;
+
+namespace Finisher.Cameras
 {
-    private float _strength;
-
-    private Vector3 _initialCameraPosition;
-    private float _remainingShakeTime;
-
-    private void Awake()
+    public class CameraShake : MonoBehaviour
     {
-        _initialCameraPosition = transform.localPosition;
-    }
+        private float _strength;
 
-    private void Update()
-    {
-        if (_remainingShakeTime <= 0)
+        private Vector3 _initialCameraPosition;
+        private float _remainingShakeTime;
+
+        private PlayerCombatSystem playerCombatSystem;
+
+        private void Awake()
         {
-            transform.localPosition = _initialCameraPosition;
-            return;
+            _initialCameraPosition = transform.localPosition;
+
+            playerCombatSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<PlayerCombatSystem>();
         }
 
-        transform.Translate(Random.insideUnitCircle * _strength);
+        void Start()
+        {            
+            if (playerCombatSystem)
+            {
+                playerCombatSystem.OnHitCameraShake += Shake;
+            }
+        }
 
-        _remainingShakeTime -= Time.deltaTime;
+        void OnDestroy()
+        {
+            if (playerCombatSystem)
+            {
+                playerCombatSystem.OnHitCameraShake -= Shake;
+            }
+        }
+
+        void Update()
+        {
+            if (_remainingShakeTime <= 0)
+            {
+                transform.localPosition = _initialCameraPosition;
+                return;
+            }
+
+            transform.Translate(Random.insideUnitCircle * _strength);
+
+            _remainingShakeTime -= Time.deltaTime;
+        }
+
+        private void Shake(float strength = 1, float duration = 0.1f)
+        {
+            _strength = strength;
+            _remainingShakeTime = duration;
+        }
     }
-
-    public void Shake(float strength = 1, float duration = 0.1f)
-    {
-        _strength = strength;
-        _remainingShakeTime = duration;
-    }
-
 }

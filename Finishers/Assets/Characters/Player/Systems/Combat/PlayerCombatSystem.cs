@@ -196,6 +196,8 @@ namespace Finisher.Characters.Player.Systems
         {
             yield return new WaitForSeconds(.75f);
             lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry, bonusDamage: 10);
+            CallCameraShakeEvent(1, heavyAttackDamageSystem.KnockbackDuration);
+
             if (enemyToParry.GetHealthAsPercent() <= 0)
             {
                 enemyToParry.Kill(config.RiposteKillAnimationToPass, overrideKillAnim: true);

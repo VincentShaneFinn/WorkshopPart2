@@ -6,7 +6,8 @@ using UnityEngine;
 using Finisher.Characters.Systems;
 using Finisher.Characters.Systems.Strategies;
 
-namespace Finisher.Characters.Player.Finishers {
+namespace Finisher.Characters.Player.Finishers
+{
     public class StunAOE : FinisherExecution
     {
         [SerializeField] private FinisherSkillsDamageSystem stunAOEDamageSystem;
@@ -25,6 +26,7 @@ namespace Finisher.Characters.Player.Finishers {
         void Start()
         {
             Destroy(gameObject, destroyInNSeconds);
+            combatSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<CombatSystem>();
         }
 
         void OnTriggerEnter(Collider col)
@@ -32,7 +34,7 @@ namespace Finisher.Characters.Player.Finishers {
             if (col.gameObject.tag == "Player") { return; }
 
             var targetHealthSystem = col.gameObject.GetComponent<HealthSystem>();
-            
+
             if (!hit.Add(targetHealthSystem))
             {
                 return;
@@ -41,6 +43,7 @@ namespace Finisher.Characters.Player.Finishers {
             if (targetHealthSystem) // hit an enemy
             {
                 stunAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
+                combatSystem.CallCameraShakeEvent(1, combatSystem.HeavyAttackDamageSystem.KnockbackDuration);
                 //TODO: add this to the damage system
                 targetHealthSystem.GetComponent<CharacterState>().Stun(stunDuration);
             }

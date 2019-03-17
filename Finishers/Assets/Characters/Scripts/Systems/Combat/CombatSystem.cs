@@ -22,7 +22,10 @@ namespace Finisher.Characters.Systems
         #region Class Variables
 
         [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
+
         [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
+        public CoreCombatDamageSystem HeavyAttackDamageSystem { get { return heavyAttackDamageSystem; } }
+
         [SerializeField] protected CombatConfig config;
 
         protected float timer;
@@ -50,6 +53,16 @@ namespace Finisher.Characters.Systems
             if (OnHitEnemy != null)
             {
                 OnHitEnemy(amount);
+            }
+        }
+
+        public delegate void HitEnemyCameraShake(float strength, float duration);
+        public event HitEnemyCameraShake OnHitCameraShake;
+        public void CallCameraShakeEvent(float strength, float duration)
+        {
+            if (OnHitCameraShake != null)
+            {
+                OnHitCameraShake(strength, duration);
             }
         }
 
@@ -338,6 +351,8 @@ namespace Finisher.Characters.Systems
 
                 heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
+
+                CallCameraShakeEvent(1, heavyAttackDamageSystem.KnockbackDuration);
             }
 
             IncrementHitCounter();
