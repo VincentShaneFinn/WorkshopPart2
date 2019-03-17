@@ -70,7 +70,7 @@ namespace Finisher.Characters.Player
             camRig = GetMainCameraTransform();
             if (characterState.spawnConfig == null)
             {
-                characterState.spawnConfig = new SpawnConfig(transform);
+                characterState.spawnConfig = new SpawnConfig();
             }
             GameObject indicator = Instantiate(CombatTargetIndicator);
             indicator.GetComponent<CombatTargetIndicatorController>().player = this;

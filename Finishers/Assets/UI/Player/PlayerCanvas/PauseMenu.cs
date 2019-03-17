@@ -12,7 +12,7 @@ namespace Finisher.UI
         private GameObject ControlMenuObject;
         private GameObject LeftUpperObject;
         private GameObject LeftLowerObject;
-
+        private float previousScale;
         // Start is called before the first frame update
         void Start()
         {
@@ -49,12 +49,13 @@ namespace Finisher.UI
 
             if (paused)
             {
+                previousScale = Time.timeScale;
                 Time.timeScale = 0;
                 Cursor.lockState = CursorLockMode.None;
             }
             else
             {
-                Time.timeScale = 1;
+                Time.timeScale = previousScale;
                 Cursor.lockState = CursorLockMode.Locked;
             }
 

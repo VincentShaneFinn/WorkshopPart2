@@ -1,5 +1,6 @@
 ﻿using Finisher.Characters.Player;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
@@ -8,15 +9,36 @@ namespace Finisher.Characters
 {
     public class SpawnConfig
     {
-        protected Vector3 spawnPosition;
-        protected Quaternion spawnRotation;
         protected Scene scene;
-
-        public SpawnConfig(Transform spawnTransform)
+        protected Dictionary<string, Vector3> savedPositions = new Dictionary<string, Vector3>();
+        protected Dictionary<string, Quaternion> savedRotations = new Dictionary<string, Quaternion>();
+        public List<string> notDestroyed = new List<string>();
+        protected Dictionary<string, bool> savedInteractions = new Dictionary<string, bool>();
+        public SpawnConfig()
         {
-            this.spawnPosition = spawnTransform.position;
-            this.spawnRotation = spawnTransform.rotation;
             this.scene = SceneManager.GetActiveScene();
+            GameObject[] objects = scene.GetRootGameObjects();
+            foreach (GameObject obj in objects)
+            {
+                Saveable[] saveables = obj.GetComponentsInChildren<Saveable>();
+                foreach (Saveable s in saveables)
+                {
+                    GameObject go = s.gameObject;
+                    string fullName = GetFullName(go);
+                    if (s is PositionSaveable)
+                    {
+                        savedPositions.Add(fullName, go.transform.position);
+                        savedRotations.Add(fullName, go.transform.rotation);
+                    } else if (s is DestroyedSaveable)
+                    {
+                        notDestroyed.Add(fullName);
+                    }
+                    else if (s is InteractionSaveable)
+                    {
+                        savedInteractions.Add(fullName, ((InteractionSaveable) s).interacted);
+                    }
+                }
+            }
         }
 
         public void runConfig()
@@ -27,21 +49,51 @@ namespace Finisher.Characters
 
         private void setStates(Scene scene, LoadSceneMode mode)
         {
+            Time.timeScale = 0;
             GameObject[] objects = scene.GetRootGameObjects();
-            GameObject player = null;
+
             foreach (GameObject obj in objects)
             {
-                PlayerCharacterController controller = obj.GetComponentInChildren<PlayerCharacterController>();
-                if (controller != null)
+                Saveable[] saveables = obj.GetComponentsInChildren<Saveable>();
+                foreach (Saveable s in saveables)
                 {
-                    player = controller.gameObject;
+                    GameObject go = s.gameObject;
+                    string fullName = GetFullName(go);
+                    if (s is PositionSaveable)
+                    {
+                        go.transform.position = savedPositions[fullName];
+                        go.transform.rotation = savedRotations[fullName];
+                    }
+                    else if (s is DestroyedSaveable)
+                    {
+                        if (!notDestroyed.Contains(fullName))
+                        {
+                            GameObject.Destroy(go);
+                        }
+                    }
+                    else if (s is InteractionSaveable)
+                    {
+                        if (savedInteractions[fullName])
+                        {
+                            ((InteractionSaveable) s).runInteraction();
+                        }
+                    }
                 }
             }
-            Assert.IsNotNull(player);
-
-            player.transform.position = spawnPosition;
-            player.transform.rotation = spawnRotation;
+            Time.timeScale = 1;
             SceneManager.sceneLoaded -= setStates;
+        }
+
+        public string GetFullName(GameObject go)
+        {
+            string name = go.name;
+            while (go.transform.parent != null)
+            {
+
+                go = go.transform.parent.gameObject;
+                name = go.name + "/" + name;
+            }
+            return name;
         }
     }
 }

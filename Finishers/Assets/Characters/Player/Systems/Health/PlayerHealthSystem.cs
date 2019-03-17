@@ -23,15 +23,27 @@ namespace Finisher.Characters.Player.Systems
             {
                 IncreaseHealth(config.MaxHealth);
             }
+            if (FinisherInput.InvulnerabilityCheat())
+            {
+                invulnerableCheat = !invulnerableCheat;
+            }
         }
 
-        /*public override void DamageHealth(float damage, DamageSystem damageSource)
+        private bool invulnerableCheat = false;
+
+        public override void DamageHealth(float damage, DamageSystem damageSource)
         {
-            if (GetHealthAsPercent() > .20)
+            if (invulnerableCheat) {
+                if (GetHealthAsPercent() > .20)
+                {
+                    base.DamageHealth(damage, damageSource);
+                }
+            }
+            else
             {
                 base.DamageHealth(damage, damageSource);
             }
-        }*/
+        }
 
         private void setPlayerHealthSlider()
         {
