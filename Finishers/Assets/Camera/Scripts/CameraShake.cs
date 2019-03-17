@@ -80,10 +80,19 @@ namespace Finisher.Cameras
             
             for (int i = 0; i < moveTimes; i++)
             {
-                Vector3 newPos = Random.insideUnitCircle * strength;
+                
+                Vector3 startPos = transform.position;
+                Vector3 newPos = Random.insideUnitCircle * strength / 4;
+                newPos += startPos;
 
-                transform.Translate(Vector3.Lerp(transform.localPosition, newPos, Time.deltaTime));
-                yield return new WaitForSeconds(delay);
+                var currentPos = transform.position;
+                var t = 0f;
+                while (t < 1)
+                {
+                    t += Time.deltaTime / delay;
+                    transform.position = Vector3.Lerp(currentPos, newPos, t);
+                    yield return null;
+                }
             }
         }
     }
