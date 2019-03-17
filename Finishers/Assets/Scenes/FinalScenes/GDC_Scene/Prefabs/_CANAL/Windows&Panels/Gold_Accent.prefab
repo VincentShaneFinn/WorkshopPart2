@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6828215956081951903}
   - component: {fileID: 6828215956081149117}
   - component: {fileID: 6828215956080051837}
+  - component: {fileID: 2585475128500892202}
   m_Layer: 0
   m_Name: Gold_Accent
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 6828215956082055359}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.4161196, y: -7.54, z: -7.79}
-  m_LocalScale: {x: 0.0108717475, y: 0.0044308105, z: 0.0108717475}
+  m_LocalScale: {x: 0.023040457, y: 0.014577901, z: 0.023040438}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -77,3 +78,17 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &2585475128500892202
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6828215956082055359}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300018, guid: f65c7596e2dceff46825620d8d9f0620, type: 3}
