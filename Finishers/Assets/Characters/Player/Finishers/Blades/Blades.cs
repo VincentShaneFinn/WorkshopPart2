@@ -37,7 +37,7 @@ namespace Finisher.Characters.Player.Finishers
             if (targetHealthSystem) // hit an enemy
             {
                 hit.Add(targetHealthSystem);
-                combatSystem.CallCameraShakeEvent(1, combatSystem.HeavyAttackDamageSystem.KnockbackDuration);
+                combatSystem.CallCameraShakeEvent(0.5f, combatSystem.HeavyAttackDamageSystem.KnockbackDuration);
             }
 
             

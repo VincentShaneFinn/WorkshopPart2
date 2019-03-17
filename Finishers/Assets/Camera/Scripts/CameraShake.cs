@@ -7,9 +7,8 @@ namespace Finisher.Cameras
 {
     public class CameraShake : MonoBehaviour
     {
-        private float _strength;
-
         private Vector3 _initialCameraPosition;
+
         private float _remainingShakeTime;
 
         private PlayerCombatSystem playerCombatSystem;
@@ -29,7 +28,8 @@ namespace Finisher.Cameras
             {
                 playerCombatSystem.OnHitCameraShake += Shake;
             }
-            if(playerHealthSystem)
+
+            if (playerHealthSystem)
             {
                 playerHealthSystem.OnDamageTaken += shake;
             }
@@ -53,9 +53,7 @@ namespace Finisher.Cameras
             {
                 transform.localPosition = _initialCameraPosition;
                 return;
-            }
-
-            transform.Translate(Random.insideUnitCircle * _strength);
+            }            
 
             _remainingShakeTime -= Time.deltaTime;
         }
@@ -65,10 +63,28 @@ namespace Finisher.Cameras
             Shake();
         }
 
-        private void Shake(float strength = .25f, float duration = 0.1f)
+        private void Shake(float strength = 0.5f, float duration = 0.1f)
         {
-            _strength = strength;
             _remainingShakeTime = duration;
+
+            if (_remainingShakeTime > 0)
+            {
+                StartCoroutine(ShakeCamera(strength, duration));
+            }
+        }
+
+        IEnumerator ShakeCamera(float strength, float duration)
+        {
+            float delay = 0.01f;
+            float moveTimes = duration / delay;
+            
+            for (int i = 0; i < moveTimes; i++)
+            {
+                Vector3 newPos = Random.insideUnitCircle * strength;
+
+                transform.Translate(Vector3.Lerp(transform.localPosition, newPos, Time.deltaTime));
+                yield return new WaitForSeconds(delay);
+            }
         }
     }
 }
