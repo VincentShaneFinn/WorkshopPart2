@@ -9561,6 +9561,7 @@ GameObject:
   - component: {fileID: 312497000786475692}
   - component: {fileID: 3717168700540161202}
   - component: {fileID: 2897140081669308413}
+  - component: {fileID: 3088770440085230241}
   m_Layer: 0
   m_Name: GroundTorch
   m_TagString: Untagged
@@ -9627,6 +9628,20 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!64 &3088770440085230241
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348735427055507123}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: 4300024, guid: f65c7596e2dceff46825620d8d9f0620, type: 3}
 --- !u!1 &4923254104573494061
 GameObject:
   m_ObjectHideFlags: 0
