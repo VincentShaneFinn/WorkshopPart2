@@ -41,7 +41,7 @@ namespace Finisher.Characters.Player.Finishers {
 
             if (targetHealthSystem) // hit an enemy
             {
-                combatSystem.CallCameraShakeEvent(0.5f, combatSystem.HeavyAttackDamageSystem.KnockbackDuration);
+                combatSystem.CallCameraShakeEvent(0.5f, combatSystem.HeavyAttackDamageSystem.KnockbackDuration * 1.5f);
                 flameAOEDamageSystem.HitCharacter(gameObject, targetHealthSystem);
             }
         }

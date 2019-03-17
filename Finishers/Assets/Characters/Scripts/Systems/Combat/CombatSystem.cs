@@ -352,7 +352,7 @@ namespace Finisher.Characters.Systems
                 heavyAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
 
-                CallCameraShakeEvent(0.5f, heavyAttackDamageSystem.KnockbackDuration);
+                CallCameraShakeEvent(0.5f, heavyAttackDamageSystem.KnockbackDuration * 1.5f);
             }
 
             IncrementHitCounter();
