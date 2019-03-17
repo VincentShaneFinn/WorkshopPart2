@@ -13,12 +13,14 @@ namespace Finisher.Cameras
         private float _remainingShakeTime;
 
         private PlayerCombatSystem playerCombatSystem;
+        private PlayerHealthSystem playerHealthSystem;
 
         private void Awake()
         {
             _initialCameraPosition = transform.localPosition;
 
             playerCombatSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<PlayerCombatSystem>();
+            playerHealthSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<PlayerHealthSystem>();
         }
 
         void Start()
@@ -27,6 +29,10 @@ namespace Finisher.Cameras
             {
                 playerCombatSystem.OnHitCameraShake += Shake;
             }
+            if(playerHealthSystem)
+            {
+                playerHealthSystem.OnDamageTaken += shake;
+            }
         }
 
         void OnDestroy()
@@ -34,6 +40,10 @@ namespace Finisher.Cameras
             if (playerCombatSystem)
             {
                 playerCombatSystem.OnHitCameraShake -= Shake;
+            }
+            if (playerHealthSystem)
+            {
+                playerHealthSystem.OnDamageTaken -= shake;
             }
         }
 
@@ -50,7 +60,12 @@ namespace Finisher.Cameras
             _remainingShakeTime -= Time.deltaTime;
         }
 
-        private void Shake(float strength = 1, float duration = 0.1f)
+        private void shake()
+        {
+            Shake();
+        }
+
+        private void Shake(float strength = .25f, float duration = 0.1f)
         {
             _strength = strength;
             _remainingShakeTime = duration;
