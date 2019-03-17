@@ -10,6 +10,7 @@ namespace Finisher.Characters
         #region Delegates
 
         public event CharacterIsDying OnCharacterKilled;
+        public event CharacterIsRevived OnCharacterRevive;
 
         #endregion
 
@@ -30,6 +31,16 @@ namespace Finisher.Characters
             }
         }
 
+        public void Revive()
+        {
+            dying = false;
+            if (OnCharacterRevive != null)
+            {
+                OnCharacterRevive();
+            }
+        }
+
+
         public void SubscribeToDeathEvent(CharacterIsDying method)
         {
             OnCharacterKilled += method;
@@ -39,5 +50,13 @@ namespace Finisher.Characters
             OnCharacterKilled -= method;
         }
 
+        public void SubscribeToReviveEvent(CharacterIsRevived method)
+        {
+            OnCharacterRevive += method;
+        }
+        public void UnsubscribeToReviveEvent(CharacterIsRevived method)
+        {
+            OnCharacterRevive -= method;
+        }
     }
 }

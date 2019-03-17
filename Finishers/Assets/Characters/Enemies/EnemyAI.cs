@@ -60,6 +60,7 @@ namespace Finisher.Characters.Enemies
             if (squadManager)
             {
                 characterState.DyingState.SubscribeToDeathEvent(removeFromSquad);
+                characterState.DyingState.SubscribeToReviveEvent(addToSquad);
             }
             surroundRight = UnityEngine.Random.Range(0, 2) == 0;
 
@@ -71,6 +72,7 @@ namespace Finisher.Characters.Enemies
             if (squadManager)
             {
                 characterState.DyingState.UnsubscribeToDeathEvent(removeFromSquad);
+                characterState.DyingState.UnsubscribeToReviveEvent(addToSquad);
                 removeFromSquad();
             }
         }
@@ -412,6 +414,13 @@ namespace Finisher.Characters.Enemies
         private void removeFromSquad()
         {
             squadManager.RemoveEnemy(this.gameObject);
+        }
+        private void addToSquad()
+        {
+            if (!squadManager.GetEnemies().Contains(this.gameObject))
+            {
+                squadManager.AddEnemy(this.gameObject);
+            }
         }
 
         #endregion

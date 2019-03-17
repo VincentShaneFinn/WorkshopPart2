@@ -20,6 +20,7 @@ namespace Finisher.Characters.Systems
         RangedAttackSMB rangedSMB;
 
         AICharacterController character;
+        protected HealthSystem healthSystem;
         EnemyAI enemyAI;
         Transform target;
 
@@ -28,6 +29,7 @@ namespace Finisher.Characters.Systems
             base.Start();
 
             character = GetComponent<AICharacterController>();
+            healthSystem = GetComponent<HealthSystem>();
             enemyAI = GetComponent<EnemyAI>();
             var behaviors = animator.GetBehaviours<RushSequenceSMB>();
             foreach (var behavior in behaviors)
@@ -175,15 +177,30 @@ namespace Finisher.Characters.Systems
         void LaunchRangedAttack()
         {
             Instantiate(orb, transform.position + transform.forward + transform.up, transform.rotation);
-            StopCoroutine(facePlayerCoroutine);
+            if (facePlayerCoroutine != null)
+            {
+                StopCoroutine(facePlayerCoroutine);
+            }
         }
 
         void StopRangedAttack()
         {
-            StopCoroutine(facePlayerCoroutine);
+            if (facePlayerCoroutine != null)
+            {
+                StopCoroutine(facePlayerCoroutine);
+            }
         }
 
         #endregion
+
+        public void Revive()
+        {
+            if (characterState.Dying)
+            {
+                characterState.DyingState.Revive();
+                healthSystem.Revive();
+            }
+        }
 
     }
 }

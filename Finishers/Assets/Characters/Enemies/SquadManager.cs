@@ -44,7 +44,7 @@ namespace Finisher.Characters.Enemies
             }
         }
 
-        void Start()
+        void Awake()
         {
             CurrentManagerState = ManagerState.ReturnHome;
             player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
@@ -74,6 +74,20 @@ namespace Finisher.Characters.Enemies
             SortEnemiesByDistance();
         }
 
+        public void KillEnemies()
+        {
+            StartCoroutine(killTheBoys());
+        }
+
+        IEnumerator killTheBoys()
+        {
+            while(enemies.Count > 0)
+            {
+                enemies[0].GetComponent<HealthSystem>().Kill(null);
+                yield return null;
+            }
+        }
+
         IEnumerator assignEnemyRoles()
         {
             StartCoroutine(resetTimeForRangedAttack());
@@ -88,7 +102,7 @@ namespace Finisher.Characters.Enemies
 
         private void checkAliveStatus()
         {
-            if(enemies.Count <= 1)
+            if(enemies.Count <= 0)
             {
                 CallSquadDefeatated();
                 StopAllCoroutines();
@@ -117,6 +131,11 @@ namespace Finisher.Characters.Enemies
             {
                 enemyManager.RemoveCombatSquad(this);
             }
+        }
+
+        public void AddEnemy(GameObject enemy)
+        {
+            enemies.Add(enemy);
         }
 
         private void setEnemiesSubChase()
