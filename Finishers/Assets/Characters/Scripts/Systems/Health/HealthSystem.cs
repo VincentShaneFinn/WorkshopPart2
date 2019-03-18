@@ -166,7 +166,7 @@ namespace Finisher.Characters.Systems
         public void Knockback(Vector3 knockbackVector, float knockbackTime = 0.1f, AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force) || characterState.FinisherModeActive) { return; }
 
             if (animClip == null)
             {
@@ -194,7 +194,7 @@ namespace Finisher.Characters.Systems
         public void Knockback(AnimationClip animClip = null, bool force = false)
         {
             //TODO: Add a method to override the knockback limiter
-            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force)) { return; }
+            if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force) || characterState.FinisherModeActive) { return; }
 
             if(animClip == null)
             {
@@ -246,6 +246,14 @@ namespace Finisher.Characters.Systems
             enterDyingState(animClip);
         }
 
+        public virtual void Revive()
+        {
+            AnimationClip animClip = animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            currentHealth = 100;
+            updateHealthUI();
+            ReviveAnimate(animClip);
+        }
+
         public virtual void CutInHalf()
         {
             Instantiate(config.TopHalf, transform.position, transform.rotation);
@@ -257,6 +265,11 @@ namespace Finisher.Characters.Systems
         {
             characterState.DyingState.Kill();
             animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true,AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
+        }
+        private void ReviveAnimate(AnimationClip animClip)
+        {
+            characterState.DyingState.Revive();
+            animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, false, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
         #endregion

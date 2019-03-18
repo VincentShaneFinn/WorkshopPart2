@@ -7,9 +7,14 @@ namespace Finisher.Characters.Systems.Strategies {
     {
 
         [SerializeField] protected float baseDamage = 10f;
+        public float BaseDamage { get { return baseDamage; } }
+
         [SerializeField] protected bool dealsKnockback = true;
         [SerializeField] protected float knockbackRange = 0.5f;
+
         [SerializeField] protected float knockbackDuration = 0.05f;
+        public float KnockbackDuration { get { return knockbackDuration; } }
+
         [SerializeField] private ParticleEventSystem particleEventSystem = null;
 
 
