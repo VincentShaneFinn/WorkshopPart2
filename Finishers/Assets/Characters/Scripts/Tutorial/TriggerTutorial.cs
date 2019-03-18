@@ -43,6 +43,7 @@ public class TriggerTutorial : MonoBehaviour
     {
         if (state != null)
         {
+            Debug.Log("Mark On Destroy Called");
             state.spawnConfig = new SpawnConfig();
             state.spawnConfig.notDestroyed.Remove(state.spawnConfig.GetFullName(gameObject));
         }
