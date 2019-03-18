@@ -560,10 +560,12 @@ namespace Finisher.Characters.Systems {
             {
                 toggleWeapon(WeaponToggle.Knife);
                 inFinisherIndicator.gameObject.SetActive(false);
+                animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, config.EnterFinisherModeAnim);
             }
             else
             {
                 toggleWeapon(WeaponToggle.Sword);
+                animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, config.ExitFinisherModeAnim);
             }
 
             if (!finisherModeActive)

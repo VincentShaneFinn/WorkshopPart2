@@ -35,7 +35,7 @@ namespace Finisher.Core
             cMusicSource = gameObject.AddComponent<AudioSource>();
 
             oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
-            oocMusicSource.Play(0);
+            //oocMusicSource.Play(0);
             subscribeToDelegates();
         }
 
@@ -61,7 +61,7 @@ namespace Finisher.Core
             {
                 cMusicSource.clip = combatMusic[Random.Range(0, combatMusic.Count - 1)];
                 cMusicSource.volume = 0;
-                cMusicSource.Play(0);
+                //cMusicSource.Play(0);
                 for (int i = 0; i <= volumeSteps; i++)
                 {
                     oocMusicSource.volume -= maxVolume / volumeSteps;
@@ -74,7 +74,7 @@ namespace Finisher.Core
             {
                 oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
                 oocMusicSource.volume = 0;
-                oocMusicSource.Play(0);
+                //oocMusicSource.Play(0);
                 for (int i = 0; i <= volumeSteps; i++)
                 {
                     oocMusicSource.volume += maxVolume / volumeSteps;
