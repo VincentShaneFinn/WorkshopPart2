@@ -10,7 +10,6 @@ namespace Finisher.UI
 
         private GameObject PauseMenuObject;
         private GameObject ControlMenuObject;
-        private GameObject LeftUpperObject;
         private GameObject LeftLowerObject;
         private float previousScale;
         // Start is called before the first frame update
@@ -20,8 +19,6 @@ namespace Finisher.UI
             PauseMenuObject.SetActive(false);
             ControlMenuObject = GetComponent<PlayerUIObjects>().ControlMenuObject;
             ControlMenuObject.SetActive(false);
-            LeftUpperObject = GetComponent<PlayerUIObjects>().LeftUpperObject;
-            LeftUpperObject.SetActive(true);
             LeftLowerObject = GetComponent<PlayerUIObjects>().LeftLowerObject;
             LeftLowerObject.SetActive(true);
 
