@@ -10,12 +10,17 @@ PrefabInstance:
     - target: {fileID: 2393358015905497126, guid: c18b004403b7fdf4285ddaa895b06d9c,
         type: 3}
       propertyPath: m_Name
-      value: Torch_Wall (12)
+      value: Torch_Wall02
       objectReference: {fileID: 0}
     - target: {fileID: 2393358015905497126, guid: c18b004403b7fdf4285ddaa895b06d9c,
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393358015905497126, guid: c18b004403b7fdf4285ddaa895b06d9c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2393358015905497121, guid: c18b004403b7fdf4285ddaa895b06d9c,
         type: 3}
@@ -92,6 +97,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2393358014877856619, guid: c18b004403b7fdf4285ddaa895b06d9c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2392421892772825275, guid: c18b004403b7fdf4285ddaa895b06d9c,
         type: 3}
       propertyPath: m_Layer
@@ -101,6 +111,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342019242719596504, guid: c18b004403b7fdf4285ddaa895b06d9c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393358015905497120, guid: c18b004403b7fdf4285ddaa895b06d9c,
+        type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342019243067986466, guid: c18b004403b7fdf4285ddaa895b06d9c,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c18b004403b7fdf4285ddaa895b06d9c, type: 3}
