@@ -3632,9 +3632,9 @@ RectTransform:
   m_Father: {fileID: 3816523488526915845}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -800}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 250, y: 150}
   m_SizeDelta: {x: 500, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7170182379589066247
@@ -4918,6 +4918,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
+    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
+      propertyPath: m_Name
+      value: UpButtonIcon 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52
@@ -4973,10 +4977,6 @@ PrefabInstance:
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
-      propertyPath: m_Name
-      value: UpButtonIcon 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
