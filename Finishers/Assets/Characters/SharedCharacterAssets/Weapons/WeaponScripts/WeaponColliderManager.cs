@@ -72,6 +72,7 @@ namespace Finisher.Characters.Weapons
                     if (targetCombatSystem)
                     {
                         targetCombatSystem.CallCombatSystemDealtDamageListeners(10f); //TODO: remove magic number
+                        targetCombatSystem.ParriedEnemy();
                     }
 
                     return;

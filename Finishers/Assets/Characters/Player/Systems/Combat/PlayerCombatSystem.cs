@@ -19,6 +19,7 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
+        public Tutorial parryTutorial;
 
         protected override void Start()
         {
@@ -152,6 +153,14 @@ namespace Finisher.Characters.Player.Systems
 
             animator.GetComponent<Animator>().speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 1;
+        }
+
+        public override void ParriedEnemy()
+        {
+            if (parryTutorial != null)
+            {
+                parryTutorial.showRiposteTutorial();
+            }
         }
 
         protected override void attemptRiposte()
