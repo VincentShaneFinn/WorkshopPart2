@@ -178,7 +178,7 @@ namespace Finisher.Characters.Systems {
                     }
                     else if (character.CombatTarget != null && !characterState.Uninteruptable)
                     {
-                        OnGrabbingTargetToggled(true);
+                        animator.SetTrigger(AnimConstants.Parameters.GRAB_TRIGGER);
                     }
                 }
             }
@@ -341,7 +341,7 @@ namespace Finisher.Characters.Systems {
             {
                 time -= Time.deltaTime;
                 transform.LookAt(target);
-                transform.position = target.position + target.forward;
+                transform.position = target.position + target.forward * 1f;
 
                 yield return null;
             }
@@ -363,7 +363,7 @@ namespace Finisher.Characters.Systems {
                 }
                 else
                 {
-                    transform.position = grabTarget.position + grabTarget.forward;
+                    transform.position = grabTarget.position + grabTarget.forward * 1.2f;
 
                     Vector3 rot = freeLookCam.transform.rotation.eulerAngles;
                     rot = new Vector3(rot.x, rot.y + 180, rot.z);
@@ -442,6 +442,7 @@ namespace Finisher.Characters.Systems {
 
         public void StabbedEnemy(GameObject enemy)
         {
+            print(combatSystem.CurrentAttackType);
             if (characterState.Grabbing)
             {
                 if (enemy == grabTarget.gameObject)
@@ -535,6 +536,7 @@ namespace Finisher.Characters.Systems {
             characterState.Grabbing = true;
             grabTarget.GetComponent<CharacterState>().Grabbed = true;
             isFinishing = false;
+            animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, true);
         }
 
         private void stopGrab()
@@ -546,6 +548,7 @@ namespace Finisher.Characters.Systems {
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
             characterState.Grabbing = false;
+            animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, false);
         }
 
         #endregion
@@ -610,6 +613,11 @@ namespace Finisher.Characters.Systems {
         }
 
         #region Animation Events 
+
+        public void GrabSuccessful()
+        {
+            OnGrabbingTargetToggled(true);
+        }
 
         void FinisherExecutionSlice()
         {
