@@ -8,6 +8,8 @@ public class Tutorial : MonoBehaviour
 
     protected bool isActive = false;
     public GameObject tutorialMessageUI;
+    static bool riposteTutorialReady = true;
+    static bool finisherTutorialReady = true;
 
     void Update()
     {

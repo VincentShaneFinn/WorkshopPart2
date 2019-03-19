@@ -2103,6 +2103,7 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: dacdbedf25cb96847acf7fc3ba8ca9fb, type: 2}
   DodgingAllowed: 1
   impactFrameTime: 0.1
+  parryTutorial: {fileID: 0}
 --- !u!114 &7146908285708924571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2133,6 +2134,7 @@ MonoBehaviour:
     type: 2}
   heavyFinisherAttackDamageSystem: {fileID: 11400000, guid: 06b4b80ac0e6a4843a4c4dd7a8041efb,
     type: 2}
+  cutInHalfTutorial: {fileID: 0}
   throwingWeapon: {fileID: 6683639795073119639, guid: 92a4a3abc826a4e4eba407339f7b9c47,
     type: 3}
   distanceFromEnemyBack: 0.1
@@ -2144,7 +2146,7 @@ MonoBehaviour:
     type: 3}
   blades: {fileID: 4770387372400968304, guid: 7d79c8a39621db24f97faeb2e1ebdd3f, type: 3}
   stunAOE: {fileID: 3515533956619826726, guid: 31fb3d083e55ae64296307193ef49546, type: 3}
-  grabStun: {fileID: 3515533956619826726, guid: 593c66262a9d4fb4f8d587b202a40ff6,
+  grabStun: {fileID: 3515533956619826726, guid: b8bd3abd863662e4c836fb3507bb834d,
     type: 3}
   soulSwordTime: 10
 --- !u!114 &951410941

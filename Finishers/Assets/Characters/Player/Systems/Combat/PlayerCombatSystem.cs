@@ -155,6 +155,14 @@ namespace Finisher.Characters.Player.Systems
             targetHealthSystem.GetComponent<Animator>().speed = 1;
         }
 
+        public override void ParriedEnemy()
+        {
+            if (parryTutorial != null)
+            {
+                parryTutorial.showTutorial();
+            }
+        }
+
         protected override void attemptRiposte()
         {
             var enemies = getEnemiesInFront();
@@ -163,10 +171,6 @@ namespace Finisher.Characters.Player.Systems
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
-                if (parryTutorial != null)
-                {
-                    parryTutorial.showTutorial();
-                }
                 StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
             }
         }

@@ -55,7 +55,7 @@ namespace Finisher.Characters.Systems {
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
-        public Tutorial cutInHalfTutorial;
+        public Tutorial finishTutorial;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
@@ -616,9 +616,9 @@ namespace Finisher.Characters.Systems {
             {
                 lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
                 grabTarget.GetComponent<HealthSystem>().CutInHalf();
-                if (cutInHalfTutorial != null)
+                if (finishTutorial != null)
                 {
-                    cutInHalfTutorial.showTutorial();
+                    finishTutorial.showTutorial();
                 }
             }
             catch(Exception ex)
