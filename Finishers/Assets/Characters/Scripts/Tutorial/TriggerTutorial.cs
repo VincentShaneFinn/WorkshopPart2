@@ -5,37 +5,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriggerTutorial : MonoBehaviour
+public class TriggerTutorial : Tutorial
 {
-    protected bool isActive = false;
-    public GameObject tutorialMessageUI;
     protected CharacterState state = null;
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isActive)
-        {
-            Time.timeScale = 0;
-            GameManager.instance.GamePaused = true;
-            if (FinisherInput.Continue())
-            {
-                Time.timeScale = 1;
-                tutorialMessageUI.SetActive(false);
-                Destroy(gameObject);
-                GameManager.instance.GamePaused = false;
-            }
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMoveInputProcessor>() != null)
         {
-            isActive = true;
             state = other.GetComponent<CharacterState>();
-            tutorialMessageUI.SetActive(true);
-            Time.timeScale = 0;
+            showTutorial();
         }
     }
 
