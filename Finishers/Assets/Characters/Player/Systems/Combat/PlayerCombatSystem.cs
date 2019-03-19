@@ -159,7 +159,7 @@ namespace Finisher.Characters.Player.Systems
         {
             if (parryTutorial != null)
             {
-                parryTutorial.showTutorial();
+                parryTutorial.showRiposteTutorial();
             }
         }
 

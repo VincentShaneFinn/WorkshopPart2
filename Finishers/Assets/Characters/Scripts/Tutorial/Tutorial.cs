@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Tutorial : MonoBehaviour
 {
-
     protected bool isActive = false;
     public GameObject tutorialMessageUI;
     static bool riposteTutorialReady = true;
@@ -27,10 +26,32 @@ public class Tutorial : MonoBehaviour
         }
     }
 
-    public virtual void showTutorial()
+    public void showTutorial()
     {
         isActive = true;
         tutorialMessageUI.SetActive(true);
         Time.timeScale = 0;
+    }
+
+    public void showRiposteTutorial()
+    {
+        if (Persistance.GetSingleton().riposteTutorialReady)
+        {
+            isActive = true;
+            tutorialMessageUI.SetActive(true);
+            Time.timeScale = 0;
+        }
+        Persistance.GetSingleton().riposteTutorialReady = false;
+    }
+
+    public void showFinisherTutorial()
+    {
+        if (Persistance.GetSingleton().finisherTutorialReady)
+        {
+            isActive = true;
+            tutorialMessageUI.SetActive(true);
+            Time.timeScale = 0;
+        }
+        Persistance.GetSingleton().finisherTutorialReady = false;
     }
 }

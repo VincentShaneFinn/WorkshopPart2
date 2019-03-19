@@ -618,7 +618,7 @@ namespace Finisher.Characters.Systems {
                 grabTarget.GetComponent<HealthSystem>().CutInHalf();
                 if (finishTutorial != null)
                 {
-                    finishTutorial.showTutorial();
+                    finishTutorial.showFinisherTutorial();
                 }
             }
             catch(Exception ex)
