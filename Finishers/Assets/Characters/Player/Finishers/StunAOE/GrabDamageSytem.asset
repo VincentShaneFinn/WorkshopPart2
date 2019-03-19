@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e166f5317b42c214a94ba9e708523bb3, type: 3}
-  m_Name: ThrowingWeaponDamageSystem
+  m_Script: {fileID: 11500000, guid: bb8cf9b2222f01442b93f50af474c43c, type: 3}
+  m_Name: GrabDamageSytem
   m_EditorClassIdentifier: 
-  baseDamage: 30
+  baseDamage: 0
   dealsKnockback: 1
-  knockbackRange: 0.5
+  knockbackRange: 2.5
   knockbackDuration: 0.05
   particleEventSystem: {fileID: 11400000, guid: 7f057fe833b9b26478d1772b0c0fd834,
     type: 2}
-  volatilityDamage: 10
-  finisherMeterCost: 15
-  StandingDeathAnimClip: {fileID: 7400000, guid: 344c5786a7ff34b4fa61c63522e22cca,
-    type: 3}
+  volatilityDamage: 0
+  finisherMeterCost: 5

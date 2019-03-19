@@ -66,6 +66,7 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private SoulInfusion soulInfusion;
         [SerializeField] private Blades blades;
         [SerializeField] private StunAOE stunAOE;
+        [SerializeField] private StunAOE grabStun;
         [SerializeField] private float soulSwordTime=10;
 
         #endregion
@@ -531,6 +532,11 @@ namespace Finisher.Characters.Systems {
             characterState.Grabbing = true;
             grabTarget.GetComponent<CharacterState>().Grabbed = true;
             isFinishing = false;
+            if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+            {
+                decreaseFinisherMeter(grabStun.FinisherMeterCost);
+            }
+            Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
         }
 
         private void stopGrab()
@@ -619,7 +625,7 @@ namespace Finisher.Characters.Systems {
 
         void PerformFinisherSkill()
         {
-            decreaseFinisherMeter(flameAOE.FinisherMeterCost);
+            decreaseFinisherMeter(currentFinisherExecution.FinisherMeterCost);
             Instantiate(currentFinisherExecution, transform.position, transform.rotation);
             isFinishing = false;
         }
