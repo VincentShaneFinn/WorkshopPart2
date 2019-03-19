@@ -276,7 +276,7 @@ namespace Finisher.Characters.Systems {
         IEnumerator freeR3()
         {
             yield return new WaitForSeconds(.2f);
-            L3Pressed = false;
+            R3Pressed = false;
         }
 
         private void attemptToggleFinisherMode()
