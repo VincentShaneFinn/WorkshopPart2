@@ -5,13 +5,29 @@ using UnityEngine.SceneManagement;
 
 public class PressEnterToBegin : MonoBehaviour
 {
+    [SerializeField] private string sceneToLoad;
 
     // Update is called once per frame
     void Update()
     {
         if (FinisherInput.ReloadScene())
         {
-            SceneManager.LoadScene(1);
+            LoadSceneByName(sceneToLoad);
         }
+    }
+
+    public void LoadSceneByIndex(int index)
+    {
+        SceneManager.LoadScene(index);
+    }
+
+    public void LoadSceneByName(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -347,6 +347,8 @@ namespace Finisher.Characters.Systems
 
                 lightAttackDamageSystem.HitCharacter(gameObject, targetHealthSystem, bonusDamage: soulBonus);
                 CallCombatSystemDealtDamageListeners(finisherMeterGain);
+
+                CallCameraShakeEvent(0.1f, lightAttackDamageSystem.KnockbackDuration);
             }
             else if (CurrentAttackType == AttackType.HeavyBlade || CurrentAttackType == AttackType.Special)
             {
