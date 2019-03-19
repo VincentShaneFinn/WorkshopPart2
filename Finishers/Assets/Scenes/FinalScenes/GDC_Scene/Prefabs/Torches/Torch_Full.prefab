@@ -15,7 +15,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &1126573998
 Transform:
@@ -85,7 +85,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 1
   m_IsActive: 1
 --- !u!4 &1147534786
 Transform:
@@ -120,7 +120,7 @@ MeshRenderer:
   m_GameObject: {fileID: 1147534783}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -159,6 +159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SmallerStylizedFire
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764545852540648, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5992764545852540649, guid: 192493dff83a3ea418350d637cc70dc9,
         type: 3}
@@ -299,6 +304,20 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.0034
+      objectReference: {fileID: 0}
+    - target: {fileID: 2066800447, guid: 192493dff83a3ea418350d637cc70dc9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544093821714, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544945967661, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2066800450, guid: 192493dff83a3ea418350d637cc70dc9, type: 3}
       propertyPath: InitialModule.startSize.minScalar

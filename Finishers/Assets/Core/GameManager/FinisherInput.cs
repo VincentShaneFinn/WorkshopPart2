@@ -23,7 +23,9 @@ public class FinisherInput : MonoBehaviour
 
     internal static bool Continue()
     {
-        return Input.GetKeyDown(KeyCode.Return);
+        bool rv = false;
+        rv = Input.GetButtonDown(InputNames.Continue);
+        return rv;
     }
 
     //Light Attack

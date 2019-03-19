@@ -16,7 +16,7 @@ namespace Finisher.Core
         private float timer = 0.0f;
         private int volumeSteps = 10;
         private float timeBetweenStep = .1f;
-        private float maxVolume = 1;
+        private float maxVolume = .75f;
 
         //to be removed once a proper config is set up for this
         public AudioClip Adventurer;

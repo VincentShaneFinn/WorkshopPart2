@@ -1,0 +1,768 @@
+fileFormatVersion: 2
+guid: a752d312f899bd746abe4f9f64dfcdd0
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Arm
+    100002: Base
+    100004: Base 1
+    100006: Base 2
+    100008: Base 3
+    100010: Base1
+    100012: Base_01
+    100014: Base_02
+    100016: Beam1
+    100018: Beam2
+    100020: Beams
+    100022: Bench_Table
+    100024: BookShelves
+    100026: BOX_TO_BE_MADE_COLLIDER
+    100028: //RootNode
+    100030: Cargo_Rope
+    100032: Cargo_RopeConnector
+    100034: Casing
+    100036: Chest
+    100038: Connector
+    100040: Crane
+    100042: Crane 1
+    100044: Divider
+    100046: Door
+    100048: DoorKnob
+    100050: Frame
+    100052: Handle
+    100054: Knob
+    100056: Ladder
+    100058: Left
+    100060: Lid
+    100062: MainBeams
+    100064: Panel
+    100066: pCube53
+    100068: pCube54
+    100070: pCube59
+    100072: pCube59 1
+    100074: pCube59 2
+    100076: pCube59 3
+    100078: pCube59 4
+    100080: pCube59 5
+    100082: pCube60
+    100084: pCube60 1
+    100086: pCube60 2
+    100088: pCube60 3
+    100090: pCube60 4
+    100092: pCube60 5
+    100094: pCube61
+    100096: pCube61 1
+    100098: pCube61 2
+    100100: pCube61 3
+    100102: pCube61 4
+    100104: pCube61 5
+    100106: pCube62
+    100108: pCube62 1
+    100110: pCube62 2
+    100112: pCube62 3
+    100114: pCube62 4
+    100116: pCube62 5
+    100118: pCube63
+    100120: pCube63 1
+    100122: pCube63 2
+    100124: pCube63 3
+    100126: pCube63 4
+    100128: pCube63 5
+    100130: pCube64
+    100132: pCube64 1
+    100134: pCube64 2
+    100136: pCube64 3
+    100138: pCube64 4
+    100140: pCube64 5
+    100142: pCylinder1
+    100144: pCylinder1 1
+    100146: pCylinder1 2
+    100148: pCylinder1 3
+    100150: pCylinder1 4
+    100152: pCylinder1 5
+    100154: pCylinder2
+    100156: pCylinder2 1
+    100158: pCylinder2 2
+    100160: pCylinder2 3
+    100162: pCylinder2 4
+    100164: pCylinder2 5
+    100166: pCylinder3
+    100168: pCylinder3 1
+    100170: pCylinder3 2
+    100172: pCylinder3 3
+    100174: pCylinder3 4
+    100176: pCylinder3 5
+    100178: pTorus1
+    100180: pTorus1 1
+    100182: pTorus1 2
+    100184: pTorus1 3
+    100186: pTorus1 4
+    100188: pTorus1 5
+    100190: Right
+    100192: Rope
+    100194: Rope_1
+    100196: Rope_2
+    100198: Rope_3
+    100200: Rope_4
+    100202: Rope_5
+    100204: s1
+    100206: s2
+    100208: s3
+    100210: s4
+    100212: Shaft
+    100214: Shelf
+    100216: Shelf_and_Divider
+    100218: Shelf_Cube
+    100220: Shelf_Cube_Back
+    100222: Shelf_Cube_Group
+    100224: Shelf_L
+    100226: Shelf_L_Back
+    100228: Shelf_L_Group
+    100230: Shelf_Tall
+    100232: Shelf_Tall_Back
+    100234: Shelf_TallGroup
+    100236: step
+    100238: step 1
+    100240: step 2
+    100242: step 3
+    100244: step1
+    100246: step1 1
+    100248: step1 2
+    100250: step1 3
+    100252: step2
+    100254: step2 1
+    100256: step2 2
+    100258: step2 3
+    100260: step3
+    100262: step3 1
+    100264: step3 2
+    100266: step3 3
+    100268: Steps
+    100270: Thing
+    100272: Top
+    100274: TopRope
+    100276: Trim
+    100278: Trim1
+    100280: vert_beam4
+    100282: vert_beam5
+    100284: vert_beam6
+    100286: vert_beam7
+    100288: vert_beam8
+    100290: vert_beam9
+    100292: Wheel1
+    100294: Wheel2
+    100296: Wheel3
+    100298: Wheel4
+    100300: Wheel5
+    100302: Wheel6
+    100304: Wheels
+    100306: Wood_CellarDoor
+    400000: Arm
+    400002: Base
+    400004: Base 1
+    400006: Base 2
+    400008: Base 3
+    400010: Base1
+    400012: Base_01
+    400014: Base_02
+    400016: Beam1
+    400018: Beam2
+    400020: Beams
+    400022: Bench_Table
+    400024: BookShelves
+    400026: BOX_TO_BE_MADE_COLLIDER
+    400028: //RootNode
+    400030: Cargo_Rope
+    400032: Cargo_RopeConnector
+    400034: Casing
+    400036: Chest
+    400038: Connector
+    400040: Crane
+    400042: Crane 1
+    400044: Divider
+    400046: Door
+    400048: DoorKnob
+    400050: Frame
+    400052: Handle
+    400054: Knob
+    400056: Ladder
+    400058: Left
+    400060: Lid
+    400062: MainBeams
+    400064: Panel
+    400066: pCube53
+    400068: pCube54
+    400070: pCube59
+    400072: pCube59 1
+    400074: pCube59 2
+    400076: pCube59 3
+    400078: pCube59 4
+    400080: pCube59 5
+    400082: pCube60
+    400084: pCube60 1
+    400086: pCube60 2
+    400088: pCube60 3
+    400090: pCube60 4
+    400092: pCube60 5
+    400094: pCube61
+    400096: pCube61 1
+    400098: pCube61 2
+    400100: pCube61 3
+    400102: pCube61 4
+    400104: pCube61 5
+    400106: pCube62
+    400108: pCube62 1
+    400110: pCube62 2
+    400112: pCube62 3
+    400114: pCube62 4
+    400116: pCube62 5
+    400118: pCube63
+    400120: pCube63 1
+    400122: pCube63 2
+    400124: pCube63 3
+    400126: pCube63 4
+    400128: pCube63 5
+    400130: pCube64
+    400132: pCube64 1
+    400134: pCube64 2
+    400136: pCube64 3
+    400138: pCube64 4
+    400140: pCube64 5
+    400142: pCylinder1
+    400144: pCylinder1 1
+    400146: pCylinder1 2
+    400148: pCylinder1 3
+    400150: pCylinder1 4
+    400152: pCylinder1 5
+    400154: pCylinder2
+    400156: pCylinder2 1
+    400158: pCylinder2 2
+    400160: pCylinder2 3
+    400162: pCylinder2 4
+    400164: pCylinder2 5
+    400166: pCylinder3
+    400168: pCylinder3 1
+    400170: pCylinder3 2
+    400172: pCylinder3 3
+    400174: pCylinder3 4
+    400176: pCylinder3 5
+    400178: pTorus1
+    400180: pTorus1 1
+    400182: pTorus1 2
+    400184: pTorus1 3
+    400186: pTorus1 4
+    400188: pTorus1 5
+    400190: Right
+    400192: Rope
+    400194: Rope_1
+    400196: Rope_2
+    400198: Rope_3
+    400200: Rope_4
+    400202: Rope_5
+    400204: s1
+    400206: s2
+    400208: s3
+    400210: s4
+    400212: Shaft
+    400214: Shelf
+    400216: Shelf_and_Divider
+    400218: Shelf_Cube
+    400220: Shelf_Cube_Back
+    400222: Shelf_Cube_Group
+    400224: Shelf_L
+    400226: Shelf_L_Back
+    400228: Shelf_L_Group
+    400230: Shelf_Tall
+    400232: Shelf_Tall_Back
+    400234: Shelf_TallGroup
+    400236: step
+    400238: step 1
+    400240: step 2
+    400242: step 3
+    400244: step1
+    400246: step1 1
+    400248: step1 2
+    400250: step1 3
+    400252: step2
+    400254: step2 1
+    400256: step2 2
+    400258: step2 3
+    400260: step3
+    400262: step3 1
+    400264: step3 2
+    400266: step3 3
+    400268: Steps
+    400270: Thing
+    400272: Top
+    400274: TopRope
+    400276: Trim
+    400278: Trim1
+    400280: vert_beam4
+    400282: vert_beam5
+    400284: vert_beam6
+    400286: vert_beam7
+    400288: vert_beam8
+    400290: vert_beam9
+    400292: Wheel1
+    400294: Wheel2
+    400296: Wheel3
+    400298: Wheel4
+    400300: Wheel5
+    400302: Wheel6
+    400304: Wheels
+    400306: Wood_CellarDoor
+    2100000: Small_01_Texture
+    2100002: lambert1
+    2100004: Beam_Texture
+    2300000: Arm
+    2300002: Base
+    2300004: Base 1
+    2300006: Base 2
+    2300008: Base1
+    2300010: Base_01
+    2300012: Base_02
+    2300014: Beam1
+    2300016: Beam2
+    2300018: BOX_TO_BE_MADE_COLLIDER
+    2300020: Cargo_RopeConnector
+    2300022: Casing
+    2300024: Connector
+    2300026: Divider
+    2300028: Frame
+    2300030: Handle
+    2300032: Knob
+    2300034: Left
+    2300036: Lid
+    2300038: pCube53
+    2300040: pCube54
+    2300042: pCube59
+    2300044: pCube59 1
+    2300046: pCube59 2
+    2300048: pCube59 3
+    2300050: pCube59 4
+    2300052: pCube59 5
+    2300054: pCube60
+    2300056: pCube60 1
+    2300058: pCube60 2
+    2300060: pCube60 3
+    2300062: pCube60 4
+    2300064: pCube60 5
+    2300066: pCube61
+    2300068: pCube61 1
+    2300070: pCube61 2
+    2300072: pCube61 3
+    2300074: pCube61 4
+    2300076: pCube61 5
+    2300078: pCube62
+    2300080: pCube62 1
+    2300082: pCube62 2
+    2300084: pCube62 3
+    2300086: pCube62 4
+    2300088: pCube62 5
+    2300090: pCube63
+    2300092: pCube63 1
+    2300094: pCube63 2
+    2300096: pCube63 3
+    2300098: pCube63 4
+    2300100: pCube63 5
+    2300102: pCube64
+    2300104: pCube64 1
+    2300106: pCube64 2
+    2300108: pCube64 3
+    2300110: pCube64 4
+    2300112: pCube64 5
+    2300114: pCylinder1
+    2300116: pCylinder1 1
+    2300118: pCylinder1 2
+    2300120: pCylinder1 3
+    2300122: pCylinder1 4
+    2300124: pCylinder1 5
+    2300126: pCylinder2
+    2300128: pCylinder2 1
+    2300130: pCylinder2 2
+    2300132: pCylinder2 3
+    2300134: pCylinder2 4
+    2300136: pCylinder2 5
+    2300138: pCylinder3
+    2300140: pCylinder3 1
+    2300142: pCylinder3 2
+    2300144: pCylinder3 3
+    2300146: pCylinder3 4
+    2300148: pCylinder3 5
+    2300150: pTorus1
+    2300152: pTorus1 1
+    2300154: pTorus1 2
+    2300156: pTorus1 3
+    2300158: pTorus1 4
+    2300160: pTorus1 5
+    2300162: Right
+    2300164: Rope_1
+    2300166: Rope_2
+    2300168: Rope_3
+    2300170: Rope_4
+    2300172: Rope_5
+    2300174: Shaft
+    2300176: Shelf
+    2300178: Shelf_Cube
+    2300180: Shelf_Cube_Back
+    2300182: Shelf_L
+    2300184: Shelf_L_Back
+    2300186: Shelf_Tall
+    2300188: Shelf_Tall_Back
+    2300190: step
+    2300192: step 1
+    2300194: step 2
+    2300196: step 3
+    2300198: step1
+    2300200: step1 1
+    2300202: step1 2
+    2300204: step1 3
+    2300206: step2
+    2300208: step2 1
+    2300210: step2 2
+    2300212: step2 3
+    2300214: step3
+    2300216: step3 1
+    2300218: step3 2
+    2300220: step3 3
+    2300222: Thing
+    2300224: Top
+    2300226: TopRope
+    2300228: Trim
+    2300230: Trim1
+    2300232: vert_beam4
+    2300234: vert_beam5
+    2300236: vert_beam6
+    2300238: vert_beam7
+    2300240: vert_beam8
+    2300242: vert_beam9
+    3300000: Arm
+    3300002: Base
+    3300004: Base 1
+    3300006: Base 2
+    3300008: Base1
+    3300010: Base_01
+    3300012: Base_02
+    3300014: Beam1
+    3300016: Beam2
+    3300018: BOX_TO_BE_MADE_COLLIDER
+    3300020: Cargo_RopeConnector
+    3300022: Casing
+    3300024: Connector
+    3300026: Divider
+    3300028: Frame
+    3300030: Handle
+    3300032: Knob
+    3300034: Left
+    3300036: Lid
+    3300038: pCube53
+    3300040: pCube54
+    3300042: pCube59
+    3300044: pCube59 1
+    3300046: pCube59 2
+    3300048: pCube59 3
+    3300050: pCube59 4
+    3300052: pCube59 5
+    3300054: pCube60
+    3300056: pCube60 1
+    3300058: pCube60 2
+    3300060: pCube60 3
+    3300062: pCube60 4
+    3300064: pCube60 5
+    3300066: pCube61
+    3300068: pCube61 1
+    3300070: pCube61 2
+    3300072: pCube61 3
+    3300074: pCube61 4
+    3300076: pCube61 5
+    3300078: pCube62
+    3300080: pCube62 1
+    3300082: pCube62 2
+    3300084: pCube62 3
+    3300086: pCube62 4
+    3300088: pCube62 5
+    3300090: pCube63
+    3300092: pCube63 1
+    3300094: pCube63 2
+    3300096: pCube63 3
+    3300098: pCube63 4
+    3300100: pCube63 5
+    3300102: pCube64
+    3300104: pCube64 1
+    3300106: pCube64 2
+    3300108: pCube64 3
+    3300110: pCube64 4
+    3300112: pCube64 5
+    3300114: pCylinder1
+    3300116: pCylinder1 1
+    3300118: pCylinder1 2
+    3300120: pCylinder1 3
+    3300122: pCylinder1 4
+    3300124: pCylinder1 5
+    3300126: pCylinder2
+    3300128: pCylinder2 1
+    3300130: pCylinder2 2
+    3300132: pCylinder2 3
+    3300134: pCylinder2 4
+    3300136: pCylinder2 5
+    3300138: pCylinder3
+    3300140: pCylinder3 1
+    3300142: pCylinder3 2
+    3300144: pCylinder3 3
+    3300146: pCylinder3 4
+    3300148: pCylinder3 5
+    3300150: pTorus1
+    3300152: pTorus1 1
+    3300154: pTorus1 2
+    3300156: pTorus1 3
+    3300158: pTorus1 4
+    3300160: pTorus1 5
+    3300162: Right
+    3300164: Rope_1
+    3300166: Rope_2
+    3300168: Rope_3
+    3300170: Rope_4
+    3300172: Rope_5
+    3300174: Shaft
+    3300176: Shelf
+    3300178: Shelf_Cube
+    3300180: Shelf_Cube_Back
+    3300182: Shelf_L
+    3300184: Shelf_L_Back
+    3300186: Shelf_Tall
+    3300188: Shelf_Tall_Back
+    3300190: step
+    3300192: step 1
+    3300194: step 2
+    3300196: step 3
+    3300198: step1
+    3300200: step1 1
+    3300202: step1 2
+    3300204: step1 3
+    3300206: step2
+    3300208: step2 1
+    3300210: step2 2
+    3300212: step2 3
+    3300214: step3
+    3300216: step3 1
+    3300218: step3 2
+    3300220: step3 3
+    3300222: Thing
+    3300224: Top
+    3300226: TopRope
+    3300228: Trim
+    3300230: Trim1
+    3300232: vert_beam4
+    3300234: vert_beam5
+    3300236: vert_beam6
+    3300238: vert_beam7
+    3300240: vert_beam8
+    3300242: vert_beam9
+    4300000: BOX_TO_BE_MADE_COLLIDER
+    4300002: Base
+    4300004: vert_beam6
+    4300006: vert_beam5
+    4300008: vert_beam4
+    4300010: vert_beam7
+    4300012: vert_beam8
+    4300014: vert_beam9
+    4300016: Base1
+    4300018: Left
+    4300020: Right
+    4300022: Frame
+    4300024: Knob
+    4300026: Handle
+    4300028: step3
+    4300030: step2
+    4300032: step1
+    4300034: step
+    4300036: step3
+    4300038: step2
+    4300040: step1
+    4300042: step
+    4300044: step3
+    4300046: step2
+    4300048: step1
+    4300050: step
+    4300052: step3
+    4300054: step2
+    4300056: step1
+    4300058: step
+    4300060: Beam2
+    4300062: Beam1
+    4300064: Base
+    4300066: Top
+    4300068: pCube54
+    4300070: pCube53
+    4300072: Base
+    4300074: Casing
+    4300076: Lid
+    4300078: Trim
+    4300080: Trim1
+    4300082: Shelf_L_Back
+    4300084: Shelf_L
+    4300086: Shelf_Cube_Back
+    4300088: Shelf_Cube
+    4300090: Shelf_Tall_Back
+    4300092: Shelf_Tall
+    4300094: Divider
+    4300096: Shelf
+    4300098: Thing
+    4300100: Shaft
+    4300102: Arm
+    4300104: Base_02
+    4300106: Base_01
+    4300108: pTorus1
+    4300110: pCube63
+    4300112: pCube64
+    4300114: pCylinder1
+    4300116: pCube59
+    4300118: pCube60
+    4300120: pCube61
+    4300122: pCube62
+    4300124: pCylinder2
+    4300126: pCylinder3
+    4300128: pTorus1
+    4300130: pCube63
+    4300132: pCube64
+    4300134: pCylinder1
+    4300136: pCube59
+    4300138: pCube60
+    4300140: pCube61
+    4300142: pCube62
+    4300144: pCylinder2
+    4300146: pCylinder3
+    4300148: pTorus1
+    4300150: pCube63
+    4300152: pCube64
+    4300154: pCylinder1
+    4300156: pCube59
+    4300158: pCube60
+    4300160: pCube61
+    4300162: pCube62
+    4300164: pCylinder2
+    4300166: pCylinder3
+    4300168: pTorus1
+    4300170: pCube63
+    4300172: pCube64
+    4300174: pCylinder1
+    4300176: pCube59
+    4300178: pCube60
+    4300180: pCube61
+    4300182: pCube62
+    4300184: pCylinder2
+    4300186: pCylinder3
+    4300188: pTorus1
+    4300190: pCube63
+    4300192: pCube64
+    4300194: pCylinder1
+    4300196: pCube59
+    4300198: pCube60
+    4300200: pCube61
+    4300202: pCube62
+    4300204: pCylinder2
+    4300206: pCylinder3
+    4300208: pTorus1
+    4300210: pCube63
+    4300212: pCube64
+    4300214: pCylinder1
+    4300216: pCube59
+    4300218: pCube60
+    4300220: pCube61
+    4300222: pCube62
+    4300224: pCylinder2
+    4300226: pCylinder3
+    4300228: TopRope
+    4300230: Connector
+    4300232: Rope_1
+    4300234: Cargo_RopeConnector
+    4300236: Rope_5
+    4300238: Rope_2
+    4300240: Rope_3
+    4300242: Rope_4
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
