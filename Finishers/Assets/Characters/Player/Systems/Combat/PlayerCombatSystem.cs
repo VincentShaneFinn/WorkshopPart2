@@ -19,6 +19,7 @@ namespace Finisher.Characters.Player.Systems
         [SerializeField] float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
+        public Tutorial parryTutorial;
 
         protected override void Start()
         {
@@ -162,6 +163,10 @@ namespace Finisher.Characters.Player.Systems
             {
                 characterState.EnterInvulnerableActionState(config.RiposteAnimation);
                 StartCoroutine(transformOvertime(enemyToParry.transform));
+                if (parryTutorial != null)
+                {
+                    parryTutorial.showTutorial();
+                }
                 StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
             }
         }
