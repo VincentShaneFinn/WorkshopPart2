@@ -1064,7 +1064,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: af5f4eeba16c194499e24879b3c3283b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 98d9c9da2121bf448aa7a06846631a9e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1543,7 +1543,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: d667815fa0e25ed49ad06cf3977b6ca1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5392c2369523c654aa062256dd8ee1c7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4701,6 +4701,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
+    - target: {fileID: 1598626656871516, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
+      propertyPath: m_Name
+      value: LeftButtonIcon 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4169589720959498, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -191
@@ -4745,10 +4749,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1598626656871516, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
-      propertyPath: m_Name
-      value: LeftButtonIcon 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fde30c50d411ef41815ed01668aa1a1, type: 3}
 --- !u!4 &602488758993497806 stripped
@@ -4764,6 +4764,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8510267899012603192}
     m_Modifications:
+    - target: {fileID: 1810145814231848, guid: cceba2b9000aef748989881313b9225c, type: 3}
+      propertyPath: m_Name
+      value: FinisherMode
+      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: cceba2b9000aef748989881313b9225c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4825,10 +4829,6 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1810145814231848, guid: cceba2b9000aef748989881313b9225c, type: 3}
-      propertyPath: m_Name
-      value: FinisherMode
-      objectReference: {fileID: 0}
     - target: {fileID: 5203354539781079527, guid: cceba2b9000aef748989881313b9225c,
         type: 3}
       propertyPath: m_RootOrder
@@ -4849,6 +4849,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
+    - target: {fileID: 1410458181402266, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
+      propertyPath: m_Name
+      value: RightButtonIcon 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4588966441284668, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 93
@@ -4905,10 +4909,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2.74
       objectReference: {fileID: 0}
-    - target: {fileID: 1410458181402266, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
-      propertyPath: m_Name
-      value: RightButtonIcon 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec157f5301e8bf14f8aba26ec6bef58d, type: 3}
 --- !u!4 &4284389496120611041 stripped
@@ -4924,6 +4924,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 185691400047661378}
     m_Modifications:
+    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
+      propertyPath: m_Name
+      value: UpButtonIcon 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalPosition.x
       value: -52
@@ -4979,10 +4983,6 @@ PrefabInstance:
     - target: {fileID: 4559730946562044, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
       propertyPath: m_LocalScale.z
       value: 2.74
-      objectReference: {fileID: 0}
-    - target: {fileID: 1810145814231848, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
-      propertyPath: m_Name
-      value: UpButtonIcon 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa4cbbf3636a449488f20f9d89a4c995, type: 3}
