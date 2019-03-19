@@ -259,6 +259,11 @@ namespace Finisher.Characters.Systems
             animator.SetTrigger(AnimConstants.Parameters.PARRY_TRIGGER);
         }
 
+        public virtual void ParriedEnemy()
+        {
+
+        }
+
         protected virtual void attemptRiposte()
         {
             //TODO: Make abstract and implement in enemy

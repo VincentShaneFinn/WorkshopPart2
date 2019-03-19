@@ -19,6 +19,7 @@ public static class InputNames
     public const string SelectFinisher2 = "SelectFinisher2";
     public const string SelectFinisher3 = "SelectFinisher3";
     public const string SelectFinisher4 = "SelectFinisher4";
+    public const string Continue = "Continue";
 }
 
 #endregion

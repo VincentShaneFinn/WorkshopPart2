@@ -55,6 +55,7 @@ namespace Finisher.Characters.Systems {
 
         private bool L3Pressed = false;
         private bool R3Pressed = false;
+        public Tutorial finishTutorial;
 
         #region Siphoning Skills // todo encapsualte into another class later
 
@@ -66,6 +67,7 @@ namespace Finisher.Characters.Systems {
         [SerializeField] private SoulInfusion soulInfusion;
         [SerializeField] private Blades blades;
         [SerializeField] private StunAOE stunAOE;
+        [SerializeField] private StunAOE grabStun;
         [SerializeField] private float soulSwordTime=10;
 
         #endregion
@@ -531,6 +533,11 @@ namespace Finisher.Characters.Systems {
             characterState.Grabbing = true;
             grabTarget.GetComponent<CharacterState>().Grabbed = true;
             isFinishing = false;
+            if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+            {
+                decreaseFinisherMeter(grabStun.FinisherMeterCost);
+            }
+            Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
         }
 
         private void stopGrab()
@@ -609,6 +616,10 @@ namespace Finisher.Characters.Systems {
             {
                 lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
                 grabTarget.GetComponent<HealthSystem>().CutInHalf();
+                if (finishTutorial != null)
+                {
+                    finishTutorial.showFinisherTutorial();
+                }
             }
             catch(Exception ex)
             {
@@ -619,7 +630,7 @@ namespace Finisher.Characters.Systems {
 
         void PerformFinisherSkill()
         {
-            decreaseFinisherMeter(flameAOE.FinisherMeterCost);
+            decreaseFinisherMeter(currentFinisherExecution.FinisherMeterCost);
             Instantiate(currentFinisherExecution, transform.position, transform.rotation);
             isFinishing = false;
         }
