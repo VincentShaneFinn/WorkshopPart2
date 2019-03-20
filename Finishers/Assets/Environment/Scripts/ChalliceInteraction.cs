@@ -17,6 +17,8 @@ public class ChalliceInteraction : InteractionSaveable
     public GameObject bossFireEffect;
     public GameObject bossEnemy;
 
+    public GameObject InteractionButton;
+
     //public GameObject vialUI; // use PLayerUI>BottumLeft>VialIcon
     //public Sprite emptyVial;  // use Assests>UI>UIButtons>Textures>VialEmpty
 
@@ -34,7 +36,17 @@ public class ChalliceInteraction : InteractionSaveable
             challicesNeeded += challices.Length;
         }
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        InteractionButton.SetActive(true);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        InteractionButton.SetActive(false);
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (FinisherInput.Interact() && interactable)
