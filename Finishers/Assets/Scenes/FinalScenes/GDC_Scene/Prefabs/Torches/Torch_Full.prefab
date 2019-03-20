@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1126573998}
   - component: {fileID: 1126573999}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 1147534786}
   - component: {fileID: 1147534785}
   - component: {fileID: 1147534784}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Torch_Full
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,26 +235,6 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.53001
       objectReference: {fileID: 0}
-    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.017
-      objectReference: {fileID: 0}
-    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.17482194
-      objectReference: {fileID: 0}
-    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.052123908
-      objectReference: {fileID: 0}
-    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.14043923
-      objectReference: {fileID: 0}
     - target: {fileID: 5992764544945967650, guid: 192493dff83a3ea418350d637cc70dc9,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -304,6 +284,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.017
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.17482194
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.052123908
+      objectReference: {fileID: 0}
+    - target: {fileID: 5992764544093821715, guid: 192493dff83a3ea418350d637cc70dc9,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.29111648
       objectReference: {fileID: 0}
     - target: {fileID: 2066800447, guid: 192493dff83a3ea418350d637cc70dc9, type: 3}
       propertyPath: m_StaticEditorFlags
