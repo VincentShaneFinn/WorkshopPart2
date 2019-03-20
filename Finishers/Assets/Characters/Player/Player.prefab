@@ -108,15 +108,15 @@ MonoBehaviour:
   stationaryTurnSpeed: 1000
   gravityMultiplier: 2
   runCycleLegOffset: 0.2
-  initialMoveSpeedMultiplier: 1
-  runMoveSpeedMultiplier: 1
+  initialMoveSpeedMultiplier: 1.5
+  runMoveSpeedMultiplier: 1.5
   groundCheckDistance: 0.3
   collisionDetectionMode: 2
   capsuleColliderCenter: {x: 0, y: 0.8, z: 0}
   capsuleColliderHeight: 1.565
   capsuleColliderRadius: 0.3
-  animSpeedMultiplier: 1.5
-  runAnimSpeedMultiplier: 2
+  animSpeedMultiplier: 1
+  runAnimSpeedMultiplier: 1
   CombatTargetIndicator: {fileID: 7755425906318135635, guid: ca6fb907b0c391f41a111fb884d063f1,
     type: 3}
   RotateWithCameraSpeed: 20
@@ -20700,11 +20700,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6227288106337499280}
     m_Modifications:
-    - target: {fileID: 4828378556370988876, guid: 33cd85f912c070845aa3851e111e90fb,
-        type: 3}
-      propertyPath: m_Name
-      value: Armblade
-      objectReference: {fileID: 0}
     - target: {fileID: 4185689245088318331, guid: 33cd85f912c070845aa3851e111e90fb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20759,6 +20754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828378556370988876, guid: 33cd85f912c070845aa3851e111e90fb,
+        type: 3}
+      propertyPath: m_Name
+      value: Armblade
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33cd85f912c070845aa3851e111e90fb, type: 3}
@@ -20837,15 +20837,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66bc88c0c2c1bc54493c420afc8bc047, type: 3}
---- !u!4 &8317096748234446606 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4075916736297988214, guid: 66bc88c0c2c1bc54493c420afc8bc047,
-    type: 3}
-  m_PrefabInstance: {fileID: 5475484068698023800}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2608054744712910011 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8056227494332527555, guid: 66bc88c0c2c1bc54493c420afc8bc047,
+    type: 3}
+  m_PrefabInstance: {fileID: 5475484068698023800}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8317096748234446606 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4075916736297988214, guid: 66bc88c0c2c1bc54493c420afc8bc047,
     type: 3}
   m_PrefabInstance: {fileID: 5475484068698023800}
   m_PrefabAsset: {fileID: 0}
@@ -20856,11 +20856,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6227288106337500814}
     m_Modifications:
-    - target: {fileID: 2047142964659075425, guid: b26de6eadd7727f4a8f92b53ed31660b,
-        type: 3}
-      propertyPath: m_Name
-      value: SheathedSword
-      objectReference: {fileID: 0}
     - target: {fileID: 3202209936073622157, guid: b26de6eadd7727f4a8f92b53ed31660b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20916,17 +20911,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2047142964659075425, guid: b26de6eadd7727f4a8f92b53ed31660b,
+        type: 3}
+      propertyPath: m_Name
+      value: SheathedSword
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b26de6eadd7727f4a8f92b53ed31660b, type: 3}
---- !u!1 &7784656955807004913 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2047142964659075425, guid: b26de6eadd7727f4a8f92b53ed31660b,
-    type: 3}
-  m_PrefabInstance: {fileID: 8097544627883065744}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6634023352781685533 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3202209936073622157, guid: b26de6eadd7727f4a8f92b53ed31660b,
+    type: 3}
+  m_PrefabInstance: {fileID: 8097544627883065744}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7784656955807004913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2047142964659075425, guid: b26de6eadd7727f4a8f92b53ed31660b,
     type: 3}
   m_PrefabInstance: {fileID: 8097544627883065744}
   m_PrefabAsset: {fileID: 0}
@@ -20937,11 +20937,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6227288106337500108}
     m_Modifications:
-    - target: {fileID: 1201019107808797703, guid: ed35cc18edc15234684226484b2d2485,
-        type: 3}
-      propertyPath: m_Name
-      value: PlayerDagger
-      objectReference: {fileID: 0}
     - target: {fileID: 8537653042574597067, guid: ed35cc18edc15234684226484b2d2485,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20996,6 +20991,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201019107808797703, guid: ed35cc18edc15234684226484b2d2485,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerDagger
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed35cc18edc15234684226484b2d2485, type: 3}
