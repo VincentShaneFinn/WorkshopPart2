@@ -213,12 +213,16 @@ namespace Finisher.Characters.Systems
 
         #region Dodge
 
+        [SerializeField] private Transform master_ctrl;
+
         public void Dodge(MoveDirection moveDirection = MoveDirection.Forward)
         {
             if (characterState.Uninteruptable || characterState.Dodging || !DodgingAllowed)
             {
                 return;
             }
+
+            master_ctrl.localRotation = Quaternion.identity;
 
             AnimationClip animToUse;
             switch (moveDirection)
