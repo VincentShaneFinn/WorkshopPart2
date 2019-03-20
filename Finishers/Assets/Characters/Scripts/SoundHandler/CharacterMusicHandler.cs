@@ -32,7 +32,10 @@ namespace Finisher.Core
 
             enemyManager = FindObjectOfType<EnemyManager>();
             oocMusicSource = gameObject.AddComponent<AudioSource>();
+            oocMusicSource.volume = maxVolume;
+
             cMusicSource = gameObject.AddComponent<AudioSource>();
+            cMusicSource.volume = maxVolume;
 
             oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
             oocMusicSource.Play(0);
