@@ -610,6 +610,7 @@ namespace Finisher.Characters.Systems {
             {
                 case WeaponToggle.Sword:
                     sword.gameObject.SetActive(true);
+                    GetComponent<ToggleBackBlade>().HideBladeMesh();
                     break;
                 case WeaponToggle.Knife:
                     armblade.gameObject.SetActive(true);
