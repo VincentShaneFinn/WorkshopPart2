@@ -544,16 +544,19 @@ namespace Finisher.Characters.Systems {
         private void startGrab()
         {
             grabTarget = character.CombatTarget;
-            freeLookCam.NewFollowTarget = grabTarget;
-            characterState.Grabbing = true;
-            grabTarget.GetComponent<CharacterState>().Grabbed = true;
-            isFinishing = false;
-            if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+            if (grabTarget)
             {
-                decreaseFinisherMeter(grabStun.FinisherMeterCost);
+                freeLookCam.NewFollowTarget = grabTarget;
+                characterState.Grabbing = true;
+                grabTarget.GetComponent<CharacterState>().Grabbed = true;
+                isFinishing = false;
+                if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+                {
+                    decreaseFinisherMeter(grabStun.FinisherMeterCost);
+                }
+                Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
+                animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, true);
             }
-            Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
-            animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, true);
         }
 
         private void stopGrab()
@@ -634,7 +637,10 @@ namespace Finisher.Characters.Systems {
 
         public void GrabSuccessful()
         {
-            OnGrabbingTargetToggled(true);
+            if (character.CombatTarget)
+            {
+                OnGrabbingTargetToggled(true);
+            }
         }
 
         void FinisherExecutionSlice()
