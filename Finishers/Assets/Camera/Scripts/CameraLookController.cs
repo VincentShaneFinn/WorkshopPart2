@@ -23,7 +23,7 @@ namespace Finisher.Cameras
         private Transform combatTarget;
 
         [SerializeField] private float moveSpeed = 10f;
-        [Range(0f, 10f)] [SerializeField] private float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
+        [Range(0f, 10f)] [SerializeField] public float turnSpeed = 1.5f;   // How fast the rig will rotate from user input.
         [SerializeField] float turnSmoothing = 0.0f;                // How much smoothing to apply to the turn input, to reduce mouse-turn jerkiness
         [SerializeField] float tiltMax = 75f;                       // The maximum value of the x axis rotation of the pivot.
         [SerializeField] float tiltMin = 45f;                       // The minimum value of the x axis rotation of the pivot.
