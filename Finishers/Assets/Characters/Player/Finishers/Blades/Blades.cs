@@ -45,7 +45,7 @@ namespace Finisher.Characters.Player.Finishers
         private void OnDestroy()
         {
             foreach (HealthSystem h in hit) {
-                Blade b= Instantiate(blade,transform.position,transform.rotation); 
+                Blade b= Instantiate(blade,transform.position + Vector3.up * 1.5f,transform.rotation); 
                 b.target = h;
                 b.damageSystem = damageSystem;
                 b.Launch();
