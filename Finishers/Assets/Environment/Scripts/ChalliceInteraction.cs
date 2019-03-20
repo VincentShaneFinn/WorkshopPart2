@@ -39,7 +39,10 @@ public class ChalliceInteraction : InteractionSaveable
 
     private void OnTriggerEnter(Collider other)
     {
-        InteractionButton.SetActive(true);
+        if (interactable)
+        {
+            InteractionButton.SetActive(true);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -51,6 +54,7 @@ public class ChalliceInteraction : InteractionSaveable
     {
         if (FinisherInput.Interact() && interactable)
         {
+            InteractionButton.SetActive(false);
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             GetComponent<InteractionSaveable>().interacted = true;
             other.GetComponent<CharacterState>().spawnConfig = new SpawnConfig();
