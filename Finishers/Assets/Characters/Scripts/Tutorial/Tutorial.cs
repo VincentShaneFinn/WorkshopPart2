@@ -16,7 +16,7 @@ public class Tutorial : MonoBehaviour
         {
             Time.timeScale = 0;
             GameManager.instance.GamePaused = true;
-            if (Input.anyKey)
+            if (FinisherInput.Continue() || FinisherInput.LightAttack())
             {
                 Time.timeScale = 1;
                 tutorialMessageUI.SetActive(false);
