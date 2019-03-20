@@ -33,6 +33,16 @@ namespace Finisher.Characters.Systems {
         public delegate void FinisherModeChanged(bool enabled);
         public event FinisherModeChanged OnFinisherModeToggled;
 
+        public delegate void FinisherExecutionSliceDelegate();
+        public event FinisherExecutionSliceDelegate OnFinisherExecutionSlice;
+        private void CallOnFinisherSliceListeners()
+        {
+            if(OnFinisherExecutionSlice != null)
+            {
+                OnFinisherExecutionSlice();
+            } 
+        }
+
         #endregion
 
         private Transform grabTarget;
@@ -630,6 +640,7 @@ namespace Finisher.Characters.Systems {
         {
             try
             {
+                CallOnFinisherSliceListeners();
                 lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
                 grabTarget.GetComponent<HealthSystem>().CutInHalf();
                 if (finishTutorial != null)

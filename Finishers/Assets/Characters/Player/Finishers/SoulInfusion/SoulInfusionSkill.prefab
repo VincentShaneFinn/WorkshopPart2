@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combatSystem: {fileID: 0}
   finisherMeterCost: 30
-  animationToPlay: {fileID: 7400000, guid: 8a942b8ae3df6b84ab8c3e5a07974dd3, type: 3}
+  animationToPlay: {fileID: 7400000, guid: 2986239697e0e5f4986be5837c49d3b4, type: 3}
 --- !u!1001 &6265892761111602200
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54,6 +54,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4446848844333330}
     m_Modifications:
+    - target: {fileID: 1382174690313092, guid: 6c7aefe747430f1468d45cf5d200bc3d, type: 3}
+      propertyPath: m_Name
+      value: Aura
+      objectReference: {fileID: 0}
     - target: {fileID: 4416464848955972, guid: 6c7aefe747430f1468d45cf5d200bc3d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -97,10 +101,6 @@ PrefabInstance:
     - target: {fileID: 4416464848955972, guid: 6c7aefe747430f1468d45cf5d200bc3d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1382174690313092, guid: 6c7aefe747430f1468d45cf5d200bc3d, type: 3}
-      propertyPath: m_Name
-      value: Aura
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c7aefe747430f1468d45cf5d200bc3d, type: 3}
