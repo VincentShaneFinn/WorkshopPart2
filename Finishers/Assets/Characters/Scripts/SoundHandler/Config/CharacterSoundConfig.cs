@@ -16,6 +16,8 @@ public class CharacterSoundConfig : ScriptableObject
     [SerializeField] private SimpleAudioEvent heavySwordSwing_2;
     [SerializeField] private SimpleAudioEvent daggerLight;
     [SerializeField] private SimpleAudioEvent daggerHeavy;
+    [SerializeField] private SimpleAudioEvent finisherGrab;
+    [SerializeField] private SimpleAudioEvent finisherGrabContact;
     [SerializeField] private SimpleAudioEvent finisherSlice;
     [SerializeField] private SimpleAudioEvent finisherAOEBlast;
     public SimpleAudioEvent FootStepDefault { get { return footStepDefault; } }
@@ -29,6 +31,8 @@ public class CharacterSoundConfig : ScriptableObject
     public SimpleAudioEvent HeavySwordSwing_Second { get { return heavySwordSwing_2; } }
     public SimpleAudioEvent DaggerLight { get { return daggerLight; } }
     public SimpleAudioEvent DaggerHeavy { get { return daggerHeavy; } }
+    public SimpleAudioEvent FinisherGrab { get { return finisherGrab; } }
+    public SimpleAudioEvent FinisherGrabContact { get { return finisherGrabContact; } }
     public SimpleAudioEvent FinisherSlice { get { return finisherSlice; } }
     public SimpleAudioEvent FinisherAOEBlast { get { return finisherAOEBlast; } }
 }

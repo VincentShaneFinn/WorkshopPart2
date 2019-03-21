@@ -51,6 +51,7 @@
             public const string STRAFING_BOOL = "Strafing";
             public const string ISHEAVY_BOOL = "IsHeavy";
             public const string FINISHERMODE_BOOL = "FinisherMode";
+            public const string GRABBING_BOOL = "Grabbing";
             public const string STUNNED_BOOL = "Stunned";
             public const string DYING_BOOL = "Dying";
 
@@ -58,6 +59,7 @@
             public const string FINISHER_EXECUTION_TRIGGER = "FinisherExecution";
             public const string DODGE_TRIGGER = "Dodge";
             public const string PARRY_TRIGGER = "Parry";
+            public const string GRAB_TRIGGER = "Grab";
             public const string BASIC_ACTION_TRIGGER = "BasicAction";
             public const string INVULNERABLEACTION_TRIGGER = "InvulnerableAction";
             public const string KNOCKBACK_TRIGGER = "Knockback";

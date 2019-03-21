@@ -5,20 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class PressEnterToBegin : MonoBehaviour
 {
-    [SerializeField] private string sceneToLoad;
+    [SerializeField] private int sceneToLoad;
 
     // Update is called once per frame
     void Update()
     {
         if (FinisherInput.ReloadScene())
         {
-            LoadSceneByName(sceneToLoad);
+            LoadSceneByIndex(sceneToLoad);
         }
     }
 
     public void LoadSceneByIndex(int index)
     {
-        SceneManager.LoadScene(index);
+        SceneManager.LoadScene(1);
     }
 
     public void LoadSceneByName(string name)

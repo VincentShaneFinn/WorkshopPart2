@@ -16,7 +16,7 @@ namespace Finisher.Core
         private float timer = 0.0f;
         private int volumeSteps = 10;
         private float timeBetweenStep = .1f;
-        private float maxVolume = .75f;
+        public float maxVolume = .75f;
 
         //to be removed once a proper config is set up for this
         public AudioClip Adventurer;
@@ -32,7 +32,10 @@ namespace Finisher.Core
 
             enemyManager = FindObjectOfType<EnemyManager>();
             oocMusicSource = gameObject.AddComponent<AudioSource>();
+            oocMusicSource.volume = maxVolume;
+
             cMusicSource = gameObject.AddComponent<AudioSource>();
+            cMusicSource.volume = maxVolume;
 
             oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
             oocMusicSource.Play(0);
@@ -62,11 +65,13 @@ namespace Finisher.Core
                 cMusicSource.clip = combatMusic[Random.Range(0, combatMusic.Count - 1)];
                 cMusicSource.volume = 0;
                 cMusicSource.Play(0);
+                yield return new WaitForSeconds(1f);
                 for (int i = 0; i <= volumeSteps; i++)
                 {
                     oocMusicSource.volume -= maxVolume / volumeSteps;
                     cMusicSource.volume += maxVolume / volumeSteps;
-                    yield return new WaitForSeconds(timeBetweenStep);
+                    //yield return new WaitForSeconds(timeBetweenStep);
+                    yield return null;
                 }
                 oocMusicSource.volume = 0;
             }
@@ -75,11 +80,13 @@ namespace Finisher.Core
                 oocMusicSource.clip = explorationMusic[Random.Range(0, explorationMusic.Count - 1)];
                 oocMusicSource.volume = 0;
                 oocMusicSource.Play(0);
+                yield return new WaitForSeconds(1f);
                 for (int i = 0; i <= volumeSteps; i++)
                 {
                     oocMusicSource.volume += maxVolume / volumeSteps;
                     cMusicSource.volume -= maxVolume / volumeSteps;
-                    yield return new WaitForSeconds(timeBetweenStep);
+                    //yield return new WaitForSeconds(timeBetweenStep);
+                    yield return null;
                 }
                 cMusicSource.volume = 0;
             }

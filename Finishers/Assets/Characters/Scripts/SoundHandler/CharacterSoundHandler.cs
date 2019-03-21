@@ -12,7 +12,9 @@ public class CharacterSoundHandler : MonoBehaviour
 
     protected HealthSystem healthSystem;
     private AudioSource baseAudioSource;
+
     private Rigidbody rigidBody;
+
     private const float CHECK_IF_MOVING = .3f;
 
     private string terrainType;
@@ -30,7 +32,7 @@ public class CharacterSoundHandler : MonoBehaviour
 
     void Start()
     {
-       rigidBody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody>();
     }
 
     void OnDestroy()
@@ -118,6 +120,16 @@ public class CharacterSoundHandler : MonoBehaviour
     void Dagger_Heavy()
     {
         config.DaggerHeavy.Play(baseAudioSource);
+    }
+
+    void Finisher_Grab()
+    {
+        config.FinisherGrab.Play(baseAudioSource);
+    }
+
+    void Finisher_Grab_Contact()
+    {
+        config.FinisherGrabContact.Play(baseAudioSource);
     }
 
     #endregion

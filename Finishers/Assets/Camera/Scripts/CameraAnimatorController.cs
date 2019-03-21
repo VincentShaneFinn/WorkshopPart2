@@ -17,6 +17,7 @@ public class CameraAnimatorController : MonoBehaviour
         if (playerFinisherSystem)
         {
             playerFinisherSystem.OnGrabbingTargetToggled += cameraZoomOnGrab;
+            playerFinisherSystem.OnFinisherExecutionSlice += quickZoomOutTrigger;
         }
          
         animator = GetComponent<Animator>();
@@ -27,6 +28,7 @@ public class CameraAnimatorController : MonoBehaviour
         if (playerFinisherSystem)
         {
             playerFinisherSystem.OnGrabbingTargetToggled -= cameraZoomOnGrab;
+            playerFinisherSystem.OnFinisherExecutionSlice -= quickZoomOutTrigger;
         }
     }
 
@@ -40,5 +42,10 @@ public class CameraAnimatorController : MonoBehaviour
         {
             animator.SetBool("isGrabbing", false);
         }
+    }
+
+    private void quickZoomOutTrigger()
+    {
+        animator.SetTrigger("ExecutionSlice");
     }
 }

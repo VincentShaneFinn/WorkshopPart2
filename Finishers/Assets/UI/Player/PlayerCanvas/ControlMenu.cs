@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+using Finisher.Cameras;
 using Finisher.Core;
 
 namespace Finisher.UI
@@ -19,6 +20,9 @@ namespace Finisher.UI
         public GameObject ControlMenuPrimary;
         public GameObject ControlMenuFinisher;
 
+        private CameraLookController cameraLookController;
+        public Slider sensitivitySlider;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -31,6 +35,15 @@ namespace Finisher.UI
             LeftLowerObject = GetComponent<PlayerUIObjects>().LeftLowerObject;
             LeftLowerObject.SetActive(true);
             controlMenuOpen = false;
+
+            cameraLookController = FindObjectOfType<CameraLookController>();
+            sensitivitySlider.value = cameraLookController.turnSpeed;
+            sensitivitySlider.onValueChanged.AddListener(delegate { updateSensitivity(); });
+        }
+
+        void updateSensitivity()
+        {
+            cameraLookController.turnSpeed = sensitivitySlider.value;
         }
 
         public void ToggleControlMenu()
@@ -61,7 +74,7 @@ namespace Finisher.UI
         {
         ControlMenuPrimary.SetActive(false);
         ControlMenuFinisher.SetActive(true);
-}
+        }
 
     }
 }

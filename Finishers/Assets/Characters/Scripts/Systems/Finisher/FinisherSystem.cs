@@ -33,6 +33,16 @@ namespace Finisher.Characters.Systems {
         public delegate void FinisherModeChanged(bool enabled);
         public event FinisherModeChanged OnFinisherModeToggled;
 
+        public delegate void FinisherExecutionSliceDelegate();
+        public event FinisherExecutionSliceDelegate OnFinisherExecutionSlice;
+        private void CallOnFinisherSliceListeners()
+        {
+            if(OnFinisherExecutionSlice != null)
+            {
+                OnFinisherExecutionSlice();
+            } 
+        }
+
         #endregion
 
         private Transform grabTarget;
@@ -51,6 +61,7 @@ namespace Finisher.Characters.Systems {
 
         private Sword sword;
         private Knife knife;
+        private Armblade armblade;
         private enum WeaponToggle { Sword, Knife ,SoulSword};
 
         private bool L3Pressed = false;
@@ -87,6 +98,7 @@ namespace Finisher.Characters.Systems {
 
             knife = GetComponentInChildren<Knife>();
             sword = GetComponentInChildren<Sword>();
+            armblade = GetComponentInChildren<Armblade>();
             toggleWeapon(WeaponToggle.Sword);
 
             finisherMeter = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_FinisherMeter>();
@@ -123,10 +135,12 @@ namespace Finisher.Characters.Systems {
         private void soulOn() {
             sword.soulOn();
             knife.soulOn();
+            armblade.soulOn();
         }
         private void soulOff() {
             sword.soulOff();
             knife.soulOff();
+            armblade.soulOff();
         }
         void Update()
         {
@@ -176,7 +190,7 @@ namespace Finisher.Characters.Systems {
                     }
                     else if (character.CombatTarget != null && !characterState.Uninteruptable)
                     {
-                        OnGrabbingTargetToggled(true);
+                        animator.SetTrigger(AnimConstants.Parameters.GRAB_TRIGGER);
                     }
                 }
             }
@@ -272,7 +286,7 @@ namespace Finisher.Characters.Systems {
         IEnumerator freeR3()
         {
             yield return new WaitForSeconds(.2f);
-            L3Pressed = false;
+            R3Pressed = false;
         }
 
         private void attemptToggleFinisherMode()
@@ -339,7 +353,7 @@ namespace Finisher.Characters.Systems {
             {
                 time -= Time.deltaTime;
                 transform.LookAt(target);
-                transform.position = target.position + target.forward;
+                transform.position = target.position + target.forward * 1f;
 
                 yield return null;
             }
@@ -361,7 +375,7 @@ namespace Finisher.Characters.Systems {
                 }
                 else
                 {
-                    transform.position = grabTarget.position + grabTarget.forward;
+                    transform.position = grabTarget.position + grabTarget.forward * 1.2f;
 
                     Vector3 rot = freeLookCam.transform.rotation.eulerAngles;
                     rot = new Vector3(rot.x, rot.y + 180, rot.z);
@@ -440,6 +454,7 @@ namespace Finisher.Characters.Systems {
 
         public void StabbedEnemy(GameObject enemy)
         {
+            print(combatSystem.CurrentAttackType);
             if (characterState.Grabbing)
             {
                 if (enemy == grabTarget.gameObject)
@@ -529,15 +544,19 @@ namespace Finisher.Characters.Systems {
         private void startGrab()
         {
             grabTarget = character.CombatTarget;
-            freeLookCam.NewFollowTarget = grabTarget;
-            characterState.Grabbing = true;
-            grabTarget.GetComponent<CharacterState>().Grabbed = true;
-            isFinishing = false;
-            if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+            if (grabTarget)
             {
-                decreaseFinisherMeter(grabStun.FinisherMeterCost);
+                freeLookCam.NewFollowTarget = grabTarget;
+                characterState.Grabbing = true;
+                grabTarget.GetComponent<CharacterState>().Grabbed = true;
+                isFinishing = false;
+                if (currentFinisherMeter - grabStun.FinisherMeterCost > 0)
+                {
+                    decreaseFinisherMeter(grabStun.FinisherMeterCost);
+                }
+                Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
+                animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, true);
             }
-            Instantiate(grabStun, grabTarget.position, grabTarget.rotation);
         }
 
         private void stopGrab()
@@ -549,6 +568,7 @@ namespace Finisher.Characters.Systems {
             grabTarget = null;
             freeLookCam.NewFollowTarget = null;
             characterState.Grabbing = false;
+            animator.SetBool(AnimConstants.Parameters.GRABBING_BOOL, false);
         }
 
         #endregion
@@ -567,10 +587,12 @@ namespace Finisher.Characters.Systems {
             {
                 toggleWeapon(WeaponToggle.Knife);
                 inFinisherIndicator.gameObject.SetActive(false);
+                animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, config.EnterFinisherModeAnim);
             }
             else
             {
                 toggleWeapon(WeaponToggle.Sword);
+                animOverrideSetter.SetTriggerOverride(AnimConstants.Parameters.BASIC_ACTION_TRIGGER, AnimConstants.OverrideIndexes.DEFAULT_BASIC_ACTION_INDEX, config.ExitFinisherModeAnim);
             }
 
             if (!finisherModeActive)
@@ -585,13 +607,16 @@ namespace Finisher.Characters.Systems {
         {
             knife.gameObject.SetActive(false);
             sword.gameObject.SetActive(false);
+            armblade.gameObject.SetActive(false);
 
             switch (weaponToggle)
             {
                 case WeaponToggle.Sword:
                     sword.gameObject.SetActive(true);
+                    GetComponent<ToggleBackBlade>().HideBladeMesh();
                     break;
                 case WeaponToggle.Knife:
+                    armblade.gameObject.SetActive(true);
                     knife.gameObject.SetActive(true);
                     break;
 
@@ -610,10 +635,19 @@ namespace Finisher.Characters.Systems {
 
         #region Animation Events 
 
+        public void GrabSuccessful()
+        {
+            if (character.CombatTarget)
+            {
+                OnGrabbingTargetToggled(true);
+            }
+        }
+
         void FinisherExecutionSlice()
         {
             try
             {
+                CallOnFinisherSliceListeners();
                 lightFinisherAttackDamageSystem.HitCharacter(gameObject, grabTarget.GetComponent<HealthSystem>());
                 grabTarget.GetComponent<HealthSystem>().CutInHalf();
                 if (finishTutorial != null)

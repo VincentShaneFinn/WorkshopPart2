@@ -6,7 +6,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HumanAnimator
+  m_Name: AnimancerAnimator
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Forward
@@ -896,9 +896,9 @@ AnimatorStateMachine:
   - {fileID: 1109762638988997486}
   - {fileID: 1109900323957260852}
   m_StateMachineTransitions:
-  - first: {fileID: 1107905812967421490}
-    second: []
   - first: {fileID: 1107330208131307390}
+    second: []
+  - first: {fileID: 1107905812967421490}
     second: []
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 276, y: -24, z: 0}

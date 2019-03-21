@@ -9,6 +9,17 @@ public class TriggerTutorial : Tutorial
 {
     protected CharacterState state = null;
 
+    void Awake()
+    {
+        GetComponent<Collider>().enabled = false;
+        Invoke("enableCollider", 2f);
+    }
+
+    void enableCollider()
+    {
+        GetComponent<Collider>().enabled = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<PlayerMoveInputProcessor>() != null)

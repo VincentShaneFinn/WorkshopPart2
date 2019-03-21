@@ -718,7 +718,7 @@ Animator:
   m_GameObject: {fileID: 882163659345858344}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7e06ebc4356bcb14381d634a91a1b8df, type: 3}
-  m_Controller: {fileID: 9100000, guid: 58c09ff1f071b594488129dbd70e85fd, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3fa91e41bafde9242841134ba91fc26c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -741,7 +741,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
   IsParryFrame: 0
-  invulnerableCheat: 0
 --- !u!114 &7947276606294265880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -827,6 +826,7 @@ MonoBehaviour:
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
   DodgingAllowed: 1
+  master_ctrl: {fileID: 0}
 --- !u!114 &7943966854874956346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8512,7 +8512,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7803897069469341625}
-  m_LocalRotation: {x: 0.5541164, y: -0.4422464, z: 0.54648054, w: 0.44579372}
+  m_LocalRotation: {x: 0.5541165, y: -0.44224644, z: 0.5464806, w: 0.44579375}
   m_LocalPosition: {x: -0.07169765, y: 0.148476, z: 0.00095209747}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9029,6 +9029,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3906266330476250728}
     m_Modifications:
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_Name
+      value: redSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9089,27 +9099,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.2426
       objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_Name
-      value: redSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c74cb7c452585b4469e7b3bc89f644fc, type: 3}
---- !u!198 &6111816908143860137 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5568422740131176973, guid: c74cb7c452585b4469e7b3bc89f644fc,
-    type: 3}
-  m_PrefabInstance: {fileID: 1843814900881554340}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2810288264896178544 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1843814900881554340}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6111816908143860137 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5568422740131176973, guid: c74cb7c452585b4469e7b3bc89f644fc,
     type: 3}
   m_PrefabInstance: {fileID: 1843814900881554340}
   m_PrefabAsset: {fileID: 0}
