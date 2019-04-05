@@ -23,6 +23,14 @@ namespace Finisher.UI
         private CameraLookController cameraLookController;
         public Slider sensitivitySlider;
 
+        public bool isMusicEnabled
+        {
+            set
+            {
+                FindObjectOfType<CharacterMusicHandler>().isMusicEnabled = value;
+            }
+        }
+
         // Start is called before the first frame update
         void Start()
         {

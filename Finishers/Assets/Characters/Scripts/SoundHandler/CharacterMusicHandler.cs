@@ -92,5 +92,23 @@ namespace Finisher.Core
             }
 
         }
+
+        public bool isMusicEnabled
+        {
+            set
+            {
+                if (value)
+                {
+                    oocMusicSource.enabled = true;
+                    cMusicSource.enabled = true;
+                }
+                else
+                {
+                    oocMusicSource.enabled = false;
+                    cMusicSource.enabled = false;
+                }
+            }
+        }
+
     }
 }
