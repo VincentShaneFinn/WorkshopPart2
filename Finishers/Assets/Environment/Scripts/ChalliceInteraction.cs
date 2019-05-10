@@ -2,28 +2,30 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class ChalliceInteraction : InteractionSaveable
 {
     public AnimationClip animationToPlay;
 
-    protected bool interactable = false;
+    public GameObject[] doors; //TODO: replace with a list of delegates
     public GameObject effect;
-    static int challicesLit;
     public int challicesNeeded;
-
     public GameObject bossStatue;
     public GameObject bossFireEffect;
     public GameObject bossEnemy;
-
     public GameObject InteractionButton;
-
+    protected bool interactable = false;
+    private static int challicesLit;
     //public GameObject vialUI; // use PLayerUI>BottumLeft>VialIcon
     //public Sprite emptyVial;  // use Assests>UI>UIButtons>Textures>VialEmpty
 
+    public override void runInteraction()
+    {
+        lightTorch();
+    }
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         challicesLit = 0;
         challicesNeeded = 0;
@@ -39,26 +41,21 @@ public class ChalliceInteraction : InteractionSaveable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (interactable)
+        if (other.gameObject.tag == TagNames.PlayerTag && interactable)
         {
-            InteractionButton.SetActive(true);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        InteractionButton.SetActive(false);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (FinisherInput.Interact() && interactable)
-        {
-            InteractionButton.SetActive(false);
             other.GetComponent<CharacterState>().EnterInvulnerableActionState(animationToPlay);
             GetComponent<InteractionSaveable>().interacted = true;
             other.GetComponent<CharacterState>().spawnConfig = new SpawnConfig();
             lightTorch();
+            callDelegates();
+        }
+    }
+
+    private void callDelegates()
+    {
+        foreach (GameObject door in doors)
+        {
+            door.SetActive(false);
         }
     }
 
@@ -78,7 +75,7 @@ public class ChalliceInteraction : InteractionSaveable
         //vialUI.GetComponent<Image>().sprite = emptyVial;
     }
 
-    IEnumerator spawnBoss()
+    private IEnumerator spawnBoss()
     {
         yield return new WaitForSeconds(1f);
 
@@ -92,11 +89,5 @@ public class ChalliceInteraction : InteractionSaveable
         yield return new WaitForSeconds(1f);
 
         bossFireEffect.SetActive(false);
-
-    }
-
-    public override void runInteraction()
-    {
-        lightTorch();
     }
 }
