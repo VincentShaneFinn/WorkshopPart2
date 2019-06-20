@@ -1,25 +1,37 @@
+using Finisher.Characters.Systems;
+using Finisher.Core;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-using Finisher.Core;
-using Finisher.Characters.Systems;
-using System;
-
 namespace Finisher.Characters.Player.Systems
 {
     [DisallowMultipleComponent]
     [RequireComponent(typeof(PlayerCharacterController))]
-    [RequireComponent(typeof(FinisherSystem))]
     public class PlayerCombatSystem : CombatSystem
     {
+        public Tutorial parryTutorial;
 
         [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
-        [SerializeField] float impactFrameTime = .01f;
+        [SerializeField] private float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
-        public Tutorial parryTutorial;
+        private float startFixedDeltaTime;
+
+        public override void HitCharacter(HealthSystem target, float soulBonus = 0)
+        {
+            base.HitCharacter(target, soulBonus);
+            StartCoroutine(ImpactFrames(target));
+        }
+
+        public override void ParriedEnemy()
+        {
+            if (parryTutorial != null)
+            {
+                parryTutorial.showRiposteTutorial();
+            }
+        }
 
         protected override void Start()
         {
@@ -27,8 +39,19 @@ namespace Finisher.Characters.Player.Systems
 
             // get the third person character ( this should never be null due to require component )
             playerCharacter = GetComponent<PlayerCharacterController>();
-            finisherSystem = GetComponent<FinisherSystem>();
             startFixedDeltaTime = Time.fixedDeltaTime;
+        }
+
+        protected override void attemptRiposte()
+        {
+            var enemies = getEnemiesInFront();
+            var enemyToParry = getEnemyToParry(enemies);
+            if (enemyToParry)
+            {
+                characterState.EnterInvulnerableActionState(config.RiposteAnimation);
+                StartCoroutine(transformOvertime(enemyToParry.transform));
+                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
+            }
         }
 
         private void Update()
@@ -78,7 +101,6 @@ namespace Finisher.Characters.Player.Systems
         {
             if (FinisherInput.Dodge())
             {
-                finisherSystem.ToggleGrabOff();
                 var dodgeDirection = GetMoveDirection();
                 Dodge(dodgeDirection);
             }
@@ -88,7 +110,6 @@ namespace Finisher.Characters.Player.Systems
         {
             if (FinisherInput.Parry())
             {
-                finisherSystem.ToggleGrabOff();
                 Parry();
             }
         }
@@ -122,7 +143,6 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        private float startFixedDeltaTime;
         private void testingInputZone()
         {
             // todo remove this testing code
@@ -138,13 +158,7 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        public override void HitCharacter(HealthSystem target, float soulBonus = 0)
-        {
-            base.HitCharacter(target,soulBonus);
-            StartCoroutine(ImpactFrames(target));
-        }
-
-        IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
+        private IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
         {
             animator.speed = 0;
             targetHealthSystem.GetComponent<Animator>().speed = 0;
@@ -153,26 +167,6 @@ namespace Finisher.Characters.Player.Systems
 
             animator.GetComponent<Animator>().speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 1;
-        }
-
-        public override void ParriedEnemy()
-        {
-            if (parryTutorial != null)
-            {
-                parryTutorial.showRiposteTutorial();
-            }
-        }
-
-        protected override void attemptRiposte()
-        {
-            var enemies = getEnemiesInFront();
-            var enemyToParry = getEnemyToParry(enemies);
-            if (enemyToParry)
-            {
-                characterState.EnterInvulnerableActionState(config.RiposteAnimation);
-                StartCoroutine(transformOvertime(enemyToParry.transform));
-                StartCoroutine(killOnStab(enemyToParry)); //TODO: MUST REPLACE THIS WITH A BETTER WAY
-            }
         }
 
         private List<Collider> getEnemiesInFront()
@@ -201,7 +195,7 @@ namespace Finisher.Characters.Player.Systems
             return null;
         }
 
-        IEnumerator killOnStab(HealthSystem enemyToParry)
+        private IEnumerator killOnStab(HealthSystem enemyToParry)
         {
             yield return new WaitForSeconds(.75f);
             lightAttackDamageSystem.HitCharacter(gameObject, enemyToParry, bonusDamage: 10);
@@ -214,10 +208,10 @@ namespace Finisher.Characters.Player.Systems
         }
 
         //TODO: create a linked character animation system
-        IEnumerator transformOvertime(Transform target)
+        private IEnumerator transformOvertime(Transform target)
         {
             float time = .3f;
-            while(time > 0)
+            while (time > 0)
             {
                 time -= Time.deltaTime;
                 transform.LookAt(target);
@@ -228,6 +222,5 @@ namespace Finisher.Characters.Player.Systems
             yield return new WaitForSeconds(.5f); //TODO: this should be called by an animation event on the parry animation
             CallCombatSystemDealtDamageListeners(10f); //TODO: REMOVE MAGIC NUMBER AND PUT IN CONFIG
         }
-
     }
 }

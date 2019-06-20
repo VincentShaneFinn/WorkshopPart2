@@ -2,39 +2,46 @@ using UnityEngine;
 
 namespace Finisher.Characters.Player
 {
-
     [DisallowMultipleComponent]
-    [RequireComponent(typeof (PlayerCharacterController))]
+    [RequireComponent(typeof(PlayerCharacterController))]
     public class PlayerMoveInputProcessor : MonoBehaviour
     {
         #region Member variables
 
+        protected CharacterState characterState;
+
+        // A reference to the main camera in the scenes transform
+        private Vector3 camForward;
+
         public PlayerCharacterController character { get; private set; } // A reference to the ThirdPersonCharacter on the object
-        private Transform camRig = null;                  // A reference to the main camera in the scenes transform
-        private Vector3 camForward;             // The current forward direction of the camera
+
+        // The current forward direction of the camera
         public Vector3 InputMoveDirection { get; private set; }          // the world-relative desired move direction, calculated from the camForward and user input.
 
-        #endregion
+        #endregion Member variables
 
         private void Start()
         {
             // get the third person character ( this should never be null due to require component )
             character = GetComponent<PlayerCharacterController>();
-
-            // get the transform of the main camera
-            camRig = character.GetMainCameraTransform();
+            characterState = GetComponent<CharacterState>();
         }
 
         #region Fixed Update and movement Processing
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (character.CanMove || character.CanRotate)
             {
                 processMovementInput();
+                processLookInput();
             }
             else
             {
+                if (characterState.Dodging)
+                {
+                    character.transform.rotation = Quaternion.identity;
+                }
                 character.MoveCharacter(Vector3.zero);
             }
         }
@@ -51,23 +58,21 @@ namespace Finisher.Characters.Player
             character.MoveCharacter(InputMoveDirection, FinisherInput.isSpriting());
         }
 
-        private void SetMoveDirection(float horizontal, float vertical)
+        private void processLookInput()
         {
-            // calculate move direction to pass to character
-            if (camRig != null)
+            Vector3 playerDirection = Vector3.right * Input.GetAxisRaw("Mouse X") + Vector3.forward * Input.GetAxisRaw("Mouse Y");
+            if (playerDirection.sqrMagnitude > 0.0f)
             {
-                // calculate camera relative direction to move:
-                camForward = Vector3.Scale(camRig.forward, new Vector3(1, 0, 1)).normalized;
-                InputMoveDirection = vertical * camForward + horizontal * camRig.right;
-            }
-            else
-            {
-                // we use world-relative directions in the case of no main camera
-                InputMoveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
+                character.transform.rotation = Quaternion.LookRotation(playerDirection, Vector3.up);
             }
         }
 
-        #endregion
+        private void SetMoveDirection(float horizontal, float vertical)
+        {
+            InputMoveDirection = vertical * Vector3.forward + horizontal * Vector3.right;
+        }
+
+        #endregion Fixed Update and movement Processing
 
         #region Public Interface
 
@@ -80,7 +85,6 @@ namespace Finisher.Characters.Player
             return false;
         }
 
-        #endregion
-
+        #endregion Public Interface
     }
 }

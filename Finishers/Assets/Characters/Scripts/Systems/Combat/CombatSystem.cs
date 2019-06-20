@@ -1,15 +1,12 @@
-using System.Collections;
-using UnityEngine;
-using UnityEngine.UI;
-
 using Finisher.Characters.Systems.Strategies;
-using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Finisher.Characters.Systems
 {
-
     public enum AttackType { None, LightBlade, HeavyBlade, Special };
+
     public enum MoveDirection { Forward, Right, Backward, Left };
 
     [DisallowMultipleComponent]
@@ -18,26 +15,45 @@ namespace Finisher.Characters.Systems
     // todo also, is it possible to polymorphise animation controllers, otherwise seperate into player and enemy animation controllers
     public class CombatSystem : MonoBehaviour
     {
-
         #region Class Variables
 
+        public bool DodgingAllowed = true;
+        public HashSet<HealthSystem> Hit = new HashSet<HealthSystem>();
         [SerializeField] protected CoreCombatDamageSystem lightAttackDamageSystem;
 
         [SerializeField] protected CoreCombatDamageSystem heavyAttackDamageSystem;
-        public CoreCombatDamageSystem HeavyAttackDamageSystem { get { return heavyAttackDamageSystem; } }
-
         [SerializeField] protected CombatConfig config;
-
         protected float timer;
         protected int hitCounter;
-
+        [HideInInspector] protected Animator animator;
+        protected CharacterState characterState;
+        private float resetAttackTriggerTime = 0;
+        private bool runningResetCR = false;
+        private AnimOverrideSetter animOverrideHandler;
+        private CombatSMB[] combatSMBs;
+        private DodgeSMB[] dodgeSMBs;
+        private ParrySMB[] parrySMBs;
+        public CoreCombatDamageSystem HeavyAttackDamageSystem { get { return heavyAttackDamageSystem; } }
         public bool IsDamageFrame { get; private set; }
-        public bool DodgingAllowed = true;
 
         #region Delegates
 
         public delegate void DamageFrameChanged(bool isDamageFrame);
+
+        public delegate void HitEnemyDelegate(float amount);
+
+        public delegate void HitEnemyCameraShake(float strength, float duration);
+
+        public delegate void HitCounterChanged(int value);
+
         public event DamageFrameChanged OnDamageFrameChanged;
+
+        public event HitEnemyDelegate OnHitEnemy;
+
+        public event HitEnemyCameraShake OnHitCameraShake;
+
+        public event HitCounterChanged OnHitCounterChange;
+
         public void CallDamageFrameChangedEvent(bool isDamageFrame)
         {
             if (OnDamageFrameChanged != null)
@@ -46,8 +62,6 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        public delegate void HitEnemyDelegate(float amount);
-        public event HitEnemyDelegate OnHitEnemy;
         public void CallCombatSystemDealtDamageListeners(float amount)
         {
             if (OnHitEnemy != null)
@@ -56,8 +70,6 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        public delegate void HitEnemyCameraShake(float strength, float duration);
-        public event HitEnemyCameraShake OnHitCameraShake;
         public void CallCameraShakeEvent(float strength, float duration)
         {
             if (OnHitCameraShake != null)
@@ -66,8 +78,6 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        public delegate void HitCounterChanged(int value);
-        public event HitCounterChanged OnHitCounterChange;
         public void CallHitCounterChangedEvent(int value)
         {
             if (OnHitCounterChange != null)
@@ -76,7 +86,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #endregion
+        #endregion Delegates
 
         public AttackType CurrentAttackType
         {
@@ -98,19 +108,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        private float resetAttackTriggerTime = 0;
-        private bool runningResetCR = false;
-
-        [HideInInspector] protected Animator animator;
-        private AnimOverrideSetter animOverrideHandler;
-        protected CharacterState characterState;
-        private CombatSMB[] combatSMBs;
-        private DodgeSMB[] dodgeSMBs;
-        private ParrySMB[] parrySMBs;
-        protected FinisherSystem finisherSystem;
-        public HashSet<HealthSystem> Hit = new HashSet<HealthSystem>();
-
-        #endregion
+        #endregion Class Variables
 
         protected virtual void Start()
         {
@@ -121,7 +119,6 @@ namespace Finisher.Characters.Systems
             combatSMBs = animator.GetBehaviours<CombatSMB>();
             dodgeSMBs = animator.GetBehaviours<DodgeSMB>();
             parrySMBs = animator.GetBehaviours<ParrySMB>();
-            finisherSystem = GetComponent<FinisherSystem>();
 
             foreach (CombatSMB smb in combatSMBs)
             {
@@ -151,37 +148,10 @@ namespace Finisher.Characters.Systems
             IsDamageFrame = false;
         }
 
-        void attackStarted()
+        private void attackStarted()
         {
             characterState.Attacking = true;
         }
-
-        //void OnDestroy()
-        //{
-        //    foreach (CombatSMB smb in combatSMBs)
-        //    {
-        //        smb.AttackExitListeners -= DamageEnd;
-        //        smb.AttackExitListeners -= RestoreDodging;
-        //        smb.AttackStartListeners -= attemptRiposte;
-        //    }
-
-        //    foreach (DodgeSMB smb in dodgeSMBs)
-        //    {
-        //        smb.DodgeExitListeners -= DodgeEnd;
-        //    }
-
-        //    HealthSystem healthSystem = GetComponent<HealthSystem>();
-
-        //    if (healthSystem)
-        //    {
-        //        healthSystem.OnDamageTaken -= resetHitCounter;
-        //    }
-
-        //    foreach (ParrySMB smb in parrySMBs)
-        //    {
-        //        smb.ParryExitListeners += ParryEnd;
-        //    }
-        //}
 
         #region Attacks
 
@@ -201,7 +171,7 @@ namespace Finisher.Characters.Systems
             if (!runningResetCR) StartCoroutine(DelayedResetAttackTrigger());
         }
 
-        IEnumerator DelayedResetAttackTrigger()
+        private IEnumerator DelayedResetAttackTrigger()
         {
             runningResetCR = true;
             yield return new WaitWhile(() => Time.time < resetAttackTriggerTime);
@@ -209,7 +179,7 @@ namespace Finisher.Characters.Systems
             runningResetCR = false;
         }
 
-        #endregion
+        #endregion Attacks
 
         #region Dodge
 
@@ -222,20 +192,21 @@ namespace Finisher.Characters.Systems
                 return;
             }
 
-            master_ctrl.localRotation = Quaternion.identity;
-
             AnimationClip animToUse;
             switch (moveDirection)
             {
                 case MoveDirection.Right:
                     animToUse = config.DodgeRightAnimation;
                     break;
+
                 case MoveDirection.Backward:
                     animToUse = config.DodgeBackwardAnimation;
                     break;
+
                 case MoveDirection.Left:
                     animToUse = config.DodgeLeftAnimation;
                     break;
+
                 default:
                     animToUse = config.DodgeForwardAnimation;
                     break;
@@ -249,7 +220,7 @@ namespace Finisher.Characters.Systems
             animOverrideHandler.SetTriggerOverride(AnimConstants.Parameters.DODGE_TRIGGER, AnimConstants.OverrideIndexes.DODGE_INDEX, animClip);
         }
 
-        #endregion
+        #endregion Dodge
 
         #region Parry
 
@@ -265,7 +236,6 @@ namespace Finisher.Characters.Systems
 
         public virtual void ParriedEnemy()
         {
-
         }
 
         protected virtual void attemptRiposte()
@@ -273,13 +243,13 @@ namespace Finisher.Characters.Systems
             //TODO: Make abstract and implement in enemy
         }
 
-        #endregion
+        #endregion Parry
 
         #region Combat Animation Events
 
         #region Damage
 
-        void DamageStart()
+        private void DamageStart()
         {
             if (!IsDamageFrame)
             {
@@ -290,12 +260,12 @@ namespace Finisher.Characters.Systems
             DodgingAllowed = false;
         }
 
-        void RestoreDodging()
+        private void RestoreDodging()
         {
             DodgingAllowed = true;
         }
 
-        void DamageEnd()
+        private void DamageEnd()
         {
             Hit = new HashSet<HealthSystem>();
             if (IsDamageFrame)
@@ -305,40 +275,39 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #endregion
+        #endregion Damage
 
         #region Dodge
 
-        void DodgeStart()
+        private void DodgeStart()
         {
             characterState.IsDodgeFrame = true;
         }
 
-        void DodgeEnd()
+        private void DodgeEnd()
         {
             characterState.IsDodgeFrame = false;
         }
 
-        #endregion
+        #endregion Dodge
 
         #region Parry
 
-        void ParryStart()
+        private void ParryStart()
         {
             characterState.IsParryFrame = true;
         }
 
-        void ParryEnd()
+        private void ParryEnd()
         {
             characterState.IsParryFrame = false;
         }
 
-        #endregion
+        #endregion Parry
 
         // todo make this and the class abstract when we add an enemy combat system
         public virtual void HitCharacter(HealthSystem targetHealthSystem, float soulBonus = 0)
         {
-
             if (!Hit.Add(targetHealthSystem))
             {
                 return;
@@ -367,7 +336,6 @@ namespace Finisher.Characters.Systems
             }
 
             IncrementHitCounter();
-
         }
 
         public void IncrementHitCounter(bool reset = false)
@@ -404,7 +372,6 @@ namespace Finisher.Characters.Systems
             return finisherMeterGain;
         }
 
-        #endregion
-
+        #endregion Combat Animation Events
     }
 }

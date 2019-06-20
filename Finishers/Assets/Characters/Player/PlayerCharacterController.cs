@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Finisher.Characters.Player
 {
@@ -10,30 +9,24 @@ namespace Finisher.Characters.Player
     {
         #region Class Variables
 
-        public Transform CombatTarget { get; private set; }
-
-        //[Header("Player Controller Specific")]
-
-        [Header("Player Combat Target Hitbox Settings")] [SerializeField]
+        [Header("Player Combat Target Hitbox Settings")]
+        [SerializeField]
         private GameObject CombatTargetIndicator;
 
-        [SerializeField] private float RotateWithCameraSpeed = 10f;
-        [SerializeField] private float AutoLockTurnSpeed = 5f;
+        //[Header("Player Controller Specific")]
         [SerializeField] private float MAINRANGE = 3f;
+
         [SerializeField] private float SECONDARY_HITBOX_RANGE = 1.5f;
         [SerializeField] private float MAINFOV = 50f;
         [SerializeField] private float SECONDARY_HITBOX = 100f;
         [SerializeField] private float DIRECTIONAL_INPUT_HITBOX = 35f;
-
         private bool usingLSInput = false;
         private List<Collider> enemyColliders = null;
-
         private PlayerMoveInputProcessor playerIP;
-        private Transform camRig = null;
+        [SerializeField] private CharacterStateSO playerState;
+        public Transform CombatTarget { get; private set; }
 
-        [SerializeField] CharacterStateSO playerState;
-
-        #endregion
+        #endregion Class Variables
 
         #region Public Interface
 
@@ -59,7 +52,7 @@ namespace Finisher.Characters.Player
             return null;
         }
 
-        #endregion
+        #endregion Public Interface
 
         protected override void Start()
         {
@@ -67,7 +60,6 @@ namespace Finisher.Characters.Player
 
             Strafing = true;
             playerIP = GetComponent<PlayerMoveInputProcessor>();
-            camRig = GetMainCameraTransform();
             if (characterState.spawnConfig == null)
             {
                 characterState.spawnConfig = new SpawnConfig();
@@ -76,55 +68,11 @@ namespace Finisher.Characters.Player
             indicator.GetComponent<CombatTargetIndicatorController>().player = this;
         }
 
-        void Update()
+        private void Update()
         {
-            SetCurrentCombatTarget();
-            SetCharacterRotation();
-
             if (characterState.Dying && Input.anyKey || Input.GetKeyDown(KeyCode.Y))
             {
                 characterState.spawnConfig.runConfig();
-            }
-        }
-
-        #region SetCombatTarget
-
-        private void SetCurrentCombatTarget()
-        {
-            usingLSInput = playerIP.InputMoveDirection != Vector3.zero;
-            if (CombatTarget != null)
-            {
-                float distanceFromTarget = Vector3.Distance(CombatTarget.position, transform.position);
-                if (CombatTarget.gameObject.GetComponent<CharacterState>().Dying ||
-                    distanceFromTarget > MAINRANGE)
-                {
-                    CombatTarget = null;
-                }
-            }
-
-            if (!characterState.Attacking || CombatTarget == null || (usingLSInput && characterState.Attacking && animator.IsInTransition(0)))
-            {
-                SetNewCombatTarget();
-            }
-
-            if (CombatTarget)
-            {
-                playerState.CombatTarget = CombatTarget.GetComponent<Characters.Systems.HealthSystem>();
-            }
-            else
-            {
-                playerState.CombatTarget = null;
-            }
-        }
-
-        private void SetNewCombatTarget()
-        {
-            var tempCombatTarget = GetPlayerCombatTarget();
-            
-            // if a target was found
-            if (tempCombatTarget != null)
-            {
-                CombatTarget = tempCombatTarget; 
             }
         }
 
@@ -156,7 +104,7 @@ namespace Finisher.Characters.Player
         private Transform FindPreferredEnemyTarget()
         {
             Transform target = null;
-            
+
             // ORDERED BY DISTANCE, NEAREST -> FARTHEST
             foreach (Collider enemyCollider in enemyColliders)
             {
@@ -176,7 +124,7 @@ namespace Finisher.Characters.Player
                 // get the current angle of that enemy to the left or right of you
                 Vector3 targetDir = enemyCollider.transform.position - transform.position;
                 float angle = Vector3.Angle(targetDir, transform.forward);
-                
+
                 if (usingLSInput)
                 {
                     // gets the angle between the current enemy and the LS stick direction
@@ -204,103 +152,13 @@ namespace Finisher.Characters.Player
                 if (Vector3.Distance(transform.position, enemyCollider.transform.position) <= SECONDARY_HITBOX_RANGE &&
                     angle < SECONDARY_HITBOX)
                 {
-                    if(target == null)
-                    target = enemyCollider.transform;
+                    if (target == null)
+                        target = enemyCollider.transform;
                 }
             }
 
             return target;
         }
-
-        #endregion
-
-        #region SetCharacterRotation
-
-        private void SetCharacterRotation()
-        {
-            if (characterState.Dying)
-            {
-                return;
-            }
-
-            if (characterState.Grabbing)
-            {
-                RotateWithCamRig(true);
-                return;
-            }
-
-            if (Strafing)
-            {
-                if (characterState.Dodging)
-                {
-                    RotateWithCamRig();
-                }
-                else if (characterState.Attacking)
-                {
-                    if (CombatTarget != null)
-                    {
-                        EngageEnemy();
-                    }
-                    else
-                    {
-                        RotateWithCamRig();
-                    }
-                }
-                else if (CanRotate && playerIP.HasMoveInput())
-                {
-                    RotateWithCamRig();
-                }
-            }
-            else
-            {
-                if (characterState.Dodging)
-                {
-                    RotateWithCamRig();
-                }
-            }
-        }
-
-        private void RotateWithCamRig(bool instant = false)
-        {
-            if (instant)
-            {
-                transform.rotation = camRig.localRotation;
-            }
-            else
-            {
-                // Smoothly rotate towards the target point.
-                transform.rotation = Quaternion.Slerp(transform.rotation, camRig.localRotation,
-                    RotateWithCameraSpeed * Time.deltaTime);
-            }
-        }
-
-        public float attackSnapDistance = 0.2f;
-        private void EngageEnemy()
-        {
-            var targetRotation = Quaternion.LookRotation(CombatTarget.transform.position - transform.position);
-            targetRotation.x = 0;
-            targetRotation.z = 0;
-
-            // Smoothly rotate towards the target point.
-            transform.rotation =
-                Quaternion.Slerp(transform.rotation, targetRotation, AutoLockTurnSpeed * Time.deltaTime);
-            // Snap Player around target
-            var heading = transform.position - CombatTarget.position;
-            var distanceToTarget = heading.magnitude;
-            var directionTargetToSelf = heading / distanceToTarget; // This is now the normalized direction.
-
-            var newPosition = CombatTarget.transform.position + directionTargetToSelf; // Might be good to make sure the forward is in the oposite direction as the player. Otherwise negate.
-            var distance = Mathf.Abs(Vector3.Distance(newPosition, transform.position));
-            if (distance < attackSnapDistance)
-            {
-                transform.position = newPosition;
-            } else
-            {
-                transform.position = Vector3.MoveTowards(transform.position, newPosition, attackSnapDistance);
-            }
-        }
-
-        #endregion
 
         #region Class Overrides
 
@@ -309,10 +167,10 @@ namespace Finisher.Characters.Player
             rigidBody.AddForce(Vector3.down * 50, ForceMode.Acceleration);
         }
 
-        #endregion
+        #endregion Class Overrides
 
         // draws the hitbox lines for player, the 2 smaller hitboxes, and the player input hitbox
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
 
@@ -329,7 +187,6 @@ namespace Finisher.Characters.Player
 
             Gizmos.DrawLine(transform.position + Vector3.up, destination + Vector3.up);
             Gizmos.DrawLine(transform.position + Vector3.up, destination2 + Vector3.up);
-
 
             Gizmos.color = Color.white;
 
