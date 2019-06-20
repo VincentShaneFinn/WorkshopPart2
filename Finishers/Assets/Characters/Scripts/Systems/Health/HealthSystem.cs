@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
-
+﻿using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
-using Finisher.Characters.Systems.Strategies;
+using System.Collections;
+using UnityEngine;
 
 namespace Finisher.Characters.Systems
 {
@@ -11,24 +10,24 @@ namespace Finisher.Characters.Systems
     {
         [SerializeField] protected HealthConfig config;
 
-        protected float currentHealth { get; set; }
-        protected float currentVolatility { get; set; }
         protected int knockbackCount;
         protected bool immuneToKnockback = false;
+        protected CharacterState characterState;
+        protected UI_HealthMeter healthBar;
+        private AnimOverrideSetter animOverrideHandler;
+        protected float currentHealth { get; set; }
+        protected float currentVolatility { get; set; }
 
         #region Delegates
 
         public delegate void KnockedBack();
-        public event KnockedBack OnKnockBack;
-        private void CallKnockbackEvent()
-        {
-            if (OnKnockBack != null)
-            {
-                OnKnockBack();
-            }
-        }
+
         public delegate void TookDamage();
+
+        public event KnockedBack OnKnockBack;
+
         public event TookDamage OnDamageTaken;
+
         protected void CallDamageTakenEvent()
         {
             if (OnDamageTaken != null)
@@ -37,11 +36,15 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #endregion
+        private void CallKnockbackEvent()
+        {
+            if (OnKnockBack != null)
+            {
+                OnKnockBack();
+            }
+        }
 
-        protected CharacterState characterState;
-        private AnimOverrideSetter animOverrideHandler;
-        protected UI_HealthMeter healthBar;
+        #endregion Delegates
 
         protected virtual void Start()
         {
@@ -81,19 +84,9 @@ namespace Finisher.Characters.Systems
         public void IncreaseHealth(float healing)
         {
             currentHealth += healing;
-            if(currentHealth > config.MaxHealth - Mathf.Epsilon)
+            if (currentHealth > config.MaxHealth - Mathf.Epsilon)
             {
                 currentHealth = config.MaxHealth;
-            }
-            updateHealthUI();
-        }
-
-        protected void decreaseHealth(float damage)
-        {
-            currentHealth -= damage;
-            if(currentHealth < Mathf.Epsilon)
-            {
-                currentHealth = 0;
             }
             updateHealthUI();
         }
@@ -103,7 +96,17 @@ namespace Finisher.Characters.Systems
             return currentHealth / config.MaxHealth;
         }
 
-        #endregion
+        protected void decreaseHealth(float damage)
+        {
+            currentHealth -= damage;
+            if (currentHealth < Mathf.Epsilon)
+            {
+                currentHealth = 0;
+            }
+            updateHealthUI();
+        }
+
+        #endregion Change Health
 
         #region Change Volatility
 
@@ -111,6 +114,16 @@ namespace Finisher.Characters.Systems
         {
             increaseVolatility(amount);
             checkVolatilityFull();
+        }
+
+        public bool GetIsFinishable()
+        {
+            return GetHealthAsPercent() < (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent());
+        }
+
+        protected float getVolaitilityAsPercent()
+        {
+            return currentVolatility / config.MaxVolatility;
         }
 
         private void increaseVolatility(float amount)
@@ -141,16 +154,6 @@ namespace Finisher.Characters.Systems
             updateFinishabilityUI();
         }
 
-        protected float getVolaitilityAsPercent()
-        {
-            return currentVolatility / config.MaxVolatility;
-        }
-
-        public bool GetIsFinishable()
-        {
-            return GetHealthAsPercent() < (config.FinishableLowerBound + (config.FinishableUpperBound - config.FinishableLowerBound) * getVolaitilityAsPercent());
-        }
-
         private void checkVolatilityFull()
         {
             if (currentVolatility >= config.MaxVolatility)
@@ -159,7 +162,7 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #endregion
+        #endregion Change Volatility
 
         #region Knockback And Kill
 
@@ -196,7 +199,7 @@ namespace Finisher.Characters.Systems
             //TODO: Add a method to override the knockback limiter
             if (characterState.Dying || knockbackCount >= config.KnockbackLimit || (immuneToKnockback && !force) || characterState.FinisherModeActive) { return; }
 
-            if(animClip == null)
+            if (animClip == null)
             {
                 animClip = config.KnockbackAnimations[UnityEngine.Random.Range(0, config.KnockbackAnimations.Length)];
             }
@@ -206,6 +209,36 @@ namespace Finisher.Characters.Systems
 
             knockbackCount++;
             StartCoroutine(releaseCountAfterDelay());
+        }
+
+        public virtual void Kill(AnimationClip animClip = null, bool overrideKillAnim = false)
+        {
+            if (characterState.Dying && !overrideKillAnim) { return; }
+
+            if (animClip == null)
+            {
+                //animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+                CutInHalf();
+            }
+
+            currentHealth = 0;
+            updateHealthUI();
+            enterDyingState(animClip);
+        }
+
+        public virtual void Revive()
+        {
+            AnimationClip animClip = animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
+            currentHealth = 100;
+            updateHealthUI();
+            ReviveAnimate(animClip);
+        }
+
+        public virtual void CutInHalf()
+        {
+            Instantiate(config.TopHalf, transform.position, transform.rotation);
+            Instantiate(config.BottomHalf, transform.position, transform.rotation);
+            Destroy(gameObject);
         }
 
         private void enterKnockbackState(AnimationClip animClip)
@@ -232,58 +265,30 @@ namespace Finisher.Characters.Systems
             knockbackCount--;
         }
 
-        public virtual void Kill(AnimationClip animClip = null, bool overrideKillAnim = false)
-        {
-            if (characterState.Dying && !overrideKillAnim) { return; }
-
-            if(animClip == null)
-            {
-                animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
-            }
-
-            currentHealth = 0;
-            updateHealthUI();
-            enterDyingState(animClip);
-        }
-
-        public virtual void Revive()
-        {
-            AnimationClip animClip = animClip = config.NormalDeathAnimations[UnityEngine.Random.Range(0, config.NormalDeathAnimations.Length)];
-            currentHealth = 100;
-            updateHealthUI();
-            ReviveAnimate(animClip);
-        }
-
-        public virtual void CutInHalf()
-        {
-            Instantiate(config.TopHalf, transform.position, transform.rotation);
-            Instantiate(config.BottomHalf, transform.position, transform.rotation);
-            Destroy(gameObject);
-        }
-
         private void enterDyingState(AnimationClip animClip)
         {
             characterState.DyingState.Kill();
-            animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true,AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
+            animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, true, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
+
         private void ReviveAnimate(AnimationClip animClip)
         {
             characterState.DyingState.Revive();
             animOverrideHandler.SetBoolOverride(AnimConstants.Parameters.DYING_BOOL, false, AnimConstants.OverrideIndexes.DEATH_INDEX, animClip);
         }
 
-        #endregion
+        #endregion Knockback And Kill
 
         public bool WillDamageKill(float damage)
         {
-            if(currentHealth - damage <= Mathf.Epsilon)
+            if (currentHealth - damage <= Mathf.Epsilon)
             {
                 return true;
             }
             return false;
         }
 
-        #endregion
+        #endregion Public Interface
 
         #region updateUI
 
@@ -296,9 +301,8 @@ namespace Finisher.Characters.Systems
             }
         }
 
-        #endregion
+        #endregion updateUI
 
         protected abstract void updateFinishabilityUI();
-
     }
 }

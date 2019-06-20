@@ -166,7 +166,10 @@ namespace Finisher.Characters.Player.Systems
             yield return new WaitForSeconds(impactFrameTime);
 
             animator.GetComponent<Animator>().speed = 1;
-            targetHealthSystem.GetComponent<Animator>().speed = 1;
+            if (targetHealthSystem)
+            {
+                targetHealthSystem.GetComponent<Animator>().speed = 1;
+            }
         }
 
         private List<Collider> getEnemiesInFront()
