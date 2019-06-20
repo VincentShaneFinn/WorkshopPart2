@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿using Finisher.Characters.Player.Systems;
 using System.Collections;
-
-using Finisher.Characters.Player.Systems;
+using UnityEngine;
 
 namespace Finisher.Cameras
 {
@@ -14,6 +13,11 @@ namespace Finisher.Cameras
         private PlayerCombatSystem playerCombatSystem;
         private PlayerHealthSystem playerHealthSystem;
 
+        public void shake()
+        {
+            Shake();
+        }
+
         private void Awake()
         {
             _initialCameraPosition = transform.localPosition;
@@ -22,8 +26,8 @@ namespace Finisher.Cameras
             playerHealthSystem = GameObject.FindGameObjectWithTag(TagNames.PlayerTag).GetComponent<PlayerHealthSystem>();
         }
 
-        void Start()
-        {            
+        private void Start()
+        {
             if (playerCombatSystem)
             {
                 playerCombatSystem.OnHitCameraShake += Shake;
@@ -35,7 +39,7 @@ namespace Finisher.Cameras
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             if (playerCombatSystem)
             {
@@ -47,20 +51,15 @@ namespace Finisher.Cameras
             }
         }
 
-        void Update()
+        private void Update()
         {
             if (_remainingShakeTime <= 0)
             {
                 transform.localPosition = _initialCameraPosition;
                 return;
-            }            
+            }
 
             _remainingShakeTime -= Time.deltaTime;
-        }
-
-        private void shake()
-        {
-            Shake();
         }
 
         private void Shake(float strength = 0.5f, float duration = 0.1f)
@@ -73,14 +72,13 @@ namespace Finisher.Cameras
             }
         }
 
-        IEnumerator ShakeCamera(float strength, float duration)
+        private IEnumerator ShakeCamera(float strength, float duration)
         {
             float delay = 0.01f;
             float moveTimes = duration / delay;
-            
+
             for (int i = 0; i < moveTimes; i++)
             {
-                
                 Vector3 startPos = transform.position;
                 Vector3 newPos = Random.insideUnitCircle * strength / 4;
                 newPos += startPos;

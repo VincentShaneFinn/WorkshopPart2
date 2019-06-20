@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-
+﻿using Finisher.Cameras;
+using Finisher.Characters.Systems;
 using Finisher.UI;
 using Finisher.UI.Meters;
-using Finisher.Characters.Systems;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Finisher.Characters.Enemies.Systems
 {
@@ -22,6 +22,22 @@ namespace Finisher.Characters.Enemies.Systems
             setupVolatilityMeterToggle();
 
             base.Start();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (characterState.HeavyAttacking || characterState.getAnimator().GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.RUSHING_ATTACK_STATE))
+            {
+                immuneToKnockback = true;
+                enemyWeapon.gameObject.SetActive(true);
+                //enemyWeapon.startColor = uninteruptableAttackColor;
+            }
+            else
+            {
+                immuneToKnockback = false;
+                enemyWeapon.gameObject.SetActive(false);
+            }
         }
 
         private void setEnemySliders()
@@ -57,7 +73,7 @@ namespace Finisher.Characters.Enemies.Systems
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             GameObject player = GameObject.FindGameObjectWithTag(TagNames.PlayerTag);
             if (player)
@@ -70,26 +86,12 @@ namespace Finisher.Characters.Enemies.Systems
             }
         }
 
-        protected override void Update()
-        {
-            base.Update();
-            if(characterState.HeavyAttacking || characterState.getAnimator().GetCurrentAnimatorStateInfo(0).IsName(AnimConstants.States.RUSHING_ATTACK_STATE))
-            {
-                immuneToKnockback = true;
-                enemyWeapon.gameObject.SetActive(true);
-                //enemyWeapon.startColor = uninteruptableAttackColor;
-            }
-            else {
-                immuneToKnockback = false;
-                enemyWeapon.gameObject.SetActive(false);
-            }
-        }
-
         #region Override Kill(animclip)
 
         public override void Kill(AnimationClip animClip, bool overrideKillAnim = false)
         {
             base.Kill(animClip, overrideKillAnim);
+            FindObjectOfType<CameraShake>().shake();
             toggleEnemyCanvas(false);
         }
 
@@ -99,9 +101,19 @@ namespace Finisher.Characters.Enemies.Systems
             toggleEnemyCanvas(true);
         }
 
-        #endregion
+        #endregion Override Kill(animclip)
 
         #region Enemy UI
+
+        private bool inFinisherMode = false;
+
+        public void toggleEnemyCanvas(bool enabled)
+        {
+            if (enemyCanvas)
+            {
+                enemyCanvas.gameObject.SetActive(enabled);
+            }
+        }
 
         protected override void updateFinishabilityUI()
         {
@@ -123,8 +135,6 @@ namespace Finisher.Characters.Enemies.Systems
             }
         }
 
-        private bool inFinisherMode = false;
-
         private void toggleVolatiltyMeter(bool enabled)
         {
             //currentVolatility = 0;
@@ -145,14 +155,6 @@ namespace Finisher.Characters.Enemies.Systems
             updateHealthUI();
         }
 
-        public void toggleEnemyCanvas(bool enabled)
-        {
-            if (enemyCanvas)
-            {
-                enemyCanvas.gameObject.SetActive(enabled);
-            }
-        }
-
-        #endregion
+        #endregion Enemy UI
     }
 }
