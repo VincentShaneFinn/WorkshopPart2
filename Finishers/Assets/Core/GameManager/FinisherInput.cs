@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FinisherInput : MonoBehaviour
 {
+    private static float previousHealDPadX = 0;
+
+    private static float previousFinisherDPadX = 0;
+
+    private static float previousvolDPadY = 0;
+
+    private static float previousinvDPadY = 0;
+
     //Special Attack
     public static bool SpecialAttack()
     {
@@ -21,33 +26,11 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
-    internal static bool Continue()
-    {
-        bool rv = false;
-        rv = Input.GetButtonDown(InputNames.Continue);
-        return rv;
-    }
-
     //Light Attack
     public static bool LightAttack()
     {
         bool rv = false;
         rv = Input.GetButtonDown(InputNames.LightAttack);
-        return rv;
-    }
-
-    //Heavy Attack
-    public static bool HeavyAttack()
-    {
-        bool rv = false;
-        if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
-        {
-            rv = (Input.GetAxisRaw(InputNames.HeavyAttack) > 0);
-        }
-        else
-        {
-            rv = Input.GetButtonDown(InputNames.HeavyAttack);
-        }
         return rv;
     }
 
@@ -59,6 +42,20 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
+    //Heavy Attack
+    //public static bool HeavyAttack()
+    //{
+    //    bool rv = false;
+    //    if (ControlMethodDetector.GetCurrentControlType() == ControlType.Xbox)
+    //    {
+    //        rv = (Input.GetAxisRaw(InputNames.HeavyAttack) > 0);
+    //    }
+    //    else
+    //    {
+    //        rv = Input.GetButtonDown(InputNames.HeavyAttack);
+    //    }
+    //    return rv;
+    //}
     //Parry
     public static bool Parry()
     {
@@ -98,6 +95,7 @@ public class FinisherInput : MonoBehaviour
         rv = Input.GetButtonDown(InputNames.SelectFinisher2);
         return rv;
     }
+
     public static bool Finisher4()
     {
         bool rv = false;
@@ -105,7 +103,6 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
-    static float previousHealDPadX = 0;
     //Heal Cheat
     public static bool HealCheat()
     {
@@ -121,7 +118,6 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
-    static float previousFinisherDPadX = 0;
     //Finisher Meter Cheat
     public static bool FinisherMeterCheat()
     {
@@ -137,7 +133,6 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
-    static float previousvolDPadY = 0;
     //Volatility Cheat
     public static bool VolatilityCheat()
     {
@@ -153,7 +148,6 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
-    static float previousinvDPadY = 0;
     //Invulnerability Cheat
     public static bool InvulnerabilityCheat()
     {
@@ -201,4 +195,10 @@ public class FinisherInput : MonoBehaviour
         return rv;
     }
 
+    internal static bool Continue()
+    {
+        bool rv = false;
+        rv = Input.GetButtonDown(InputNames.Continue);
+        return rv;
+    }
 }

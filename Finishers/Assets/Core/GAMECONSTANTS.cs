@@ -1,19 +1,18 @@
-﻿using UnityEngine;
-
-
-#region Input Names
+﻿#region Input Names
 
 public static class InputNames
 {
     public const string LightAttack = "Light Attack";
-    public const string HeavyAttack = "Heavy Attack";
+
+    //public const string HeavyAttack = "Heavy Attack";
     public const string Dodge = "Dodge";
+
     public const string Parry = "Parry";
     public const string SpecialAttack = "Special Attack";
     public const string Sprint = "Sprint";
     public const string L3 = "L3";
     public const string R3 = "R3";
-    public const string Grab = "Grab";
+    public const string Grab = "Heavy Attack";
     public const string Finisher = "Finisher";
     public const string SelectFinisher1 = "SelectFinisher1";
     public const string SelectFinisher2 = "SelectFinisher2";
@@ -22,7 +21,7 @@ public static class InputNames
     public const string Continue = "Continue";
 }
 
-#endregion
+#endregion Input Names
 
 #region TagNames
 
@@ -32,7 +31,7 @@ public static class TagNames
     public const string EnemyTag = "Enemy";
 }
 
-#endregion
+#endregion TagNames
 
 #region LayerNames
 
@@ -45,4 +44,4 @@ public static class LayerNames
     public const int WeaponLayer = 14;
 }
 
-#endregion
+#endregion LayerNames

@@ -19,6 +19,10 @@ namespace Finisher.Characters.Player.Systems
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private float startFixedDeltaTime;
 
+        private GameObject holdingDummy = null;
+
+        [SerializeField] private GameObject EnemyDummy;
+
         public override void HitCharacter(HealthSystem target, float soulBonus = 0)
         {
             base.HitCharacter(target, soulBonus);
@@ -82,6 +86,7 @@ namespace Finisher.Characters.Player.Systems
             processAttackInput();
             processDodgeInput();
             processParryInput();
+            ProcessGrabInput();
         }
 
         private void processAttackInput()
@@ -91,10 +96,10 @@ namespace Finisher.Characters.Player.Systems
                 LightAttack();
             }
 
-            if (FinisherInput.HeavyAttack())
-            {
-                HeavyAttack();
-            }
+            //if (FinisherInput.HeavyAttack())
+            //{
+            //    HeavyAttack();
+            //}
         }
 
         private void processDodgeInput()
@@ -224,6 +229,46 @@ namespace Finisher.Characters.Player.Systems
             }
             yield return new WaitForSeconds(.5f); //TODO: this should be called by an animation event on the parry animation
             CallCombatSystemDealtDamageListeners(10f); //TODO: REMOVE MAGIC NUMBER AND PUT IN CONFIG
+        }
+
+        private void ProcessGrabInput()
+        {
+            if (holdingDummy == null)
+            {
+                if (Input.GetButtonDown(InputNames.Grab))
+                {
+                    var colliders = Physics.OverlapSphere(transform.position, 3f);
+                    GameObject enemy = null;
+                    foreach (var collider in colliders)
+                    {
+                        if (collider.tag == "Enemy")
+                        {
+                            enemy = collider.gameObject;
+                            break;
+                        }
+                    }
+                    if (enemy != null)
+                    {
+                        Destroy(enemy);
+                        holdingDummy = Instantiate(EnemyDummy);
+                        var desiredPosition = transform.position + (transform.forward * 1.2f);
+                        holdingDummy.transform.position = new Vector3(desiredPosition.x, 0, desiredPosition.z);
+                        holdingDummy.transform.parent = transform;
+                        holdingDummy.transform.localEulerAngles = new Vector3(0, 180, 0);
+                    }
+                }
+            }
+            else
+            {
+                if (Input.GetButtonDown(InputNames.Grab))
+                {
+                    var throwEnemy = holdingDummy.GetComponent<ThrowEnemy>();
+                    throwEnemy.movementSpeed = 10;
+                    throwEnemy.StartCoroutine(throwEnemy.ThrowEnemyCoroutine());
+                    holdingDummy.transform.parent = null;
+                    holdingDummy = null;
+                }
+            }
         }
     }
 }
