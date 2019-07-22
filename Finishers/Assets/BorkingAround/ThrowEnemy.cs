@@ -14,7 +14,7 @@ public class ThrowEnemy : MonoBehaviour
 
         while (true)
         {
-            transform.position += transform.forward * -1 * movementSpeed * Time.deltaTime;
+            transform.position += transform.forward * -2 * movementSpeed * Time.deltaTime;
             yield return null;
         }
     }

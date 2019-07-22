@@ -165,7 +165,7 @@ namespace Finisher.Characters.Player.Systems
 
         private IEnumerator ImpactFrames(HealthSystem targetHealthSystem)
         {
-            animator.speed = 0;
+            animator.speed = 1;
             targetHealthSystem.GetComponent<Animator>().speed = 0;
 
             yield return new WaitForSeconds(impactFrameTime);
