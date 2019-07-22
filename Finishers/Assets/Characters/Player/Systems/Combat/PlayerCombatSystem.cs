@@ -13,14 +13,13 @@ namespace Finisher.Characters.Player.Systems
     {
         public Tutorial parryTutorial;
 
+        public GameObject holdingDummy = null;
+
         [Tooltip("This is a timer that puts a freeze time on both you and the target you hit")]
         [SerializeField] private float impactFrameTime = .01f;
 
         private PlayerCharacterController playerCharacter; // A reference to the ThirdPersonCharacter on the object
         private float startFixedDeltaTime;
-
-        private GameObject holdingDummy = null;
-
         [SerializeField] private GameObject EnemyDummy;
 
         public override void HitCharacter(HealthSystem target, float soulBonus = 0)

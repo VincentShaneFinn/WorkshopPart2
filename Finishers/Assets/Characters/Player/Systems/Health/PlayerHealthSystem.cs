@@ -1,16 +1,36 @@
 ﻿using Finisher.Characters.Systems;
 using Finisher.Characters.Systems.Strategies;
 using Finisher.UI.Meters;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Finisher.Characters.Player.Systems
 {
     public class PlayerHealthSystem : HealthSystem
     {
+        private bool invulnerableCheat = false;
+
+        public override void DamageHealth(float damage, DamageSystem damageSource)
+        {
+            if (invulnerableCheat)
+            {
+                if (GetHealthAsPercent() > .20)
+                {
+                    base.DamageHealth(damage, damageSource);
+                }
+            }
+            else
+            {
+                base.DamageHealth(damage, damageSource);
+            }
+        }
+
+        public override void CutInHalf()
+        {
+            SceneManager.LoadScene(0);
+        }
 
         protected override void Start()
         {
-
             setPlayerHealthSlider();
 
             base.Start();
@@ -29,40 +49,14 @@ namespace Finisher.Characters.Player.Systems
             }
         }
 
-        private bool invulnerableCheat = false;
-
-        public override void DamageHealth(float damage, DamageSystem damageSource)
+        protected override void updateFinishabilityUI()
         {
-            if (invulnerableCheat) {
-                if (GetHealthAsPercent() > .20)
-                {
-                    base.DamageHealth(damage, damageSource);
-                }
-            }
-            else
-            {
-                base.DamageHealth(damage, damageSource);
-            }
+            return;
         }
 
         private void setPlayerHealthSlider()
         {
             healthBar = FindObjectOfType<UI.PlayerUIObjects>().gameObject.GetComponentInChildren<UI_HealthMeter>();
         }
-
-        protected override void updateFinishabilityUI()
-        {
-            return;
-        }
-
-        public override void CutInHalf()
-        {
-            Instantiate(config.TopHalf, transform.position, transform.rotation);
-            Instantiate(config.BottomHalf, transform.position, transform.rotation);
-            Kill();
-            Destroy(gameObject);
-            gameObject.SetActive(false);
-        }
-
     }
 }

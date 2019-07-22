@@ -1,23 +1,25 @@
-﻿using UnityEngine;
+﻿using Finisher.Characters.Player.Systems;
+using UnityEngine;
 
-namespace Finisher.Characters {
-
+namespace Finisher.Characters
+{
     [DisallowMultipleComponent]
     public class CharAnimStateHandler : MonoBehaviour
     {
-
         private Animator animator;
         private CharacterAnimator character;
         private CharacterState characterState;
+        private PlayerCombatSystem playerCombatSystem;
 
-        void Start()
+        private void Start()
         {
             animator = GetComponent<Animator>();
             character = GetComponent<CharacterAnimator>();
             characterState = GetComponent<CharacterState>();
+            playerCombatSystem = GetComponent<PlayerCombatSystem>();
         }
 
-        void Update()
+        private void Update()
         {
             SetCharacterMovementVariables();
         }
@@ -27,10 +29,16 @@ namespace Finisher.Characters {
             // these two are in code states becuase they can be in multuple animation states,
             // like grabbing an enemy and stabbing, or staggered but knockedback, returning to locomotion then go to staggered
             if (characterState.Grabbing ||
-                characterState.Stunned) 
+                characterState.Stunned)
             {
                 character.CanMove = false;
                 character.CanRotate = false;
+                return;
+            }
+
+            if (playerCombatSystem != null && playerCombatSystem.holdingDummy != null)
+            {
+                character.CanMove = false;
                 return;
             }
 
@@ -39,7 +47,7 @@ namespace Finisher.Characters {
                 character.CanMove = true;
                 character.CanRotate = true;
             }
-            else if(animator.IsInTransition(0) && characterState.Attacking)
+            else if (animator.IsInTransition(0) && characterState.Attacking)
             {
                 character.CanMove = true;
                 character.CanRotate = true;
@@ -66,6 +74,5 @@ namespace Finisher.Characters {
             //    characterAnim.CanRotate = true;
             //}
         }
-
     }
 }
