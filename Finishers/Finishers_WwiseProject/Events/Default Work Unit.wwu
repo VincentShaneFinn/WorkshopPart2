@@ -21,13 +21,13 @@
 					<ChildrenList>
 						<Event Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}">
 							<ChildrenList>
-								<Action Name="" ID="{5C92D576-7B74-49A9-809D-277DED02DB30}" ShortID="502935768">
+								<Action Name="" ID="{7A687FD6-7BCE-4572-A514-F6C925DB6DF4}" ShortID="862530369">
 									<PropertyList>
 										<Property Name="ActionType" Type="int16" Value="1"/>
 									</PropertyList>
 									<ReferenceList>
 										<Reference Name="Target">
-											<ObjectRef Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+											<ObjectRef Name="Music Switch" ID="{12CEA3E4-096B-46B7-8603-A24D8AF54B07}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>
@@ -74,6 +74,64 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="fire_Crackle" ID="{EDDFEEB4-CD2D-4C3D-A1DA-6E4A9245A2FE}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="largeFire_Crackle" ID="{E92AE00B-1929-4674-AD24-4BCE220F5D5C}">
+							<ChildrenList>
+								<Action Name="" ID="{693B1137-24DD-42AB-AC4E-6F4CE7A950DD}" ShortID="145204616">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="torch" ID="{E290E0C0-3EFF-40FA-B410-4D57D79F8FA3}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{D2FEDA6A-668E-4B18-8467-470D119E585C}" ShortID="675104455">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="fire_Crackle" ID="{EDDFEEB4-CD2D-4C3D-A1DA-6E4A9245A2FE}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="magicFire_Crackle" ID="{8953A07D-B275-42C4-932E-0F917A8846CF}">
+							<ChildrenList>
+								<Action Name="" ID="{DAABB77E-3DC7-4153-B8C4-6E6F1F3644B0}" ShortID="124603386">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="torch" ID="{E290E0C0-3EFF-40FA-B410-4D57D79F8FA3}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{A1FC531C-4430-441B-AD15-33AE6BC6F21E}" ShortID="344418768">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="fire_Crackle" ID="{EDDFEEB4-CD2D-4C3D-A1DA-6E4A9245A2FE}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+								<Action Name="" ID="{60A5A75F-3A87-4BAF-ACB0-AF6EA27061F4}" ShortID="474544770">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="magic_Bubbles" ID="{12D7307F-BD60-4897-856B-F709D01B3418}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

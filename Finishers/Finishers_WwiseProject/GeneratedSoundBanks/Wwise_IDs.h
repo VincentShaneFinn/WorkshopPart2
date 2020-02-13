@@ -14,6 +14,8 @@ namespace AK
     namespace EVENTS
     {
         static const AkUniqueID FIRE_CRACKLE = 3208010807U;
+        static const AkUniqueID LARGEFIRE_CRACKLE = 3970897584U;
+        static const AkUniqueID MAGICFIRE_CRACKLE = 1998079712U;
         static const AkUniqueID MUSIC_PLAY = 202194903U;
         static const AkUniqueID MUSIC_STOP = 3227181061U;
         static const AkUniqueID WATERFALL_FLOW = 2949097740U;
@@ -35,6 +37,22 @@ namespace AK
         } // namespace IN_FIGHT
 
     } // namespace STATES
+
+    namespace SWITCHES
+    {
+        namespace MUSIC_SWITCHING
+        {
+            static const AkUniqueID GROUP = 4291166859U;
+
+            namespace SWITCH
+            {
+                static const AkUniqueID BOSSFIGHT = 580146960U;
+                static const AkUniqueID INFIGHT = 2181612614U;
+                static const AkUniqueID OUTOFFIGHT = 1150499030U;
+            } // namespace SWITCH
+        } // namespace MUSIC_SWITCHING
+
+    } // namespace SWITCHES
 
     namespace GAME_PARAMETERS
     {

@@ -24,14 +24,14 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: a4a7213f70b2d1488b6cd4389fa3d410
     GuidInternal: 
-    m_lastTime: -8586199903178998035
+    m_lastTime: -8586199851381434447
     List: []
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 950fa9fae4b6224583494b59b3da18bd
     GuidInternal: 
-    m_lastTime: -8586199903080858236
+    m_lastTime: -8586199851381474658
     List:
     - name: Environment
       guid: 3559b9e649a6e94da07befb2ddf3edbc
@@ -65,7 +65,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 599c5069563c9740b2315493f192f6a7
     GuidInternal: 
-    m_lastTime: -8586199927849528159
+    m_lastTime: -8586199842132026953
     List:
     - name: fire_Crackle
       guid: 056269f8dcc0b943a24592401192bdb8
@@ -78,7 +78,35 @@ MonoBehaviour:
       - ElementName: fire_Crackle
         ObjectType: 3
       Path: Default Work Unit\Environment\fire_Crackle
-      maxAttenuation: 35
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
+    - name: largeFire_Crackle
+      guid: 0be02ae929197446ad244bce220f5d5c
+      id: 3970897584
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Environment
+        ObjectType: 4
+      - ElementName: largeFire_Crackle
+        ObjectType: 3
+      Path: Default Work Unit\Environment\largeFire_Crackle
+      maxAttenuation: 100
+      maxDuration: 0
+      minDuration: 0
+    - name: magicFire_Crackle
+      guid: 7da0538975b2c442932e0f917a8846cf
+      id: 1998079712
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Environment
+        ObjectType: 4
+      - ElementName: magicFire_Crackle
+        ObjectType: 3
+      Path: Default Work Unit\Environment\magicFire_Crackle
+      maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - name: music_Play
@@ -120,7 +148,7 @@ MonoBehaviour:
       - ElementName: waterfall_Flow
         ObjectType: 3
       Path: Default Work Unit\Environment\waterfall_Flow
-      maxAttenuation: 0
+      maxAttenuation: 100
       maxDuration: 0
       minDuration: 0
     - name: weapon_Swing
@@ -200,8 +228,39 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: d8ae2c4467ce3c4e8ec7945e9135ded3
     GuidInternal: 
-    m_lastTime: -8586199979221092958
-    List: []
+    m_lastTime: -8586199842131986631
+    List:
+    - name: music_Switching
+      guid: 6a7420ea7c2db04c86d1ab6efd15f81b
+      id: 4291166859
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: music_Switching
+        ObjectType: 11
+      Path: Default Work Unit\music_Switching
+      values:
+      - name: bossFight
+        guid: 0a4f493db9e5974999c38912d86d19bd
+        id: 580146960
+        PathAndIcons:
+        - ElementName: bossFight
+          ObjectType: 10
+      - name: inFight
+        guid: c6b71478ec4a354999cc82fa6653b230
+        id: 2181612614
+        PathAndIcons:
+        - ElementName: inFight
+          ObjectType: 10
+      - name: outOfFight
+        guid: c288bb69dfbd2d43b9b3eb5bdf761b43
+        id: 1150499030
+        PathAndIcons:
+        - ElementName: outOfFight
+          ObjectType: 10
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
   TriggerWwu:
   - PhysicalPath: Triggers\Default Work Unit.wwu
     ParentPhysicalPath: 
