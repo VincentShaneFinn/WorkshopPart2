@@ -12,14 +12,207 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8dd12c71eb880449944aacc877b557, type: 3}
   m_Name: AkWwiseProjectData
   m_EditorClassIdentifier: 
-  AcousticTextureWwu: []
-  AuxBusWwu: []
-  BankWwu: []
-  EventWwu: []
-  RtpcWwu: []
-  StateWwu: []
-  SwitchWwu: []
-  TriggerWwu: []
-  ExpandedItems: []
+  AcousticTextureWwu:
+  - PhysicalPath: Virtual Acoustics\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: f67d43fa355bde458daf60d1eacb4220
+    GuidInternal: 
+    m_lastTime: -8586199979221092958
+    List: []
+  AuxBusWwu:
+  - PhysicalPath: Master-Mixer Hierarchy\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: a4a7213f70b2d1488b6cd4389fa3d410
+    GuidInternal: 
+    m_lastTime: -8586199903178998035
+    List: []
+  BankWwu:
+  - PhysicalPath: SoundBanks\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: 950fa9fae4b6224583494b59b3da18bd
+    GuidInternal: 
+    m_lastTime: -8586199903080858236
+    List:
+    - name: Environment
+      guid: 3559b9e649a6e94da07befb2ddf3edbc
+      id: 1229948536
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Environment
+        ObjectType: 7
+      Path: Default Work Unit\Environment
+    - name: Main
+      guid: f7ade4bb3c83c048ab3084c8efdd06f2
+      id: 3161908922
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Main
+        ObjectType: 7
+      Path: Default Work Unit\Main
+    - name: Music
+      guid: 6f0dc6ff3a137647a480ba48b25999f4
+      id: 3991942870
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Music
+        ObjectType: 7
+      Path: Default Work Unit\Music
+  EventWwu:
+  - PhysicalPath: Events\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: 599c5069563c9740b2315493f192f6a7
+    GuidInternal: 
+    m_lastTime: -8586199927849528159
+    List:
+    - name: fire_Crackle
+      guid: 056269f8dcc0b943a24592401192bdb8
+      id: 3208010807
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Environment
+        ObjectType: 4
+      - ElementName: fire_Crackle
+        ObjectType: 3
+      Path: Default Work Unit\Environment\fire_Crackle
+      maxAttenuation: 35
+      maxDuration: 0
+      minDuration: 0
+    - name: music_Play
+      guid: 4c1740ed5bda6b488d649faa880a9043
+      id: 202194903
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Music
+        ObjectType: 4
+      - ElementName: music_Play
+        ObjectType: 3
+      Path: Default Work Unit\Music\music_Play
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: music_Stop
+      guid: 81deeb3aa5603e49844cd8e36429312e
+      id: 3227181061
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Music
+        ObjectType: 4
+      - ElementName: music_Stop
+        ObjectType: 3
+      Path: Default Work Unit\Music\music_Stop
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: waterfall_Flow
+      guid: 388f4aaf5a51a84a91d00b0f749474ac
+      id: 2949097740
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: Environment
+        ObjectType: 4
+      - ElementName: waterfall_Flow
+        ObjectType: 3
+      Path: Default Work Unit\Environment\waterfall_Flow
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+    - name: weapon_Swing
+      guid: fa1dfcf61a1089479948810a512f2d9c
+      id: 996920706
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: weapon_Swing
+        ObjectType: 3
+      Path: Default Work Unit\weapon_Swing
+      maxAttenuation: 0
+      maxDuration: 0
+      minDuration: 0
+  RtpcWwu:
+  - PhysicalPath: Game Parameters\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: 51ead11842fb8f468e481de637091afe
+    GuidInternal: 
+    m_lastTime: -8586199929891775236
+    List:
+    - name: player_Position
+      guid: 0d393ffd99d8ed458f9a20762763c1e6
+      id: 2221031936
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: player_Position
+        ObjectType: 13
+      Path: Default Work Unit\player_Position
+  StateWwu:
+  - PhysicalPath: States\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: e2ca570606ef2e42834fc9008987355c
+    GuidInternal: 
+    m_lastTime: -8586199933498632270
+    List:
+    - name: in_Fight
+      guid: b944e9c120ed174187f1805f0df9c405
+      id: 499703095
+      PathAndIcons:
+      - ElementName: Default Work Unit
+        ObjectType: 12
+      - ElementName: in_Fight
+        ObjectType: 9
+      Path: Default Work Unit\in_Fight
+      values:
+      - name: bossFight
+        guid: fe38143deb2f294480a275057bab6dba
+        id: 580146960
+        PathAndIcons:
+        - ElementName: bossFight
+          ObjectType: 8
+      - name: inFight
+        guid: 035553ec70cc7c429bc8c8d7502b832a
+        id: 2181612614
+        PathAndIcons:
+        - ElementName: inFight
+          ObjectType: 8
+      - name: None
+        guid: 582422da4bcac244ba9e6b5bf91caf25
+        id: 748895195
+        PathAndIcons:
+        - ElementName: None
+          ObjectType: 8
+      - name: outOfFight
+        guid: 0da40011039f3d4688939e1d16b7c06e
+        id: 1150499030
+        PathAndIcons:
+        - ElementName: outOfFight
+          ObjectType: 8
+      ValueGuids: []
+      ValueIcons: []
+      valuesInternal: []
+  SwitchWwu:
+  - PhysicalPath: Switches\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: d8ae2c4467ce3c4e8ec7945e9135ded3
+    GuidInternal: 
+    m_lastTime: -8586199979221092958
+    List: []
+  TriggerWwu:
+  - PhysicalPath: Triggers\Default Work Unit.wwu
+    ParentPhysicalPath: 
+    guid: b6435cdb3e4c47498cea3ff860813326
+    GuidInternal: 
+    m_lastTime: -8586199979221092958
+    List: []
+  ExpandedItems:
+  - /Finishers_WwiseProject
+  - /Finishers_WwiseProject/Events
+  - /Finishers_WwiseProject/Events/Default Work Unit
+  - /Finishers_WwiseProject/Events/Default Work Unit/Environment
   autoPopulateEnabled: 1
   CurrentPluginConfig: 

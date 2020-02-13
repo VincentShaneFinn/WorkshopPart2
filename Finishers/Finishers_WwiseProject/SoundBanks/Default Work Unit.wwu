@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{FAA90F95-B6E4-4522-8349-4B59B3DA18BD}" SchemaVersion="89">
 	<SoundBanks>
-		<WorkUnit Name="Default Work Unit" ID="{FAA90F95-B6E4-4522-8349-4B59B3DA18BD}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{FAA90F95-B6E4-4522-8349-4B59B3DA18BD}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="Main" ID="{BBE4ADF7-833C-48C0-AB30-84C8EFDD06F2}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="fire_Crackle" ID="{F8696205-C0DC-43B9-A245-92401192BDB8}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Environment" ID="{45E9BA02-8061-440A-859E-F02541FDBB08}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="music_Stop" ID="{3AEBDE81-60A5-493E-844C-D8E36429312E}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="waterfall_Flow" ID="{AF4A8F38-515A-4AA8-91D0-0B0F749474AC}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Environment" ID="{E6B95935-A649-4DE9-A07B-EFB2DDF3EDBC}">
+					<ObjectInclusionList/>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+				<SoundBank Name="Music" ID="{FFC60D6F-133A-4776-A480-BA48B25999F4}">
+					<ObjectInclusionList>
+						<ObjectRef Name="fire_Crackle" ID="{F8696205-C0DC-43B9-A245-92401192BDB8}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="music_Stop" ID="{3AEBDE81-60A5-493E-844C-D8E36429312E}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="waterfall_Flow" ID="{AF4A8F38-515A-4AA8-91D0-0B0F749474AC}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
 	</SoundBanks>
 </WwiseDocument>

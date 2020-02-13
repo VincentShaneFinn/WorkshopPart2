@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="11" SoundbankVersion="132">
+	<RootPaths>
+		<ProjectRoot>D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\</ProjectRoot>
+		<SourceFilesRoot>D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\</SourceFilesRoot>
+		<SoundBanksRoot>D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\GeneratedSoundBanks\Mac\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\GeneratedSoundBanks\Mac</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<MediaFilesNotInAnyBank/>
+	<SoundBanks>
+		<SoundBank Id="1229948536" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Environment</ObjectPath>
+			<ShortName>Environment</ShortName>
+			<Path>Environment.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="3161908922" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Main</ObjectPath>
+			<ShortName>Main</ShortName>
+			<Path>Main.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle"/>
+				<Event Id="202194903" Name="music_Play" ObjectPath="\Events\Default Work Unit\Music\music_Play"/>
+				<Event Id="3227181061" Name="music_Stop" ObjectPath="\Events\Default Work Unit\Music\music_Stop"/>
+				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
+				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\weapon_Swing"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="108948901" Language="SFX">
+					<ShortName>fire_Crackle.wav</ShortName>
+					<Path>SFX\fire_Crackle_FE2EF46C.wem</Path>
+				</File>
+				<File Id="387176789" Language="SFX">
+					<ShortName>Hits\sword_Swing.wav</ShortName>
+					<Path>SFX\Hits\sword_Swing_56D34C19.wem</Path>
+				</File>
+				<File Id="755767113" Language="SFX">
+					<ShortName>waterfall.wav</ShortName>
+					<Path>SFX\waterfall_CFC0C43A.wem</Path>
+				</File>
+				<File Id="840222185" Language="SFX">
+					<ShortName>swoosh_01.wav</ShortName>
+					<Path>SFX\swoosh_01_56D34C19.wem</Path>
+				</File>
+				<File Id="971770234" Language="SFX">
+					<ShortName>swoosh_03.wav</ShortName>
+					<Path>SFX\swoosh_03_56D34C19.wem</Path>
+				</File>
+				<File Id="1001037440" Language="SFX">
+					<ShortName>swoosh_02.wav</ShortName>
+					<Path>SFX\swoosh_02_56D34C19.wem</Path>
+				</File>
+				<File Id="1008831085" Language="SFX">
+					<ShortName>Ominous.wav</ShortName>
+					<Path>SFX\Ominous_E5599837.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+		<SoundBank Id="3991942870" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
+			<ShortName>Music</ShortName>
+			<Path>Music.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle"/>
+				<Event Id="202194903" Name="music_Play" ObjectPath="\Events\Default Work Unit\Music\music_Play"/>
+				<Event Id="3227181061" Name="music_Stop" ObjectPath="\Events\Default Work Unit\Music\music_Stop"/>
+				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
+				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\weapon_Swing"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="108948901" Language="SFX">
+					<ShortName>fire_Crackle.wav</ShortName>
+					<Path>SFX\fire_Crackle_FE2EF46C.wem</Path>
+				</File>
+				<File Id="387176789" Language="SFX">
+					<ShortName>Hits\sword_Swing.wav</ShortName>
+					<Path>SFX\Hits\sword_Swing_56D34C19.wem</Path>
+				</File>
+				<File Id="755767113" Language="SFX">
+					<ShortName>waterfall.wav</ShortName>
+					<Path>SFX\waterfall_CFC0C43A.wem</Path>
+				</File>
+				<File Id="840222185" Language="SFX">
+					<ShortName>swoosh_01.wav</ShortName>
+					<Path>SFX\swoosh_01_56D34C19.wem</Path>
+				</File>
+				<File Id="971770234" Language="SFX">
+					<ShortName>swoosh_03.wav</ShortName>
+					<Path>SFX\swoosh_03_56D34C19.wem</Path>
+				</File>
+				<File Id="1001037440" Language="SFX">
+					<ShortName>swoosh_02.wav</ShortName>
+					<Path>SFX\swoosh_02_56D34C19.wem</Path>
+				</File>
+				<File Id="1008831085" Language="SFX">
+					<ShortName>Ominous.wav</ShortName>
+					<Path>SFX\Ominous_E5599837.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

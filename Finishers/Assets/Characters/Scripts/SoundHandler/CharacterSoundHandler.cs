@@ -19,6 +19,16 @@ public class CharacterSoundHandler : MonoBehaviour
 
     private string terrainType;
 
+    public AK.Wwise.Event swordSwinging;
+    public AK.Wwise.Event grabThing;
+    public AK.Wwise.Event grabContact;
+    public AK.Wwise.Event finisherSlice;
+    public AK.Wwise.Event aoeBlast;
+
+
+
+
+
     void Awake()
     {
         baseAudioSource = gameObject.AddComponent<AudioSource>();
@@ -85,51 +95,71 @@ public class CharacterSoundHandler : MonoBehaviour
     void SwordSwing_1()
     {
         config.SwordSwing_First.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void SwordSwing_2()
     {
         config.SwordSwing_Second.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void SwordSwing_3()
     {
         config.SwordSwing_Third.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void SwordSwing_4()
     {
         config.SwordSwing_Fourth.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void HeavySwing_1()
     {
         config.HeavySwordSwing_First.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void HeavySwing_2()
     {
         config.HeavySwordSwing_Second.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void Dagger_Light()
     {
         config.DaggerLight.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void Dagger_Heavy()
     {
         config.DaggerHeavy.Play(baseAudioSource);
+        swordSwinging.Post(gameObject);
+
     }
 
     void Finisher_Grab()
     {
         config.FinisherGrab.Play(baseAudioSource);
+        grabThing.Post(gameObject);
+
     }
 
     void Finisher_Grab_Contact()
     {
         config.FinisherGrabContact.Play(baseAudioSource);
+        grabContact.Post(gameObject);
+
     }
 
     #endregion
@@ -137,12 +167,14 @@ public class CharacterSoundHandler : MonoBehaviour
     void FinisherSlice()
     {
         config.FinisherSlice.Play(baseAudioSource);
+        finisherSlice.Post(gameObject);
     }
     //TODO move this to the prefab
     void Finisher_AOE_Blast()
     {
         AudioSource audioSourceToKill = gameObject.AddComponent<AudioSource>();
         config.FinisherAOEBlast.Play(audioSourceToKill);
+        aoeBlast.Post(gameObject);
         Destroy(audioSourceToKill, audioSourceToKill.clip.length);
     }
 

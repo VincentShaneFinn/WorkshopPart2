@@ -1,6 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{69509C59-3C56-4097-B231-5493F192F6A7}" SchemaVersion="89">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{69509C59-3C56-4097-B231-5493F192F6A7}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{69509C59-3C56-4097-B231-5493F192F6A7}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}">
+					<ChildrenList>
+						<Action Name="" ID="{74C6C940-179B-4759-AD36-9256926E7D80}" ShortID="743209087">
+							<PropertyList>
+								<Property Name="ActionType" Type="int16" Value="1"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="Weapons" ID="{2CAF7853-563E-4F8C-81C9-A0AE8A21FEE5}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Folder Name="Music" ID="{9B7249E0-5F9B-48B6-B71F-D5E9D7D99FE1}" ShortID="691375485">
+					<ChildrenList>
+						<Event Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}">
+							<ChildrenList>
+								<Action Name="" ID="{5C92D576-7B74-49A9-809D-277DED02DB30}" ShortID="502935768">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="music_Stop" ID="{3AEBDE81-60A5-493E-844C-D8E36429312E}">
+							<ChildrenList>
+								<Action Name="" ID="{E13F8C01-3446-4A75-9FAE-1E1E8CBBBAE2}" ShortID="12624996">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="2"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Environment" ID="{C57DC511-A63A-45E6-9A57-0F067F4B3CA7}" ShortID="489417672">
+					<ChildrenList>
+						<Event Name="waterfall_Flow" ID="{AF4A8F38-515A-4AA8-91D0-0B0F749474AC}">
+							<ChildrenList>
+								<Action Name="" ID="{4D77546D-77AB-4E8F-8B1B-BDB129148267}" ShortID="494943255">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="waterfall" ID="{915F652B-9947-4C16-BBDA-487734484FE4}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="fire_Crackle" ID="{F8696205-C0DC-43B9-A245-92401192BDB8}">
+							<ChildrenList>
+								<Action Name="" ID="{1D329794-6905-44B0-A938-CB5C836C4CAF}" ShortID="811985187">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="fire_Crackle" ID="{EDDFEEB4-CD2D-4C3D-A1DA-6E4A9245A2FE}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" SchemaVersion="89">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="in_Fight" ID="{C1E944B9-ED20-4117-87F1-805F0DF9C405}">
+					<ChildrenList>
+						<State Name="None" ID="{DA222458-CA4B-44C2-BA9E-6B5BF91CAF25}"/>
+						<State Name="inFight" ID="{EC535503-CC70-427C-9BC8-C8D7502B832A}"/>
+						<State Name="outOfFight" ID="{1100A40D-9F03-463D-8893-9E1D16B7C06E}"/>
+						<State Name="bossFight" ID="{3D1438FE-2FEB-4429-80A2-75057BAB6DBA}"/>
+					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="None" ID="{DA222458-CA4B-44C2-BA9E-6B5BF91CAF25}"/>
+							<EndState Name="inFight" ID="{EC535503-CC70-427C-9BC8-C8D7502B832A}"/>
+							<Time>1</Time>
+							<IsShared>false</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="inFight" ID="{EC535503-CC70-427C-9BC8-C8D7502B832A}"/>
+							<EndState Name="outOfFight" ID="{1100A40D-9F03-463D-8893-9E1D16B7C06E}"/>
+							<Time>1</Time>
+							<IsShared>true</IsShared>
+						</Transition>
+						<Transition>
+							<StartState Name="outOfFight" ID="{1100A40D-9F03-463D-8893-9E1D16B7C06E}"/>
+							<EndState Name="bossFight" ID="{3D1438FE-2FEB-4429-80A2-75057BAB6DBA}"/>
+							<Time>1</Time>
+							<IsShared>true</IsShared>
+						</Transition>
+					</TransitionList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>
