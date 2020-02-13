@@ -24,14 +24,14 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: a4a7213f70b2d1488b6cd4389fa3d410
     GuidInternal: 
-    m_lastTime: -8586199851381434447
+    m_lastTime: -8586199741991610567
     List: []
   BankWwu:
   - PhysicalPath: SoundBanks\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: 950fa9fae4b6224583494b59b3da18bd
     GuidInternal: 
-    m_lastTime: -8586199851381474658
+    m_lastTime: -8586199713138658363
     List:
     - name: Environment
       guid: 3559b9e649a6e94da07befb2ddf3edbc
@@ -65,7 +65,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 599c5069563c9740b2315493f192f6a7
     GuidInternal: 
-    m_lastTime: -8586199842132026953
+    m_lastTime: -8586199712856226599
     List:
     - name: fire_Crackle
       guid: 056269f8dcc0b943a24592401192bdb8
@@ -78,7 +78,7 @@ MonoBehaviour:
       - ElementName: fire_Crackle
         ObjectType: 3
       Path: Default Work Unit\Environment\fire_Crackle
-      maxAttenuation: 100
+      maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - name: largeFire_Crackle
@@ -92,7 +92,7 @@ MonoBehaviour:
       - ElementName: largeFire_Crackle
         ObjectType: 3
       Path: Default Work Unit\Environment\largeFire_Crackle
-      maxAttenuation: 100
+      maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - name: magicFire_Crackle
@@ -148,7 +148,7 @@ MonoBehaviour:
       - ElementName: waterfall_Flow
         ObjectType: 3
       Path: Default Work Unit\Environment\waterfall_Flow
-      maxAttenuation: 100
+      maxAttenuation: 0
       maxDuration: 0
       minDuration: 0
     - name: weapon_Swing
@@ -168,7 +168,7 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: 51ead11842fb8f468e481de637091afe
     GuidInternal: 
-    m_lastTime: -8586199929891775236
+    m_lastTime: -8586199742011240864
     List:
     - name: player_Position
       guid: 0d393ffd99d8ed458f9a20762763c1e6
@@ -184,51 +184,14 @@ MonoBehaviour:
     ParentPhysicalPath: 
     guid: e2ca570606ef2e42834fc9008987355c
     GuidInternal: 
-    m_lastTime: -8586199933498632270
-    List:
-    - name: in_Fight
-      guid: b944e9c120ed174187f1805f0df9c405
-      id: 499703095
-      PathAndIcons:
-      - ElementName: Default Work Unit
-        ObjectType: 12
-      - ElementName: in_Fight
-        ObjectType: 9
-      Path: Default Work Unit\in_Fight
-      values:
-      - name: bossFight
-        guid: fe38143deb2f294480a275057bab6dba
-        id: 580146960
-        PathAndIcons:
-        - ElementName: bossFight
-          ObjectType: 8
-      - name: inFight
-        guid: 035553ec70cc7c429bc8c8d7502b832a
-        id: 2181612614
-        PathAndIcons:
-        - ElementName: inFight
-          ObjectType: 8
-      - name: None
-        guid: 582422da4bcac244ba9e6b5bf91caf25
-        id: 748895195
-        PathAndIcons:
-        - ElementName: None
-          ObjectType: 8
-      - name: outOfFight
-        guid: 0da40011039f3d4688939e1d16b7c06e
-        id: 1150499030
-        PathAndIcons:
-        - ElementName: outOfFight
-          ObjectType: 8
-      ValueGuids: []
-      ValueIcons: []
-      valuesInternal: []
+    m_lastTime: -8586199724675744856
+    List: []
   SwitchWwu:
   - PhysicalPath: Switches\Default Work Unit.wwu
     ParentPhysicalPath: 
     guid: d8ae2c4467ce3c4e8ec7945e9135ded3
     GuidInternal: 
-    m_lastTime: -8586199842131986631
+    m_lastTime: -8586199724676174995
     List:
     - name: music_Switching
       guid: 6a7420ea7c2db04c86d1ab6efd15f81b
@@ -270,8 +233,8 @@ MonoBehaviour:
     List: []
   ExpandedItems:
   - /Finishers_WwiseProject
-  - /Finishers_WwiseProject/Events
-  - /Finishers_WwiseProject/Events/Default Work Unit
-  - /Finishers_WwiseProject/Events/Default Work Unit/Environment
+  - /Finishers_WwiseProject/Switches
+  - /Finishers_WwiseProject/Switches/Default Work Unit
+  - /Finishers_WwiseProject/Switches/Default Work Unit/music_Switching
   autoPopulateEnabled: 1
   CurrentPluginConfig: 
