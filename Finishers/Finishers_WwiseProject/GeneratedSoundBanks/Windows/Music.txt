@@ -5,31 +5,14 @@ Event	ID	Name			Wwise Object Path	Notes
 	3208010807	fire_Crackle			\Default Work Unit\Environment\fire_Crackle	
 	3227181061	music_Stop			\Default Work Unit\Music\music_Stop	
 
-Switch Group	ID	Name			Wwise Object Path	Notes
-	4291166859	music_Switching			\Default Work Unit\music_Switching	
-
-Switch	ID	Name	Switch Group			Notes
-	580146960	bossFight	music_Switching			
-	1150499030	outOfFight	music_Switching			
-	2181612614	inFight	music_Switching			
-
-State Group	ID	Name			Wwise Object Path	Notes
-	499703095	in_Fight			\Default Work Unit\in_Fight	
-
-State	ID	Name	State Group			Notes
-	0	None	in_Fight			
-	580146960	bossFight	in_Fight			
-	1150499030	outOfFight	in_Fight			
-	2181612614	inFight	in_Fight			
-
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	104182551	Adventurer	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Adventurer_8956FC97.wem		\Interactive Music Hierarchy\Default Work Unit\Music\Music Switch\Adventurer\Adventurer		26620480
 	108948901	fire_Crackle	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\fire_Crackle_6925A1F9.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\fire_Crackle		10577188
+	129431920	Fight	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Fight_8956FC97.wem		\Interactive Music Hierarchy\Default Work Unit\Music\Music Switch\Fight\Fight		21772864
 	387176789	sword_Swing	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\sword_Swing_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\sword_Swing		111960
-	407334773	Adventurer	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Adventurer_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Music Switch\Adventurer		26620480
+	737338900	Ominous	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Ominous_8956FC97.wem		\Interactive Music Hierarchy\Default Work Unit\Music\Music Switch\Ominous\Ominous		16943680
 	755767113	waterfall	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\waterfall_D1C06C1A.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\waterfall		4912128
 	840222185	swoosh_01	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_01_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_01		115664
 	971770234	swoosh_03	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_03_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_03		325788
 	1001037440	swoosh_02	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_02_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_02		89680
-	1008831085	Ominous	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Ominous_E5599837.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Music Switch\Ominous		16943680
-	1045939483	Fight	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Fight_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Music\Music Switch\Fight		21772864
 

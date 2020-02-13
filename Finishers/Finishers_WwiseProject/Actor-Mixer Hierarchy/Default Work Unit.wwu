@@ -588,170 +588,117 @@
 									<ObjectRef Name="music_Switching" ID="{EA20746A-2D7C-4CB0-86D1-AB6EFD15F81B}" WorkUnitID="{442CAED8-CE67-4E3C-8EC7-945E9135DED3}"/>
 								</Reference>
 							</ReferenceList>
-							<ChildrenList>
-								<Sound Name="Theme" ID="{70A75A48-9404-429E-A1EE-126E1BA5CD9B}" ShortID="721749588">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Theme" ID="{2FB87F76-640E-4583-BC6B-52D6810929FB}" ShortID="360885910">
-											<Language>SFX</Language>
-											<AudioFile>Theme.wav</AudioFile>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Theme" ID="{2FB87F76-640E-4583-BC6B-52D6810929FB}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="Adventurer" ID="{FED1D314-3E85-4FDA-83E6-D26BCA26F206}" ShortID="66146916">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Adventurer" ID="{2C761281-2C66-4D9D-BE2D-634A1BF77F07}" ShortID="407334773">
-											<Language>SFX</Language>
-											<AudioFile>Adventurer.wav</AudioFile>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Adventurer" ID="{2C761281-2C66-4D9D-BE2D-634A1BF77F07}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}" ShortID="805912302">
-									<PropertyList>
-										<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
-									</PropertyList>
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Ominous" ID="{8115F696-1EA3-4812-AB4B-C9B603AE5D53}" ShortID="1008831085">
-											<PropertyList>
-												<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
-											</PropertyList>
-											<Language>SFX</Language>
-											<AudioFile>Ominous.wav</AudioFile>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Ominous" ID="{8115F696-1EA3-4812-AB4B-C9B603AE5D53}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="Mystic" ID="{67077098-4977-4463-B789-F6F00A353959}" ShortID="840639190">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Mystic" ID="{4DFE04D1-4181-449B-9B8D-F7440FEB1D28}" ShortID="656755259">
-											<Language>SFX</Language>
-											<AudioFile>Music\Mystic.wav</AudioFile>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Mystic" ID="{4DFE04D1-4181-449B-9B8D-F7440FEB1D28}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-								<Sound Name="Fight" ID="{4E5152A0-EBA5-4068-91B3-342C5949EBD4}" ShortID="226668293">
-									<ReferenceList>
-										<Reference Name="Conversion">
-											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
-										</Reference>
-										<Reference Name="OutputBus">
-											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
-										</Reference>
-									</ReferenceList>
-									<ChildrenList>
-										<AudioFileSource Name="Fight" ID="{83AEF675-7507-4A51-BD94-172BA7FBF943}" ShortID="1045939483">
-											<Language>SFX</Language>
-											<AudioFile>Fight.wav</AudioFile>
-										</AudioFileSource>
-									</ChildrenList>
-									<ActiveSourceList>
-										<ActiveSource Name="Fight" ID="{83AEF675-7507-4A51-BD94-172BA7FBF943}" Platform="Linked"/>
-									</ActiveSourceList>
-								</Sound>
-							</ChildrenList>
-							<StateInfo>
-								<StateGroupList>
-									<StateGroupInfo>
-										<StateGroupRef Name="in_Fight" ID="{C1E944B9-ED20-4117-87F1-805F0DF9C405}"/>
-									</StateGroupInfo>
-								</StateGroupList>
-								<CustomStateList>
-									<CustomState>
-										<StateRef Name="inFight" ID="{EC535503-CC70-427C-9BC8-C8D7502B832A}"/>
-										<State Name="" ID="{559301C7-AEEC-46BB-8023-1B4F1A169814}" ShortID="54889294"/>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="bossFight" ID="{3D1438FE-2FEB-4429-80A2-75057BAB6DBA}"/>
-										<State Name="" ID="{0F63E62B-26F6-421F-9263-6621208831AB}" ShortID="484201261"/>
-									</CustomState>
-									<CustomState>
-										<StateRef Name="outOfFight" ID="{1100A40D-9F03-463D-8893-9E1D16B7C06E}"/>
-										<State Name="" ID="{636B4376-9E94-4B08-B00C-76FD70BF12CB}" ShortID="73135955"/>
-									</CustomState>
-								</CustomStateList>
-							</StateInfo>
-							<GroupingInfo>
-								<GroupingBehaviorList>
-									<GroupingBehavior>
-										<ItemRef Name="Adventurer" ID="{FED1D314-3E85-4FDA-83E6-D26BCA26F206}"/>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="Theme" ID="{70A75A48-9404-429E-A1EE-126E1BA5CD9B}"/>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}"/>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="Mystic" ID="{67077098-4977-4463-B789-F6F00A353959}"/>
-									</GroupingBehavior>
-									<GroupingBehavior>
-										<ItemRef Name="Fight" ID="{4E5152A0-EBA5-4068-91B3-342C5949EBD4}"/>
-									</GroupingBehavior>
-								</GroupingBehaviorList>
-								<GroupingList>
-									<Grouping>
-										<SwitchRef Name="bossFight" ID="{3D494F0A-E5B9-4997-99C3-8912D86D19BD}"/>
-										<ItemList>
-											<ItemRef Name="Adventurer" ID="{FED1D314-3E85-4FDA-83E6-D26BCA26F206}"/>
-										</ItemList>
-									</Grouping>
-									<Grouping>
-										<SwitchRef Name="outOfFight" ID="{69BB88C2-BDDF-432D-B9B3-EB5BDF761B43}"/>
-										<ItemList>
-											<ItemRef Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}"/>
-										</ItemList>
-									</Grouping>
-									<Grouping>
-										<SwitchRef Name="inFight" ID="{7814B7C6-4AEC-4935-99CC-82FA6653B230}"/>
-										<ItemList>
-											<ItemRef Name="Fight" ID="{4E5152A0-EBA5-4068-91B3-342C5949EBD4}"/>
-										</ItemList>
-									</Grouping>
-								</GroupingList>
-							</GroupingInfo>
+							<GroupingInfo/>
 						</SwitchContainer>
+						<Sound Name="Theme" ID="{70A75A48-9404-429E-A1EE-126E1BA5CD9B}" ShortID="721749588">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Theme" ID="{2FB87F76-640E-4583-BC6B-52D6810929FB}" ShortID="360885910">
+									<Language>SFX</Language>
+									<AudioFile>Theme.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Theme" ID="{2FB87F76-640E-4583-BC6B-52D6810929FB}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Ominous" ID="{0357946B-7D87-4ED8-87AD-161F8D320F1A}" ShortID="805912302">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Ominous" ID="{8115F696-1EA3-4812-AB4B-C9B603AE5D53}" ShortID="1008831085">
+									<PropertyList>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Ominous.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Ominous" ID="{8115F696-1EA3-4812-AB4B-C9B603AE5D53}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Mystic" ID="{67077098-4977-4463-B789-F6F00A353959}" ShortID="840639190">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Mystic" ID="{4DFE04D1-4181-449B-9B8D-F7440FEB1D28}" ShortID="656755259">
+									<Language>SFX</Language>
+									<AudioFile>Music\Mystic.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Mystic" ID="{4DFE04D1-4181-449B-9B8D-F7440FEB1D28}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Fight" ID="{4E5152A0-EBA5-4068-91B3-342C5949EBD4}" ShortID="226668293">
+							<PropertyList>
+								<Property Name="IsLoopingEnabled" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Fight" ID="{83AEF675-7507-4A51-BD94-172BA7FBF943}" ShortID="1045939483">
+									<PropertyList>
+										<Property Name="LoopBegin" Type="Real64" Value="18.00625998735"/>
+										<Property Name="LoopEnd" Type="Real64" Value="120.874664831304"/>
+										<Property Name="OverrideWavLoop" Type="bool" Value="True"/>
+									</PropertyList>
+									<Language>SFX</Language>
+									<AudioFile>Fight.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Fight" ID="{83AEF675-7507-4A51-BD94-172BA7FBF943}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
+						<Sound Name="Adventurer" ID="{FED1D314-3E85-4FDA-83E6-D26BCA26F206}" ShortID="66146916">
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Music" ID="{4A7513C9-6D49-4D8D-AC21-4D381A1D66D9}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="Adventurer" ID="{2C761281-2C66-4D9D-BE2D-634A1BF77F07}" ShortID="407334773">
+									<Language>SFX</Language>
+									<AudioFile>Adventurer.wav</AudioFile>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="Adventurer" ID="{2C761281-2C66-4D9D-BE2D-634A1BF77F07}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Voice" ID="{F4B248D1-74A9-467F-9C19-81B66D33C3E3}" ShortID="290771058"/>

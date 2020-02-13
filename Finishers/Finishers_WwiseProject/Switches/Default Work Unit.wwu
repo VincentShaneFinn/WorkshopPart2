@@ -4,9 +4,6 @@
 		<WorkUnit Name="Default Work Unit" ID="{442CAED8-CE67-4E3C-8EC7-945E9135DED3}" PersistMode="Standalone">
 			<ChildrenList>
 				<SwitchGroup Name="music_Switching" ID="{EA20746A-2D7C-4CB0-86D1-AB6EFD15F81B}">
-					<PropertyList>
-						<Property Name="UseGameParameter" Type="bool" Value="True"/>
-					</PropertyList>
 					<ChildrenList>
 						<Switch Name="inFight" ID="{7814B7C6-4AEC-4935-99CC-82FA6653B230}"/>
 						<Switch Name="outOfFight" ID="{69BB88C2-BDDF-432D-B9B3-EB5BDF761B43}"/>

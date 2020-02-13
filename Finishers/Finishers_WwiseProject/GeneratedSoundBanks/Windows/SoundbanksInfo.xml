@@ -16,10 +16,10 @@
 			<ShortName>Environment</ShortName>
 			<Path>Environment.bnk</Path>
 			<IncludedEvents>
-				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle" MaxAttenuation="100.000000"/>
-				<Event Id="3970897584" Name="largeFire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\largeFire_Crackle" MaxAttenuation="100.000000"/>
+				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle"/>
+				<Event Id="3970897584" Name="largeFire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\largeFire_Crackle"/>
 				<Event Id="1998079712" Name="magicFire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\magicFire_Crackle"/>
-				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow" MaxAttenuation="100.000000"/>
+				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="108948901" Language="SFX">
@@ -76,24 +76,32 @@
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<IncludedEvents>
-				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle" MaxAttenuation="100.000000"/>
+				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle"/>
 				<Event Id="202194903" Name="music_Play" ObjectPath="\Events\Default Work Unit\Music\music_Play"/>
-				<Event Id="3227181061" Name="music_Stop" ObjectPath="\Events\Default Work Unit\Music\music_Stop" MaxAttenuation="0.000000"/>
-				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow" MaxAttenuation="100.000000"/>
+				<Event Id="3227181061" Name="music_Stop" ObjectPath="\Events\Default Work Unit\Music\music_Stop"/>
+				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
 				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\weapon_Swing"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="104182551" Language="SFX">
+					<ShortName>Adventurer.wav</ShortName>
+					<Path>SFX\Adventurer_8956FC97.wem</Path>
+				</File>
 				<File Id="108948901" Language="SFX">
 					<ShortName>fire_Crackle.wav</ShortName>
 					<Path>SFX\fire_Crackle_6925A1F9.wem</Path>
+				</File>
+				<File Id="129431920" Language="SFX">
+					<ShortName>Fight.wav</ShortName>
+					<Path>SFX\Fight_8956FC97.wem</Path>
 				</File>
 				<File Id="387176789" Language="SFX">
 					<ShortName>Hits\sword_Swing.wav</ShortName>
 					<Path>SFX\Hits\sword_Swing_56D34C19.wem</Path>
 				</File>
-				<File Id="407334773" Language="SFX">
-					<ShortName>Adventurer.wav</ShortName>
-					<Path>SFX\Adventurer_56D34C19.wem</Path>
+				<File Id="737338900" Language="SFX">
+					<ShortName>Ominous.wav</ShortName>
+					<Path>SFX\Ominous_8956FC97.wem</Path>
 				</File>
 				<File Id="755767113" Language="SFX">
 					<ShortName>waterfall.wav</ShortName>
@@ -110,14 +118,6 @@
 				<File Id="1001037440" Language="SFX">
 					<ShortName>swoosh_02.wav</ShortName>
 					<Path>SFX\swoosh_02_56D34C19.wem</Path>
-				</File>
-				<File Id="1008831085" Language="SFX">
-					<ShortName>Ominous.wav</ShortName>
-					<Path>SFX\Ominous_E5599837.wem</Path>
-				</File>
-				<File Id="1045939483" Language="SFX">
-					<ShortName>Fight.wav</ShortName>
-					<Path>SFX\Fight_56D34C19.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
