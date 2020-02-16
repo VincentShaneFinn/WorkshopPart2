@@ -334,7 +334,27 @@
 											<ObjectRef Name="Ominous" ID="{4C56864D-75C0-4718-9EDB-2EF423C3512F}" WorkUnitID="{6F4BD061-9266-4BD1-A667-CC21D21C6BCF}"/>
 										</Reference>
 									</ReferenceList>
-									<TransitionInfo/>
+									<TransitionInfo>
+										<SourceFadeOut>
+											<MusicFade Name="Source Fade-out" ID="{78275306-51A5-41C3-B2C7-3927D513FA10}">
+												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="3"/>
+													<Property Name="FadeOffset" Type="Real64" Value="1.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="3"/>
+													<Property Name="FadeType" Type="int16" Value="1"/>
+												</PropertyList>
+											</MusicFade>
+										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{46A326DE-7618-4534-B6F8-51BA80D90D0E}">
+												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="3"/>
+													<Property Name="FadeOffset" Type="Real64" Value="-1.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="3"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
+									</TransitionInfo>
 								</MusicTransition>
 								<MusicTransition Name="Transition" ID="{06DCCB7C-B1F7-456B-8994-C324D99760F3}">
 									<PropertyList>
@@ -356,10 +376,22 @@
 										<SourceFadeOut>
 											<MusicFade Name="Source Fade-out" ID="{15C07765-46FE-4F69-ABBC-DC0853F309BE}">
 												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="3"/>
+													<Property Name="FadeOffset" Type="Real64" Value="1.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="3"/>
 													<Property Name="FadeType" Type="int16" Value="1"/>
 												</PropertyList>
 											</MusicFade>
 										</SourceFadeOut>
+										<DestinationFadeIn>
+											<MusicFade Name="Destination Fade-in" ID="{FF4A5A6E-869E-4C23-9287-86B37C0DBF7E}">
+												<PropertyList>
+													<Property Name="FadeCurve" Type="int16" Value="3"/>
+													<Property Name="FadeOffset" Type="Real64" Value="-1.5"/>
+													<Property Name="FadeTime" Type="Real64" Value="3"/>
+												</PropertyList>
+											</MusicFade>
+										</DestinationFadeIn>
 									</TransitionInfo>
 								</MusicTransition>
 							</ChildrenList>
@@ -399,7 +431,7 @@
 								<PathElementRef Name="music_Switching" ID="{EA20746A-2D7C-4CB0-86D1-AB6EFD15F81B}"/>
 							</Path>
 							<AudioNodeInfo>
-								<NoObject Platform="Linked"/>
+								<AudioNodeRef Name="Ominous" ID="{4C56864D-75C0-4718-9EDB-2EF423C3512F}" WorkUnitID="{6F4BD061-9266-4BD1-A667-CC21D21C6BCF}" Platform="Linked"/>
 							</AudioNodeInfo>
 						</Entry>
 					</EntryList>

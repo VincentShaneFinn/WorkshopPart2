@@ -503,6 +503,21 @@
 					</GroupingInfo>
 				</SwitchContainer>
 				<RandomSequenceContainer Name="Hits" ID="{15259F55-C804-41BF-A580-8B4353087557}" ShortID="816557344">
+					<PropertyList>
+						<Property Name="Pitch" Type="int32">
+							<ModifierList>
+								<ModifierInfo>
+									<Modifier Name="" ID="{3B0C5F32-F889-489E-A53D-F3F1D4D05DEC}">
+										<PropertyList>
+											<Property Name="Enabled" Type="bool" Value="True"/>
+											<Property Name="Max" Type="Real64" Value="632"/>
+											<Property Name="Min" Type="Real64" Value="-960"/>
+										</PropertyList>
+									</Modifier>
+								</ModifierInfo>
+							</ModifierList>
+						</Property>
+					</PropertyList>
 					<ReferenceList>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
@@ -701,7 +716,197 @@
 						</Sound>
 					</ChildrenList>
 				</Folder>
-				<Folder Name="Voice" ID="{F4B248D1-74A9-467F-9C19-81B66D33C3E3}" ShortID="290771058"/>
+				<Folder Name="Voice" ID="{F4B248D1-74A9-467F-9C19-81B66D33C3E3}" ShortID="290771058">
+					<ChildrenList>
+						<RandomSequenceContainer Name="playerAttack" ID="{5EBAE8C3-646C-48C9-9F88-288AAE4D31E0}" ShortID="71559010">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{917CD1B9-E5AD-4AF8-8C9E-3802C51FC66F}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="152"/>
+													<Property Name="Min" Type="Real64" Value="-202"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="07_cool_attack" ID="{E89FF918-3D4D-479F-99FA-587FABE75608}" ShortID="242944535">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="07_cool_attack" ID="{823E029E-BA66-4393-96CF-C3C1670BE1B1}" ShortID="505110844">
+											<Language>SFX</Language>
+											<AudioFile>07_cool_attack.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="07_cool_attack" ID="{823E029E-BA66-4393-96CF-C3C1670BE1B1}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="07_priest_attack" ID="{B6EBC227-85EB-4156-B79B-4936FF736DAE}" ShortID="303171144">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="07_priest_attack" ID="{077C9919-D473-4AFA-A7E2-C746BA97290A}" ShortID="379670137">
+											<Language>SFX</Language>
+											<AudioFile>07_priest_attack.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="07_priest_attack" ID="{077C9919-D473-4AFA-A7E2-C746BA97290A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="08_cool_attack" ID="{5C41B9E4-6ADA-4279-BF0A-9C1D6986E848}" ShortID="595991979">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="08_cool_attack" ID="{01E64BB7-C4F3-4E03-9AA1-65CC00D1621A}" ShortID="1021147380">
+											<Language>SFX</Language>
+											<AudioFile>08_cool_attack.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="08_cool_attack" ID="{01E64BB7-C4F3-4E03-9AA1-65CC00D1621A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+						<RandomSequenceContainer Name="playerDamage" ID="{D0F2B085-C294-4409-955A-B046C1FB6E41}" ShortID="96795628">
+							<PropertyList>
+								<Property Name="Pitch" Type="int32">
+									<ModifierList>
+										<ModifierInfo>
+											<Modifier Name="" ID="{C1EDBE47-7B28-4A2E-9805-196172AEB68A}">
+												<PropertyList>
+													<Property Name="Enabled" Type="bool" Value="True"/>
+													<Property Name="Max" Type="Real64" Value="76"/>
+													<Property Name="Min" Type="Real64" Value="-177"/>
+												</PropertyList>
+											</Modifier>
+										</ModifierInfo>
+									</ModifierList>
+								</Property>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<Sound Name="08_priest_attack" ID="{9E4E4C65-00D3-4F08-9942-D7B9042134B9}" ShortID="718363987">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="08_priest_attack" ID="{ECC40B04-45F8-4400-BB6C-0410B6F1AADC}" ShortID="293746482">
+											<Language>SFX</Language>
+											<AudioFile>08_priest_attack.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="08_priest_attack" ID="{ECC40B04-45F8-4400-BB6C-0410B6F1AADC}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="14_cool_damage" ID="{64943336-C3BD-47CC-973D-8A9CC1508D36}" ShortID="129881268">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="14_cool_damage" ID="{4CBECCFF-1841-4EAD-96AA-F2EC6F239ED4}" ShortID="237275556">
+											<Language>SFX</Language>
+											<AudioFile>14_cool_damage.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="14_cool_damage" ID="{4CBECCFF-1841-4EAD-96AA-F2EC6F239ED4}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="16_cool_damage" ID="{A45B0E30-F653-4336-988B-5E321EE8C38B}" ShortID="950877590">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="16_cool_damage" ID="{7C501E6D-2CD3-4F32-BD83-AF342BF0654D}" ShortID="72831928">
+											<Language>SFX</Language>
+											<AudioFile>16_cool_damage.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="16_cool_damage" ID="{7C501E6D-2CD3-4F32-BD83-AF342BF0654D}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+								<Sound Name="15_macho_damage" ID="{14B25BBF-4063-4A6D-B23B-C01F0E54E342}" ShortID="1037706662">
+									<ReferenceList>
+										<Reference Name="Conversion">
+											<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{46564B2F-29F5-40E3-BCD7-A90BEE9382E0}"/>
+										</Reference>
+										<Reference Name="OutputBus">
+											<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{3F21A7A4-B270-48D1-8B6C-D4389FA3D410}"/>
+										</Reference>
+									</ReferenceList>
+									<ChildrenList>
+										<AudioFileSource Name="15_macho_damage" ID="{8A05B658-49A4-4EFA-BD1E-BF2009A84C6A}" ShortID="644383555">
+											<Language>SFX</Language>
+											<AudioFile>15_macho_damage.wav</AudioFile>
+										</AudioFileSource>
+									</ChildrenList>
+									<ActiveSourceList>
+										<ActiveSource Name="15_macho_damage" ID="{8A05B658-49A4-4EFA-BD1E-BF2009A84C6A}" Platform="Linked"/>
+									</ActiveSourceList>
+								</Sound>
+							</ChildrenList>
+						</RandomSequenceContainer>
+					</ChildrenList>
+				</Folder>
 				<RandomSequenceContainer Name="Weapons" ID="{2CAF7853-563E-4F8C-81C9-A0AE8A21FEE5}" ShortID="535047113">
 					<PropertyList>
 						<Property Name="Lowpass" Type="int16">

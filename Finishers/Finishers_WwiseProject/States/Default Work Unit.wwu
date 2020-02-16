@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" SchemaVersion="89">
 	<States>
-		<WorkUnit Name="Default Work Unit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{0657CAE2-EF06-422E-834F-C9008987355C}" PersistMode="Standalone">
+			<ChildrenList>
+				<StateGroup Name="Fighting" ID="{03CAC065-C879-4193-8F4C-889EF2AF4848}">
+					<ChildrenList>
+						<State Name="None" ID="{33FF7B77-F25D-4424-BBAA-4B8923108F35}"/>
+						<State Name="inFight" ID="{263513D9-40DF-4EAA-A2CB-D9399DEEFC16}"/>
+						<State Name="outOfFight" ID="{9ADC321E-E7D0-48C4-9C7D-A7BE7B844AC8}"/>
+					</ChildrenList>
+					<TransitionList>
+						<Transition>
+							<StartState Name="inFight" ID="{263513D9-40DF-4EAA-A2CB-D9399DEEFC16}"/>
+							<EndState Name="outOfFight" ID="{9ADC321E-E7D0-48C4-9C7D-A7BE7B844AC8}"/>
+							<Time>1</Time>
+							<IsShared>true</IsShared>
+						</Transition>
+					</TransitionList>
+				</StateGroup>
+			</ChildrenList>
+		</WorkUnit>
 	</States>
 </WwiseDocument>

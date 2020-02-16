@@ -3,20 +3,6 @@
 	<Events>
 		<WorkUnit Name="Default Work Unit" ID="{69509C59-3C56-4097-B231-5493F192F6A7}" PersistMode="Standalone">
 			<ChildrenList>
-				<Event Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}">
-					<ChildrenList>
-						<Action Name="" ID="{74C6C940-179B-4759-AD36-9256926E7D80}" ShortID="743209087">
-							<PropertyList>
-								<Property Name="ActionType" Type="int16" Value="1"/>
-							</PropertyList>
-							<ReferenceList>
-								<Reference Name="Target">
-									<ObjectRef Name="Weapons" ID="{2CAF7853-563E-4F8C-81C9-A0AE8A21FEE5}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
-								</Reference>
-							</ReferenceList>
-						</Action>
-					</ChildrenList>
-				</Event>
 				<Folder Name="Music" ID="{9B7249E0-5F9B-48B6-B71F-D5E9D7D99FE1}" ShortID="691375485">
 					<ChildrenList>
 						<Event Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}">
@@ -132,6 +118,66 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="magic_Bubbles" ID="{12D7307F-BD60-4897-856B-F709D01B3418}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+					</ChildrenList>
+				</Folder>
+				<Folder Name="Combat" ID="{5D05D251-435E-4565-9918-B90A3870B2C7}" ShortID="41177037">
+					<ChildrenList>
+						<Event Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}">
+							<ChildrenList>
+								<Action Name="" ID="{74C6C940-179B-4759-AD36-9256926E7D80}" ShortID="743209087">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Weapons" ID="{2CAF7853-563E-4F8C-81C9-A0AE8A21FEE5}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="onHit" ID="{0DA45389-FE5D-4913-B058-4EA21E5ECB36}">
+							<ChildrenList>
+								<Action Name="" ID="{4AA8B322-8379-4C4C-BE6D-F2BF60E35280}" ShortID="149733834">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Hits" ID="{15259F55-C804-41BF-A580-8B4353087557}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="playerAttack" ID="{D1052197-FC2F-4D59-A309-F9C22402462F}">
+							<ChildrenList>
+								<Action Name="" ID="{B6DE1B68-ED1D-409D-8A80-B1C7D3D0A02B}" ShortID="355240322">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="playerAttack" ID="{5EBAE8C3-646C-48C9-9F88-288AAE4D31E0}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="playerDamage" ID="{8E1D36CC-D43D-4FEC-A7E9-FE95E8678D61}">
+							<ChildrenList>
+								<Action Name="" ID="{98AEF273-2FED-417C-8A4A-1E18440BCB18}" ShortID="593271818">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="playerDamage" ID="{D0F2B085-C294-4409-955A-B046C1FB6E41}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

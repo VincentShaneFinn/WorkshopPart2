@@ -6,6 +6,9 @@
 				<SoundBank Name="Main" ID="{BBE4ADF7-833C-48C0-AB30-84C8EFDD06F2}">
 					<ObjectInclusionList>
 						<ObjectRef Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="onHit" ID="{0DA45389-FE5D-4913-B058-4EA21E5ECB36}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="playerAttack" ID="{D1052197-FC2F-4D59-A309-F9C22402462F}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="playerDamage" ID="{8E1D36CC-D43D-4FEC-A7E9-FE95E8678D61}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>
@@ -27,6 +30,7 @@
 						<ObjectRef Name="music_Play" ID="{ED40174C-DA5B-486B-8D64-9FAA880A9043}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="music_Stop" ID="{3AEBDE81-60A5-493E-844C-D8E36429312E}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="waterfall_Flow" ID="{AF4A8F38-515A-4AA8-91D0-0B0F749474AC}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Music Switch" ID="{A975E925-3124-4B2E-9E47-7F0DBDFA6803}" WorkUnitID="{6F4BD061-9266-4BD1-A667-CC21D21C6BCF}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="Music" ID="{6F4BD061-9266-4BD1-A667-CC21D21C6BCF}" WorkUnitID="{6F4BD061-9266-4BD1-A667-CC21D21C6BCF}" Filter="7" Origin="Manual"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>

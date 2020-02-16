@@ -50,12 +50,51 @@
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
-				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\weapon_Swing"/>
+				<Event Id="3182539833" Name="onHit" ObjectPath="\Events\Default Work Unit\Combat\onHit"/>
+				<Event Id="2169369406" Name="playerAttack" ObjectPath="\Events\Default Work Unit\Combat\playerAttack"/>
+				<Event Id="337406793" Name="playerDamage" ObjectPath="\Events\Default Work Unit\Combat\playerDamage"/>
+				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\Combat\weapon_Swing"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="72831928" Language="SFX">
+					<ShortName>16_cool_damage.wav</ShortName>
+					<Path>SFX\16_cool_damage_56D34C19.wem</Path>
+				</File>
+				<File Id="237275556" Language="SFX">
+					<ShortName>14_cool_damage.wav</ShortName>
+					<Path>SFX\14_cool_damage_56D34C19.wem</Path>
+				</File>
+				<File Id="293746482" Language="SFX">
+					<ShortName>08_priest_attack.wav</ShortName>
+					<Path>SFX\08_priest_attack_56D34C19.wem</Path>
+				</File>
+				<File Id="361469299" Language="SFX">
+					<ShortName>Hits\playerhit_2.wav</ShortName>
+					<Path>SFX\Hits\playerhit_2_56D34C19.wem</Path>
+				</File>
+				<File Id="379670137" Language="SFX">
+					<ShortName>07_priest_attack.wav</ShortName>
+					<Path>SFX\07_priest_attack_56D34C19.wem</Path>
+				</File>
 				<File Id="387176789" Language="SFX">
 					<ShortName>Hits\sword_Swing.wav</ShortName>
 					<Path>SFX\Hits\sword_Swing_56D34C19.wem</Path>
+				</File>
+				<File Id="505110844" Language="SFX">
+					<ShortName>07_cool_attack.wav</ShortName>
+					<Path>SFX\07_cool_attack_56D34C19.wem</Path>
+				</File>
+				<File Id="644383555" Language="SFX">
+					<ShortName>15_macho_damage.wav</ShortName>
+					<Path>SFX\15_macho_damage_56D34C19.wem</Path>
+				</File>
+				<File Id="680531326" Language="SFX">
+					<ShortName>Hits\playerhit_1.wav</ShortName>
+					<Path>SFX\Hits\playerhit_1_56D34C19.wem</Path>
+				</File>
+				<File Id="712298067" Language="SFX">
+					<ShortName>Hits\playerhit_3.wav</ShortName>
+					<Path>SFX\Hits\playerhit_3_56D34C19.wem</Path>
 				</File>
 				<File Id="840222185" Language="SFX">
 					<ShortName>swoosh_01.wav</ShortName>
@@ -69,6 +108,10 @@
 					<ShortName>swoosh_02.wav</ShortName>
 					<Path>SFX\swoosh_02_56D34C19.wem</Path>
 				</File>
+				<File Id="1021147380" Language="SFX">
+					<ShortName>08_cool_attack.wav</ShortName>
+					<Path>SFX\08_cool_attack_56D34C19.wem</Path>
+				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
 		<SoundBank Id="3991942870" Language="SFX">
@@ -80,7 +123,7 @@
 				<Event Id="202194903" Name="music_Play" ObjectPath="\Events\Default Work Unit\Music\music_Play"/>
 				<Event Id="3227181061" Name="music_Stop" ObjectPath="\Events\Default Work Unit\Music\music_Stop"/>
 				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
-				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\weapon_Swing"/>
+				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\Combat\weapon_Swing"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="104182551" Language="SFX">

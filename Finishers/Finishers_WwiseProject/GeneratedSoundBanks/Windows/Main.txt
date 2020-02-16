@@ -1,9 +1,22 @@
 Event	ID	Name			Wwise Object Path	Notes
-	996920706	weapon_Swing			\Default Work Unit\weapon_Swing	
+	337406793	playerDamage			\Default Work Unit\Combat\playerDamage	
+	996920706	weapon_Swing			\Default Work Unit\Combat\weapon_Swing	
+	2169369406	playerAttack			\Default Work Unit\Combat\playerAttack	
+	3182539833	onHit			\Default Work Unit\Combat\onHit	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	72831928	16_cool_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\16_cool_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\16_cool_damage		58264
+	237275556	14_cool_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\14_cool_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\14_cool_damage		69776
+	293746482	08_priest_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\08_priest_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\08_priest_attack		32176
+	361469299	playerhit_2	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_2_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_2		50346
+	379670137	07_priest_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\07_priest_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\07_priest_attack		38816
 	387176789	sword_Swing	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\sword_Swing_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\sword_Swing		111960
+	505110844	07_cool_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\07_cool_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\07_cool_attack		60170
+	644383555	15_macho_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\15_macho_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\15_macho_damage		61804
+	680531326	playerhit_1	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_1_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_1		107584
+	712298067	playerhit_3	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_3_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_3		104652
 	840222185	swoosh_01	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_01_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_01		115664
 	971770234	swoosh_03	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_03_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_03		325788
 	1001037440	swoosh_02	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_02_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_02		89680
+	1021147380	08_cool_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\08_cool_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\08_cool_attack		35252
 
