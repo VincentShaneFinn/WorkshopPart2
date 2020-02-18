@@ -5,8 +5,14 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{BBE4ADF7-833C-48C0-AB30-84C8EFDD06F2}">
 					<ObjectInclusionList>
+						<ObjectRef Name="finisherFlameAOE" ID="{CA0BC6AC-7203-462D-BA4E-91A8CD07C307}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="grabEnemy" ID="{36AF00DD-8405-46F4-8E3F-2AF177F4DD94}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="runningBreath" ID="{A9B911C2-36F4-46F5-98A7-E24C4DFE317A}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="weapon_Swing" ID="{F6FC1DFA-101A-4789-9948-810A512F2D9C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="finisherSiphon" ID="{E6EA560B-2438-47F9-9759-D44BE77CEF59}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="onHit" ID="{0DA45389-FE5D-4913-B058-4EA21E5ECB36}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="grabContact" ID="{08CC4A09-0D64-49EC-83FB-CC20D87FF6E2}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="finisherFlame" ID="{F001F9CA-BE17-4ACB-A4FB-31CEEF02D2D8}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="playerAttack" ID="{D1052197-FC2F-4D59-A309-F9C22402462F}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="playerDamage" ID="{8E1D36CC-D43D-4FEC-A7E9-FE95E8678D61}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 					</ObjectInclusionList>
@@ -15,10 +21,12 @@
 				</SoundBank>
 				<SoundBank Name="Environment" ID="{E6B95935-A649-4DE9-A07B-EFB2DDF3EDBC}">
 					<ObjectInclusionList>
+						<ObjectRef Name="player_Footstep" ID="{5173A5F8-37CB-4102-A828-36A3EAA69BC4}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="magicFire_Crackle" ID="{8953A07D-B275-42C4-932E-0F917A8846CF}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="fire_Crackle" ID="{F8696205-C0DC-43B9-A245-92401192BDB8}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="largeFire_Crackle" ID="{E92AE00B-1929-4674-AD24-4BCE220F5D5C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="waterfall_Flow" ID="{AF4A8F38-515A-4AA8-91D0-0B0F749474AC}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="Footsteps" ID="{D077FA12-D701-4BCC-8A2F-B0ACD1A77F31}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}" Filter="7" Origin="Manual"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

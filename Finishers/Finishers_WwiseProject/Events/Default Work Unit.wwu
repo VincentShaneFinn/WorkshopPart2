@@ -123,6 +123,20 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="player_Footstep" ID="{5173A5F8-37CB-4102-A828-36A3EAA69BC4}">
+							<ChildrenList>
+								<Action Name="" ID="{CEA316BE-21ED-4AB5-95B4-1D00244018A9}" ShortID="194828270">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Footsteps" ID="{D077FA12-D701-4BCC-8A2F-B0ACD1A77F31}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 				<Folder Name="Combat" ID="{5D05D251-435E-4565-9918-B90A3870B2C7}" ShortID="41177037">
@@ -178,6 +192,90 @@
 									<ReferenceList>
 										<Reference Name="Target">
 											<ObjectRef Name="playerDamage" ID="{D0F2B085-C294-4409-955A-B046C1FB6E41}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="finisherSiphon" ID="{E6EA560B-2438-47F9-9759-D44BE77CEF59}">
+							<ChildrenList>
+								<Action Name="" ID="{36290323-7DAA-4A45-8921-CA7671B73F3E}" ShortID="599505599">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="siphonfinisher" ID="{13CFF54F-9EB6-483B-9715-2619C14F0243}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="finisherFlameAOE" ID="{CA0BC6AC-7203-462D-BA4E-91A8CD07C307}">
+							<ChildrenList>
+								<Action Name="" ID="{C6CA7F95-F9AD-478D-9AC2-2083A3E5C71A}" ShortID="30497118">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="flamefinisher_aoe" ID="{517A3AC6-FFC5-4A1C-84D6-25965A4DF250}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="finisherFlame" ID="{F001F9CA-BE17-4ACB-A4FB-31CEEF02D2D8}">
+							<ChildrenList>
+								<Action Name="" ID="{C3DA32DF-1F45-4F02-B026-D48D62FB1ADB}" ShortID="23129761">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="flamefinisher" ID="{456B7F26-0030-4B5A-8AC3-3A924B6D5317}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="grabContact" ID="{08CC4A09-0D64-49EC-83FB-CC20D87FF6E2}">
+							<ChildrenList>
+								<Action Name="" ID="{D1B8D10B-67D5-43C1-945A-8E9BAE14166B}" ShortID="220313941">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Grab_hit" ID="{CB85CB2F-3403-4CB6-8177-CACF4C415020}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="grabEnemy" ID="{36AF00DD-8405-46F4-8E3F-2AF177F4DD94}">
+							<ChildrenList>
+								<Action Name="" ID="{633FBCAA-3178-4D54-B03E-7CB7A568DCCE}" ShortID="161677498">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="Grab" ID="{F2C9AC45-C415-4D09-A72C-E9EA7ED5B3A9}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="runningBreath" ID="{A9B911C2-36F4-46F5-98A7-E24C4DFE317A}">
+							<ChildrenList>
+								<Action Name="" ID="{D6E8DB90-D1B6-4777-AB0C-790510AB76E8}" ShortID="1027316242">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="breathingRun" ID="{2EE878B1-2216-4CD6-9C10-AC23BDAFC7A7}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
 										</Reference>
 									</ReferenceList>
 								</Action>

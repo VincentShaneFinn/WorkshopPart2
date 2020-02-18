@@ -19,24 +19,57 @@
 				<Event Id="3208010807" Name="fire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\fire_Crackle"/>
 				<Event Id="3970897584" Name="largeFire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\largeFire_Crackle"/>
 				<Event Id="1998079712" Name="magicFire_Crackle" ObjectPath="\Events\Default Work Unit\Environment\magicFire_Crackle"/>
+				<Event Id="2453392179" Name="player_Footstep" ObjectPath="\Events\Default Work Unit\Environment\player_Footstep"/>
 				<Event Id="2949097740" Name="waterfall_Flow" ObjectPath="\Events\Default Work Unit\Environment\waterfall_Flow"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="13142449" Language="SFX">
+					<ShortName>Footsteps\footstep_4.wav</ShortName>
+					<Path>SFX\Footsteps\footstep_4_56D34C19.wem</Path>
+				</File>
 				<File Id="108948901" Language="SFX">
 					<ShortName>fire_Crackle.wav</ShortName>
 					<Path>SFX\fire_Crackle_6925A1F9.wem</Path>
+				</File>
+				<File Id="328346713" Language="SFX">
+					<ShortName>Footsteps\footstep_2.wav</ShortName>
+					<Path>SFX\Footsteps\footstep_2_56D34C19.wem</Path>
+				</File>
+				<File Id="435583097" Language="SFX">
+					<ShortName>Footsteps\Footstep04.wav</ShortName>
+					<Path>SFX\Footsteps\Footstep04_56D34C19.wem</Path>
 				</File>
 				<File Id="552947039" Language="SFX">
 					<ShortName>magic_Bubbles.wav</ShortName>
 					<Path>SFX\magic_Bubbles_C541197E.wem</Path>
 				</File>
+				<File Id="637585849" Language="SFX">
+					<ShortName>Footsteps\Footstep03.wav</ShortName>
+					<Path>SFX\Footsteps\Footstep03_56D34C19.wem</Path>
+				</File>
+				<File Id="754741130" Language="SFX">
+					<ShortName>Footsteps\footstep_3.wav</ShortName>
+					<Path>SFX\Footsteps\footstep_3_56D34C19.wem</Path>
+				</File>
 				<File Id="755767113" Language="SFX">
 					<ShortName>waterfall.wav</ShortName>
 					<Path>SFX\waterfall_D1C06C1A.wem</Path>
 				</File>
+				<File Id="760403385" Language="SFX">
+					<ShortName>Footsteps\footstep_1.wav</ShortName>
+					<Path>SFX\Footsteps\footstep_1_56D34C19.wem</Path>
+				</File>
 				<File Id="908731442" Language="SFX">
 					<ShortName>torch.wav</ShortName>
 					<Path>SFX\torch_EEB327E8.wem</Path>
+				</File>
+				<File Id="984831289" Language="SFX">
+					<ShortName>Footsteps\Footstep02.wav</ShortName>
+					<Path>SFX\Footsteps\Footstep02_56D34C19.wem</Path>
+				</File>
+				<File Id="1019431432" Language="SFX">
+					<ShortName>Footsteps\Footstep01.wav</ShortName>
+					<Path>SFX\Footsteps\Footstep01_56D34C19.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>
@@ -50,19 +83,41 @@
 			<ShortName>Main</ShortName>
 			<Path>Main.bnk</Path>
 			<IncludedEvents>
+				<Event Id="2546003254" Name="finisherFlame" ObjectPath="\Events\Default Work Unit\Combat\finisherFlame"/>
+				<Event Id="3520490471" Name="finisherFlameAOE" ObjectPath="\Events\Default Work Unit\Combat\finisherFlameAOE"/>
+				<Event Id="4102966294" Name="finisherSiphon" ObjectPath="\Events\Default Work Unit\Combat\finisherSiphon"/>
+				<Event Id="978164377" Name="grabContact" ObjectPath="\Events\Default Work Unit\Combat\grabContact"/>
+				<Event Id="3453823969" Name="grabEnemy" ObjectPath="\Events\Default Work Unit\Combat\grabEnemy"/>
 				<Event Id="3182539833" Name="onHit" ObjectPath="\Events\Default Work Unit\Combat\onHit"/>
 				<Event Id="2169369406" Name="playerAttack" ObjectPath="\Events\Default Work Unit\Combat\playerAttack"/>
 				<Event Id="337406793" Name="playerDamage" ObjectPath="\Events\Default Work Unit\Combat\playerDamage"/>
+				<Event Id="1194559568" Name="runningBreath" ObjectPath="\Events\Default Work Unit\Combat\runningBreath"/>
 				<Event Id="996920706" Name="weapon_Swing" ObjectPath="\Events\Default Work Unit\Combat\weapon_Swing"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="49268961" Language="SFX">
+					<ShortName>Finisher\flamefinisher_aoe.wav</ShortName>
+					<Path>SFX\Finisher\flamefinisher_aoe_56D34C19.wem</Path>
+				</File>
 				<File Id="72831928" Language="SFX">
 					<ShortName>16_cool_damage.wav</ShortName>
 					<Path>SFX\16_cool_damage_56D34C19.wem</Path>
 				</File>
+				<File Id="103315193" Language="SFX">
+					<ShortName>Actions\Grab.wav</ShortName>
+					<Path>SFX\Actions\Grab_56D34C19.wem</Path>
+				</File>
+				<File Id="122065589" Language="SFX">
+					<ShortName>gotoh_09_male_nuu.wav</ShortName>
+					<Path>SFX\gotoh_09_male_nuu_56D34C19.wem</Path>
+				</File>
 				<File Id="237275556" Language="SFX">
 					<ShortName>14_cool_damage.wav</ShortName>
 					<Path>SFX\14_cool_damage_56D34C19.wem</Path>
+				</File>
+				<File Id="256345018" Language="SFX">
+					<ShortName>taira_06_male_gu.wav</ShortName>
+					<Path>SFX\taira_06_male_gu_56D34C19.wem</Path>
 				</File>
 				<File Id="293746482" Language="SFX">
 					<ShortName>08_priest_attack.wav</ShortName>
@@ -71,6 +126,10 @@
 				<File Id="361469299" Language="SFX">
 					<ShortName>Hits\playerhit_2.wav</ShortName>
 					<Path>SFX\Hits\playerhit_2_56D34C19.wem</Path>
+				</File>
+				<File Id="365791110" Language="SFX">
+					<ShortName>taira_02_male_dua.wav</ShortName>
+					<Path>SFX\taira_02_male_dua_56D34C19.wem</Path>
 				</File>
 				<File Id="379670137" Language="SFX">
 					<ShortName>07_priest_attack.wav</ShortName>
@@ -83,6 +142,10 @@
 				<File Id="505110844" Language="SFX">
 					<ShortName>07_cool_attack.wav</ShortName>
 					<Path>SFX\07_cool_attack_56D34C19.wem</Path>
+				</File>
+				<File Id="557847275" Language="SFX">
+					<ShortName>Actions\Grab_hit.wav</ShortName>
+					<Path>SFX\Actions\Grab_hit_56D34C19.wem</Path>
 				</File>
 				<File Id="644383555" Language="SFX">
 					<ShortName>15_macho_damage.wav</ShortName>
@@ -100,9 +163,21 @@
 					<ShortName>swoosh_01.wav</ShortName>
 					<Path>SFX\swoosh_01_56D34C19.wem</Path>
 				</File>
+				<File Id="846988688" Language="SFX">
+					<ShortName>Finisher\siphonfinisher.wav</ShortName>
+					<Path>SFX\Finisher\siphonfinisher_56D34C19.wem</Path>
+				</File>
+				<File Id="849609945" Language="SFX">
+					<ShortName>Finisher\flamefinisher.wav</ShortName>
+					<Path>SFX\Finisher\flamefinisher_56D34C19.wem</Path>
+				</File>
 				<File Id="971770234" Language="SFX">
 					<ShortName>swoosh_03.wav</ShortName>
 					<Path>SFX\swoosh_03_56D34C19.wem</Path>
+				</File>
+				<File Id="981825360" Language="SFX">
+					<ShortName>breathingRun.wav</ShortName>
+					<Path>SFX\breathingRun_56D34C19.wem</Path>
 				</File>
 				<File Id="1001037440" Language="SFX">
 					<ShortName>swoosh_02.wav</ShortName>
@@ -111,6 +186,10 @@
 				<File Id="1021147380" Language="SFX">
 					<ShortName>08_cool_attack.wav</ShortName>
 					<Path>SFX\08_cool_attack_56D34C19.wem</Path>
+				</File>
+				<File Id="1027504515" Language="SFX">
+					<ShortName>taira_04_male_ha.wav</ShortName>
+					<Path>SFX\taira_04_male_ha_56D34C19.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

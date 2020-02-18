@@ -27,11 +27,8 @@ public class CharacterSoundHandler : MonoBehaviour
     public AK.Wwise.Event playerAttack;
     public AK.Wwise.Event playerDamage;
     public AK.Wwise.Event playerHit;
-
-
-
-
-
+    public AK.Wwise.Event playerFootstep;
+    public AK.Wwise.Event playerRunning;
 
 
     void Awake()
@@ -63,12 +60,15 @@ public class CharacterSoundHandler : MonoBehaviour
     void FootL()
     {
         Footstep();
+        playerFootstep.Post(gameObject);
 
     }
 
     void FootR()
     {
         Footstep();
+        playerFootstep.Post(gameObject);
+
     }
 
     void Footstep()
@@ -105,6 +105,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.SwordSwing_First.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
 
     }
@@ -114,6 +116,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.SwordSwing_Second.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -122,6 +126,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.SwordSwing_Third.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -130,6 +136,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.SwordSwing_Fourth.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -138,6 +146,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.HeavySwordSwing_First.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -146,6 +156,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.HeavySwordSwing_Second.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -154,6 +166,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.DaggerLight.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -162,6 +176,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.DaggerHeavy.Play(baseAudioSource);
         swordSwinging.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -170,6 +186,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherGrab.Play(baseAudioSource);
         grabThing.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -178,6 +196,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherGrabContact.Play(baseAudioSource);
         grabContact.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
 
@@ -188,6 +208,8 @@ public class CharacterSoundHandler : MonoBehaviour
         config.FinisherSlice.Play(baseAudioSource);
         finisherSlice.Post(gameObject);
         playerAttack.Post(gameObject);
+        playerFootstep.Post(gameObject);
+
 
     }
     //TODO move this to the prefab

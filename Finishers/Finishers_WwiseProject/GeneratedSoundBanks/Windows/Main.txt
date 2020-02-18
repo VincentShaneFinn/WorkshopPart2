@@ -1,22 +1,38 @@
 Event	ID	Name			Wwise Object Path	Notes
 	337406793	playerDamage			\Default Work Unit\Combat\playerDamage	
+	978164377	grabContact			\Default Work Unit\Combat\grabContact	
 	996920706	weapon_Swing			\Default Work Unit\Combat\weapon_Swing	
+	1194559568	runningBreath			\Default Work Unit\Combat\runningBreath	
 	2169369406	playerAttack			\Default Work Unit\Combat\playerAttack	
+	2546003254	finisherFlame			\Default Work Unit\Combat\finisherFlame	
 	3182539833	onHit			\Default Work Unit\Combat\onHit	
+	3453823969	grabEnemy			\Default Work Unit\Combat\grabEnemy	
+	3520490471	finisherFlameAOE			\Default Work Unit\Combat\finisherFlameAOE	
+	4102966294	finisherSiphon			\Default Work Unit\Combat\finisherSiphon	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	49268961	flamefinisher_aoe	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Finisher\flamefinisher_aoe_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Finisher\flamefinisher_aoe		673956
 	72831928	16_cool_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\16_cool_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\16_cool_damage		58264
+	103315193	Grab	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Actions\Grab_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Actions\Grab		366172
+	122065589	gotoh_09_male_nuu	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\gotoh_09_male_nuu_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\gotoh_09_male_nuu		101440
 	237275556	14_cool_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\14_cool_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\14_cool_damage		69776
+	256345018	taira_06_male_gu	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\taira_06_male_gu_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\taira_06_male_gu		83008
 	293746482	08_priest_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\08_priest_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\08_priest_attack		32176
 	361469299	playerhit_2	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_2_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_2		50346
+	365791110	taira_02_male_dua	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\taira_02_male_dua_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\taira_02_male_dua		64576
 	379670137	07_priest_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\07_priest_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\07_priest_attack		38816
 	387176789	sword_Swing	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\sword_Swing_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\sword_Swing		111960
 	505110844	07_cool_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\07_cool_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\07_cool_attack		60170
+	557847275	Grab_hit	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Actions\Grab_hit_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Actions\Grab_hit		175624
 	644383555	15_macho_damage	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\15_macho_damage_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerDamage\15_macho_damage		61804
 	680531326	playerhit_1	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_1_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_1		107584
 	712298067	playerhit_3	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Hits\playerhit_3_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Hits\playerhit_3		104652
 	840222185	swoosh_01	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_01_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_01		115664
+	846988688	siphonfinisher	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Finisher\siphonfinisher_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Finisher\siphonfinisher		559148
+	849609945	flamefinisher	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\Finisher\flamefinisher_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Finisher\flamefinisher		667260
 	971770234	swoosh_03	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_03_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_03		325788
+	981825360	breathingRun	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\breathingRun_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\breathingRun		990424
 	1001037440	swoosh_02	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\swoosh_02_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Weapons\swoosh_02		89680
 	1021147380	08_cool_attack	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\08_cool_attack_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\08_cool_attack		35252
+	1027504515	taira_04_male_ha	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Windows\SFX\taira_04_male_ha_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Voice\playerAttack\taira_04_male_ha		83008
 

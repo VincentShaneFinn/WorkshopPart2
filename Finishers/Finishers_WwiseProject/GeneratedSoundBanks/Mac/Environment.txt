@@ -1,12 +1,28 @@
 Event	ID	Name			Wwise Object Path	Notes
 	1998079712	magicFire_Crackle			\Default Work Unit\Environment\magicFire_Crackle	
+	2453392179	player_Footstep			\Default Work Unit\Environment\player_Footstep	
 	2949097740	waterfall_Flow			\Default Work Unit\Environment\waterfall_Flow	
 	3208010807	fire_Crackle			\Default Work Unit\Environment\fire_Crackle	
 	3970897584	largeFire_Crackle			\Default Work Unit\Environment\largeFire_Crackle	
 
+Switch Group	ID	Name			Wwise Object Path	Notes
+	2385628198	Footsteps			\Default Work Unit\Footsteps	
+
+Switch	ID	Name	Switch Group			Notes
+	803837735	Sand	Footsteps			
+	1216965916	Stone	Footsteps			
+
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	13142449	footstep_4	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\footstep_4_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\sandSteps\footstep_4		62628
 	108948901	fire_Crackle	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\fire_Crackle_6925A1F9.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\fire_Crackle		10577188
+	328346713	footstep_2	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\footstep_2_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\sandSteps\footstep_2		96444
+	435583097	Footstep04	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\Footstep04_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\stoneSteps\Footstep04		38368
 	552947039	magic_Bubbles	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\magic_Bubbles_C541197E.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\magic_Bubbles		7498004
+	637585849	Footstep03	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\Footstep03_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\stoneSteps\Footstep03		52872
+	754741130	footstep_3	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\footstep_3_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\sandSteps\footstep_3		79536
 	755767113	waterfall	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\waterfall_D1C06C1A.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\waterfall		4912128
+	760403385	footstep_1	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\footstep_1_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\sandSteps\footstep_1		103208
 	908731442	torch	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\torch_EEB327E8.wem		\Actor-Mixer Hierarchy\Default Work Unit\Environment\torch		3552324
+	984831289	Footstep02	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\Footstep02_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\stoneSteps\Footstep02		49736
+	1019431432	Footstep01	D:\Github\WorkshopPart2\Finishers\Finishers_WwiseProject\.cache\Mac\SFX\Footsteps\Footstep01_56D34C19.wem		\Actor-Mixer Hierarchy\Default Work Unit\Footsteps\stoneSteps\Footstep01		48056
 
