@@ -281,6 +281,34 @@
 								</Action>
 							</ChildrenList>
 						</Event>
+						<Event Name="monsterGrunt" ID="{F7CB28E7-89E8-43C5-A604-85BA94AA9757}">
+							<ChildrenList>
+								<Action Name="" ID="{ABAED711-4EB3-4DDB-9482-AA179B2BFF3A}" ShortID="164417276">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="monsterAttack" ID="{C7FB2615-1399-4D61-BF4E-0304246734D8}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
+						<Event Name="monsterDeath" ID="{1BECC6D6-59F0-44A0-A047-054CD96B221C}">
+							<ChildrenList>
+								<Action Name="" ID="{99CE2A1B-DD95-4380-964E-35CAFD105EE5}" ShortID="52971757">
+									<PropertyList>
+										<Property Name="ActionType" Type="int16" Value="1"/>
+									</PropertyList>
+									<ReferenceList>
+										<Reference Name="Target">
+											<ObjectRef Name="monsterDeath" ID="{ED45500A-CDB6-4D55-BDAE-E88D46E9898E}" WorkUnitID="{2B6F9C00-5538-4617-B1D2-34210A616EB8}"/>
+										</Reference>
+									</ReferenceList>
+								</Action>
+							</ChildrenList>
+						</Event>
 					</ChildrenList>
 				</Folder>
 			</ChildrenList>

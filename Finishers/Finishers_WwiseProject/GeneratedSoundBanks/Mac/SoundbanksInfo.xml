@@ -88,6 +88,8 @@
 				<Event Id="4102966294" Name="finisherSiphon" ObjectPath="\Events\Default Work Unit\Combat\finisherSiphon"/>
 				<Event Id="978164377" Name="grabContact" ObjectPath="\Events\Default Work Unit\Combat\grabContact"/>
 				<Event Id="3453823969" Name="grabEnemy" ObjectPath="\Events\Default Work Unit\Combat\grabEnemy"/>
+				<Event Id="3954574265" Name="monsterDeath" ObjectPath="\Events\Default Work Unit\Combat\monsterDeath"/>
+				<Event Id="4104437969" Name="monsterGrunt" ObjectPath="\Events\Default Work Unit\Combat\monsterGrunt"/>
 				<Event Id="3182539833" Name="onHit" ObjectPath="\Events\Default Work Unit\Combat\onHit"/>
 				<Event Id="2169369406" Name="playerAttack" ObjectPath="\Events\Default Work Unit\Combat\playerAttack"/>
 				<Event Id="337406793" Name="playerDamage" ObjectPath="\Events\Default Work Unit\Combat\playerDamage"/>
@@ -111,6 +113,14 @@
 					<ShortName>gotoh_09_male_nuu.wav</ShortName>
 					<Path>SFX\gotoh_09_male_nuu_56D34C19.wem</Path>
 				</File>
+				<File Id="185782274" Language="SFX">
+					<ShortName>monsterDeath_03.wav</ShortName>
+					<Path>SFX\monsterDeath_03_56D34C19.wem</Path>
+				</File>
+				<File Id="211130337" Language="SFX">
+					<ShortName>monsterGrowl_04.wav</ShortName>
+					<Path>SFX\monsterGrowl_04_56D34C19.wem</Path>
+				</File>
 				<File Id="237275556" Language="SFX">
 					<ShortName>14_cool_damage.wav</ShortName>
 					<Path>SFX\14_cool_damage_56D34C19.wem</Path>
@@ -122,6 +132,18 @@
 				<File Id="293746482" Language="SFX">
 					<ShortName>08_priest_attack.wav</ShortName>
 					<Path>SFX\08_priest_attack_56D34C19.wem</Path>
+				</File>
+				<File Id="300334967" Language="SFX">
+					<ShortName>monsterDeath_02.wav</ShortName>
+					<Path>SFX\monsterDeath_02_56D34C19.wem</Path>
+				</File>
+				<File Id="347364425" Language="SFX">
+					<ShortName>monsterDeath_01.wav</ShortName>
+					<Path>SFX\monsterDeath_01_56D34C19.wem</Path>
+				</File>
+				<File Id="359553829" Language="SFX">
+					<ShortName>monsterGrowl_05.wav</ShortName>
+					<Path>SFX\monsterGrowl_05_56D34C19.wem</Path>
 				</File>
 				<File Id="361469299" Language="SFX">
 					<ShortName>Hits\playerhit_2.wav</ShortName>
@@ -135,6 +157,10 @@
 					<ShortName>07_priest_attack.wav</ShortName>
 					<Path>SFX\07_priest_attack_56D34C19.wem</Path>
 				</File>
+				<File Id="384795619" Language="SFX">
+					<ShortName>monsterGrowl_06.wav</ShortName>
+					<Path>SFX\monsterGrowl_06_56D34C19.wem</Path>
+				</File>
 				<File Id="387176789" Language="SFX">
 					<ShortName>Hits\sword_Swing.wav</ShortName>
 					<Path>SFX\Hits\sword_Swing_56D34C19.wem</Path>
@@ -146,6 +172,10 @@
 				<File Id="557847275" Language="SFX">
 					<ShortName>Actions\Grab_hit.wav</ShortName>
 					<Path>SFX\Actions\Grab_hit_56D34C19.wem</Path>
+				</File>
+				<File Id="575803438" Language="SFX">
+					<ShortName>monsterGrowl_02.wav</ShortName>
+					<Path>SFX\monsterGrowl_02_56D34C19.wem</Path>
 				</File>
 				<File Id="644383555" Language="SFX">
 					<ShortName>15_macho_damage.wav</ShortName>
@@ -190,6 +220,14 @@
 				<File Id="1027504515" Language="SFX">
 					<ShortName>taira_04_male_ha.wav</ShortName>
 					<Path>SFX\taira_04_male_ha_56D34C19.wem</Path>
+				</File>
+				<File Id="1034944524" Language="SFX">
+					<ShortName>monsterGrowl_03.wav</ShortName>
+					<Path>SFX\monsterGrowl_03_56D34C19.wem</Path>
+				</File>
+				<File Id="1063361185" Language="SFX">
+					<ShortName>monsterGrowl_01.wav</ShortName>
+					<Path>SFX\monsterGrowl_01_56D34C19.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

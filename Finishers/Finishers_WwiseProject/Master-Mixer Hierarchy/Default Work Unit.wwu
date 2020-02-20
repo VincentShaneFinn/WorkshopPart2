@@ -24,6 +24,14 @@
 							</DuckingList>
 						</Bus>
 						<Bus Name="Environment" ID="{45E9BA02-8061-440A-859E-F02541FDBB08}"/>
+						<Bus Name="Voice" ID="{E3A6EBF3-2AF7-47B6-9507-8EC594A943E6}"/>
+						<AuxBus Name="bigRoom" ID="{3C9677A9-B43A-4AE5-BC7D-C2E4CEB1F6DF}">
+							<ReferenceList>
+								<Reference Name="Effect0" CompanyID="4095" PluginID="65535" PluginType="15">
+									<ObjectRef Name="Hall_Guns" ID="{B35D266A-CE6E-40A1-B197-14C12F9C21B1}" WorkUnitID="{E8613F7D-BAD3-45CD-A3ED-505576F31277}"/>
+								</Reference>
+							</ReferenceList>
+						</AuxBus>
 					</ChildrenList>
 				</Bus>
 			</ChildrenList>

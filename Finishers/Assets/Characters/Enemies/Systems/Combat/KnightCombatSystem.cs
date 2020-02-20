@@ -8,8 +8,13 @@ using Finisher.Characters.Player.Finishers;
 
 namespace Finisher.Characters.Systems
 {
+   
+
     public class KnightCombatSystem : CombatSystem
     {
+
+        public AK.Wwise.Event monsterGrunt;
+        public AK.Wwise.Event monsterDeath;
 
         public bool IsPerformingSpecialAttack = false;
         public bool IsPerformingRangedAttack = false;
@@ -51,6 +56,7 @@ namespace Finisher.Characters.Systems
         {
             this.target = target;
             useFeint = feint;
+            monsterGrunt.Post(gameObject);
             animator.SetTrigger("SpecialAttack");
             animator.SetInteger("SpecialAttackIndex", 0);
         }
@@ -103,6 +109,8 @@ namespace Finisher.Characters.Systems
         public IEnumerator MonitorSpecialAttackStatus()
         {
             IsPerformingSpecialAttack = true;
+            monsterGrunt.Post(gameObject);
+
 
             yield return new WaitUntil(() => !animator.IsInTransition(0));
 
@@ -197,6 +205,7 @@ namespace Finisher.Characters.Systems
         {
             if (characterState.Dying)
             {
+                monsterDeath.Post(gameObject);
                 characterState.DyingState.Revive();
                 healthSystem.Revive();
             }

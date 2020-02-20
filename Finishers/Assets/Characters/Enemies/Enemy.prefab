@@ -73,7 +73,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsDodgeFrame: 0
   IsParryFrame: 0
-  invulnerableCheat: 0
 --- !u!114 &4163102736935993905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +170,17 @@ MonoBehaviour:
     type: 2}
   config: {fileID: 11400000, guid: 7069f9abc63463a42baa091f89007f83, type: 2}
   DodgingAllowed: 1
+  master_ctrl: {fileID: 0}
+  monsterGrunt:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 13973f6a9c64cbb43bc7ce73d6dbdbc1,
+      type: 2}
+  monsterDeath:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 05db37da8c8219b49959769bced6cf09,
+      type: 2}
   IsPerformingSpecialAttack: 0
   IsPerformingRangedAttack: 0
   feintTime: 0.25
@@ -188,6 +198,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: b4124821a0a093a44b914ded11da912d, type: 2}
+  swordSwinging:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 79f9c662d97eee24d979f4cc4ba73419,
+      type: 2}
+  grabThing:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  grabContact:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  finisherSlice:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  aoeBlast:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  playerAttack:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  playerDamage:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 7716c75db3a8aa243905c2d1e56a5645,
+      type: 2}
+  playerHit:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
+  playerFootstep:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 11400000, guid: 3baaf10c19a865048ba31fc744de9b89,
+      type: 2}
+  playerRunning:
+    idInternal: 0
+    valueGuidInternal: 
+    WwiseObjectReference: {fileID: 0}
 --- !u!114 &4867399715234688618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,6 +557,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4522219985359809673}
     m_Modifications:
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_Name
+      value: redSword
+      objectReference: {fileID: 0}
+    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -557,16 +620,6 @@ PrefabInstance:
     - target: {fileID: 4509983029879902932, guid: c74cb7c452585b4469e7b3bc89f644fc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_Name
-      value: redSword
-      objectReference: {fileID: 0}
-    - target: {fileID: 8446249378952678110, guid: c74cb7c452585b4469e7b3bc89f644fc,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -774,6 +827,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4766649399272452}
     m_Modifications:
+    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
+        type: 3}
+      propertyPath: m_Name
+      value: EnemyCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 6205458041244095777, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -878,11 +936,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6205458041244095782, guid: 18d6801d46e6d8f489566842adb22449,
-        type: 3}
-      propertyPath: m_Name
-      value: EnemyCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 95956960154973477, guid: 18d6801d46e6d8f489566842adb22449,
         type: 3}

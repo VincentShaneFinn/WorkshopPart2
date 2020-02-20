@@ -5,6 +5,8 @@
 			<ChildrenList>
 				<SoundBank Name="Main" ID="{BBE4ADF7-833C-48C0-AB30-84C8EFDD06F2}">
 					<ObjectInclusionList>
+						<ObjectRef Name="monsterGrunt" ID="{F7CB28E7-89E8-43C5-A604-85BA94AA9757}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
+						<ObjectRef Name="monsterDeath" ID="{1BECC6D6-59F0-44A0-A047-054CD96B221C}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="finisherFlameAOE" ID="{CA0BC6AC-7203-462D-BA4E-91A8CD07C307}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="grabEnemy" ID="{36AF00DD-8405-46F4-8E3F-2AF177F4DD94}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>
 						<ObjectRef Name="runningBreath" ID="{A9B911C2-36F4-46F5-98A7-E24C4DFE317A}" WorkUnitID="{69509C59-3C56-4097-B231-5493F192F6A7}" Filter="7" Origin="Manual"/>

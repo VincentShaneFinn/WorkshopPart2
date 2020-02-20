@@ -29,6 +29,7 @@ namespace Finisher.Characters
         private void initialize()
         {
             DyingState = new DyingState();
+            Debug.Log("i am dead");
             Grabbing = false;
         }
 

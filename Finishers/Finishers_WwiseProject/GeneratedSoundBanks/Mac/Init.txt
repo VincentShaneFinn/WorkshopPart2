@@ -8,8 +8,15 @@ State	ID	Name	State Group			Notes
 
 Audio Bus	ID	Name			Wwise Object Path	Notes
 	1229948536	Environment			\Default Work Unit\Master Audio Bus\Environment	
+	3170124113	Voice			\Default Work Unit\Master Audio Bus\Voice	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 	3991942870	Music			\Default Work Unit\Master Audio Bus\Music	
+
+Auxiliary Bus	ID	Name			Wwise Object Path	Notes
+	1495464960	bigRoom			\Default Work Unit\Master Audio Bus\bigRoom	
+
+Effect plug-ins	ID	Name	Type				Notes
+	4113267698	Hall_Guns	Wwise RoomVerb			
 
 Audio Devices	ID	Name	Type				Notes
 	2317455096	No_Output	No Output			
